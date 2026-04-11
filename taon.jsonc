@@ -32,7 +32,7 @@
   "packageJsonOverride": {
     "author": "Dfilipiak",
     "description": "Description for session. Hello world!",
-    "private": true,
+    "private": false,
     "scripts": {},
   },
 }
