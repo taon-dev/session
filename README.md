@@ -1,5 +1,5 @@
-# session
+# @taon-dev/session
 
-Hello from Standalone Project
+Handle jwt/cookie/header inside taon app
 
        
