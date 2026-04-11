@@ -1,0 +1,33 @@
+<h2>Auth Demo</h2>
+
+<ng-container *ngIf="userId$ | async; else notLoggedIn">
+  Logged in as userId: {{ userId ? userId : '- wrong id -' }}
+</ng-container>
+<ng-template #notLoggedIn> Not logged in </ng-template>
+
+<div>
+  <ng-container *ngIf="!userId">
+    <input
+      [(ngModel)]="email"
+      placeholder="email" />
+    <br />
+    <input
+      [(ngModel)]="password"
+      type="password"
+      placeholder="password" />
+  </ng-container>
+
+  <br /><br />
+
+  <button
+    (click)="login()"
+    *ngIf="!userId">
+    Login
+  </button>
+  <button (click)="reloadMe()">Reload /me</button>
+  <button
+    (click)="logout()"
+    *ngIf="userId">
+    Logout
+  </button>
+</div>
