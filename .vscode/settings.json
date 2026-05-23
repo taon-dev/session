@@ -115,7 +115,9 @@
     "projects": true,
     ".firedev": true,
     ".taon": true,
-    ".tnp": true
+    ".tnp": true,
+    "src/app.auto-gen-docs.md": true,
+    "src/app.auto-gen-ver.js": true
   },
 
   "window.title": "taon-dev/session () [ ${activeEditorShort}]",
