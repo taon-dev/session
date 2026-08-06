@@ -1,5 +1,4 @@
 //#region imports
-import * as crypto from 'crypto'; // @backend
 
 import type express from 'express';
 import * as jwt from 'jsonwebtoken'; // @backend
@@ -25,6 +24,7 @@ export class TaonSessionKvRepository extends TaonBaseKvRepository {
 
   public createRefreshToken(userId: string): string {
     //#region @backendFunc
+    const crypto = require('crypto');
     const rtId = crypto.randomUUID();
 
     const expiresAt =
