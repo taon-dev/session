@@ -14,6 +14,7 @@ import { TaonSessionProvider } from './taon-session.provider';
 export class TaonSessionKvRepository extends TaonBaseKvRepository {
   taonSessionProvider = this.injectProvider(TaonSessionProvider);
 
+  //#region create access token
   public createAccessToken(userId: string): string {
     //#region @backendFunc
     return jwt.sign({ userId }, this.taonSessionProvider.ACCESS_TOKEN_SECRET, {
@@ -21,7 +22,9 @@ export class TaonSessionKvRepository extends TaonBaseKvRepository {
     });
     //#endregion
   }
+  //#endregion
 
+  //#region create refresh token
   public createRefreshToken(userId: string): string {
     //#region @backendFunc
     const crypto = require('crypto');
@@ -44,7 +47,9 @@ export class TaonSessionKvRepository extends TaonBaseKvRepository {
     return token;
     //#endregion
   }
+  //#endregion
 
+  //#region set auth cookies
   public setAuthCookies(
     res: express.Response,
     accessToken: string,
@@ -68,14 +73,18 @@ export class TaonSessionKvRepository extends TaonBaseKvRepository {
     });
     //#endregion
   }
+  //#endregion
 
+  //#region clear auth cookies
   public clearAuthCookies(res: express.Response): void {
     //#region @backendFunc
     res.cookie('accessToken', '', { maxAge: 0 });
     res.cookie('refreshToken', '', { maxAge: 0 });
     //#endregion
   }
+  //#endregion
 
+  //#region get token from request
   public getTokenFromRequest(req: express.Request): string | null {
     //#region @backendFunc
     const cookieToken = req.cookies?.accessToken;
@@ -89,4 +98,5 @@ export class TaonSessionKvRepository extends TaonBaseKvRepository {
     return cookieToken || headerToken || null;
     //#endregion
   }
+  //#endregion
 }

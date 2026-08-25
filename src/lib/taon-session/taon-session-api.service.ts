@@ -55,6 +55,21 @@ export class TaonSessionApiService extends TaonBaseAngularService {
   }
   //#endregion
 
+  //#region get current user id
+  getCurrentUserId(): Observable<number> {
+    return this.taonSessionController.getCurrentUserId()
+      .request!().observable.pipe(
+      map(resp => {
+        const userId = resp.body.numericValue;
+        return userId;
+      }),
+      catchError(() => {
+        return of(null);
+      }),
+    );
+  }
+  //#endregion
+
   //#region refresh
   refresh(): Observable<boolean> {
     return this.taonSessionController.refresh().request!().observable.pipe(

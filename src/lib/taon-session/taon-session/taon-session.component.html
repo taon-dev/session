@@ -1,33 +1,225 @@
-<h2>Auth Demo</h2>
-
-<ng-container *ngIf="userId$ | async; else notLoggedIn">
-  Logged in as userId: {{ userId ? userId : '- wrong id -' }}
-</ng-container>
-<ng-template #notLoggedIn> Not logged in </ng-template>
-
-<div>
-  <ng-container *ngIf="!userId">
-    <input
-      [(ngModel)]="email"
-      placeholder="email" />
-    <br />
-    <input
-      [(ngModel)]="password"
-      type="password"
-      placeholder="password" />
-  </ng-container>
-
-  <br /><br />
-
+<!-- #region close button -->
+<div
+  class="absolute top-16 right-16 pointer z-1"
+  *ngIf="isInsideDialog">
   <button
-    (click)="login()"
-    *ngIf="!userId">
-    Login
-  </button>
-  <button (click)="reloadMe()">Reload /me</button>
-  <button
-    (click)="logout()"
-    *ngIf="userId">
-    Logout
+    mat-icon-button
+    aria-label="Close dialog"
+    (click)="close()">
+    <mat-icon>close</mat-icon>
   </button>
 </div>
+<!-- #endregion -->
+<!-- STATE: {{ state.currentValue }} <br /> -->
+<!-- IS LOGGED IN: {{ isLoggedIn$ | async }}<br /> -->
+<taon-slide-content
+  #slide
+  [whenAllowedAnimationMap]="whenAllowedAnimationMap">
+  <taon-slide-content-child
+    [assignToState]="TaonSessionState.LOADING_INITIAL_AUTH_INFO">
+    <!-- #region login success -->
+    <div class="p-5">
+      <h4
+        class="mb-3"
+        translate>
+        Loading authenticaiton info..
+      </h4>
+
+      <div class="w-full pt-3">
+        <!-- success stuff -->
+      </div>
+    </div>
+    <!-- #endregion -->
+  </taon-slide-content-child>
+
+  <taon-slide-content-child
+    [assignToState]="TaonSessionState.LOGIN_OR_REGISTER">
+    <!-- #region login or register -->
+    <div class="p-5">
+      <h4
+        class="mb-3"
+        translate>
+        Login or Register
+      </h4>
+
+      <div
+        class="w-full pt-3"
+        #emailLoginBtn>
+        <form
+          [formGroup]="form"
+          (ngSubmit)="loginByEmail()"
+          class="w-full">
+          <mat-form-field
+            appearance="outline"
+            class="w-full email-field">
+            <mat-label *ngIf="!config.diableLoginByEmail">Email</mat-label>
+
+            <input
+              matInput
+              formControlName="email"
+              class="pl-1"
+              type="email"
+              [placeholder]="
+                config.diableLoginByEmail
+                  ? t.gettext('Login by email (disabled)')
+                  : ''
+              " />
+
+            <button
+              mat-icon-button
+              [disabled]="config.diableLoginByEmail"
+              matSuffix
+              color="primary">
+              <mat-icon>mail</mat-icon>
+            </button>
+            <mat-error
+              *ngIf="
+                form.get('email')?.hasError('pattern') &&
+                form.get('email')?.touched
+              "
+              translate>
+              Please enter a valid email address
+            </mat-error>
+
+            <mat-error
+              *ngIf="
+                form.get('email')?.hasError('required') &&
+                form.get('email')?.touched
+              ">
+              {{ t.gettext('Email is') }} <strong translate>required</strong>
+            </mat-error>
+          </mat-form-field>
+        </form>
+
+        <div
+          class="divider"
+          *ngIf="config.googleClientId || config.microsoftClientId">
+          <span translate>or</span>
+        </div>
+
+        <!-- GOOGLE BUTTON -->
+        <div
+          *ngIf="config.googleClientId"
+          #googleBtn
+          class="google-container">
+          <span
+            *ngIf="!googleButtonLoaded"
+            class="text-300 p-2"
+            translate
+            >loading google button..</span
+          >
+          <mat-progress-bar
+            *ngIf="!googleButtonLoaded"
+            mode="indeterminate"
+            class="auth-progress" />
+        </div>
+
+        <!-- MICROSOFT BUTTON -->
+        <div
+          *ngIf="config.microsoftClientId"
+          #microsoftBtn
+          class="microsoft-container">
+          <button
+            mat-stroked-button
+            color="primary"
+            class="w-full microsoft-btn"
+            (click)="loginWithMicrosoft()">
+            <mat-icon class="mr-2">login</mat-icon>
+            {{ t.gettext('Continue with Microsoft') }}
+          </button>
+        </div>
+      </div>
+
+      <br />
+
+      <div class="flex justify-content-end">
+        <!-- <button mat-button>
+          {{ t.gettext('Login') }}
+        </button> -->
+
+        <button
+          *ngIf="isInsideDialog"
+          mat-button
+          mat-dialog-close>
+          {{ t.gettext('Cancel') }}
+        </button>
+      </div>
+    </div>
+    <!-- #endregion -->
+  </taon-slide-content-child>
+
+  <taon-slide-content-child [assignToState]="TaonSessionState.ENTER_PASSWORD">
+    <!-- #region password -->
+    <div class="p-5">
+      <h4
+        class="mb-3"
+        translate>
+        Enter Password
+      </h4>
+      <div class="w-full pt-3">
+        <form
+          [formGroup]="form"
+          (ngSubmit)="loginByEmail()"
+          class="w-full">
+          <mat-form-field
+            appearance="outline"
+            class="w-full email-field">
+            <mat-label>Password</mat-label>
+
+            <input
+              matInput
+              formControlName="password"
+              class="pl-1"
+              type="password" />
+
+            <button
+              mat-icon-button
+              matSuffix
+              color="primary">
+              <mat-icon>lock</mat-icon>
+            </button>
+            <mat-error
+              *ngIf="
+                form
+                  .get('password')
+                  ?.hasError(TaonLoginErrors.INVALID_PASSWORD) &&
+                form.get('password')?.touched
+              ">
+              {{ TaonErorsMap.get(TaonLoginErrors.INVALID_PASSWORD) }}
+            </mat-error>
+
+            <mat-error
+              *ngIf="
+                form.get('password')?.hasError('required') &&
+                form.get('password')?.touched
+              ">
+              {{ t.gettext('Password is') }} <strong translate>required</strong>
+            </mat-error>
+          </mat-form-field>
+        </form>
+      </div>
+    </div>
+    <!-- #endregion -->
+  </taon-slide-content-child>
+
+  <taon-slide-content-child [assignToState]="TaonSessionState.LOGIN_SUCCESS">
+    <!-- #region login success -->
+    <div class="p-5">
+      <h4
+        class="mb-3"
+        translate>
+        Login Successfully
+      </h4>
+
+      <div class="w-full pt-3">
+        <!-- success stuff -->
+        <button
+          mat-button
+          (click)="logout()">
+          Logout
+        </button>
+      </div>
+    </div>
+    <!-- #endregion -->
+  </taon-slide-content-child>
+</taon-slide-content>

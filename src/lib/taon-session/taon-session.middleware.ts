@@ -21,6 +21,7 @@ export class TaonSessionMiddleware extends TaonBaseMiddleware {
 
   taonSessionProvider = this.injectProvider(TaonSessionProvider);
 
+  //#region intercept server method
   interceptServerMethod(
     { req, res, next }: TaonServerMiddlewareInterceptOptions,
     {
@@ -50,4 +51,5 @@ export class TaonSessionMiddleware extends TaonBaseMiddleware {
     }
     //#endregion
   }
+  //#endregion
 }

@@ -1,0 +1,32 @@
+<div class="flex align-items-center gap-2">
+  <ng-container
+    *ngIf="
+      (taonSessionStateService.isLoggedIn$ | async) === false;
+      else loggedIn
+    ">
+    <button
+      mat-button
+      (click)="openLogin()">
+      Login
+    </button>
+  </ng-container>
+
+  <ng-template #loggedIn>
+    <button
+      *ngIf="displayDashboardButton"
+      mat-button
+      color="primary"
+      class="auth-btn"
+      (click)="goDashboard()">
+      <mat-icon>dashboard</mat-icon>
+      Dashboard
+    </button>
+
+    <button
+      mat-button
+      class="ml-2"
+      (click)="logout()">
+      Logout (UserId: {{ taonSessionStateService.userId() }})
+    </button>
+  </ng-template>
+</div>

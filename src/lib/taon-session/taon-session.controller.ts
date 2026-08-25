@@ -17,7 +17,7 @@ import { TaonSessionKvRepository } from './taon-session-kv.repository';
 import { TaonSessionUser } from './taon-session-user.entity';
 import { TaonSessionUserRepository } from './taon-session-user.repository';
 import { TaonSessionMiddleware } from './taon-session.middleware';
-import { TaonSession } from './taon-session.models';
+import { TaonLoginData } from './taon-session.models';
 import { TaonSessionProvider } from './taon-session.provider';
 //#endregion
 
@@ -33,7 +33,7 @@ export class TaonSessionController extends TaonBaseController {
 
   //#region login
   @POST()
-  login(@Body() data: TaonSession.TaonLoginData): Taon.Response<boolean> {
+  login(@Body() data: TaonLoginData): Taon.Response<boolean> {
     //#region @backendFunc
     return async (req, res) => {
       const { email, password } = data || {};
@@ -179,7 +179,24 @@ export class TaonSessionController extends TaonBaseController {
     //#region @backendFunc
     return async (req, res) => {
       const userId = (req as any)!.userId;
-      return userId;
+      return `Userid: ${userId}`;
+    };
+    //#endregion
+  }
+  //#endregion
+
+  //#region get current user id
+  @GET({
+    middlewares: ({ parentMiddlewares }) => ({
+      TaonSessionMiddleware,
+      ...parentMiddlewares,
+    }),
+  })
+  getCurrentUserId(): Taon.Response<number> {
+    //#region @backendFunc
+    return async (req, res) => {
+      const userId = (req as any)!.userId;
+      return Number(userId);
     };
     //#endregion
   }

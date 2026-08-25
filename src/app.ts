@@ -43,6 +43,17 @@ import { provideServiceWorker } from '@angular/service-worker';
 import { provideServerRendering, withRoutes } from '@angular/ssr';
 import { RenderMode, ServerRoute } from '@angular/ssr';
 import Aura from '@primeng/themes/aura'; // @browser
+import {
+  TaonLoginConfig,
+  TaonSessionContext,
+  TaonSessionProvider,
+  TaonSessionUser,
+  TaonSessionUserRepository,
+} from '@taon-dev/session/src';
+import {
+  TaonSessionComponent,
+  TaonSessionButtonComponent,
+} from '@taon-dev/session/src'; // @browser
 import { providePrimeNG } from 'primeng/config'; // @browser
 import { BehaviorSubject, Observable, map, switchMap } from 'rxjs';
 import {
@@ -62,13 +73,6 @@ import {
   TaonContext,
 } from 'taon/src';
 import { TaonAdminService, TaonAdmin } from 'taon/src'; // @browser
-import {
-  TaonSession,
-  TaonSessionContext,
-  TaonSessionUser,
-  TaonSessionUserRepository,
-} from '@taon-dev/session/src';
-import { TaonSessionComponent } from '@taon-dev/session/src'; // @browser
 import { TaonStor } from 'taon-storage/src';
 import {
   TaonAdminModeConfigurationComponent,
@@ -85,6 +89,9 @@ import { ENV_ANGULAR_NODE_APP_BUILD_PWA_DISABLE_SERVICE_WORKER } from './lib/env
 
 //#region constants
 console.log('🚀 [ TAON IS STARTING ]');
+const DEFAULT_PASSWORD = '1234';
+
+const DEFAULT_EMAIL = 'test@test.com';
 //#endregion
 
 //#region taon-jwt-cookie-header-session component
@@ -104,6 +111,7 @@ console.log('🚀 [ TAON IS STARTING ]');
     RouterModule,
     TaonAdminModeConfigurationComponent,
     TaonSessionComponent,
+    TaonSessionButtonComponent,
     JsonPipe,
   ],
   template: `
@@ -116,12 +124,13 @@ console.log('🚀 [ TAON IS STARTING ]');
               Name: taon-jwt-cookie-header-session<br />
               Angular version: {{ angularVersion }}<br />
               Taon backend: {{ taonMode }}<br />
+              <taon-session-button />
             </mat-card-content>
           </mat-card>
 
           <mat-card class="m-2">
             <mat-card-content>
-              <app-taon-session />
+              <taon-session [config]="config" />
             </mat-card-content>
           </mat-card>
         }
@@ -136,6 +145,13 @@ console.log('🚀 [ TAON IS STARTING ]');
 })
 export class SessionApp implements OnInit {
   /**Required for proper theme*/
+
+  config: TaonLoginConfig = {
+    linkToDashboard: '/',
+    defaultEmail: DEFAULT_EMAIL,
+    defaultPassword: DEFAULT_PASSWORD,
+  };
+
   theme = inject(TaonThemeService);
 
   taonAdminService = inject(TaonAdminService);
@@ -186,7 +202,7 @@ export class SessionApp implements OnInit {
     //Add 'implements OnInit' to the class.
     console.log(globalThis?.location.pathname);
     // TODO set below from 1000 to zero in production
-    Taon.removeLoader(1000).then(() => {
+    Taon.removeLoader().then(() => {
       this.itemsLoaded.set(true);
     });
   }
@@ -314,14 +330,14 @@ export const SessionStartFunction = async (
 
   const user = await ins.findOne({
     where: {
-      email: TaonSession.DEFAULT_EMAIL,
+      email: DEFAULT_EMAIL,
     },
   });
   if (!user) {
     await ins.save(
       new TaonSessionUser().clone({
-        email: TaonSession.DEFAULT_EMAIL,
-        password: TaonSession.DEFAULT_PASSWORD,
+        email: DEFAULT_EMAIL,
+        password: DEFAULT_PASSWORD,
       }),
     );
   }

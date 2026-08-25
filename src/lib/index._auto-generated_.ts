@@ -17,3 +17,4 @@ export * from './taon-session/taon-session.models';
 export * from './taon-session/taon-session.provider'; 
 export * from './taon-session/taon-session.utils'; 
 export * from './taon-session/taon-session/taon-session.component'; // @browser
+export * from './taon-session/taon-session-button/taon-session-button.component'; // @browser

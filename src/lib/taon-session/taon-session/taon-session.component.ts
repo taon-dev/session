@@ -1,74 +1,199 @@
 //#region imports
 import { AsyncPipe, CommonModule, JsonPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  AfterViewInit,
+  Input,
+  ViewChild,
+  OnInit,
+  OnDestroy,
+} from '@angular/core';
+import {
+  ReactiveFormsModule,
+  FormsModule,
+  FormGroup,
+  FormControl,
+  Validators,
+} from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RouterOutlet } from '@angular/router';
-import { BehaviorSubject, finalize, switchMap, tap } from 'rxjs';
+import { MtxLoaderModule } from '@ng-matero/extensions/loader';
+import { Translation, TranslateDirective } from '@taon-dev/i18n/src';
+import { Subscription, take } from 'rxjs';
+import { Taon } from 'taon/src';
+import {
+  TaonSlideContentContentChildComponent,
+  TaonSlideContentComponent,
+} from 'taon-ui/src';
 
 import { TaonSessionApiService } from '../taon-session-api.service';
-import { TaonSession } from '../taon-session.models';
+import { TaonSessionStateService } from '../taon-session-state.service';
+import {
+  TaonErorsMap,
+  TaonLoginConfig,
+  TaonLoginErrors,
+  TaonSessionState,
+} from '../taon-session.models';
 //#endregion
 
+const t = Translation.for(Taon.__FILE_RELATIVE_PATH, Taon.LANG_IMPORT_MAP);
+
 @Component({
-  selector: 'app-taon-session',
+  selector: 'taon-session',
   templateUrl: './taon-session.component.html',
   styleUrls: ['./taon-session.component.scss'],
-  providers: [TaonSessionApiService],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [TaonSessionApiService, TaonSessionStateService],
   imports: [
+    //#region imports
     AsyncPipe,
     RouterOutlet,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     JsonPipe,
+    CommonModule,
+    MatDialogModule,
+    MatButtonModule,
+    MatIconModule,
+    MatDividerModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatProgressSpinnerModule,
+    MatProgressBarModule,
+    MtxLoaderModule,
+    ReactiveFormsModule,
+    FormsModule,
+    TranslateDirective,
+    TaonSlideContentComponent,
+    TaonSlideContentContentChildComponent,
+    //#endregion
   ],
 })
-export class TaonSessionComponent {
-  taonSessionApiService = inject(TaonSessionApiService);
+export class TaonSessionComponent implements AfterViewInit, OnInit, OnDestroy {
+  //#region fields & getters
 
-  refreshSrc = new BehaviorSubject(void 0);
+  @Input({
+    required: true,
+  })
+  public config: TaonLoginConfig;
 
-  email = TaonSession.DEFAULT_EMAIL;
+  @ViewChild('slide')
+  protected slide!: TaonSlideContentComponent;
 
-  password = TaonSession.DEFAULT_PASSWORD;
+  protected readonly t = t.for(this);
 
-  userId: string;
+  protected readonly TaonSessionState = TaonSessionState;
 
-  userId$ = this.refreshSrc.asObservable().pipe(
-    switchMap(() => this.taonSessionApiService.me()),
-    tap(userId => (this.userId = userId)),
+  protected readonly TaonLoginErrors = TaonLoginErrors;
+
+  protected readonly TaonErorsMap = TaonErorsMap;
+
+  protected emailRegex = /^[a-zA-Z0-9._%+-]+@(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$/;
+
+  protected form = new FormGroup({
+    email: new FormControl('', [
+      Validators.required,
+      Validators.pattern(this.emailRegex),
+    ]),
+    password: new FormControl('', [Validators.required]),
+  });
+
+  protected readonly taonSessionStateService: TaonSessionStateService = inject(
+    TaonSessionStateService,
   );
 
-  loading = false;
+  protected readonly dialogRef = inject(MatDialogRef<TaonSessionComponent>, {
+    optional: true,
+  });
 
-  reloadMe(): void {
-    this.refreshSrc.next(void 0);
+  isLoggedIn$ = this.taonSessionStateService.isLoggedIn$;
+
+  protected sub = new Subscription();
+
+  protected googleButtonLoaded = false;
+
+  public whenAllowedAnimationMap = new Map<
+    TaonSessionState,
+    TaonSessionState[]
+  >([
+    [
+      TaonSessionState.LOGIN_OR_REGISTER,
+      [TaonSessionState.ENTER_PASSWORD, TaonSessionState.LOADING_AUTH],
+    ],
+    [TaonSessionState.LOADING_AUTH, [TaonSessionState.LOGIN_SUCCESS]],
+  ]);
+
+  public get isInsideDialog(): boolean {
+    return !!this.dialogRef;
   }
 
-  login(): void {
-    this.loading = true;
-    this.taonSessionApiService
-      .login(this.email, this.password)
-      .pipe(
-        finalize(() => {
-          this.refreshSrc.next(void 0);
-          this.loading = false;
-        }),
-      )
-      .subscribe();
+  //#endregion
+
+  //#region reload me
+  public reloadMe(): void {
+    this.taonSessionStateService.refresh();
+  }
+  //#endregion
+
+  //#region login
+  public loginByEmail(): void {
+    this.taonSessionStateService.loginByEmail(this.form);
+  }
+  //#endregion
+
+  //#region logout
+  public logout(): void {
+    this.taonSessionStateService.logout();
+  }
+  //#endregion
+
+  //#region close
+  protected close(): void {
+    if (this.isInsideDialog) {
+      this.dialogRef.close();
+    }
+  }
+  //#endregion
+
+  //#region hooks
+  ngOnInit(): void {
+    this.isLoggedIn$.pipe(take(1)).subscribe();
+    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    //Add 'implements OnInit' to the class.
+    if (!this.config.linkToDashboard) {
+      throw `Please provide config input to taon-session (or taon-session-button) component`;
+    }
+    if (this.config.defaultEmail) {
+      this.form.controls.email.setValue(this.config.defaultEmail);
+    }
+    if (this.config.defaultPassword) {
+      this.form.controls.password.setValue(this.config.defaultPassword);
+    }
   }
 
-  logout(): void {
-    this.loading = true;
-    this.taonSessionApiService
-      .logout()
-      .pipe(
-        finalize(() => {
-          this.refreshSrc.next(void 0);
-          this.loading = false;
-        }),
-      )
-      .subscribe();
+  ngOnDestroy(): void {
+    this.sub.unsubscribe();
   }
+
+  ngAfterViewInit(): void {
+    this.sub.add(
+      this.taonSessionStateService.state.currentState$.subscribe(newState => {
+        console.log({ newState });
+        if (this.slide) {
+          this.slide.goTo(newState);
+        }
+      }),
+    );
+  }
+  //#endregion
 }
