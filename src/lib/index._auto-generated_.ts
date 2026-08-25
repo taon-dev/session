@@ -8,6 +8,7 @@ export * from './my-organization-proj';
 export * from './start-cli'; 
 export * from './taon-session/taon-session-api.service'; // @browser
 export * from './taon-session/taon-session-kv.repository'; 
+export * from './taon-session/taon-session-state.service'; // @browser
 export * from './taon-session/taon-session-user.entity'; 
 export * from './taon-session/taon-session-user.repository'; 
 export * from './taon-session/taon-session.abstract.context'; 
