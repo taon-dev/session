@@ -1,4 +1,5 @@
 //#region imports
+import { A11yModule } from '@angular/cdk/a11y';
 import { AsyncPipe, CommonModule, JsonPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -9,6 +10,7 @@ import {
   ViewChild,
   OnInit,
   OnDestroy,
+  ElementRef,
 } from '@angular/core';
 import {
   ReactiveFormsModule,
@@ -76,6 +78,7 @@ const t = Translation.for(Taon.__FILE_RELATIVE_PATH, Taon.LANG_IMPORT_MAP);
     TranslateDirective,
     TaonSlideContentComponent,
     TaonSlideContentContentChildComponent,
+    A11yModule,
     //#endregion
   ],
 })
@@ -86,6 +89,12 @@ export class TaonSessionComponent implements AfterViewInit, OnInit, OnDestroy {
     required: true,
   })
   public config: TaonLoginConfig;
+
+  @ViewChild('emailInput')
+  private emailInput?: ElementRef<HTMLInputElement>;
+
+  @ViewChild('passwordInput')
+  private passwordInput?: ElementRef<HTMLInputElement>;
 
   @ViewChild('slide')
   protected slide!: TaonSlideContentComponent;
@@ -165,6 +174,25 @@ export class TaonSessionComponent implements AfterViewInit, OnInit, OnDestroy {
   }
   //#endregion
 
+  //#region set focus main input
+  private focusMainInput(state: TaonSessionState): void {
+    switch (state) {
+      case TaonSessionState.LOGIN_OR_REGISTER:
+        this.emailInput?.nativeElement.focus();
+        break;
+
+      case TaonSessionState.ENTER_PASSWORD:
+        this.passwordInput?.nativeElement.focus();
+        break;
+
+      // later:
+      // case TaonSessionState.TWO_FA_AUTHENTICATOR:
+      //   this.twoFaInput?.nativeElement.focus();
+      //   break;
+    }
+  }
+  //#endregion
+
   //#region hooks
   ngOnInit(): void {
     this.isLoggedIn$.pipe(take(1)).subscribe();
@@ -188,9 +216,13 @@ export class TaonSessionComponent implements AfterViewInit, OnInit, OnDestroy {
   ngAfterViewInit(): void {
     this.sub.add(
       this.taonSessionStateService.state.currentState$.subscribe(newState => {
-        console.log({ newState });
+        // console.log({ newState });
         if (this.slide) {
           this.slide.goTo(newState);
+          setTimeout(() => {
+            // console.log(`FOCUS: ${newState}`);
+            this.focusMainInput(newState);
+          }, 1000);
         }
       }),
     );

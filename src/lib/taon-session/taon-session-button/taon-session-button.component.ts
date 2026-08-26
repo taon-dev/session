@@ -53,7 +53,6 @@ export class TaonSessionButtonComponent implements OnInit {
 
   private readonly injector = inject(Injector);
 
-  private instance: TaonSessionComponent;
   //#endregion
 
   constructor() {}
@@ -64,10 +63,9 @@ export class TaonSessionButtonComponent implements OnInit {
     const instance = this.dialog.open(TaonSessionComponent, {
       width: '410px',
       data: null,
+      autoFocus: true,
     }).componentInstance;
-    this.instance = instance;
     instance.config = this.config;
-    this.instance = instance;
   }
   //#endregion
 
@@ -81,7 +79,7 @@ export class TaonSessionButtonComponent implements OnInit {
 
   //#region logout
   logout(): void {
-    this.instance.logout();
+    this.taonSessionStateService.logout();
   }
   //#endregion
 

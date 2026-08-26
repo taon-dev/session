@@ -70,14 +70,14 @@ export class TaonSessionStateService {
     defaultValue: this.currentSlide(),
     allowedStateMap: this.allowedStateMap,
     effect: (nextState, previousState, debugMode) => {
-      console.log('GOTO SLIDE' + nextState);
+      // console.log('GOTO SLIDE' + nextState);
       this.currentSlide.set(nextState);
     },
   });
 
   protected userId$ = this.refreshSrc.asObservable().pipe(
     tap(() => {
-      console.log('should start load');
+      // console.log('should start load');
     }),
     switchMap(() =>
       this.taonSessionApiService.getCurrentUserId().pipe(
@@ -101,16 +101,17 @@ export class TaonSessionStateService {
   public isLoggedIn$ = this.userId$.pipe(
     map(userId => {
       const isLoggedIn = !!userId;
-      console.log({ isLoggedIn });
+      // console.log({ isLoggedIn });
       return isLoggedIn;
     }),
   );
 
   private static idOfInstnace = 0;
+
   constructor() {
-    console.log(
-      `Creating instance no. ${++TaonSessionStateService.idOfInstnace}`,
-    );
+    // console.log(
+    //   `Creating instance no. ${++TaonSessionStateService.idOfInstnace}`,
+    // );
   }
 
   public loginByEmail(form: TaonSessionComponent['form']): void {

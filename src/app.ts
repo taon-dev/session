@@ -124,7 +124,7 @@ const DEFAULT_EMAIL = 'test@test.com';
               Name: taon-jwt-cookie-header-session<br />
               Angular version: {{ angularVersion }}<br />
               Taon backend: {{ taonMode }}<br />
-              <taon-session-button />
+              <taon-session-button [config]="config" />
             </mat-card-content>
           </mat-card>
 
