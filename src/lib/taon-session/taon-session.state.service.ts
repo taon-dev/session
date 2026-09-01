@@ -1,4 +1,5 @@
-import { inject, Injectable, signal } from '@angular/core';
+//#region imports
+import { inject, Injectable } from '@angular/core'; // @browser
 import {
   BehaviorSubject,
   catchError,
@@ -9,19 +10,36 @@ import {
   take,
   tap,
 } from 'rxjs';
+import { TaonBaseProvider, TaonProvider } from 'taon/src';
+import { signal } from 'tnp-core/src';
 import { TaonStateMachine } from 'tnp-core/src';
 
-import type { TaonSessionComponent } from './taon-session/taon-session.component';
-import { TaonSessionApiService } from './taon-session-api.service';
+import type { TaonSessionComponent } from './taon-session/taon-session.component'; // @browser
+import { TaonSessionApiService } from './taon-session-api.service'; // @browser
 import {
   TaonErorsMap,
   TaonLoginErrors,
   TaonSessionState,
 } from './taon-session.models';
+//#endregion
 
+//#region @backend
+@TaonProvider({
+  className: 'TaonSessionStateService',
+})
+//#endregion
+//#region @browser
 @Injectable()
-export class TaonSessionStateService {
+//#endregion
+export class TaonSessionStateService
+//#region @backend
+extends TaonBaseProvider
+//#endregion
+{
+  //#region fields & getters
+  //#region @browser
   protected readonly taonSessionApiService = inject(TaonSessionApiService);
+  //#endregion
 
   protected refreshSrc = new BehaviorSubject(void 0);
 
@@ -77,16 +95,22 @@ export class TaonSessionStateService {
 
   protected userId$ = this.refreshSrc.asObservable().pipe(
     tap(() => {
+      this.userId();
       // console.log('should start load');
     }),
-    switchMap(() =>
-      this.taonSessionApiService.getCurrentUserId().pipe(
+    switchMap(() => {
+      //#region @backend
+      return of(1000000);
+      //#endregion
+      //#region @browser
+      return this.taonSessionApiService.getCurrentUserId().pipe(
         catchError(() => {
           this.state.set(TaonSessionState.LOGIN_OR_REGISTER);
           return of(void 0);
         }),
-      ),
-    ),
+      );
+      //#endregion
+    }),
     tap(userId => {
       const isLoggedIn = !!userId;
       if (isLoggedIn) {
@@ -105,16 +129,22 @@ export class TaonSessionStateService {
       return isLoggedIn;
     }),
   );
+  //#endregion
 
-  private static idOfInstnace = 0;
+  // private static idOfInstnace = 0;
 
-  constructor() {
-    // console.log(
-    //   `Creating instance no. ${++TaonSessionStateService.idOfInstnace}`,
-    // );
-  }
+  // constructor() {
+  // console.log(
+  //   `Creating instance no. ${++TaonSessionStateService.idOfInstnace}`,
+  // );
+  // }
 
-  public loginByEmail(form: TaonSessionComponent['form']): void {
+  public loginByEmail(
+    //#region @browser
+    form: TaonSessionComponent['form'],
+    //#endregion
+  ): void {
+    //#region @browser
     switch (this.state.currentValue) {
       case TaonSessionState.LOGIN_OR_REGISTER:
         this.state.set(TaonSessionState.ENTER_PASSWORD);
@@ -126,7 +156,7 @@ export class TaonSessionStateService {
 
         this.state.set(TaonSessionState.LOADING_AUTH);
         this.taonSessionApiService
-          .login(form.controls.email.value, passwordField.value)
+          .login(form.controls.email.value!, passwordField.value!)
           .pipe(
             take(1),
             tap(okLogin => {
@@ -154,10 +184,13 @@ export class TaonSessionStateService {
       default:
         break;
     }
+    //#endregion
   }
 
   public logout(): void {
     this.state.set(TaonSessionState.LOADING_LOGOUT_INFO);
+
+    //#region @browser
     this.taonSessionApiService
       .logout()
       .pipe(
@@ -174,6 +207,7 @@ export class TaonSessionStateService {
         }),
       )
       .subscribe();
+    //#endregion
   }
 
   public refresh(): void {

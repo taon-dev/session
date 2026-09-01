@@ -201,4 +201,16 @@ export class TaonSessionController extends TaonBaseController {
     //#endregion
   }
   //#endregion
+
+  @GET()
+  helloWorld(): Taon.Response<string> {
+    return async () => 'hello world from TaonSessionController';
+  }
+
+  @GET()
+  helloWorldJson(): Taon.Response<any> {
+    return async () => {
+      helo: 'world';
+    };
+  }
 }

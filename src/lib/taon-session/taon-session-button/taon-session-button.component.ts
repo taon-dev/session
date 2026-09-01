@@ -16,7 +16,7 @@ import { _ } from 'tnp-core/src';
 
 import { TaonSessionComponent } from '../taon-session/taon-session.component';
 import { TaonSessionApiService } from '../taon-session-api.service';
-import { TaonSessionStateService } from '../taon-session-state.service';
+import { TaonSessionStateService } from '../taon-session.state.service';
 import { TaonLoginConfig } from '../taon-session.models';
 
 //#endregion

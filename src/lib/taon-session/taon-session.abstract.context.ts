@@ -7,6 +7,7 @@ import { TaonSessionUserRepository } from './taon-session-user.repository';
 import { TaonSessionController } from './taon-session.controller';
 import { TaonSessionMiddleware } from './taon-session.middleware';
 import { TaonSessionProvider } from './taon-session.provider';
+import { TaonSessionStateService } from './taon-session.state.service';
 //#endregion
 
 export const TaonSessionContext = createContext(() => ({
@@ -16,7 +17,12 @@ export const TaonSessionContext = createContext(() => ({
   entities: { TaonSessionUser },
   controllers: { TaonSessionController },
   repositories: { TaonSessionKvRepository, TaonSessionUserRepository },
-  providers: { TaonSessionProvider },
+  providers: { TaonSessionProvider
+    // TOOD create stat new .state.ts class for state abstraction
+    // , TaonSessionStateService
+  },
+  logs: true,
+  disabledRealtime: true,
   middlewares: { TaonSessionMiddleware },
   subscribers: {},
 }));

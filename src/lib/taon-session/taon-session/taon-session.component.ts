@@ -38,7 +38,7 @@ import {
 } from 'taon-ui/src';
 
 import { TaonSessionApiService } from '../taon-session-api.service';
-import { TaonSessionStateService } from '../taon-session-state.service';
+import { TaonSessionStateService } from '../taon-session.state.service';
 import {
   TaonErorsMap,
   TaonLoginConfig,
