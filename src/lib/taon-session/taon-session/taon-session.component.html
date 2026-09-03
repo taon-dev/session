@@ -33,6 +33,23 @@
   </taon-slide-content-child>
 
   <taon-slide-content-child
+    [assignToState]="TaonSessionState.LOADING_CHECK_USER_EMAIL_EXISTS">
+    <!-- #region LOADING_CHECK_USER_EMAIL_EXISTS -->
+    <div class="p-5">
+      <h4
+        class="mb-3"
+        translate>
+        Loading...
+      </h4>
+
+      <div class="w-full pt-3">
+        <!-- success stuff -->
+      </div>
+    </div>
+    <!-- #endregion -->
+  </taon-slide-content-child>
+
+  <taon-slide-content-child
     [assignToState]="TaonSessionState.LOGIN_OR_REGISTER">
     <!-- #region login or register -->
     <div class="p-5">
@@ -45,7 +62,7 @@
       <div class="w-full pt-3">
         <form
           [formGroup]="form"
-          (ngSubmit)="loginByEmail()"
+          (ngSubmit)="executeActionForState()"
           class="w-full">
           <mat-form-field
             appearance="outline"
@@ -150,15 +167,19 @@
   <taon-slide-content-child [assignToState]="TaonSessionState.ENTER_PASSWORD">
     <!-- #region password -->
     <div class="p-5">
-      <h4
-        class="mb-3"
-        translate>
-        Enter Password
+      <h4 class="mb-3">
+        <button
+          (click)="goTo(TaonSessionState.LOGIN_OR_REGISTER)"
+          mat-icon-button
+          type="button">
+          <mat-icon>keyboard_arrow_left</mat-icon>
+        </button>
+        {{ t.gettext('Enter Password') }}
       </h4>
       <div class="w-full pt-3">
         <form
           [formGroup]="form"
-          (ngSubmit)="loginByEmail()"
+          (ngSubmit)="executeActionForState()"
           class="w-full">
           <mat-form-field
             appearance="outline"
@@ -194,6 +215,93 @@
                 form.get('password')?.touched
               ">
               {{ t.gettext('Password is') }} <strong translate>required</strong>
+            </mat-error>
+          </mat-form-field>
+        </form>
+      </div>
+    </div>
+    <!-- #endregion -->
+  </taon-slide-content-child>
+
+  <taon-slide-content-child
+    [assignToState]="TaonSessionState.ENTER_REGISTRATION_PASSWORDS">
+    <!-- #region registration passwords -->
+    <div class="p-5">
+      <h4
+        class="mb-3"
+        translate>
+        Enter Registration Password
+      </h4>
+      <div class="w-full pt-3">
+        <form
+          [formGroup]="form"
+          (ngSubmit)="executeActionForState()"
+          class="w-full">
+          <mat-form-field
+            appearance="outline"
+            class="w-full email-field">
+            <mat-label>Enter Password For New Account</mat-label>
+
+            <input
+              #registrationPasswordInput
+              matInput
+              formControlName="password"
+              class="pl-1"
+              type="password" />
+
+            <mat-error
+              *ngIf="
+                form
+                  .get('password')
+                  ?.hasError(TaonLoginErrors.INVALID_PASSWORD) &&
+                form.get('password')?.touched
+              ">
+              {{ TaonErorsMap.get(TaonLoginErrors.INVALID_PASSWORD) }}
+            </mat-error>
+
+            <mat-error
+              *ngIf="
+                form.get('password')?.hasError('required') &&
+                form.get('password')?.touched
+              ">
+              {{ t.gettext('Password is') }} <strong translate>required</strong>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field
+            appearance="outline"
+            class="w-full email-field">
+            <mat-label>Repeat Password</mat-label>
+
+            <input
+              matInput
+              formControlName="passwordRepeat"
+              class="pl-1"
+              type="password" />
+
+            <button
+              mat-icon-button
+              matSuffix
+              color="primary">
+              <mat-icon>key_vertical</mat-icon>
+            </button>
+            <mat-error
+              *ngIf="
+                form
+                  .get('passwordRepeat')
+                  ?.hasError(TaonLoginErrors.INVALID_PASSWORD) &&
+                form.get('passwordRepeat')?.touched
+              ">
+              {{ TaonErorsMap.get(TaonLoginErrors.INVALID_PASSWORD) }}
+            </mat-error>
+
+            <mat-error
+              *ngIf="
+                form.get('passwordRepeat')?.hasError('required') &&
+                form.get('passwordRepeat')?.touched
+              ">
+              {{ t.gettext('Repeated Password is ') }}
+              <strong translate>required</strong>
             </mat-error>
           </mat-form-field>
         </form>

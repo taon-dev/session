@@ -38,13 +38,13 @@ import {
 } from 'taon-ui/src';
 
 import { TaonSessionApiService } from '../taon-session-api.service';
-import { TaonSessionStateService } from '../taon-session.state.service';
 import {
   TaonErorsMap,
   TaonLoginConfig,
   TaonLoginErrors,
   TaonSessionState,
 } from '../taon-session.models';
+import { TaonSessionStateService } from '../taon-session.state.service';
 //#endregion
 
 const t = Translation.for(Taon.__FILE_RELATIVE_PATH, Taon.LANG_IMPORT_MAP);
@@ -96,6 +96,9 @@ export class TaonSessionComponent implements AfterViewInit, OnInit, OnDestroy {
   @ViewChild('passwordInput')
   private passwordInput?: ElementRef<HTMLInputElement>;
 
+  @ViewChild('registrationPasswordInput')
+  private registrationPasswordInput?: ElementRef<HTMLInputElement>;
+
   @ViewChild('slide')
   protected slide!: TaonSlideContentComponent;
 
@@ -115,6 +118,7 @@ export class TaonSessionComponent implements AfterViewInit, OnInit, OnDestroy {
       Validators.pattern(this.emailRegex),
     ]),
     password: new FormControl('', [Validators.required]),
+    passwordRepeat: new FormControl('', [Validators.required]),
   });
 
   protected readonly taonSessionStateService: TaonSessionStateService = inject(
@@ -137,7 +141,11 @@ export class TaonSessionComponent implements AfterViewInit, OnInit, OnDestroy {
   >([
     [
       TaonSessionState.LOGIN_OR_REGISTER,
-      [TaonSessionState.ENTER_PASSWORD, TaonSessionState.LOADING_AUTH],
+      [
+        TaonSessionState.ENTER_PASSWORD,
+        TaonSessionState.ENTER_REGISTRATION_PASSWORDS,
+        TaonSessionState.LOADING_AUTH,
+      ],
     ],
     [TaonSessionState.LOADING_AUTH, [TaonSessionState.LOGIN_SUCCESS]],
   ]);
@@ -155,8 +163,14 @@ export class TaonSessionComponent implements AfterViewInit, OnInit, OnDestroy {
   //#endregion
 
   //#region login
-  public loginByEmail(): void {
-    this.taonSessionStateService.loginByEmail(this.form);
+  public executeActionForState(): void {
+    this.taonSessionStateService.executeActionForState(this.form);
+  }
+  //#endregion
+
+   //#region login
+  public goTo(action:TaonSessionState): void {
+    this.taonSessionStateService.state.set(action);
   }
   //#endregion
 
@@ -183,6 +197,10 @@ export class TaonSessionComponent implements AfterViewInit, OnInit, OnDestroy {
 
       case TaonSessionState.ENTER_PASSWORD:
         this.passwordInput?.nativeElement.focus();
+        break;
+
+      case TaonSessionState.ENTER_REGISTRATION_PASSWORDS:
+        this.registrationPasswordInput?.nativeElement.focus();
         break;
 
       // later:
@@ -215,16 +233,18 @@ export class TaonSessionComponent implements AfterViewInit, OnInit, OnDestroy {
 
   ngAfterViewInit(): void {
     this.sub.add(
-      this.taonSessionStateService.state.currentState$.subscribe(newState => {
-        // console.log({ newState });
-        if (this.slide) {
-          this.slide.goTo(newState);
-          setTimeout(() => {
-            // console.log(`FOCUS: ${newState}`);
-            this.focusMainInput(newState);
-          }, 1000);
-        }
-      }),
+      this.taonSessionStateService.state.currentState$.subscribe(
+        ({ currentState, previousState }) => {
+          // console.log({ newState });
+          if (this.slide) {
+            this.slide.goTo(currentState);
+            setTimeout(() => {
+              // console.log(`FOCUS: ${newState}`);
+              this.focusMainInput(currentState);
+            }, 1000);
+          }
+        },
+      ),
     );
   }
   //#endregion

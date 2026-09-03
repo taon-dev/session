@@ -13,9 +13,10 @@ import {
 } from 'taon/src';
 import { _ } from 'tnp-core/src';
 
+import { TaonSessionUser } from '../taon-session-user';
+import { TaonSessionUserRepository } from '../taon-session-user/taon-session-user.repository';
+
 import { TaonSessionKvRepository } from './taon-session-kv.repository';
-import { TaonSessionUser } from './taon-session-user.entity';
-import { TaonSessionUserRepository } from './taon-session-user.repository';
 import { TaonSessionMiddleware } from './taon-session.middleware';
 import { TaonLoginData } from './taon-session.models';
 import { TaonSessionProvider } from './taon-session.provider';
@@ -30,6 +31,48 @@ export class TaonSessionController extends TaonBaseController {
   taonSessionProvider = this.injectProvider(TaonSessionProvider);
 
   taonSessionUserRepository = this.injectCustomRepo(TaonSessionUserRepository);
+
+  //#region createUser
+  @POST()
+  createUser(
+    @Body('email') email: string,
+    @Body('password') password: string,
+  ): Taon.Response<TaonSessionUser | null> {
+    //#region @backendFunc
+    return async (req, res) => {
+      const exitedUser = await this.taonSessionUserRepository.findOne({
+        where: {
+          email,
+        },
+      });
+      if (exitedUser) {
+        return null;
+      }
+
+      let user = new TaonSessionUser().clone({ email, password });
+      user = await this.taonSessionUserRepository.save(user);
+      delete user.password;
+      return user;
+    };
+    //#endregion
+  }
+  //#endregion
+
+  //#region userExists
+  @POST()
+  userExists(@Body('email') email: string): Taon.Response<boolean> {
+    //#region @backendFunc
+    return async (req, res) => {
+      const exitedUser = await this.taonSessionUserRepository.findOne({
+        where: {
+          email,
+        },
+      });
+      return !!exitedUser;
+    };
+    //#endregion
+  }
+  //#endregion
 
   //#region login
   @POST()
@@ -202,6 +245,7 @@ export class TaonSessionController extends TaonBaseController {
   }
   //#endregion
 
+  //#region hello world
   @GET()
   helloWorld(): Taon.Response<string> {
     return async () => 'hello world from TaonSessionController';
@@ -213,4 +257,5 @@ export class TaonSessionController extends TaonBaseController {
       helo: 'world';
     };
   }
+  //#endregion
 }

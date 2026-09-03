@@ -5,6 +5,7 @@ import {
   catchError,
   finalize,
   map,
+  NEVER,
   of,
   switchMap,
   take,
@@ -31,11 +32,9 @@ import {
 //#region @browser
 @Injectable()
 //#endregion
-export class TaonSessionStateService
 //#region @backend
-extends TaonBaseProvider
 //#endregion
-{
+export class TaonSessionStateService extends TaonBaseProvider {
   //#region fields & getters
   //#region @browser
   protected readonly taonSessionApiService = inject(TaonSessionApiService);
@@ -54,11 +53,29 @@ extends TaonBaseProvider
     ],
     [
       TaonSessionState.LOGIN_OR_REGISTER,
-      [TaonSessionState.ENTER_PASSWORD, TaonSessionState.LOADING_AUTH],
+      [
+        TaonSessionState.ENTER_PASSWORD,
+        TaonSessionState.ENTER_REGISTRATION_PASSWORDS,
+        TaonSessionState.LOADING_AUTH,
+        TaonSessionState.LOADING_CHECK_USER_EMAIL_EXISTS,
+      ],
+    ],
+    [
+      TaonSessionState.LOADING_CHECK_USER_EMAIL_EXISTS,
+      [
+        TaonSessionState.ENTER_PASSWORD,
+        TaonSessionState.ENTER_REGISTRATION_PASSWORDS,
+        TaonSessionState.LOGIN_OR_REGISTER,
+      ],
+    ],
+    [
+      TaonSessionState.ENTER_REGISTRATION_PASSWORDS,
+      [TaonSessionState.LOADING_AUTH, TaonSessionState.LOGIN_OR_REGISTER],
     ],
     [
       TaonSessionState.ENTER_PASSWORD,
       [
+        TaonSessionState.LOGIN_OR_REGISTER,
         TaonSessionState.ENTER_PASSWORD,
         TaonSessionState.LOADING_AUTH,
         TaonSessionState.TWO_FA_AUTHENTICATOR,
@@ -139,47 +156,98 @@ extends TaonBaseProvider
   // );
   // }
 
-  public loginByEmail(
+  public executeActionForState(
     //#region @browser
     form: TaonSessionComponent['form'],
     //#endregion
   ): void {
     //#region @browser
+
+    //#region login action
+    const loginAction = (): void => {
+      const passwordField = form.controls.password;
+      passwordField.markAsTouched();
+
+      this.state.set(TaonSessionState.LOADING_AUTH);
+      this.taonSessionApiService
+        .login(form.controls.email.value!, passwordField.value!)
+        .pipe(
+          take(1),
+          tap(okLogin => {
+            console.log({ okLogin });
+            if (okLogin) {
+              this.state.set(TaonSessionState.LOGIN_SUCCESS);
+              passwordField.markAsUntouched();
+            } else {
+              this.state.set(TaonSessionState.ENTER_PASSWORD);
+              passwordField.setErrors({
+                ...(passwordField.errors ?? {}),
+                [TaonLoginErrors.INVALID_PASSWORD]: true,
+              });
+
+              passwordField.markAsTouched();
+            }
+          }),
+          finalize(() => {
+            this.refreshSrc.next(void 0);
+          }),
+        )
+        .subscribe();
+    };
+    //#endregion
+
     switch (this.state.currentValue) {
+      //#region LOGIN_OR_REGISTER
       case TaonSessionState.LOGIN_OR_REGISTER:
-        this.state.set(TaonSessionState.ENTER_PASSWORD);
-        return;
-
-      case TaonSessionState.ENTER_PASSWORD:
-        const passwordField = form.controls.password;
-        passwordField.markAsTouched();
-
-        this.state.set(TaonSessionState.LOADING_AUTH);
+        this.state.set(TaonSessionState.LOADING_CHECK_USER_EMAIL_EXISTS);
         this.taonSessionApiService
-          .login(form.controls.email.value!, passwordField.value!)
+          .userExists(form.controls.email.value!)
           .pipe(
             take(1),
-            tap(okLogin => {
-              console.log({ okLogin });
-              if (okLogin) {
-                this.state.set(TaonSessionState.LOGIN_SUCCESS);
-                passwordField.markAsUntouched();
-              } else {
+            tap(userExists => {
+              if (userExists) {
                 this.state.set(TaonSessionState.ENTER_PASSWORD);
-                passwordField.setErrors({
-                  ...(passwordField.errors ?? {}),
-                  [TaonLoginErrors.INVALID_PASSWORD]: true,
-                });
-
-                passwordField.markAsTouched();
+              } else {
+                this.state.set(TaonSessionState.ENTER_REGISTRATION_PASSWORDS);
               }
             }),
-            finalize(() => {
-              this.refreshSrc.next(void 0);
+            catchError(err => {
+              this.state.set(TaonSessionState.LOGIN_OR_REGISTER);
+              return NEVER;
             }),
           )
           .subscribe();
         return;
+      //#endregion
+
+      //#region ENTER_REGISTRATION_PASSWORDS
+      case TaonSessionState.ENTER_REGISTRATION_PASSWORDS:
+        this.state.set(TaonSessionState.LOADING_CREATING_USER);
+        this.taonSessionApiService
+          .createUser(form.controls.email.value!, form.controls.password.value!)
+          .pipe(
+            take(1),
+            tap(user => {
+              if (user) {
+                loginAction();
+              } else {
+                this.state.set(TaonSessionState.ENTER_REGISTRATION_PASSWORDS);
+              }
+            }),
+            catchError(err => {
+              this.state.set(TaonSessionState.ENTER_REGISTRATION_PASSWORDS);
+              return NEVER;
+            }),
+          )
+          .subscribe();
+        return;
+      //#endregion
+
+      //#region ENTER_PASSWORD
+      case TaonSessionState.ENTER_PASSWORD:
+        loginAction();
+        return;
+      //#endregion
 
       default:
         break;

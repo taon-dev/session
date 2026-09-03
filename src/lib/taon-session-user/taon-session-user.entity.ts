@@ -1,10 +1,8 @@
 //#region imports
 import {
-  DateTimeColumn,
-  String100Column,
+  CustomColumn,
   String45Column,
   String500Column,
-  StringColumn,
   Taon,
   TaonBaseAbstractEntity,
   TaonEntity,
@@ -22,6 +20,11 @@ export class TaonSessionUser extends TaonBaseAbstractEntity<TaonSessionUser> {
   @String45Column()
   //#endregion
   email?: string;
+
+  //#region @websql
+  @String45Column()
+  //#endregion
+  username?: string;
 
   //#region @websql
   @String500Column()
