@@ -44,6 +44,8 @@ import { provideServerRendering, withRoutes } from '@angular/ssr';
 import { RenderMode, ServerRoute } from '@angular/ssr';
 import Aura from '@primeng/themes/aura'; // @browser
 import {
+  DEFAULT_SESSION_EMAIL,
+  DEFAULT_SESSION_PASSWORD,
   TaonLoginConfig,
   TaonSessionContext,
   TaonSessionProvider,
@@ -89,9 +91,9 @@ import { ENV_ANGULAR_NODE_APP_BUILD_PWA_DISABLE_SERVICE_WORKER } from './lib/env
 
 //#region constants
 console.log('🚀 [ TAON IS STARTING ]');
-const DEFAULT_PASSWORD = '1234';
+const DEFAULT_PASSWORD = DEFAULT_SESSION_PASSWORD;
 
-const DEFAULT_EMAIL = 'test@test.com';
+const DEFAULT_EMAIL = DEFAULT_SESSION_EMAIL;
 //#endregion
 
 //#region taon-jwt-cookie-header-session component
