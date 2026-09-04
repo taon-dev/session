@@ -45,6 +45,7 @@ import {
   TaonSessionState,
 } from '../taon-session.models';
 import { TaonSessionStateService } from '../taon-session.state.service';
+import { TaonSessionValidator } from '../taon-session.validators';
 //#endregion
 
 const t = Translation.for(Taon.__FILE_RELATIVE_PATH, Taon.LANG_IMPORT_MAP);
@@ -112,17 +113,23 @@ export class TaonSessionComponent implements AfterViewInit, OnInit, OnDestroy {
 
   protected emailRegex = /^[a-zA-Z0-9._%+-]+@(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$/;
 
-  protected form = new FormGroup({
-    email: new FormControl('', [
-      Validators.required,
-      Validators.pattern(this.emailRegex),
-    ]),
-    password: new FormControl('', [Validators.required]),
-    passwordRepeat: new FormControl('', [Validators.required]),
-  });
-
   protected readonly taonSessionStateService: TaonSessionStateService = inject(
     TaonSessionStateService,
+  );
+
+  protected form = new FormGroup(
+    {
+      email: new FormControl('', []),
+      password: new FormControl('', []),
+      passwordRepeat: new FormControl('', []),
+      state: new FormControl(
+        this.taonSessionStateService.state.currentValue,
+        [],
+      ),
+    },
+    {
+      validators: [TaonSessionValidator.passwordMatchValidator],
+    },
   );
 
   protected readonly dialogRef = inject(MatDialogRef<TaonSessionComponent>, {
@@ -162,14 +169,14 @@ export class TaonSessionComponent implements AfterViewInit, OnInit, OnDestroy {
   }
   //#endregion
 
-  //#region login
+  //#region execute action for state
   public executeActionForState(): void {
     this.taonSessionStateService.executeActionForState(this.form);
   }
   //#endregion
 
-   //#region login
-  public goTo(action:TaonSessionState): void {
+  //#region goto
+  public goTo(action: TaonSessionState): void {
     this.taonSessionStateService.state.set(action);
   }
   //#endregion
@@ -222,19 +229,58 @@ export class TaonSessionComponent implements AfterViewInit, OnInit, OnDestroy {
     if (this.config.defaultEmail) {
       this.form.controls.email.setValue(this.config.defaultEmail);
     }
-    if (this.config.defaultPassword) {
-      this.form.controls.password.setValue(this.config.defaultPassword);
-    }
+
+    this.resetPasswordScreen();
   }
 
   ngOnDestroy(): void {
     this.sub.unsubscribe();
   }
 
+  //#region reset password field
+  public resetPasswordScreen() {
+    this.form.controls.password.reset();
+    this.form.controls.password.setValue(this.config.defaultPassword || '');
+    this.form.controls.passwordRepeat.reset();
+    this.form.controls.passwordRepeat.setValue(
+      this.config.defaultPassword || '',
+    );
+  }
+  //#endregion
+
+  private updateValidatorsFor(state: TaonSessionState): void {
+    const { email, password, passwordRepeat } = this.form.controls;
+
+    email.setValidators(
+      state === TaonSessionState.LOGIN_OR_REGISTER
+        ? [Validators.required, Validators.pattern(this.emailRegex)]
+        : [],
+    );
+
+    password.setValidators(
+      state === TaonSessionState.ENTER_PASSWORD ||
+        state === TaonSessionState.ENTER_REGISTRATION_PASSWORDS
+        ? [Validators.required]
+        : [],
+    );
+
+    passwordRepeat.setValidators(
+      state === TaonSessionState.ENTER_REGISTRATION_PASSWORDS
+        ? [Validators.required]
+        : [],
+    );
+
+    email.updateValueAndValidity();
+    password.updateValueAndValidity();
+    passwordRepeat.updateValueAndValidity();
+  }
+
   ngAfterViewInit(): void {
     this.sub.add(
       this.taonSessionStateService.state.currentState$.subscribe(
         ({ currentState, previousState }) => {
+          this.form.controls.state.setValue(currentState);
+          this.updateValidatorsFor(currentState);
           // console.log({ newState });
           if (this.slide) {
             this.slide.goTo(currentState);

@@ -163,6 +163,11 @@ export class TaonSessionStateService extends TaonBaseProvider {
   ): void {
     //#region @browser
 
+    form.updateValueAndValidity()
+    if (form.invalid) {
+      return;
+    }
+
     //#region login action
     const loginAction = (): void => {
       const passwordField = form.controls.password;

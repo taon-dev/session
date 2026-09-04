@@ -150,8 +150,8 @@ export class SessionApp implements OnInit {
 
   config: TaonLoginConfig = {
     linkToDashboard: '/',
-    defaultEmail: DEFAULT_EMAIL,
-    defaultPassword: DEFAULT_PASSWORD,
+    // defaultEmail: DEFAULT_EMAIL,
+    // defaultPassword: DEFAULT_PASSWORD,
   };
 
   theme = inject(TaonThemeService);

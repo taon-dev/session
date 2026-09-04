@@ -11,7 +11,9 @@
 </div>
 <!-- #endregion -->
 <!-- STATE: {{ state.currentValue }} <br /> -->
+<!-- ERRORS: {{ form.errors | json }} <br /> -->
 <!-- IS LOGGED IN: {{ isLoggedIn$ | async }}<br /> -->
+
 <taon-slide-content
   #slide
   [whenAllowedAnimationMap]="whenAllowedAnimationMap">
@@ -185,7 +187,9 @@
     <div class="p-5">
       <h4 class="mb-3 flex items-center">
         <button
-          (click)="goTo(TaonSessionState.LOGIN_OR_REGISTER)"
+          (click)="
+            resetPasswordScreen(); goTo(TaonSessionState.LOGIN_OR_REGISTER)
+          "
           mat-icon-button
           type="button">
           <mat-icon>keyboard_arrow_left</mat-icon>
@@ -245,7 +249,9 @@
     <div class="p-5">
       <h4 class="mb-3 flex items-center">
         <button
-          (click)="goTo(TaonSessionState.LOGIN_OR_REGISTER)"
+          (click)="
+            resetPasswordScreen(); goTo(TaonSessionState.LOGIN_OR_REGISTER)
+          "
           mat-icon-button
           type="button">
           <mat-icon>keyboard_arrow_left</mat-icon>
@@ -324,6 +330,14 @@
               <strong translate>required</strong>
             </mat-error>
           </mat-form-field>
+          <mat-error
+            *ngIf="
+              form.get('passwordRepeat').valid &&
+              form.get('password').valid &&
+              form.hasError(TaonLoginErrors.PASSWORDS_DO_NOT_MATCH)
+            ">
+            {{ TaonErorsMap.get(TaonLoginErrors.PASSWORDS_DO_NOT_MATCH) }}
+          </mat-error>
         </form>
       </div>
     </div>

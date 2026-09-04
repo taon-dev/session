@@ -37,8 +37,13 @@ export enum TaonSessionState {
 
 export enum TaonLoginErrors {
   INVALID_PASSWORD = 'INVALID_PASSWORD',
+  PASSWORDS_DO_NOT_MATCH = 'PASSWORDS_DO_NOT_MATCH',
 }
 
 export const TaonErorsMap = new Map([
   [TaonLoginErrors.INVALID_PASSWORD, t.gettext('Invalid Password')],
+  [
+    TaonLoginErrors.PASSWORDS_DO_NOT_MATCH,
+    t.gettext('Passwords do not match each other'),
+  ],
 ]);
