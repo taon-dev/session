@@ -18,10 +18,8 @@ export * from './taon-group/taon-group.constants';
 export * from './taon-group/taon-group.controller'; 
 export * from './taon-group/taon-group.entity'; 
 export * from './taon-group/taon-group.middleware'; 
-export * from './taon-group/taon-group.models'; 
 export * from './taon-group/taon-group.provider'; 
 export * from './taon-group/taon-group.repository'; 
-export * from './taon-group/taon-group.utils'; 
 export * from './taon-permission/taon-permission-api.service'; // @browser
 export * from './taon-permission/taon-permission.abstract.context'; 
 export * from './taon-permission/taon-permission.constants'; 
@@ -53,6 +51,7 @@ export * from './taon-session/taon-session.models';
 export * from './taon-session/taon-session.provider'; 
 export * from './taon-session/taon-session.state.service'; // @browser
 export * from './taon-session/taon-session.utils'; 
+export * from './taon-session/taon-session.validators'; 
 export * from './taon-session-user/taon-session-user-api.service'; // @browser
 export * from './taon-session-user/taon-session-user.abstract.context'; 
 export * from './taon-session-user/taon-session-user.constants'; 
