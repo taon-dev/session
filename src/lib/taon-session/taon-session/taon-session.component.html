@@ -49,6 +49,22 @@
     <!-- #endregion -->
   </taon-slide-content-child>
 
+  <taon-slide-content-child [assignToState]="TaonSessionState.LOADING_AUTH">
+    <!-- #region LOADING_AUTH -->
+    <div class="p-5">
+      <h4
+        class="mb-3"
+        translate>
+        Loading authentication info...
+      </h4>
+
+      <div class="w-full pt-3">
+        <!-- success stuff -->
+      </div>
+    </div>
+    <!-- #endregion -->
+  </taon-slide-content-child>
+
   <taon-slide-content-child
     [assignToState]="TaonSessionState.LOGIN_OR_REGISTER">
     <!-- #region login or register -->
@@ -167,14 +183,14 @@
   <taon-slide-content-child [assignToState]="TaonSessionState.ENTER_PASSWORD">
     <!-- #region password -->
     <div class="p-5">
-      <h4 class="mb-3">
+      <h4 class="mb-3 flex items-center">
         <button
           (click)="goTo(TaonSessionState.LOGIN_OR_REGISTER)"
           mat-icon-button
           type="button">
           <mat-icon>keyboard_arrow_left</mat-icon>
         </button>
-        {{ t.gettext('Enter Password') }}
+        <span class="flex">{{ t.gettext('Enter Password') }}</span>
       </h4>
       <div class="w-full pt-3">
         <form
@@ -227,10 +243,14 @@
     [assignToState]="TaonSessionState.ENTER_REGISTRATION_PASSWORDS">
     <!-- #region registration passwords -->
     <div class="p-5">
-      <h4
-        class="mb-3"
-        translate>
-        Enter Registration Password
+      <h4 class="mb-3 flex items-center">
+        <button
+          (click)="goTo(TaonSessionState.LOGIN_OR_REGISTER)"
+          mat-icon-button
+          type="button">
+          <mat-icon>keyboard_arrow_left</mat-icon>
+        </button>
+        <span class="flex">{{ t.gettext('Enter Registration Password') }}</span>
       </h4>
       <div class="w-full pt-3">
         <form
