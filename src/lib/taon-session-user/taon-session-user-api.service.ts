@@ -3,8 +3,8 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Taon, TaonBaseAngularService } from 'taon/src';
 
-import type { TaonSessionUser } from './taon-session-user.entity';
 import { TaonSessionUserController } from './taon-session-user.controller';
+import type { TaonSessionUser } from './taon-session-user.entity';
 
 @Injectable()
 export class TaonSessionUserApiService extends TaonBaseAngularService {
