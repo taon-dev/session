@@ -22,8 +22,18 @@ import { TaonLoginData } from './taon-session.models';
 import { TaonSessionProvider } from './taon-session.provider';
 //#endregion
 
-@TaonController({
+@TaonController<TaonSessionController>({
   className: 'TaonSessionController',
+  allowedMethods: [
+    'createUser',
+    'userExists',
+    'getCurrentUserId',
+    'login',
+    'logout',
+    'refresh',
+    'me',
+    'helloWorld',
+  ],
 })
 export class TaonSessionController extends TaonBaseController {
   taonSessionKvRepository = this.injectKvRepository(TaonSessionKvRepository);

@@ -15,11 +15,14 @@ import { TaonAuthContextRepository } from './taon-auth-context.repository';
 
 @TaonController({
   className: 'TaonAuthContextController',
+  allowedMethods: [],
 })
 export class TaonAuthContextController extends TaonBaseCrudController<TaonAuthContext> {
   entityClassResolveFn: () => typeof TaonAuthContext = () => TaonAuthContext;
 
-  taonAuthContextRepository = this.injectCustomRepository(TaonAuthContextRepository);
+  taonAuthContextRepository = this.injectCustomRepository(
+    TaonAuthContextRepository,
+  );
 
   //#region methods & getters / hello world
   @GET()

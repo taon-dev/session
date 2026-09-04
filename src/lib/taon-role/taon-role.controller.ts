@@ -15,6 +15,7 @@ import { TaonRoleRepository } from './taon-role.repository';
 
 @TaonController({
   className: 'TaonRoleController',
+  allowedMethods: [],
 })
 export class TaonRoleController extends TaonBaseCrudController<TaonRole> {
   entityClassResolveFn: () => typeof TaonRole = () => TaonRole;

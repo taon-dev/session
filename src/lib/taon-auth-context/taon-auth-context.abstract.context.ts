@@ -1,8 +1,8 @@
 //#region imports
 import { createContext, TaonBaseContext } from 'taon/src';
 
-import { TaonAuthContext } from './taon-auth-context.entity';
 import { TaonAuthContextController } from './taon-auth-context.controller';
+import { TaonAuthContext } from './taon-auth-context.entity';
 import { TaonAuthContextRepository } from './taon-auth-context.repository';
 //#endregion
 

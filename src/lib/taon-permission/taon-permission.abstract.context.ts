@@ -1,11 +1,11 @@
 //#region imports
 import { createContext, TaonBaseContext } from 'taon/src';
 
-import { TaonPermission } from './taon-permission.entity';
 import { TaonPermissionController } from './taon-permission.controller';
-import { TaonPermissionRepository } from './taon-permission.repository';
-import { TaonPermissionProvider } from './taon-permission.provider';
+import { TaonPermission } from './taon-permission.entity';
 import { TaonPermissionMiddleware } from './taon-permission.middleware';
+import { TaonPermissionProvider } from './taon-permission.provider';
+import { TaonPermissionRepository } from './taon-permission.repository';
 import { TaonPermissionSubscriber } from './taon-permission.subscriber';
 //#endregion
 

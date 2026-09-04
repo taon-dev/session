@@ -13,8 +13,11 @@ import { TaonSessionUser } from './taon-session-user.entity';
 import { TaonSessionUserRepository } from './taon-session-user.repository';
 //#endregion
 
-@TaonController({
+@TaonController<TaonSessionUserController>({
   className: 'TaonSessionUserController',
+  allowedMethods: [
+    // 'save/'
+  ],
 })
 export class TaonSessionUserController extends TaonBaseCrudController<TaonSessionUser> {
   entityClassResolveFn: () => typeof TaonSessionUser = () => TaonSessionUser;

@@ -15,6 +15,7 @@ import { TaonGroupRepository } from './taon-group.repository';
 
 @TaonController({
   className: 'TaonGroupController',
+  allowedMethods: [],
 })
 export class TaonGroupController extends TaonBaseCrudController<TaonGroup> {
   entityClassResolveFn: () => typeof TaonGroup = () => TaonGroup;
