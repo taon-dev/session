@@ -1,5 +1,280 @@
 import { TaonBaseProvider, TaonProvider } from 'taon/src';
 
+//#region config classes
+
+//#region config classes / cookies
+
+export class TaonSessionCookiesConfig {
+  declare public accessTokenCookieName: string;
+
+  declare public refreshTokenCookieName: string;
+
+  declare public sameSite: 'lax' | 'strict' | 'none';
+
+  declare public secure: boolean;
+
+  declare public httpOnly: boolean;
+
+  constructor() {
+    this.accessTokenCookieName = 'taon_access_token';
+    this.refreshTokenCookieName = 'taon_refresh_token';
+
+    this.sameSite = 'lax';
+
+    this.secure = true;
+
+    this.httpOnly = true;
+  }
+}
+//#endregion
+
+//#region config classes / password requirements
+export class TaonSessionPasswordRequirementsConfig {
+  declare public minLength: number;
+
+  declare public maxLength: number;
+
+  declare public requireLowercase: boolean;
+
+  declare public requireUppercase: boolean;
+
+  declare public requireNumber: boolean;
+
+  declare public requireSpecialCharacter: boolean;
+
+  declare public specialCharacters: string;
+
+  constructor() {
+    this.minLength = 8;
+    this.maxLength = 128;
+
+    this.requireLowercase = false;
+    this.requireUppercase = false;
+    this.requireNumber = false;
+    this.requireSpecialCharacter = false;
+
+    this.specialCharacters = '!@#$%^&*';
+  }
+}
+//#endregion
+
+//#region config classes / registration requirements
+export class TaonSessionRegistrationConfig {
+  /**
+   * ⌛ TODO in progress
+   */
+  declare public enabled: boolean;
+
+  /**
+   * ⌛ TODO in progress
+   */
+  declare public requireEmailConfirmation: boolean;
+
+  /**
+   * ⌛ TODO in progress
+   * Registration allowed only when user has
+   * invitation code / registration password.
+   */
+  declare public requireRegistrationPassword: boolean;
+
+  /**
+   * ⌛ TODO in progress
+   */
+  declare public allowDuplicateEmail: boolean;
+
+  constructor() {
+    this.enabled = true;
+    this.requireEmailConfirmation = true;
+    this.requireRegistrationPassword = false;
+    this.allowDuplicateEmail = false;
+  }
+}
+//#endregion
+
+//#region config classes / login config
+export class TaonSessionLoginConfig {
+  declare public allowEmailPassword: boolean;
+
+  /**
+   * Whether FE may check whether email exists
+   * before showing password/register screen.
+   */
+  declare public exposeEmailExistence: boolean;
+
+  declare public rememberMe: boolean;
+
+  constructor() {
+    this.allowEmailPassword = true;
+    this.exposeEmailExistence = true;
+    this.rememberMe = true;
+  }
+}
+//#endregion
+
+//#region config classes / check if human config
+export class TaonSessionCheckIfHumanConfig {
+  declare public duringLoginRegisterEmail: boolean;
+
+  declare public duringRegistrationPassword: boolean;
+
+  declare public duringLoginPassword: boolean;
+
+  declare public duringPasswordReset: boolean;
+
+  constructor() {
+    this.duringLoginRegisterEmail = false;
+    this.duringRegistrationPassword = false;
+    this.duringLoginPassword = false;
+
+    this.duringPasswordReset = false;
+  }
+}
+//#endregion
+
+//#region config classes / social login config
+export class TaonSessionSocialLoginConfig {
+  declare public google: boolean;
+
+  declare public facebook: boolean;
+
+  declare public microsoft: boolean;
+
+  declare public apple: boolean;
+
+  constructor() {
+    this.google = false;
+    this.facebook = false;
+    this.microsoft = false;
+    this.apple = false;
+  }
+}
+//#endregion
+
+//#region config classes / sessions
+export class TaonSessionSessionsConfig {
+  /**
+   * Multiple devices / browsers may stay logged in.
+   */
+  declare public allowMultipleSessions: boolean;
+
+  /**
+   * 0 = unlimited
+   */
+  declare public maxSessionsPerUser: number;
+
+  /**
+   * Update last activity timestamp.
+   */
+  declare public trackActivity: boolean;
+
+  /**
+   * Optional idle timeout.
+   * 0 = disabled
+   */
+  declare public idleTimeoutSeconds: number;
+
+  constructor() {
+    this.allowMultipleSessions = true;
+    this.maxSessionsPerUser = 0;
+    this.trackActivity = true;
+    this.idleTimeoutSeconds = 0;
+  }
+}
+//#endregion
+
+//#region config classes / password recovery config
+export class TaonSessionPasswordRecoveryConfig {
+  declare public enabled: boolean;
+
+  declare public tokenExpiresSeconds: number;
+
+  declare public invalidateExistingSessionsAfterReset: boolean;
+
+  constructor() {
+    this.enabled = true;
+    this.tokenExpiresSeconds = 60 * 60; // 1h
+    this.invalidateExistingSessionsAfterReset = true;
+  }
+}
+//#endregion
+
+//#region config classes / email confirmation config
+export class TaonSessionEmailConfirmationConfig {
+  declare public enabled: boolean;
+
+  declare public tokenExpiresSeconds: number;
+
+  declare public allowResend: boolean;
+
+  declare public resendCooldownSeconds: number;
+
+  constructor() {
+    this.enabled = true;
+    this.tokenExpiresSeconds = 60 * 60 * 24; // 24h
+    this.allowResend = true;
+    this.resendCooldownSeconds = 60;
+  }
+}
+//#endregion
+
+//#region config classes / security config
+export class TaonSessionSecurityConfig {
+  /**
+   * Logout all sessions after password change.
+   */
+  declare public invalidateSessionsAfterPasswordChange: boolean;
+
+  /**
+   * Rotate refresh token after successful refresh.
+   */
+  declare public rotateRefreshTokens: boolean;
+
+  /**
+   * Detect reuse of already rotated refresh tokens.
+   */
+  declare public detectRefreshTokenReuse: boolean;
+
+  constructor() {
+    this.invalidateSessionsAfterPasswordChange = true;
+    this.rotateRefreshTokens = true;
+    this.detectRefreshTokenReuse = true;
+  }
+}
+//#endregion
+
+//#region config classes / rate limit config
+export class TaonSessionRateLimitConfig {
+  declare public maxAttempts: number;
+
+  declare public windowSeconds: number;
+
+  constructor(maxAttempts: number, windowSeconds: number) {
+    this.maxAttempts = maxAttempts;
+    this.windowSeconds = windowSeconds;
+  }
+}
+//#endregion
+
+//#region config classes / rate limits config
+export class TaonSessionRateLimitsConfig {
+  declare public loginAttempts: TaonSessionRateLimitConfig;
+
+  declare public passwordReset: TaonSessionRateLimitConfig;
+
+  declare public emailConfirmationResend: TaonSessionRateLimitConfig;
+
+  constructor() {
+    this.loginAttempts = new TaonSessionRateLimitConfig(10, 60);
+
+    this.passwordReset = new TaonSessionRateLimitConfig(5, 60 * 60);
+
+    this.emailConfirmationResend = new TaonSessionRateLimitConfig(5, 60 * 60);
+  }
+}
+//#endregion
+
+//#endregion
+
 @TaonProvider({
   className: 'TaonSessionProvider',
 })
@@ -19,6 +294,7 @@ export class TaonSessionProvider extends TaonBaseProvider {
   //#endregion
 
   //#region tokens
+
   /**
    * ⌛ TODO move to cookies
    */
@@ -36,16 +312,7 @@ export class TaonSessionProvider extends TaonBaseProvider {
   /**
    * ⌛ TODO in progress
    */
-  // cookies = {
-  //   accessTokenCookieName: 'taon_access_token',
-  //   refreshTokenCookieName: 'taon_refresh_token',
-
-  //   sameSite: 'lax' as 'lax' | 'strict' | 'none',
-
-  //   secure: true,
-
-  //   httpOnly: true,
-  // };
+  cookies = new TaonSessionCookiesConfig();
 
   //#endregion
 
@@ -54,47 +321,16 @@ export class TaonSessionProvider extends TaonBaseProvider {
   /**
    * ⌛ TODO in progress
    */
-  passwordRequirements = {
-    minLength: 8,
-    maxLength: 128,
-
-    requireLowercase: false,
-    requireUppercase: false,
-    requireNumber: false,
-    requireSpecialCharacter: false,
-
-    specialCharacters: '!@#$%^&*',
-  };
+  passwordRequirements = new TaonSessionPasswordRequirementsConfig();
 
   //#endregion
 
   //#region registration
+
   /**
    * ⌛ TODO in progress
    */
-  registration = {
-    /**
-     * ⌛ TODO in progress
-     */
-    enabled: true,
-
-    /**
-     * ⌛ TODO in progress
-     */
-    requireEmailConfirmation: true,
-
-    /**
-     * ⌛ TODO in progress
-     * Registration allowed only when user has
-     * invitation code / registration password.
-     */
-    requireRegistrationPassword: false,
-
-    /**
-     * ⌛ TODO in progress
-     */
-    allowDuplicateEmail: false,
-  };
+  registration = new TaonSessionRegistrationConfig();
 
   //#endregion
 
@@ -103,17 +339,7 @@ export class TaonSessionProvider extends TaonBaseProvider {
   /**
    * ⌛ TODO in progress
    */
-  login = {
-    allowEmailPassword: true,
-
-    /**
-     * Whether FE may check whether email exists
-     * before showing password/register screen.
-     */
-    exposeEmailExistence: true,
-
-    rememberMe: true,
-  };
+  login = new TaonSessionLoginConfig();
 
   //#endregion
 
@@ -122,13 +348,7 @@ export class TaonSessionProvider extends TaonBaseProvider {
   /**
    * ⌛ TODO in progress
    */
-  checkIfHuman = {
-    duringLoginRegisterEmail: false,
-    duringRegistrationPassword: false,
-    duringLoginPassword: false,
-
-    duringPasswordReset: false,
-  };
+  checkIfHuman = new TaonSessionCheckIfHumanConfig();
 
   //#endregion
 
@@ -137,12 +357,7 @@ export class TaonSessionProvider extends TaonBaseProvider {
   /**
    * ⌛ TODO in progress
    */
-  socialLogin = {
-    google: false,
-    facebook: false,
-    microsoft: false,
-    apple: false,
-  };
+  socialLogin = new TaonSessionSocialLoginConfig();
 
   //#endregion
 
@@ -151,42 +366,16 @@ export class TaonSessionProvider extends TaonBaseProvider {
   /**
    * ⌛ TODO in progress
    */
-  sessions = {
-    /**
-     * Multiple devices / browsers may stay logged in.
-     */
-    allowMultipleSessions: true,
-
-    /**
-     * 0 = unlimited
-     */
-    maxSessionsPerUser: 0,
-
-    /**
-     * Update last activity timestamp.
-     */
-    trackActivity: true,
-
-    /**
-     * Optional idle timeout.
-     * 0 = disabled
-     */
-    idleTimeoutSeconds: 0,
-  };
+  sessions = new TaonSessionSessionsConfig();
 
   //#endregion
 
   //#region password recovery
+
   /**
    * ⌛ TODO in progress
    */
-  passwordRecovery = {
-    enabled: true,
-
-    tokenExpiresSeconds: 60 * 60, // 1h
-
-    invalidateExistingSessionsAfterReset: true,
-  };
+  passwordRecovery = new TaonSessionPasswordRecoveryConfig();
 
   //#endregion
 
@@ -195,38 +384,16 @@ export class TaonSessionProvider extends TaonBaseProvider {
   /**
    * ⌛ TODO in progress
    */
-  emailConfirmation = {
-    enabled: true,
-
-    tokenExpiresSeconds: 60 * 60 * 24, // 24h
-
-    allowResend: true,
-
-    resendCooldownSeconds: 60,
-  };
+  emailConfirmation = new TaonSessionEmailConfirmationConfig();
 
   //#endregion
 
   //#region security
+
   /**
    * ⌛ TODO in progress
    */
-  security = {
-    /**
-     * Logout all sessions after password change.
-     */
-    invalidateSessionsAfterPasswordChange: true,
-
-    /**
-     * Rotate refresh token after successful refresh.
-     */
-    rotateRefreshTokens: true,
-
-    /**
-     * Detect reuse of already rotated refresh tokens.
-     */
-    detectRefreshTokenReuse: true,
-  };
+  security = new TaonSessionSecurityConfig();
 
   //#endregion
 
@@ -235,22 +402,7 @@ export class TaonSessionProvider extends TaonBaseProvider {
   /**
    * ⌛ TODO in progress
    */
-  rateLimits = {
-    loginAttempts: {
-      maxAttempts: 10,
-      windowSeconds: 60,
-    },
-
-    passwordReset: {
-      maxAttempts: 5,
-      windowSeconds: 60 * 60,
-    },
-
-    emailConfirmationResend: {
-      maxAttempts: 5,
-      windowSeconds: 60 * 60,
-    },
-  };
+  rateLimits = new TaonSessionRateLimitsConfig();
 
   //#endregion
 }
