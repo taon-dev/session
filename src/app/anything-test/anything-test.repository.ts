@@ -1,15 +1,16 @@
 //#region imports
-import { TaonBaseRepository, TaonRepository } from 'taon/src';
+import { Taon, TaonBaseRepository, TaonRepository } from 'taon/src';
 import { Raw } from 'taon-typeorm/src';
+import { _ } from 'tnp-core/src';
 
-import { TaonAuthContext } from './taon-auth-context.entity';
+import { AnythingTest } from './anything-test.entity';
 //#endregion
 
 @TaonRepository({
-  className: 'TaonAuthContextRepository',
+  className: 'AnythingTestRepository',
 })
-export class TaonAuthContextRepository extends TaonBaseRepository<TaonAuthContext> {
-  entityClassResolveFn: () => typeof TaonAuthContext = () => TaonAuthContext;
+export class AnythingTestRepository extends TaonBaseRepository<AnythingTest> {
+  entityClassResolveFn: () => typeof AnythingTest = () => AnythingTest;
 
   /**
    * TODO remove this demo example method

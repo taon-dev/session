@@ -1,6 +1,10 @@
 //#region imports
+import { TaonRolePermission } from '../taon-role/taon-role-permission.entity';
 import {
+  Column,
   CustomColumn,
+  Index,
+  OneToMany,
   Taon,
   TaonBaseAbstractEntity,
   TaonEntity,
@@ -15,12 +19,33 @@ import { TaonPermissionDefaultsValues } from './taon-permission.constants';
   createTable: true,
 })
 export class TaonPermission extends TaonBaseAbstractEntity<TaonPermission> {
-  //#region @websql
-  @CustomColumn({
-    type: 'varchar',
-    length: 100,
-    default: TaonPermissionDefaultsValues.description,
-  })
-  //#endregion
+  /**
+   * Examples:
+   *
+   * user.read
+   * user.write
+   * project.deploy
+   * billing.invoice.read
+   */
+  
+//#region @websql
+@Index({ unique: true })
+//#endregion
+  
+//#region @websql
+@Column()
+//#endregion
+  name!: string;
+
+  
+//#region @websql
+@Column({ nullable: true })
+//#endregion
   description?: string;
+
+  
+//#region @websql
+@OneToMany(() => TaonRolePermission, x => x.permission)
+//#endregion
+  rolePermissions!: TaonRolePermission[];
 }
