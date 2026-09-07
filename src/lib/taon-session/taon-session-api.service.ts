@@ -73,7 +73,12 @@ export class TaonSessionApiService extends TaonBaseAngularService {
   //#endregion
 
   //#region get current user id
-  userExists(email: string): Observable<boolean> {
+  userExists(
+    email: string,
+    opt: {
+      goToPreviouseState: () => void;
+    },
+  ): Observable<boolean> {
     return this.taonSessionController.userExists(email)
       .request!().observable.pipe(
       map(resp => {
@@ -81,7 +86,8 @@ export class TaonSessionApiService extends TaonBaseAngularService {
         return userExists;
       }),
       catchError(() => {
-        return of(null);
+        opt.goToPreviouseState()
+        return NEVER;
       }),
     );
   }

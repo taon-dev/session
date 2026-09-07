@@ -163,7 +163,7 @@ export class TaonSessionStateService extends TaonBaseProvider {
   ): void {
     //#region @browser
 
-    form.updateValueAndValidity()
+    form.updateValueAndValidity();
     if (form.invalid) {
       return;
     }
@@ -206,7 +206,11 @@ export class TaonSessionStateService extends TaonBaseProvider {
       case TaonSessionState.LOGIN_OR_REGISTER:
         this.state.set(TaonSessionState.LOADING_CHECK_USER_EMAIL_EXISTS);
         this.taonSessionApiService
-          .userExists(form.controls.email.value!)
+          .userExists(form.controls.email.value!, {
+            goToPreviouseState: () => {
+              this.state.set(TaonSessionState.LOGIN_OR_REGISTER);
+            },
+          })
           .pipe(
             take(1),
             tap(userExists => {
