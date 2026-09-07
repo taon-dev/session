@@ -9,15 +9,15 @@ import {
 } from 'taon/src';
 import { _ } from 'tnp-core/src';
 
-import { TaonAuthContext } from './taon-auth-context.entity';
+import { TaonAuthContextEntity } from './taon-auth-context.entity';
 import { TaonAuthContextRepository } from './taon-auth-context.repository';
 //#endregion
 
 @TaonController({
   className: 'TaonAuthContextController',
 })
-export class TaonAuthContextController extends TaonBaseCrudController<TaonAuthContext> {
-  entityClassResolveFn: () => typeof TaonAuthContext = () => TaonAuthContext;
+export class TaonAuthContextController extends TaonBaseCrudController<TaonAuthContextEntity> {
+  entityClassResolveFn: () => typeof TaonAuthContextEntity = () => TaonAuthContextEntity;
 
   taonAuthContextRepository = this.injectCustomRepo(TaonAuthContextRepository);
 

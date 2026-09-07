@@ -1,6 +1,6 @@
 //#region imports
-import { TaonSessionUser } from '../taon-session-user/taon-session-user.entity';
-import { TaonSession } from '../taon-session/taon-session.entity';
+import { TaonSessionUserEntity } from '../taon-session-user/taon-session-user.entity';
+import { TaonSessionEntity } from '../taon-session/taon-session.entity';
 import {
   CustomColumn,
   Taon,
@@ -14,13 +14,13 @@ import { TaonAuthContextDefaultsValues } from './taon-auth-context.constants';
 //#endregion
 
 @TaonEntity({
-  className: 'TaonAuthContext',
+  className: 'TaonAuthContextEntity',
   createTable: false,
 })
-export class TaonAuthContext extends TaonBaseAbstractEntity<TaonAuthContext> {
-  user!: TaonSessionUser;
+export class TaonAuthContextEntity extends TaonBaseAbstractEntity<TaonAuthContextEntity> {
+  user!: TaonSessionUserEntity;
 
-  session!: TaonSession;
+  session!: TaonSessionEntity;
 
   groups: string[] = [];
 

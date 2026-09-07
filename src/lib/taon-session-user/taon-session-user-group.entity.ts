@@ -1,6 +1,6 @@
 //#region imports
-import { TaonSessionUser } from '../taon-session-user/taon-session-user.entity';
-import { TaonGroup } from '../taon-group/taon-group.entity';
+import { TaonSessionUserEntity } from '../taon-session-user/taon-session-user.entity';
+import { TaonGroupEntity } from '../taon-group/taon-group.entity';
 import {
   Column,
   CreateDateColumn,
@@ -17,47 +17,47 @@ import { _ } from 'tnp-core/src';
 //#endregion
 
 @TaonEntity({
-  className: 'TaonSessionUserGroup',
+  className: 'TaonSessionUserGroupEntity',
   createTable: true,
 })
-export class TaonSessionUserGroup extends TaonBaseAbstractEntity<TaonSessionUserGroup> {
-  
+export class TaonSessionUserGroupEntity extends TaonBaseAbstractEntity<TaonSessionUserGroupEntity> {
+
 //#region @websql
 @Column()
 //#endregion
   userId!: number;
 
-  
+
 //#region @websql
 @Column()
 //#endregion
   groupId!: number;
 
-  
+
 //#region @websql
-@ManyToOne(() => TaonSessionUser, user => user.userGroups, {
+@ManyToOne(() => TaonSessionUserEntity, user => user.userGroups, {
     onDelete: 'CASCADE',
   })
 //#endregion
-  
+
 //#region @websql
 @JoinColumn({ name: 'userId' })
 //#endregion
-  user!: TaonSessionUser;
+  user!: TaonSessionUserEntity;
 
-  
+
 //#region @websql
-@ManyToOne(() => TaonGroup, group => group.userGroups, {
+@ManyToOne(() => TaonGroupEntity, group => group.userGroups, {
     onDelete: 'CASCADE',
   })
 //#endregion
-  
+
 //#region @websql
 @JoinColumn({ name: 'groupId' })
 //#endregion
-  group!: TaonGroup;
+  group!: TaonGroupEntity;
 
-  
+
 //#region @websql
 @CreateDateColumn()
 //#endregion

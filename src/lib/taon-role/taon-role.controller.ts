@@ -9,7 +9,7 @@ import {
 } from 'taon/src';
 import { _ } from 'tnp-core/src';
 
-import { TaonRole } from './taon-role.entity';
+import { TaonRoleEntity } from './taon-role.entity';
 import { TaonRoleRepository } from './taon-role.repository';
 //#endregion
 
@@ -17,8 +17,8 @@ import { TaonRoleRepository } from './taon-role.repository';
   className: 'TaonRoleController',
   allowedMethods: [],
 })
-export class TaonRoleController extends TaonBaseCrudController<TaonRole> {
-  entityClassResolveFn: () => typeof TaonRole = () => TaonRole;
+export class TaonRoleController extends TaonBaseCrudController<TaonRoleEntity> {
+  entityClassResolveFn: () => typeof TaonRoleEntity = () => TaonRoleEntity;
 
   taonRoleRepository = this.injectCustomRepo(TaonRoleRepository);
 

@@ -2,7 +2,7 @@
 import { createContext, TaonBaseContext } from 'taon/src';
 
 import { TaonPermissionController } from './taon-permission.controller';
-import { TaonPermission } from './taon-permission.entity';
+import { TaonPermissionEntity } from './taon-permission.entity';
 import { TaonPermissionMiddleware } from './taon-permission.middleware';
 import { TaonPermissionProvider } from './taon-permission.provider';
 import { TaonPermissionRepository } from './taon-permission.repository';
@@ -13,7 +13,7 @@ export const TaonPermissionContext = createContext(() => ({
   contextName: 'TaonPermissionContext',
   abstract: true,
   contexts: { TaonBaseContext },
-  entities: { TaonPermission },
+  entities: { TaonPermissionEntity: TaonPermissionEntity },
   controllers: { TaonPermissionController },
   repositories: { TaonPermissionRepository },
   providers: { TaonPermissionProvider },

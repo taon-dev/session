@@ -1,5 +1,5 @@
 //#region imports
-import { TaonGroupRole } from '@taon-dev/session/src';
+import { TaonGroupRoleEntity } from '@taon-dev/session/src';
 import {
   DateTimeColumn,
   OneToMany,
@@ -14,10 +14,10 @@ import { _ } from 'tnp-core/src';
 import { AnythingTestDefaultsValues } from './anything-test.constants';
 
 @TaonEntity({
-  className: 'AnythingTest',
+  className: 'AnythingTestEntity',
   createTable: true,
 })
-export class AnythingTest extends TaonBaseAbstractEntity<AnythingTest> {
+export class AnythingTestEntity extends TaonBaseAbstractEntity<AnythingTestEntity> {
   //#region @websql
   @StringColumn(AnythingTestDefaultsValues.description)
   //#endregion
@@ -28,9 +28,9 @@ export class AnythingTest extends TaonBaseAbstractEntity<AnythingTest> {
   //#endregion
   modificationDate?: string;
 
-  
+
 //#region @websql
-@OneToMany(() => TaonGroupRole, x => x.group)
+@OneToMany(() => TaonGroupRoleEntity, x => x.group)
 //#endregion
-  groupRoles!: TaonGroupRole[];
+  groupRoles!: TaonGroupRoleEntity[];
 }

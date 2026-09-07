@@ -1,6 +1,6 @@
 //#region imports
-import { TaonRole } from '../taon-role/taon-role.entity';
-import { TaonGroup } from '../taon-group/taon-group.entity';
+import { TaonRoleEntity } from '../taon-role/taon-role.entity';
+import { TaonGroupEntity } from '../taon-group/taon-group.entity';
 import {
   Column,
   DateTimeColumn,
@@ -16,43 +16,43 @@ import { _ } from 'tnp-core/src';
 //#endregion
 
 @TaonEntity({
-  className: 'TaonGroupRole',
+  className: 'TaonGroupRoleEntity',
   createTable: true,
 })
-export class TaonGroupRole extends TaonBaseAbstractEntity<TaonGroupRole> {
-  
+export class TaonGroupRoleEntity extends TaonBaseAbstractEntity<TaonGroupRoleEntity> {
+
 //#region @websql
 @Column()
 //#endregion
   groupId!: number;
 
-  
+
 //#region @websql
 @Column()
 //#endregion
   roleId!: number;
 
-  
+
 //#region @websql
-@ManyToOne(() => TaonGroup, group => group.groupRoles, {
+@ManyToOne(() => TaonGroupEntity, group => group.groupRoles, {
     onDelete: 'CASCADE',
   })
 //#endregion
-  
+
 //#region @websql
 @JoinColumn({ name: 'groupId' })
 //#endregion
-  group!: TaonGroup;
+  group!: TaonGroupEntity;
 
-  
+
 //#region @websql
-@ManyToOne(() => TaonRole, role => role.groupRoles, {
+@ManyToOne(() => TaonRoleEntity, role => role.groupRoles, {
     onDelete: 'CASCADE',
   })
 //#endregion
-  
+
 //#region @websql
 @JoinColumn({ name: 'roleId' })
 //#endregion
-  role!: TaonRole;
+  role!: TaonRoleEntity;
 }

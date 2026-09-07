@@ -3,14 +3,14 @@ import { Taon, TaonBaseRepository, TaonRepository } from 'taon/src';
 import { Raw } from 'taon-typeorm/src';
 import { _ } from 'tnp-core/src';
 
-import { AnythingTest } from './anything-test.entity';
+import { AnythingTestEntity } from './anything-test.entity';
 //#endregion
 
 @TaonRepository({
   className: 'AnythingTestRepository',
 })
-export class AnythingTestRepository extends TaonBaseRepository<AnythingTest> {
-  entityClassResolveFn: () => typeof AnythingTest = () => AnythingTest;
+export class AnythingTestRepository extends TaonBaseRepository<AnythingTestEntity> {
+  entityClassResolveFn: () => typeof AnythingTestEntity = () => AnythingTestEntity;
 
   /**
    * TODO remove this demo example method

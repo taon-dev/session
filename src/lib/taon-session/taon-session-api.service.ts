@@ -4,7 +4,7 @@ import { NEVER, Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { Taon, TaonBaseAngularService } from 'taon/src';
 
-import { TaonSessionUser } from '../taon-session-user/taon-session-user.entity';
+import { TaonSessionUserEntity } from '../taon-session-user/taon-session-user.entity';
 
 import { TaonSessionController } from './taon-session.controller';
 //#endregion
@@ -97,7 +97,7 @@ export class TaonSessionApiService extends TaonBaseAngularService {
   createUser(
     email: string,
     password: string,
-  ): Observable<TaonSessionUser | undefined> {
+  ): Observable<TaonSessionUserEntity | undefined> {
     return this.taonSessionController.createUser(email, password)
       .request!().observable.pipe(
       map(resp => {

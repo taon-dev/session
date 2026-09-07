@@ -1,7 +1,7 @@
-import type { AnythingTest } from './anything-test.entity';
+import type { AnythingTestEntity } from './anything-test.entity';
 
 export const AnythingTestDefaultsValues = {
   description: '',
   version: 0,
   id: void 0,
-} as Partial<AnythingTest>;
+} as Partial<AnythingTestEntity>;

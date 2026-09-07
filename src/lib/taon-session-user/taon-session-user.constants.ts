@@ -1,3 +1,3 @@
-import type { TaonSessionUser } from './taon-session-user.entity';
+import type { TaonSessionUserEntity } from './taon-session-user.entity';
 
-export const TaonSessionUserDefaultsValues = {} as Partial<TaonSessionUser>;
+export const TaonSessionUserDefaultsValues = {} as Partial<TaonSessionUserEntity>;

@@ -1,6 +1,6 @@
 //#region imports
-import { TaonSessionUserGroup } from '../taon-session-user/taon-session-user-group.entity';
-import { TaonGroupRole } from '../taon-group/taon-group-role.entity';
+import { TaonSessionUserGroupEntity } from '../taon-session-user/taon-session-user-group.entity';
+import { TaonGroupRoleEntity } from '../taon-group/taon-group-role.entity';
 import {
   Column,
   CustomColumn,
@@ -17,35 +17,35 @@ import { TaonGroupDefaultsValues } from './taon-group.constants';
 //#endregion
 
 @TaonEntity({
-  className: 'TaonGroup',
+  className: 'TaonGroupEntity',
   createTable: true,
 })
-export class TaonGroup extends TaonBaseAbstractEntity<TaonGroup> {
-  
+export class TaonGroupEntity extends TaonBaseAbstractEntity<TaonGroupEntity> {
+
 //#region @websql
 @Index({ unique: true })
 //#endregion
-  
+
 //#region @websql
 @Column()
 //#endregion
   name!: string;
 
-  
+
 //#region @websql
 @Column({ nullable: true })
 //#endregion
   description?: string;
 
-  
-//#region @websql
-@OneToMany(() => TaonSessionUserGroup, x => x.group)
-//#endregion
-  userGroups!: TaonSessionUserGroup[];
 
-  
 //#region @websql
-@OneToMany(() => TaonGroupRole, x => x.group)
+@OneToMany(() => TaonSessionUserGroupEntity, x => x.group)
 //#endregion
-  groupRoles!: TaonGroupRole[];
+  userGroups!: TaonSessionUserGroupEntity[];
+
+
+//#region @websql
+@OneToMany(() => TaonGroupRoleEntity, x => x.group)
+//#endregion
+  groupRoles!: TaonGroupRoleEntity[];
 }

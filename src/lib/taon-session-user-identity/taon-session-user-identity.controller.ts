@@ -9,15 +9,15 @@ import {
 } from 'taon/src';
 import { _ } from 'tnp-core/src';
 
-import { TaonSessionUserIdentity } from './taon-session-user-identity.entity';
+import { TaonSessionUserIdentityEntity } from './taon-session-user-identity.entity';
 import { TaonSessionUserIdentityRepository } from './taon-session-user-identity.repository';
 //#endregion
 
 @TaonController({
   className: 'TaonSessionUserIdentityController',
 })
-export class TaonSessionUserIdentityController extends TaonBaseCrudController<TaonSessionUserIdentity> {
-  entityClassResolveFn: () => typeof TaonSessionUserIdentity = () => TaonSessionUserIdentity;
+export class TaonSessionUserIdentityController extends TaonBaseCrudController<TaonSessionUserIdentityEntity> {
+  entityClassResolveFn: () => typeof TaonSessionUserIdentityEntity = () => TaonSessionUserIdentityEntity;
 
   taonSessionUserIdentityRepository = this.injectCustomRepo(TaonSessionUserIdentityRepository);
 

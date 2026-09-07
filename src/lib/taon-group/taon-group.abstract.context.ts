@@ -1,9 +1,9 @@
 //#region imports
 import { createContext, TaonBaseContext } from 'taon/src';
 
-import { TaonGroupRole } from './taon-group-role.entity';
+import { TaonGroupRoleEntity } from './taon-group-role.entity';
 import { TaonGroupController } from './taon-group.controller';
-import { TaonGroup } from './taon-group.entity';
+import { TaonGroupEntity } from './taon-group.entity';
 import { TaonGroupMiddleware } from './taon-group.middleware';
 import { TaonGroupProvider } from './taon-group.provider';
 import { TaonGroupRepository } from './taon-group.repository';
@@ -13,7 +13,7 @@ export const TaonGroupContext = createContext(() => ({
   contextName: 'TaonGroupContext',
   abstract: true,
   contexts: { TaonBaseContext },
-  entities: { TaonGroup, TaonGroupRole },
+  entities: { TaonGroupEntity: TaonGroupEntity, TaonGroupRoleEntity: TaonGroupRoleEntity },
   controllers: { TaonGroupController },
   repositories: { TaonGroupRepository },
   providers: { TaonGroupProvider },

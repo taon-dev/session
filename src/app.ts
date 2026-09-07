@@ -49,7 +49,7 @@ import {
   TaonLoginConfig,
   TaonSessionContext,
   TaonSessionProvider,
-  TaonSessionUser,
+  TaonSessionUserEntity,
   TaonSessionUserRepository,
 } from '@taon-dev/session/src';
 import {
@@ -337,7 +337,7 @@ export const SessionStartFunction = async (
   });
   if (!user) {
     await ins.save(
-      new TaonSessionUser().clone({
+      new TaonSessionUserEntity().clone({
         email: DEFAULT_EMAIL,
         password: DEFAULT_PASSWORD,
       }),

@@ -1,7 +1,7 @@
 //#region imports
-import { TaonSessionUserRole } from '../taon-session-user/taon-session-user-role.entity';
-import { TaonRolePermission } from '../taon-role/taon-role-permission.entity';
-import { TaonGroupRole } from '../taon-group/taon-group-role.entity';
+import { TaonSessionUserRoleEntity } from '../taon-session-user/taon-session-user-role.entity';
+import { TaonRolePermissionEntity } from '../taon-role/taon-role-permission.entity';
+import { TaonGroupRoleEntity } from '../taon-group/taon-group-role.entity';
 import {
   Column,
   CustomColumn,
@@ -18,47 +18,47 @@ import { TaonRoleDefaultsValues } from './taon-role.constants';
 //#endregion
 
 @TaonEntity({
-  className: 'TaonRole',
+  className: 'TaonRoleEntity',
   createTable: true,
 })
-export class TaonRole extends TaonBaseAbstractEntity<TaonRole> {
+export class TaonRoleEntity extends TaonBaseAbstractEntity<TaonRoleEntity> {
   /**
    * Example:
    * admin
    * editor
    * billing-manager
    */
-  
+
 //#region @websql
 @Index({ unique: true })
 //#endregion
-  
+
 //#region @websql
 @Column()
 //#endregion
   name!: string;
 
-  
+
 //#region @websql
 @Column({ nullable: true })
 //#endregion
   description?: string;
 
-  
-//#region @websql
-@OneToMany(() => TaonSessionUserRole, x => x.role)
-//#endregion
-  userRoles!: TaonSessionUserRole[];
 
-  
 //#region @websql
-@OneToMany(() => TaonGroupRole, x => x.role)
+@OneToMany(() => TaonSessionUserRoleEntity, x => x.role)
 //#endregion
-  groupRoles!: TaonGroupRole[];
+  userRoles!: TaonSessionUserRoleEntity[];
 
-  
+
 //#region @websql
-@OneToMany(() => TaonRolePermission, x => x.role)
+@OneToMany(() => TaonGroupRoleEntity, x => x.role)
 //#endregion
-  rolePermissions!: TaonRolePermission[];
+  groupRoles!: TaonGroupRoleEntity[];
+
+
+//#region @websql
+@OneToMany(() => TaonRolePermissionEntity, x => x.role)
+//#endregion
+  rolePermissions!: TaonRolePermissionEntity[];
 }

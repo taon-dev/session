@@ -2,14 +2,14 @@
 import { TaonBaseRepository, TaonRepository } from 'taon/src';
 import { Raw } from 'taon-typeorm/src';
 
-import { TaonSessionUserIdentity } from './taon-session-user-identity.entity';
+import { TaonSessionUserIdentityEntity } from './taon-session-user-identity.entity';
 //#endregion
 
 @TaonRepository({
   className: 'TaonSessionUserIdentityRepository',
 })
-export class TaonSessionUserIdentityRepository extends TaonBaseRepository<TaonSessionUserIdentity> {
-  entityClassResolveFn: () => typeof TaonSessionUserIdentity = () => TaonSessionUserIdentity;
+export class TaonSessionUserIdentityRepository extends TaonBaseRepository<TaonSessionUserIdentityEntity> {
+  entityClassResolveFn: () => typeof TaonSessionUserIdentityEntity = () => TaonSessionUserIdentityEntity;
 
   /**
    * TODO remove this demo example method

@@ -1,5 +1,5 @@
 //#region imports
-import { TaonSessionUser } from '../taon-session-user/taon-session-user.entity';
+import { TaonSessionUserEntity } from '../taon-session-user/taon-session-user.entity';
 import {
   Column,
   CreateDateColumn,
@@ -25,29 +25,29 @@ import { TaonSessionUserIdentityDefaultsValues } from './taon-session-user-ident
 //#endregion
 
 @TaonEntity({
-  className: 'TaonSessionUserIdentity',
+  className: 'TaonSessionUserIdentityEntity',
   createTable: true,
 })
-export class TaonSessionUserIdentity extends TaonBaseAbstractEntity<TaonSessionUserIdentity> {
-  
+export class TaonSessionUserIdentityEntity extends TaonBaseAbstractEntity<TaonSessionUserIdentityEntity> {
+
 //#region @websql
 @Column()
 //#endregion
   userId!: number;
 
-  
+
 //#region @websql
-@ManyToOne(() => TaonSessionUser, user => user.identities, {
+@ManyToOne(() => TaonSessionUserEntity, user => user.identities, {
     onDelete: 'CASCADE',
   })
 //#endregion
-  
+
 //#region @websql
 @JoinColumn({ name: 'userId' })
 //#endregion
-  user!: TaonSessionUser;
+  user!: TaonSessionUserEntity;
 
-  
+
 //#region @websql
 @Column()
 //#endregion
@@ -63,7 +63,7 @@ export class TaonSessionUserIdentity extends TaonBaseAbstractEntity<TaonSessionU
    * For local password:
    * you could use User.id/string identifier.
    */
-  
+
 //#region @websql
 @Column()
 //#endregion
@@ -74,13 +74,13 @@ export class TaonSessionUserIdentity extends TaonBaseAbstractEntity<TaonSessionU
    *
    * Do NOT use this alone as identity.
    */
-  
+
 //#region @websql
 @Column({ nullable: true })
 //#endregion
   providerEmail?: string;
 
-  
+
 //#region @websql
 @Column({ default: false })
 //#endregion
@@ -89,19 +89,19 @@ export class TaonSessionUserIdentity extends TaonBaseAbstractEntity<TaonSessionU
   /**
    * Only relevant for PASSWORD identity.
    */
-  
+
 //#region @websql
 @Column({ nullable: true })
 //#endregion
   passwordHash?: string;
 
-  
+
 //#region @websql
 @CreateDateColumn()
 //#endregion
   createdAt!: Date;
 
-  
+
 //#region @websql
 @UpdateDateColumn()
 //#endregion

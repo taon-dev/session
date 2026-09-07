@@ -4,7 +4,7 @@ import { map } from 'rxjs/operators';
 import { Taon, TaonBaseAngularService } from 'taon/src';
 
 import { TaonSessionUserController } from './taon-session-user.controller';
-import type { TaonSessionUser } from './taon-session-user.entity';
+import type { TaonSessionUserEntity } from './taon-session-user.entity';
 
 @Injectable()
 export class TaonSessionUserApiService extends TaonBaseAngularService {

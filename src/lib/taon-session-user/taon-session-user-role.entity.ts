@@ -1,6 +1,6 @@
 //#region imports
-import { TaonSessionUser } from '../taon-session-user/taon-session-user.entity';
-import { TaonRole } from '../taon-role/taon-role.entity';
+import { TaonSessionUserEntity } from '../taon-session-user/taon-session-user.entity';
+import { TaonRoleEntity } from '../taon-role/taon-role.entity';
 import {
   Column,
   CreateDateColumn,
@@ -19,47 +19,47 @@ import { _ } from 'tnp-core/src';
 //#endregion
 
 @TaonEntity({
-  className: 'TaonSessionUserRole',
+  className: 'TaonSessionUserRoleEntity',
   createTable: true,
 })
-export class TaonSessionUserRole extends TaonBaseAbstractEntity<TaonSessionUserRole> {
-  
+export class TaonSessionUserRoleEntity extends TaonBaseAbstractEntity<TaonSessionUserRoleEntity> {
+
 //#region @websql
 @Column()
 //#endregion
   userId!: number;
 
-  
+
 //#region @websql
 @Column()
 //#endregion
   roleId!: number;
 
-  
+
 //#region @websql
-@ManyToOne(() => TaonSessionUser, user => user.userRoles, {
+@ManyToOne(() => TaonSessionUserEntity, user => user.userRoles, {
     onDelete: 'CASCADE',
   })
 //#endregion
-  
+
 //#region @websql
 @JoinColumn({ name: 'userId' })
 //#endregion
-  user!: TaonSessionUser;
+  user!: TaonSessionUserEntity;
 
-  
+
 //#region @websql
-@ManyToOne(() => TaonRole, role => role.userRoles, {
+@ManyToOne(() => TaonRoleEntity, role => role.userRoles, {
     onDelete: 'CASCADE',
   })
 //#endregion
-  
+
 //#region @websql
 @JoinColumn({ name: 'roleId' })
 //#endregion
-  role!: TaonRole;
+  role!: TaonRoleEntity;
 
-  
+
 //#region @websql
 @CreateDateColumn()
 //#endregion

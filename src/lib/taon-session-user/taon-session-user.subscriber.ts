@@ -1,7 +1,7 @@
 //#region imports
 import { TaonBaseSubscriberForEntity, TaonSubscriber } from 'taon/src';
 
-import { TaonSessionUser } from './taon-session-user.entity';
+import { TaonSessionUserEntity } from './taon-session-user.entity';
 import { TaonSessionUserProvider } from './taon-session-user.provider';
 //#endregion
 
@@ -12,7 +12,7 @@ import { TaonSessionUserProvider } from './taon-session-user.provider';
 export class TaonSessionUserSubscriber extends TaonBaseSubscriberForEntity {
   taonSessionUserProvider = this.injectProvider(TaonSessionUserProvider);
 
-  listenTo(): typeof TaonSessionUser {
-    return TaonSessionUser;
+  listenTo(): typeof TaonSessionUserEntity {
+    return TaonSessionUserEntity;
   }
 }

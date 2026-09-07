@@ -9,15 +9,15 @@ import {
 } from 'taon/src';
 import { _ } from 'tnp-core/src';
 
-import { AnythingTest } from './anything-test.entity';
+import { AnythingTestEntity } from './anything-test.entity';
 import { AnythingTestRepository } from './anything-test.repository';
 //#endregion
 
 @TaonController({
   className: 'AnythingTestController',
 })
-export class AnythingTestController extends TaonBaseCrudController<AnythingTest> {
-  entityClassResolveFn: () => typeof AnythingTest = () => AnythingTest;
+export class AnythingTestController extends TaonBaseCrudController<AnythingTestEntity> {
+  entityClassResolveFn: () => typeof AnythingTestEntity = () => AnythingTestEntity;
 
   anythingTestRepository = this.injectCustomRepository(AnythingTestRepository);
 

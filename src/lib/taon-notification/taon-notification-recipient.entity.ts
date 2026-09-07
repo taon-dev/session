@@ -1,4 +1,6 @@
 //#region imports
+import { TaonSessionUserEntity } from '../taon-session-user/taon-session-user.entity';
+import { TaonNotificationEntity } from '../taon-notification/taon-notification.entity';
 import {
   Column,
   DateTimeColumn,
@@ -10,7 +12,6 @@ import {
 } from 'taon/src';
 import { _ } from 'tnp-core/src';
 
-import { TaonNotificationEntity, TaonSessionUser } from '../index';
 
 //#endregion
 
@@ -41,11 +42,11 @@ export class TaonNotificationRecipientEntity extends TaonBaseAbstractEntity<Taon
   notification!: TaonNotificationEntity;
 
   //#region @websql
-  @ManyToOne(() => TaonSessionUser, {
+  @ManyToOne(() => TaonSessionUserEntity, {
     onDelete: 'CASCADE',
   })
   //#endregion
-  user!: TaonSessionUser;
+  user!: TaonSessionUserEntity;
 
   //#region @websql
   @Column({ type: 'datetime', nullable: true })

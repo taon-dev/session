@@ -1,4 +1,6 @@
 //#region imports
+import { TaonSessionUserEntity } from '../taon-session-user/taon-session-user.entity';
+import { TaonNotificationRecipientEntity } from '../taon-notification/taon-notification-recipient.entity';
 import {
   Column,
   CreateDateColumn,
@@ -11,7 +13,6 @@ import {
 } from 'taon/src';
 import { _ } from 'tnp-core/src';
 
-import { TaonNotificationRecipientEntity, TaonSessionUser } from '../index';
 
 import { TaonNotificationDefaultsValues } from './taon-notification.constants';
 //#endregion

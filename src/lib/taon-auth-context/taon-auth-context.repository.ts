@@ -2,14 +2,14 @@
 import { TaonBaseRepository, TaonRepository } from 'taon/src';
 import { Raw } from 'taon-typeorm/src';
 
-import { TaonAuthContext } from './taon-auth-context.entity';
+import { TaonAuthContextEntity } from './taon-auth-context.entity';
 //#endregion
 
 @TaonRepository({
   className: 'TaonAuthContextRepository',
 })
-export class TaonAuthContextRepository extends TaonBaseRepository<TaonAuthContext> {
-  entityClassResolveFn: () => typeof TaonAuthContext = () => TaonAuthContext;
+export class TaonAuthContextRepository extends TaonBaseRepository<TaonAuthContextEntity> {
+  entityClassResolveFn: () => typeof TaonAuthContextEntity = () => TaonAuthContextEntity;
 
   /**
    * TODO remove this demo example method

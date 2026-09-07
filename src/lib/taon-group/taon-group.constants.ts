@@ -1,5 +1,5 @@
-import type { TaonGroup } from './taon-group.entity';
+import type { TaonGroupEntity } from './taon-group.entity';
 
 export const TaonGroupDefaultsValues = {
 
-} as Partial<TaonGroup>;
+} as Partial<TaonGroupEntity>;

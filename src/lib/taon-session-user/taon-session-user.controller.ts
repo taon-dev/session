@@ -9,7 +9,7 @@ import {
 } from 'taon/src';
 import { _ } from 'tnp-core/src';
 
-import { TaonSessionUser } from './taon-session-user.entity';
+import { TaonSessionUserEntity } from './taon-session-user.entity';
 import { TaonSessionUserRepository } from './taon-session-user.repository';
 //#endregion
 
@@ -19,8 +19,8 @@ import { TaonSessionUserRepository } from './taon-session-user.repository';
     // 'save/'
   ],
 })
-export class TaonSessionUserController extends TaonBaseCrudController<TaonSessionUser> {
-  entityClassResolveFn: () => typeof TaonSessionUser = () => TaonSessionUser;
+export class TaonSessionUserController extends TaonBaseCrudController<TaonSessionUserEntity> {
+  entityClassResolveFn: () => typeof TaonSessionUserEntity = () => TaonSessionUserEntity;
 
   taonSessionUserRepository = this.injectCustomRepo(TaonSessionUserRepository);
 }

@@ -3,14 +3,14 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Taon, TaonBaseAngularService } from 'taon/src';
 
-import type { TaonPermission } from './taon-permission.entity';
+import type { TaonPermissionEntity } from './taon-permission.entity';
 import { TaonPermissionController } from './taon-permission.controller';
 
 @Injectable()
 export class TaonPermissionApiService extends TaonBaseAngularService {
   private taonPermissionController = this.injectController(TaonPermissionController);
 
-  public get allMyEntities$(): Observable<TaonPermission[]> {
+  public get allMyEntities$(): Observable<TaonPermissionEntity[]> {
     return this.taonPermissionController.getAll().request!().observable.pipe(
       map(res => res.body?.json),
     );

@@ -13,7 +13,7 @@ import {
 } from 'taon/src';
 import { _ } from 'tnp-core/src';
 
-import { TaonSessionUser } from '../taon-session-user';
+import { TaonSessionUserEntity } from '../taon-session-user';
 import { TaonSessionUserRepository } from '../taon-session-user/taon-session-user.repository';
 
 import { TaonSessionKvRepository } from './taon-session-kv.repository';
@@ -47,7 +47,7 @@ export class TaonSessionController extends TaonBaseController {
   createUser(
     @Body('email') email: string,
     @Body('password') password: string,
-  ): Taon.Response<TaonSessionUser | null> {
+  ): Taon.Response<TaonSessionUserEntity | null> {
     //#region @backendFunc
     return async (req, res) => {
       const exitedUser = await this.taonSessionUserRepository.findOne({
@@ -59,7 +59,7 @@ export class TaonSessionController extends TaonBaseController {
         return null;
       }
 
-      let user = new TaonSessionUser().clone({ email, password });
+      let user = new TaonSessionUserEntity().clone({ email, password });
       user = await this.taonSessionUserRepository.save(user);
       delete user.password;
       return user;

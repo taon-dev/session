@@ -2,14 +2,14 @@
 import { TaonBaseRepository, TaonRepository } from 'taon/src';
 import { Raw } from 'taon-typeorm/src';
 
-import { TaonPermission } from './taon-permission.entity';
+import { TaonPermissionEntity } from './taon-permission.entity';
 //#endregion
 
 @TaonRepository({
   className: 'TaonPermissionRepository',
 })
-export class TaonPermissionRepository extends TaonBaseRepository<TaonPermission> {
-  entityClassResolveFn: () => typeof TaonPermission = () => TaonPermission;
+export class TaonPermissionRepository extends TaonBaseRepository<TaonPermissionEntity> {
+  entityClassResolveFn: () => typeof TaonPermissionEntity = () => TaonPermissionEntity;
 
   /**
    * TODO remove this demo example method

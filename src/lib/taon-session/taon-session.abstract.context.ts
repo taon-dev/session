@@ -10,7 +10,7 @@ import { TaonSessionUserIdentityContext } from '../taon-session-user-identity/ta
 
 import { TaonSessionKvRepository } from './taon-session-kv.repository';
 import { TaonSessionController } from './taon-session.controller';
-import { TaonSession } from './taon-session.entity';
+import { TaonSessionEntity } from './taon-session.entity';
 import { TaonSessionMiddleware } from './taon-session.middleware';
 import { TaonSessionProvider } from './taon-session.provider';
 import { TaonSessionStateService } from './taon-session.state.service';
@@ -31,7 +31,7 @@ export const TaonSessionContext = createContext(() => ({
     TaonNotificationContext,
     TaonAuditEventsContext,
   },
-  entities: { TaonSession },
+  entities: { TaonSessionEntity: TaonSessionEntity },
   controllers: { TaonSessionController },
   repositories: { TaonSessionKvRepository },
   providers: {

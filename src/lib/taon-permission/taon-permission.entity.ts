@@ -1,5 +1,5 @@
 //#region imports
-import { TaonRolePermission } from '../taon-role/taon-role-permission.entity';
+import { TaonRolePermissionEntity } from '../taon-role/taon-role-permission.entity';
 import {
   Column,
   CustomColumn,
@@ -15,10 +15,10 @@ import { TaonPermissionDefaultsValues } from './taon-permission.constants';
 //#endregion
 
 @TaonEntity({
-  className: 'TaonPermission',
+  className: 'TaonPermissionEntity',
   createTable: true,
 })
-export class TaonPermission extends TaonBaseAbstractEntity<TaonPermission> {
+export class TaonPermissionEntity extends TaonBaseAbstractEntity<TaonPermissionEntity> {
   /**
    * Examples:
    *
@@ -27,25 +27,25 @@ export class TaonPermission extends TaonBaseAbstractEntity<TaonPermission> {
    * project.deploy
    * billing.invoice.read
    */
-  
+
 //#region @websql
 @Index({ unique: true })
 //#endregion
-  
+
 //#region @websql
 @Column()
 //#endregion
   name!: string;
 
-  
+
 //#region @websql
 @Column({ nullable: true })
 //#endregion
   description?: string;
 
-  
+
 //#region @websql
-@OneToMany(() => TaonRolePermission, x => x.permission)
+@OneToMany(() => TaonRolePermissionEntity, x => x.permission)
 //#endregion
-  rolePermissions!: TaonRolePermission[];
+  rolePermissions!: TaonRolePermissionEntity[];
 }

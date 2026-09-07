@@ -1,7 +1,7 @@
 //#region imports
 import { createContext, TaonBaseContext } from 'taon/src';
 
-import { TaonSessionUserIdentity } from './taon-session-user-identity.entity';
+import { TaonSessionUserIdentityEntity } from './taon-session-user-identity.entity';
 import { TaonSessionUserIdentityController } from './taon-session-user-identity.controller';
 import { TaonSessionUserIdentityRepository } from './taon-session-user-identity.repository';
 import { TaonSessionUserIdentityProvider } from './taon-session-user-identity.provider';
@@ -13,7 +13,7 @@ export const TaonSessionUserIdentityContext = createContext(() => ({
   contextName: 'TaonSessionUserIdentityContext',
   abstract: true,
   contexts: { TaonBaseContext },
-  entities: { TaonSessionUserIdentity },
+  entities: { TaonSessionUserIdentityEntity: TaonSessionUserIdentityEntity },
   controllers: { TaonSessionUserIdentityController },
   repositories: { TaonSessionUserIdentityRepository },
   providers: { TaonSessionUserIdentityProvider },
