@@ -6,6 +6,17 @@
 export * from './build-info._auto-generated_'; 
 export * from './my-organization-proj'; 
 export * from './start-cli'; 
+export * from './taon-audit-events/taon-audit-events-api.service'; // @browser
+export * from './taon-audit-events/taon-audit-events.abstract.context'; 
+export * from './taon-audit-events/taon-audit-events.constants'; 
+export * from './taon-audit-events/taon-audit-events.controller'; 
+export * from './taon-audit-events/taon-audit-events.entity'; 
+export * from './taon-audit-events/taon-audit-events.middleware'; 
+export * from './taon-audit-events/taon-audit-events.models'; 
+export * from './taon-audit-events/taon-audit-events.provider'; 
+export * from './taon-audit-events/taon-audit-events.repository'; 
+export * from './taon-audit-events/taon-audit-events.subscriber'; 
+export * from './taon-audit-events/taon-audit-events.utils'; 
 export * from './taon-auth-context/taon-auth-context-api.service'; // @browser
 export * from './taon-auth-context/taon-auth-context.abstract.context'; 
 export * from './taon-auth-context/taon-auth-context.constants'; 
@@ -26,6 +37,18 @@ export * from './taon-group/taon-group.entity';
 export * from './taon-group/taon-group.middleware'; 
 export * from './taon-group/taon-group.provider'; 
 export * from './taon-group/taon-group.repository'; 
+export * from './taon-notification/taon-notification-api.service'; // @browser
+export * from './taon-notification/taon-notification-recipient.entity'; 
+export * from './taon-notification/taon-notification.abstract.context'; 
+export * from './taon-notification/taon-notification.constants'; 
+export * from './taon-notification/taon-notification.controller'; 
+export * from './taon-notification/taon-notification.entity'; 
+export * from './taon-notification/taon-notification.middleware'; 
+export * from './taon-notification/taon-notification.models'; 
+export * from './taon-notification/taon-notification.provider'; 
+export * from './taon-notification/taon-notification.repository'; 
+export * from './taon-notification/taon-notification.subscriber'; 
+export * from './taon-notification/taon-notification.utils'; 
 export * from './taon-permission/taon-permission-api.service'; // @browser
 export * from './taon-permission/taon-permission.abstract.context'; 
 export * from './taon-permission/taon-permission.constants'; 

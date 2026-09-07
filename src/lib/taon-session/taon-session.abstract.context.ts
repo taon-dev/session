@@ -14,6 +14,7 @@ import { TaonSession } from './taon-session.entity';
 import { TaonSessionMiddleware } from './taon-session.middleware';
 import { TaonSessionProvider } from './taon-session.provider';
 import { TaonSessionStateService } from './taon-session.state.service';
+import { TaonAuditEventsContext, TaonNotificationContext } from '../index';
 //#endregion
 
 export const TaonSessionContext = createContext(() => ({
@@ -27,6 +28,8 @@ export const TaonSessionContext = createContext(() => ({
     TaonPermissionContext,
     TaonRoleContext,
     TaonSessionUserIdentityContext,
+    TaonNotificationContext,
+    TaonAuditEventsContext,
   },
   entities: { TaonSession },
   controllers: { TaonSessionController },
