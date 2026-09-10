@@ -29,6 +29,7 @@
       "envName": "cloudflare",
       "releaseType": "manual-cloudflare",
       "taskName": "cloudflare",
+      "workerName": "cw-custom-seoni-4b382",
     },
   ],
 

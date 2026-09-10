@@ -24,9 +24,9 @@ export const CURRENT_PACKAGE_TAON_VERSION = 'v21';
  */
 export const CURRENT_PACKAGE_VERSION = '21.0.224';
 
-
-
-
+export namespace TAON_CLOUDFLARE_WORKERS_URLS {
+	export const CwCustomSeoni4B382 = 'https://cw-custom-seoni-4b382.undefined.workers.dev';
+}
 
 // THIS FILE IS GENERATED - DO NOT MODIFY
       
