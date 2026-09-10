@@ -1,5 +1,4 @@
 //#region imports
-import * as jwt from 'jsonwebtoken'; // @backend
 import {
   Taon,
   TaonAdditionalMiddlewareMethodInfo,
@@ -7,7 +6,7 @@ import {
   TaonMiddleware,
   TaonServerMiddlewareInterceptOptions,
 } from 'taon/src';
-import { _ } from 'tnp-core/src';
+import { _, UtilsJwt } from 'tnp-core/src';
 
 import { TaonSessionKvRepository } from './taon-session-kv.repository';
 import { TaonSessionProvider } from './taon-session.provider';
@@ -22,14 +21,14 @@ export class TaonSessionMiddleware extends TaonBaseMiddleware {
   taonSessionProvider = this.injectProvider(TaonSessionProvider);
 
   //#region intercept server method
-  interceptServerMethod(
+  async interceptServerMethod(
     { req, res, next }: TaonServerMiddlewareInterceptOptions,
     {
       methodName,
       expressPath,
       httpRequestType,
     }: TaonAdditionalMiddlewareMethodInfo,
-  ): Promise<void> | void {
+  ): Promise<void> {
     //#region @backend
     const token = this.taonSessionKvRepository.getTokenFromRequest(req);
 
@@ -39,7 +38,7 @@ export class TaonSessionMiddleware extends TaonBaseMiddleware {
     }
 
     try {
-      const payload = jwt.verify(
+      const payload = await UtilsJwt.verify(
         token,
         this.taonSessionProvider.ACCESS_TOKEN_SECRET,
       ) as any;

@@ -1,5 +1,4 @@
 //#region imports
-import jwt from 'jsonwebtoken'; // @backend
 import {
   Taon,
   ClassHelpers,
@@ -11,7 +10,7 @@ import {
   Body,
   POST,
 } from 'taon/src';
-import { _ } from 'tnp-core/src';
+import { _, UtilsJwt } from 'tnp-core/src';
 
 import { TaonSessionUserEntity } from '../taon-session-user';
 import { TaonSessionUserRepository } from '../taon-session-user/taon-session-user.repository';
@@ -106,12 +105,11 @@ export class TaonSessionController extends TaonBaseController {
         return false;
       }
 
-      const accessToken = this.taonSessionKvRepository.createAccessToken(
+      const accessToken = await this.taonSessionKvRepository.createAccessToken(
         user.id,
       );
-      const refreshToken = this.taonSessionKvRepository.createRefreshToken(
-        user.id,
-      );
+      const refreshToken =
+        await this.taonSessionKvRepository.createRefreshToken(user.id);
 
       this.taonSessionKvRepository.setAuthCookies(
         res!,
@@ -141,10 +139,10 @@ export class TaonSessionController extends TaonBaseController {
       }
 
       try {
-        const payload = jwt.verify(
+        const payload = (await UtilsJwt.verify(
           token,
           this.taonSessionProvider.REFRESH_TOKEN_SECRET,
-        ) as any;
+        )) as any;
 
         const session = await this.taonSessionKvRepository.get(payload.rtId);
 
@@ -168,12 +166,11 @@ export class TaonSessionController extends TaonBaseController {
         // ROTATION (important)
         await this.taonSessionKvRepository.delete(payload.rtId);
 
-        const newAccessToken = this.taonSessionKvRepository.createAccessToken(
-          session.userId,
-        );
-        const newRefreshToken = this.taonSessionKvRepository.createRefreshToken(
-          session.userId,
-        );
+        const newAccessToken =
+          await this.taonSessionKvRepository.createAccessToken(session.userId);
+
+        const newRefreshToken =
+          await this.taonSessionKvRepository.createRefreshToken(session.userId);
 
         this.taonSessionKvRepository.setAuthCookies(
           res!,
@@ -203,10 +200,10 @@ export class TaonSessionController extends TaonBaseController {
 
       if (token) {
         try {
-          const payload = jwt.verify(
+          const payload = (await UtilsJwt.verify(
             token,
             this.taonSessionProvider.REFRESH_TOKEN_SECRET,
-          ) as any;
+          )) as any;
           await this.taonSessionKvRepository.delete(payload.rtId);
         } catch (error) {
           console.error(error);

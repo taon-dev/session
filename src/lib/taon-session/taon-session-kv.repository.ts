@@ -1,8 +1,8 @@
 //#region imports
 
 import type express from 'express';
-import * as jwt from 'jsonwebtoken'; // @backend
 import { TaonBaseKvRepository, TaonRepository } from 'taon/src';
+import { UtilsJwt } from 'tnp-core/src';
 
 import { TaonSessionProvider } from './taon-session.provider';
 
@@ -15,17 +15,21 @@ export class TaonSessionKvRepository extends TaonBaseKvRepository {
   taonSessionProvider = this.injectProvider(TaonSessionProvider);
 
   //#region create access token
-  public createAccessToken(userId: string): string {
+  public async createAccessToken(userId: string): Promise<string> {
     //#region @backendFunc
-    return jwt.sign({ userId }, this.taonSessionProvider.ACCESS_TOKEN_SECRET, {
-      expiresIn: this.taonSessionProvider.ACCESS_TOKEN_EXPIRES,
-    });
+    return await UtilsJwt.sign(
+      { userId },
+      this.taonSessionProvider.ACCESS_TOKEN_SECRET,
+      {
+        expiresIn: this.taonSessionProvider.ACCESS_TOKEN_EXPIRES,
+      },
+    );
     //#endregion
   }
   //#endregion
 
   //#region create refresh token
-  public createRefreshToken(userId: string): string {
+  public async createRefreshToken(userId: string): Promise<string> {
     //#region @backendFunc
     const crypto = require('crypto');
     const rtId = crypto.randomUUID();
@@ -34,9 +38,9 @@ export class TaonSessionKvRepository extends TaonBaseKvRepository {
       Date.now() +
       this.taonSessionProvider.REFRESH_TOKEN_EXPIRES_SECONDS * 1000;
 
-    this.set(rtId, { userId, expiresAt });
+    await this.set(rtId, { userId, expiresAt });
 
-    const token = jwt.sign(
+    const token = await UtilsJwt.sign(
       { rtId },
       this.taonSessionProvider.REFRESH_TOKEN_SECRET,
       {
