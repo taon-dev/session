@@ -15,9 +15,11 @@ import { TaonAuditEventsRepository } from './taon-audit-events.repository';
 
 @TaonController<TaonAuditEventsController>({
   className: 'TaonAuditEventsController',
+  allowedMethods: [],
 })
 export class TaonAuditEventsController extends TaonBaseCrudController<TaonAuditEventsEntity> {
-  entityClassResolveFn: () => typeof TaonAuditEventsEntity = () => TaonAuditEventsEntity;
+  entityClassResolveFn: () => typeof TaonAuditEventsEntity = () =>
+    TaonAuditEventsEntity;
 
   taonAuditEventsRepository = this.injectCustomRepo(TaonAuditEventsRepository);
 

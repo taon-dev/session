@@ -15,6 +15,7 @@ import { TaonSessionUserIdentityRepository } from './taon-session-user-identity.
 
 @TaonController({
   className: 'TaonSessionUserIdentityController',
+  allowedMethods: [],
 })
 export class TaonSessionUserIdentityController extends TaonBaseCrudController<TaonSessionUserIdentityEntity> {
   entityClassResolveFn: () => typeof TaonSessionUserIdentityEntity = () => TaonSessionUserIdentityEntity;

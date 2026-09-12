@@ -13,7 +13,7 @@ export const TaonPermissionContext = createContext(() => ({
   contextName: 'TaonPermissionContext',
   abstract: true,
   contexts: { TaonBaseContext },
-  entities: { TaonPermissionEntity: TaonPermissionEntity },
+  entities: { TaonPermissionEntity },
   controllers: { TaonPermissionController },
   repositories: { TaonPermissionRepository },
   providers: { TaonPermissionProvider },

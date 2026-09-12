@@ -12,7 +12,6 @@ import {
 } from 'taon/src';
 import { _ } from 'tnp-core/src';
 
-
 //#endregion
 
 @TaonEntity({
@@ -21,12 +20,14 @@ import { _ } from 'tnp-core/src';
 })
 export class TaonNotificationRecipientEntity extends TaonBaseAbstractEntity<TaonNotificationRecipientEntity> {
   //#region @websql
-  @Column()
+  @Column({
+    type: 'int',
+  })
   //#endregion
   notificationId!: number;
 
   //#region @websql
-  @Column()
+  @Column({ type: 'int' })
   //#endregion
   userId!: number;
 

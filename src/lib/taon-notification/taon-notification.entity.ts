@@ -13,7 +13,6 @@ import {
 } from 'taon/src';
 import { _ } from 'tnp-core/src';
 
-
 import { TaonNotificationDefaultsValues } from './taon-notification.constants';
 //#endregion
 
@@ -31,12 +30,12 @@ export class TaonNotificationEntity extends TaonBaseAbstractEntity<TaonNotificat
    */
 
   //#region @websql
-  @Column()
+  @Column({ type: 'varchar' })
   //#endregion
   type!: string;
 
   //#region @websql
-  @Column()
+  @Column({ type: 'varchar' })
   //#endregion
   title!: string;
 
@@ -53,7 +52,7 @@ export class TaonNotificationEntity extends TaonBaseAbstractEntity<TaonNotificat
    */
 
   //#region @websql
-  @Column({ nullable: true })
+  @Column({ type: 'varchar', nullable: true })
   //#endregion
   actionUrl?: string;
 
@@ -67,7 +66,7 @@ export class TaonNotificationEntity extends TaonBaseAbstractEntity<TaonNotificat
   data?: Record<string, any>;
 
   //#region @websql
-  @Column({ nullable: true })
+  @Column({ nullable: true, type: 'int' })
   //#endregion
   createdByUserId?: number;
 

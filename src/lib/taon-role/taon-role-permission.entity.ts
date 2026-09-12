@@ -20,39 +20,39 @@ import { _ } from 'tnp-core/src';
   createTable: true,
 })
 export class TaonRolePermissionEntity extends TaonBaseAbstractEntity<TaonRolePermissionEntity> {
-
-//#region @websql
-@Column()
-//#endregion
+  //#region @websql
+  @Column({ type: 'int' })
+  //#endregion
   roleId!: number;
 
-
-//#region @websql
-@Column()
-//#endregion
+  //#region @websql
+  @Column({ type: 'int' })
+  //#endregion
   permissionId!: number;
 
-
-//#region @websql
-@ManyToOne(() => TaonRoleEntity, role => role.rolePermissions, {
+  //#region @websql
+  @ManyToOne(() => TaonRoleEntity, role => role.rolePermissions, {
     onDelete: 'CASCADE',
   })
-//#endregion
+  //#endregion
 
-//#region @websql
-@JoinColumn({ name: 'roleId' })
-//#endregion
+  //#region @websql
+  @JoinColumn({ name: 'roleId' })
+  //#endregion
   role!: TaonRoleEntity;
 
+  //#region @websql
+  @ManyToOne(
+    () => TaonPermissionEntity,
+    permission => permission.rolePermissions,
+    {
+      onDelete: 'CASCADE',
+    },
+  )
+  //#endregion
 
-//#region @websql
-@ManyToOne(() => TaonPermissionEntity, permission => permission.rolePermissions, {
-    onDelete: 'CASCADE',
-  })
-//#endregion
-
-//#region @websql
-@JoinColumn({ name: 'permissionId' })
-//#endregion
+  //#region @websql
+  @JoinColumn({ name: 'permissionId' })
+  //#endregion
   permission!: TaonPermissionEntity;
 }

@@ -15,11 +15,15 @@ import { TaonNotificationRepository } from './taon-notification.repository';
 
 @TaonController<TaonNotificationController>({
   className: 'TaonNotificationController',
+  allowedMethods: [],
 })
 export class TaonNotificationController extends TaonBaseCrudController<TaonNotificationEntity> {
-  entityClassResolveFn: () => typeof TaonNotificationEntity = () => TaonNotificationEntity;
+  entityClassResolveFn: () => typeof TaonNotificationEntity = () =>
+    TaonNotificationEntity;
 
-  taonNotificationRepository = this.injectCustomRepo(TaonNotificationRepository);
+  taonNotificationRepository = this.injectCustomRepo(
+    TaonNotificationRepository,
+  );
 
   //#region methods & getters / hello world
   /**

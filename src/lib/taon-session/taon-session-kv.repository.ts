@@ -31,7 +31,6 @@ export class TaonSessionKvRepository extends TaonBaseKvRepository {
   //#region create refresh token
   public async createRefreshToken(userId: string): Promise<string> {
     //#region @backendFunc
-    const crypto = require('crypto');
     const rtId = crypto.randomUUID();
 
     const expiresAt =

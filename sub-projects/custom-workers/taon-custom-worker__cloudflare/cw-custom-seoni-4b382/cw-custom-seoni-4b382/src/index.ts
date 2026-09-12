@@ -10,6 +10,7 @@ const app = createFakeExpressApp();
 
 export default {
   fetch: createWorkerAdapter(app, async (overrideHost, req, res, env) => {
+    // console.log('REQUEST DONE!')
     // console.log({ overrideHost });
     // console.log({ env });
     await startFn({

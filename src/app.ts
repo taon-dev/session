@@ -304,14 +304,22 @@ export const SessionConfig = mergeApplicationConfig(
 //#region  taon-jwt-cookie-header-session context
 var SessionContext = Taon.createContext(() => ({
   ...HOST_CONFIG['SessionContext'],
-  contexts: { TaonBaseContext, TaonSessionContext },
+  contexts: {
+    TaonBaseContext,
+    TaonSessionContext,
+  },
+  // logs: true,
   logs: {
-    http: true,
-    framework: true,
+    // http: true,
+    // framework: true,
+    routes: true,
     // db: true,
   },
+
   session: true,
-  database: true,
+  database: {
+    recreateMode: 'DROP_DB__RUN_MIGRATIONS',
+  },
   disabledRealtime: true,
 }));
 //#endregion
@@ -324,7 +332,7 @@ export const SessionStartFunction = async (
   TaonAdmin.init();
   await TaonStor.awaitAll();
   //#endregion
-  const ref = await SessionContext.initialize();
+  const ref = await SessionContext.initialize(startParams);
 
   //#region add default email
   //#region @backend

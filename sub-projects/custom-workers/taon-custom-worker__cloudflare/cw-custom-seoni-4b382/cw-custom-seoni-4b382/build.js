@@ -11,7 +11,7 @@ const ctx = await context({
 	format: 'esm',
 	platform: 'node',
 	treeShaking: true,
-  minify: true,
+  // minify: true,
 	// legalComments: 'none',
 	metafile: true,
 	inject: [

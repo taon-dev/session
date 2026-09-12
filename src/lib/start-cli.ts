@@ -11,17 +11,21 @@ import { DEFAULT_SESSION_EMAIL, DEFAULT_SESSION_PASSWORD } from './index';
 //#endregion
 
 //#region create taon context
-const host = `http://localhost:${Number(
-  Helpers.readFile('.taon/libs-apps-ports/HOST_BACKEND_PORT_1'),
-)}`;
+const host = UtilsOs.isRunningInCloudflareWorker()
+  ? ''
+  : `http://localhost:${Number(
+      Helpers.readFile('.taon/libs-apps-ports/HOST_BACKEND_PORT_1'),
+    )}`;
 // console.log({ overrideRemoteHost });
 
-const TaonSessionActiveCtx = !UtilsOs.isRunningInCliMode()
-  ? ({} as ReturnType<typeof Taon.createContext>)
-  : TaonSessionContext.cloneAsRemote({
-      overrideRemoteHost: host,
-      overrideContextName: 'SessionContext'
-    });
+const TaonSessionActiveCtx = UtilsOs.isRunningInCloudflareWorker()
+  ? ({} as any)
+  : !UtilsOs.isRunningInCliMode()
+    ? ({} as ReturnType<typeof Taon.createContext>)
+    : TaonSessionContext.cloneAsRemote({
+        overrideRemoteHost: host,
+        overrideContextName: 'SessionContext',
+      });
 //#endregion
 
 //#region CLI / global scope

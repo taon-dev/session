@@ -1,6 +1,7 @@
 //#region imports
 import { TaonSessionUserEntity } from '../taon-session-user/taon-session-user.entity';
 import {
+  BooleanColumn,
   Column,
   CreateDateColumn,
   CustomColumn,
@@ -20,7 +21,6 @@ export enum UserIdentityExternal {
   MICROSOFT = 'microsoft',
 }
 
-
 import { TaonSessionUserIdentityDefaultsValues } from './taon-session-user-identity.constants';
 //#endregion
 
@@ -29,28 +29,25 @@ import { TaonSessionUserIdentityDefaultsValues } from './taon-session-user-ident
   createTable: true,
 })
 export class TaonSessionUserIdentityEntity extends TaonBaseAbstractEntity<TaonSessionUserIdentityEntity> {
-
-//#region @websql
-@Column()
-//#endregion
+  //#region @websql
+  @Column({ type: 'int' })
+  //#endregion
   userId!: number;
 
-
-//#region @websql
-@ManyToOne(() => TaonSessionUserEntity, user => user.identities, {
+  //#region @websql
+  @ManyToOne(() => TaonSessionUserEntity, user => user.identities, {
     onDelete: 'CASCADE',
   })
-//#endregion
+  //#endregion
 
-//#region @websql
-@JoinColumn({ name: 'userId' })
-//#endregion
+  //#region @websql
+  @JoinColumn({ name: 'userId' })
+  //#endregion
   user!: TaonSessionUserEntity;
 
-
-//#region @websql
-@Column()
-//#endregion
+  //#region @websql
+  @Column({ type: 'varchar', length: 20 })
+  //#endregion
   provider!: UserIdentityExternal;
 
   /**
@@ -64,9 +61,9 @@ export class TaonSessionUserIdentityEntity extends TaonBaseAbstractEntity<TaonSe
    * you could use User.id/string identifier.
    */
 
-//#region @websql
-@Column()
-//#endregion
+  //#region @websql
+  @Column({ type: 'varchar' })
+  //#endregion
   providerUserId!: string;
 
   /**
@@ -75,35 +72,32 @@ export class TaonSessionUserIdentityEntity extends TaonBaseAbstractEntity<TaonSe
    * Do NOT use this alone as identity.
    */
 
-//#region @websql
-@Column({ nullable: true })
-//#endregion
+  //#region @websql
+  @Column({ nullable: true, type: 'varchar' })
+  //#endregion
   providerEmail?: string;
 
-
-//#region @websql
-@Column({ default: false })
-//#endregion
+  //#region @websql
+  @BooleanColumn(false)
+  //#endregion
   providerEmailVerified!: boolean;
 
   /**
    * Only relevant for PASSWORD identity.
    */
 
-//#region @websql
-@Column({ nullable: true })
-//#endregion
+  //#region @websql
+  @Column({ nullable: true, type: 'varchar' })
+  //#endregion
   passwordHash?: string;
 
-
-//#region @websql
-@CreateDateColumn()
-//#endregion
+  //#region @websql
+  @CreateDateColumn()
+  //#endregion
   createdAt!: Date;
 
-
-//#region @websql
-@UpdateDateColumn()
-//#endregion
+  //#region @websql
+  @UpdateDateColumn()
+  //#endregion
   updatedAt!: Date;
 }

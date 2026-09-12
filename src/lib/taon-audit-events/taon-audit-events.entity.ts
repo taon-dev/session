@@ -23,7 +23,7 @@ export class TaonAuditEventsEntity extends TaonBaseAbstractEntity<TaonAuditEvent
   //#endregion
 
   //#region @websql
-  @Column()
+  @Column({ type: 'varchar' })
   //#endregion
   type!: string;
 
@@ -32,7 +32,7 @@ export class TaonAuditEventsEntity extends TaonBaseAbstractEntity<TaonAuditEvent
    */
 
   //#region @websql
-  @Column({ nullable: true })
+  @Column({ nullable: true, type: 'int' })
   //#endregion
   actorUserId?: number;
 
@@ -41,27 +41,27 @@ export class TaonAuditEventsEntity extends TaonBaseAbstractEntity<TaonAuditEvent
    */
 
   //#region @websql
-  @Column({ nullable: true })
+  @Column({ nullable: true, type: 'varchar' })
   //#endregion
   targetType?: string;
 
   //#region @websql
-  @Column({ nullable: true })
+  @Column({ nullable: true, type: 'varchar' })
   //#endregion
   targetId?: string;
 
   //#region @websql
-  @Column({ nullable: true })
+  @Column({ nullable: true, type: 'int' })
   //#endregion
   sessionId?: number;
 
   //#region @websql
-  @Column({ nullable: true })
+  @Column({ nullable: true, type: 'varchar' })
   //#endregion
   ip?: string;
 
   //#region @websql
-  @Column({ nullable: true })
+  @Column({ nullable: true, type: 'varchar' })
   //#endregion
   userAgent?: string;
 

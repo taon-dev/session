@@ -28,24 +28,22 @@ export class TaonPermissionEntity extends TaonBaseAbstractEntity<TaonPermissionE
    * billing.invoice.read
    */
 
-//#region @websql
-@Index({ unique: true })
-//#endregion
+  //#region @websql
+  @Index({ unique: true })
+  //#endregion
 
-//#region @websql
-@Column()
-//#endregion
+  //#region @websql
+  @Column({ type: 'varchar' })
+  //#endregion
   name!: string;
 
-
-//#region @websql
-@Column({ nullable: true })
-//#endregion
+  //#region @websql
+  @Column({ nullable: true, type: 'varchar' })
+  //#endregion
   description?: string;
 
-
-//#region @websql
-@OneToMany(() => TaonRolePermissionEntity, x => x.permission)
-//#endregion
+  //#region @websql
+  @OneToMany(() => TaonRolePermissionEntity, x => x.permission)
+  //#endregion
   rolePermissions!: TaonRolePermissionEntity[];
 }
