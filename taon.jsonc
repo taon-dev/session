@@ -42,5 +42,6 @@
     "description": "Description for session. Hello world!",
     "private": false,
     "scripts": {},
-  }
+  },
+  "cloudFlareAccountSubdomain": "darekf77"
 }
