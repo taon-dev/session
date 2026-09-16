@@ -6,10 +6,16 @@ import {
 } from 'taon/src';
 
 import startFn from '../../../../../../tmp-source-esm-dist/app';
+import { GlobalStorage } from 'tnp-core/src';
 const app = createFakeExpressApp();
 
 export default {
   fetch: createWorkerAdapter(app, async (overrideHost, req, res, env) => {
+    const TAON_LOCAL_DEV = env.TAON_LOCAL_DEV === 'true';
+    console.log({
+      TAON_LOCAL_DEV
+    })
+    GlobalStorage.set('TAON_LOCAL_DEV',TAON_LOCAL_DEV);
     // console.log('REQUEST DONE!')
     // console.log({ overrideHost });
     // console.log({ env });
