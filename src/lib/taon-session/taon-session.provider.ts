@@ -1,10 +1,23 @@
-import { TaonBaseProvider, TaonProvider } from 'taon/src';
+import { Injectable } from '@angular/core';
+import { TaonBaseClass, TaonBaseProvider, TaonProvider } from 'taon/src';
+import { CoreModels, GlobalStorage, UtilsOs, _ } from 'tnp-core/src';
 
 //#region config classes
 
 //#region config classes / cookies
+const isProduction =
+  !GlobalStorage.get('TAON_LOCAL_DEV') &&
+  (UtilsOs.isRunningInDocker() || UtilsOs.isRunningInCloudflareWorker());
 
-export class TaonSessionCookiesConfig {
+export class TaonSessionCookiesConfig extends TaonBaseClass {
+  declare public ACCESS_TOKEN_SECRET: string;
+
+  declare public REFRESH_TOKEN_SECRET: string;
+
+  declare public ACCESS_TOKEN_EXPIRES: string;
+
+  declare public REFRESH_TOKEN_EXPIRES_SECONDS: number;
+
   declare public accessTokenCookieName: string;
 
   declare public refreshTokenCookieName: string;
@@ -16,14 +29,60 @@ export class TaonSessionCookiesConfig {
   declare public httpOnly: boolean;
 
   constructor() {
+    super();
+    //#region @backend
+    this.ACCESS_TOKEN_SECRET = 'access-secret';
+    this.REFRESH_TOKEN_SECRET = 'refresh-secret';
+    //#endregion
+    this.ACCESS_TOKEN_EXPIRES = '15m';
+    this.REFRESH_TOKEN_EXPIRES_SECONDS = 60 * 60 * 24 * 7;
     this.accessTokenCookieName = 'taon_access_token';
     this.refreshTokenCookieName = 'taon_refresh_token';
-
     this.sameSite = 'lax';
 
-    this.secure = true;
+    this.secure = isProduction;
 
     this.httpOnly = true;
+  }
+}
+//#endregion
+
+//#region config classes / social login config
+export class TaonSessionSocialLoginConfig extends TaonBaseClass {
+  declare public google: {
+    enabled?: boolean;
+    googleClientId?: string;
+  };
+
+  declare public facebook: {
+    enabled?: boolean;
+    facebookClientId?: string;
+  };
+
+  declare public microsoft: {
+    enabled?: boolean;
+    microsoftClientId?: string;
+  };
+
+  declare public apple: {
+    enabled?: boolean;
+    appleClientId?: string;
+  };
+
+  constructor() {
+    super();
+    this.google = {
+      enabled: false,
+    };
+    this.facebook = {
+      enabled: false,
+    };
+    this.microsoft = {
+      enabled: false,
+    };
+    this.apple = {
+      enabled: false,
+    };
   }
 }
 //#endregion
@@ -84,29 +143,48 @@ export class TaonSessionRegistrationConfig {
 
   constructor() {
     this.enabled = true;
-    this.requireEmailConfirmation = true;
-    this.requireRegistrationPassword = false;
+    this.requireEmailConfirmation = false;
+    this.requireRegistrationPassword = true;
     this.allowDuplicateEmail = false;
   }
 }
 //#endregion
 
 //#region config classes / login config
-export class TaonSessionLoginConfig {
-  declare public allowEmailPassword: boolean;
+export class TaonSessionLoginConfig extends TaonBaseClass {
+  declare public diableLoginByEmail: boolean;
+
+  declare public defaultEmail?: string;
+
+  declare public defaultPassword?: string;
+
+  declare public linkToDashboard: string;
+
+  declare public displayDashboardButton: boolean;
 
   /**
+   * TODO
    * Whether FE may check whether email exists
    * before showing password/register screen.
    */
-  declare public exposeEmailExistence: boolean;
+  // declare public exposeEmailExistence: boolean;
 
-  declare public rememberMe: boolean;
+  /**
+   * TODO
+   */
+  // declare public rememberMe: boolean;
 
   constructor() {
-    this.allowEmailPassword = true;
-    this.exposeEmailExistence = true;
-    this.rememberMe = true;
+    super();
+    this.diableLoginByEmail = false;
+    this.linkToDashboard = '/';
+    this.displayDashboardButton = true;
+    // this.exposeEmailExistence = true;
+    // this.rememberMe = true;
+    if (isProduction) {
+      delete this.defaultEmail;
+      delete this.defaultPassword;
+    }
   }
 }
 //#endregion
@@ -127,25 +205,6 @@ export class TaonSessionCheckIfHumanConfig {
     this.duringLoginPassword = false;
 
     this.duringPasswordReset = false;
-  }
-}
-//#endregion
-
-//#region config classes / social login config
-export class TaonSessionSocialLoginConfig {
-  declare public google: boolean;
-
-  declare public facebook: boolean;
-
-  declare public microsoft: boolean;
-
-  declare public apple: boolean;
-
-  constructor() {
-    this.google = false;
-    this.facebook = false;
-    this.microsoft = false;
-    this.apple = false;
   }
 }
 //#endregion
@@ -275,134 +334,49 @@ export class TaonSessionRateLimitsConfig {
 
 //#endregion
 
+export type TaonSessionConfig = Omit<
+  CoreModels.DeepPartial<TaonSessionProvider>,
+  | 'ctx'
+  | '_'
+  | 'getOriginalPrototype'
+  | 'getOriginalConstructor'
+  | '__endpoint_context__'
+>;
+
 @TaonProvider({
   className: 'TaonSessionProvider',
 })
+//#region @browser
+@Injectable()
+//#endregion
 export class TaonSessionProvider extends TaonBaseProvider {
-  //#region @backend
-
-  /**
-   * ⌛ TODO move to cookies
-   */
-  ACCESS_TOKEN_SECRET = 'access-secret';
-
-  /**
-   * ⌛ TODO move to cookies
-   */
-  REFRESH_TOKEN_SECRET = 'refresh-secret';
-
-  //#endregion
-
-  //#region tokens
-
-  /**
-   * ⌛ TODO move to cookies
-   */
-  ACCESS_TOKEN_EXPIRES = '15m';
-
-  /**
-   * ⌛ TODO move to cookies
-   */
-  REFRESH_TOKEN_EXPIRES_SECONDS = 60 * 60 * 24 * 7;
-
-  //#endregion
-
-  //#region cookies
-
-  /**
-   * ⌛ TODO in progress
-   */
   cookies = new TaonSessionCookiesConfig();
 
-  //#endregion
-
-  //#region password
-
-  /**
-   * ⌛ TODO in progress
-   */
-  passwordRequirements = new TaonSessionPasswordRequirementsConfig();
-
-  //#endregion
-
-  //#region registration
-
-  /**
-   * ⌛ TODO in progress
-   */
-  registration = new TaonSessionRegistrationConfig();
-
-  //#endregion
-
-  //#region login
-
-  /**
-   * ⌛ TODO in progress
-   */
   login = new TaonSessionLoginConfig();
 
-  //#endregion
-
-  //#region human verification
-
-  /**
-   * ⌛ TODO in progress
-   */
-  checkIfHuman = new TaonSessionCheckIfHumanConfig();
-
-  //#endregion
-
-  //#region social login
-
-  /**
-   * ⌛ TODO in progress
-   */
   socialLogin = new TaonSessionSocialLoginConfig();
 
-  //#endregion
+  // passwordRequirements = new TaonSessionPasswordRequirementsConfig();
 
-  //#region sessions
+  // registration = new TaonSessionRegistrationConfig();
 
-  /**
-   * ⌛ TODO in progress
-   */
-  sessions = new TaonSessionSessionsConfig();
+  // checkIfHuman = new TaonSessionCheckIfHumanConfig();
 
-  //#endregion
+  // socialLogin = new TaonSessionSocialLoginConfig();
 
-  //#region password recovery
+  // sessions = new TaonSessionSessionsConfig();
 
-  /**
-   * ⌛ TODO in progress
-   */
-  passwordRecovery = new TaonSessionPasswordRecoveryConfig();
+  // passwordRecovery = new TaonSessionPasswordRecoveryConfig();
 
-  //#endregion
+  // emailConfirmation = new TaonSessionEmailConfirmationConfig();
 
-  //#region email confirmation
+  // security = new TaonSessionSecurityConfig();
 
-  /**
-   * ⌛ TODO in progress
-   */
-  emailConfirmation = new TaonSessionEmailConfirmationConfig();
+  // rateLimits = new TaonSessionRateLimitsConfig();
 
-  //#endregion
+  clone(): TaonSessionConfig {
+    const cloned = _.cloneDeep(this);
 
-  //#region security
-
-  /**
-   * ⌛ TODO in progress
-   */
-  security = new TaonSessionSecurityConfig();
-
-  //#endregion
-
-  //#region rate limits
-
-  /**
-   * ⌛ TODO in progress
-   */
-  rateLimits = new TaonSessionRateLimitsConfig();
-
-  //#endregion
+    return cloned;
+  }
 }

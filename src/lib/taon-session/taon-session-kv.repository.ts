@@ -19,9 +19,9 @@ export class TaonSessionKvRepository extends TaonBaseKvRepository {
     //#region @backendFunc
     return await UtilsJwt.sign(
       { userId },
-      this.taonSessionProvider.ACCESS_TOKEN_SECRET,
+      this.taonSessionProvider.cookies.ACCESS_TOKEN_SECRET,
       {
-        expiresIn: this.taonSessionProvider.ACCESS_TOKEN_EXPIRES,
+        expiresIn: this.taonSessionProvider.cookies.ACCESS_TOKEN_EXPIRES,
       },
     );
     //#endregion
@@ -35,15 +35,15 @@ export class TaonSessionKvRepository extends TaonBaseKvRepository {
 
     const expiresAt =
       Date.now() +
-      this.taonSessionProvider.REFRESH_TOKEN_EXPIRES_SECONDS * 1000;
+      this.taonSessionProvider.cookies.REFRESH_TOKEN_EXPIRES_SECONDS * 1000;
 
     await this.set(rtId, { userId, expiresAt });
 
     const token = await UtilsJwt.sign(
       { rtId },
-      this.taonSessionProvider.REFRESH_TOKEN_SECRET,
+      this.taonSessionProvider.cookies.REFRESH_TOKEN_SECRET,
       {
-        expiresIn: this.taonSessionProvider.REFRESH_TOKEN_EXPIRES_SECONDS,
+        expiresIn: this.taonSessionProvider.cookies.REFRESH_TOKEN_EXPIRES_SECONDS,
       },
     );
 
@@ -60,19 +60,19 @@ export class TaonSessionKvRepository extends TaonBaseKvRepository {
   ): void {
     //#region @backendFunc
     res.cookie('accessToken', accessToken, {
-      httpOnly: true,
-      secure: false, // set true in production (HTTPS)
+      httpOnly: this.taonSessionProvider.cookies.httpOnly,
+      secure: this.taonSessionProvider.cookies.secure, // set true in production (HTTPS)
       sameSite: 'lax',
       path: '/',
       maxAge: 1000 * 60 * 15,
     });
 
     res.cookie('refreshToken', refreshToken, {
-      httpOnly: true,
-      secure: false,
+      httpOnly: this.taonSessionProvider.cookies.httpOnly,
+      secure: this.taonSessionProvider.cookies.secure,
       sameSite: 'strict',
       path: '/refresh',
-      maxAge: 1000 * this.taonSessionProvider.REFRESH_TOKEN_EXPIRES_SECONDS,
+      maxAge: 1000 * this.taonSessionProvider.cookies.REFRESH_TOKEN_EXPIRES_SECONDS,
     });
     //#endregion
   }

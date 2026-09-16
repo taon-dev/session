@@ -12,12 +12,16 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { Router, RouterOutlet } from '@angular/router';
+import { walk } from 'lodash-walk-object/src';
 import { _ } from 'tnp-core/src';
 
 import { TaonSessionComponent } from '../taon-session/taon-session.component';
 import { TaonSessionApiService } from '../taon-session-api.service';
+import {
+  TaonSessionConfig,
+  TaonSessionProvider,
+} from '../taon-session.provider';
 import { TaonSessionStateService } from '../taon-session.state.service';
-import { TaonLoginConfig } from '../taon-session.models';
 
 //#endregion
 
@@ -26,7 +30,11 @@ import { TaonLoginConfig } from '../taon-session.models';
   templateUrl: './taon-session-button.component.html',
   styleUrls: ['./taon-session-button.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [TaonSessionApiService, TaonSessionStateService],
+  providers: [
+    TaonSessionApiService,
+    TaonSessionStateService,
+    TaonSessionProvider,
+  ],
   imports: [
     AsyncPipe,
     RouterOutlet,
@@ -40,12 +48,10 @@ export class TaonSessionButtonComponent implements OnInit {
 
   protected readonly taonSessionStateService = inject(TaonSessionStateService);
 
-  @Input({
-    required: true,
-  })
-  config: TaonLoginConfig = {
-    linkToDashboard: '/',
-  };
+  protected readonly taonSessionProvider = inject(TaonSessionProvider);
+
+  @Input()
+  config: TaonSessionConfig;
 
   private readonly dialog = inject(MatDialog);
 
@@ -71,8 +77,8 @@ export class TaonSessionButtonComponent implements OnInit {
 
   //#region go to dashboard
   goDashboard(): void {
-    if (this.config.linkToDashboard) {
-      void this.router.navigateByUrl(this.config.linkToDashboard);
+    if (this.config.login.linkToDashboard) {
+      void this.router.navigateByUrl(this.config.login.linkToDashboard);
     }
   }
   //#endregion
@@ -85,12 +91,30 @@ export class TaonSessionButtonComponent implements OnInit {
 
   //#region hooks / ngOnInit
   ngOnInit(): void {
-    if (!this.config.microsoftClientId) {
+    const config = this.taonSessionProvider.clone();
+    walk.Object(
+      this.config || {},
+      (value, lodashPath) => {
+        _.set(config, lodashPath, value);
+      },
+      {
+        walkGetters: false,
+      },
+    );
+    this.config = config;
+
+    if (
+      this.config.socialLogin.microsoft.enabled &&
+      !this.config.socialLogin.microsoft.microsoftClientId
+    ) {
       console.warn(
         '[taon-session-button] Microsoft client id missing [microsoftClientId]',
       );
     }
-    if (!this.config.googleClientId) {
+    if (
+      this.config.socialLogin.google.enabled &&
+      !this.config.socialLogin.google.googleClientId
+    ) {
       console.warn(
         '[taon-session-button] Google client id missing [googleClientId]',
       );
@@ -98,10 +122,10 @@ export class TaonSessionButtonComponent implements OnInit {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
     // console.log('this.displayDashboardButton', this.displayDashboardButton);
-    this.config.displayDashboardButton = _.isBoolean(
-      this.config.displayDashboardButton,
+    this.config.login.displayDashboardButton = _.isBoolean(
+      this.config.login.displayDashboardButton,
     )
-      ? this.config.displayDashboardButton
+      ? this.config.login.displayDashboardButton
       : true;
   }
   //#endregion

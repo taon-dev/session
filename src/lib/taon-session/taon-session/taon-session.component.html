@@ -85,7 +85,7 @@
           <mat-form-field
             appearance="outline"
             class="w-full email-field">
-            <mat-label *ngIf="!config.diableLoginByEmail">Email</mat-label>
+            <mat-label *ngIf="!diableLoginByEmail">Email</mat-label>
 
             <input
               #emailInput
@@ -94,14 +94,12 @@
               class="pl-1"
               type="email"
               [placeholder]="
-                config.diableLoginByEmail
-                  ? t.gettext('Login by email (disabled)')
-                  : ''
+                diableLoginByEmail ? t.gettext('Login by email (disabled)') : ''
               " />
 
             <button
               mat-icon-button
-              [disabled]="config.diableLoginByEmail"
+              [disabled]="diableLoginByEmail"
               matSuffix
               color="primary">
               <mat-icon>mail</mat-icon>
@@ -127,13 +125,13 @@
 
         <div
           class="divider"
-          *ngIf="config.googleClientId || config.microsoftClientId">
+          *ngIf="googleClientId || microsoftClientId">
           <span translate>or</span>
         </div>
 
         <!-- GOOGLE BUTTON -->
         <div
-          *ngIf="config.googleClientId"
+          *ngIf="googleClientId"
           #googleBtn
           class="google-container">
           <span
@@ -150,7 +148,7 @@
 
         <!-- MICROSOFT BUTTON -->
         <div
-          *ngIf="config.microsoftClientId"
+          *ngIf="microsoftClientId"
           #microsoftBtn
           class="microsoft-container">
           <button

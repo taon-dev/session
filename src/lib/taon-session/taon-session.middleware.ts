@@ -40,7 +40,7 @@ export class TaonSessionMiddleware extends TaonBaseMiddleware {
     try {
       const payload = await UtilsJwt.verify(
         token,
-        this.taonSessionProvider.ACCESS_TOKEN_SECRET,
+        this.taonSessionProvider.cookies.ACCESS_TOKEN_SECRET,
       ) as any;
       (req as any).userId = payload.userId;
       next();

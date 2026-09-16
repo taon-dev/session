@@ -86,7 +86,7 @@ export class TaonSessionApiService extends TaonBaseAngularService {
         return userExists;
       }),
       catchError(() => {
-        opt.goToPreviouseState()
+        opt.goToPreviouseState();
         return NEVER;
       }),
     );

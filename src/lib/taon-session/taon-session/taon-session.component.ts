@@ -30,20 +30,25 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RouterOutlet } from '@angular/router';
 import { MtxLoaderModule } from '@ng-matero/extensions/loader';
 import { Translation, TranslateDirective } from '@taon-dev/i18n/src';
+import { walk } from 'lodash-walk-object/src';
 import { Subscription, take } from 'rxjs';
 import { Taon } from 'taon/src';
 import {
   TaonSlideContentContentChildComponent,
   TaonSlideContentComponent,
 } from 'taon-ui/src';
+import { _ } from 'tnp-core/src';
 
 import { TaonSessionApiService } from '../taon-session-api.service';
 import {
   TaonErorsMap,
-  TaonLoginConfig,
   TaonLoginErrors,
   TaonSessionState,
 } from '../taon-session.models';
+import {
+  TaonSessionConfig,
+  TaonSessionProvider,
+} from '../taon-session.provider';
 import { TaonSessionStateService } from '../taon-session.state.service';
 import { TaonSessionValidator } from '../taon-session.validators';
 //#endregion
@@ -55,7 +60,11 @@ const t = Translation.for(Taon.__FILE_RELATIVE_PATH, Taon.LANG_IMPORT_MAP);
   templateUrl: './taon-session.component.html',
   styleUrls: ['./taon-session.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [TaonSessionApiService, TaonSessionStateService],
+  providers: [
+    TaonSessionApiService,
+    TaonSessionStateService,
+    TaonSessionProvider,
+  ],
   imports: [
     //#region imports
     AsyncPipe,
@@ -86,10 +95,8 @@ const t = Translation.for(Taon.__FILE_RELATIVE_PATH, Taon.LANG_IMPORT_MAP);
 export class TaonSessionComponent implements AfterViewInit, OnInit, OnDestroy {
   //#region fields & getters
 
-  @Input({
-    required: true,
-  })
-  public config: TaonLoginConfig;
+  @Input()
+  public config: TaonSessionConfig;
 
   @ViewChild('emailInput')
   private emailInput?: ElementRef<HTMLInputElement>;
@@ -116,6 +123,9 @@ export class TaonSessionComponent implements AfterViewInit, OnInit, OnDestroy {
   protected readonly taonSessionStateService: TaonSessionStateService = inject(
     TaonSessionStateService,
   );
+
+  protected readonly taonSessionProvider: TaonSessionProvider =
+    inject(TaonSessionProvider);
 
   protected form = new FormGroup(
     {
@@ -159,6 +169,18 @@ export class TaonSessionComponent implements AfterViewInit, OnInit, OnDestroy {
 
   public get isInsideDialog(): boolean {
     return !!this.dialogRef;
+  }
+
+  get googleClientId(): string {
+    return this.config.socialLogin.google.googleClientId;
+  }
+
+  get microsoftClientId(): string {
+    return this.config.socialLogin.microsoft.microsoftClientId;
+  }
+
+  get diableLoginByEmail(): boolean {
+    return this.config.login.diableLoginByEmail;
   }
 
   //#endregion
@@ -220,14 +242,26 @@ export class TaonSessionComponent implements AfterViewInit, OnInit, OnDestroy {
 
   //#region hooks
   ngOnInit(): void {
+    const config = this.taonSessionProvider.clone();
+    walk.Object(
+      this.config || {},
+      (value, lodashPath) => {
+        _.set(config, lodashPath, value);
+      },
+      {
+        walkGetters: false,
+      },
+    );
+    this.config = config;
+
     this.isLoggedIn$.pipe(take(1)).subscribe();
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
-    if (!this.config.linkToDashboard) {
+    if (!this.config.login.linkToDashboard) {
       throw `Please provide config input to taon-session (or taon-session-button) component`;
     }
-    if (this.config.defaultEmail) {
-      this.form.controls.email.setValue(this.config.defaultEmail);
+    if (this.config.login.defaultEmail) {
+      this.form.controls.email.setValue(this.config.login.defaultEmail);
     }
 
     this.resetPasswordScreen();
@@ -240,10 +274,12 @@ export class TaonSessionComponent implements AfterViewInit, OnInit, OnDestroy {
   //#region reset password field
   public resetPasswordScreen() {
     this.form.controls.password.reset();
-    this.form.controls.password.setValue(this.config.defaultPassword || '');
+    this.form.controls.password.setValue(
+      this.config.login.defaultPassword || '',
+    );
     this.form.controls.passwordRepeat.reset();
     this.form.controls.passwordRepeat.setValue(
-      this.config.defaultPassword || '',
+      this.config.login.defaultPassword || '',
     );
   }
   //#endregion

@@ -36,8 +36,12 @@ export const TaonSessionContext = createContext(() => ({
   repositories: { TaonSessionKvRepository },
   providers: {
     TaonSessionProvider,
-    // TOOD create stat new .state.ts class for state abstraction
-    // , TaonSessionStateService
+    /**
+     * TODO somehow inject(TaonSessionApiService)
+     * when creating manuall instace of TaonSessionStateService.
+     * This state service could usefull on backend
+     */
+    // TaonSessionStateService,
   },
   logs: true,
   disabledRealtime: true,

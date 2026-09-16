@@ -46,7 +46,7 @@ import Aura from '@primeng/themes/aura'; // @browser
 import {
   DEFAULT_SESSION_EMAIL,
   DEFAULT_SESSION_PASSWORD,
-  TaonLoginConfig,
+  TaonSessionConfig,
   TaonSessionContext,
   TaonSessionProvider,
   TaonSessionUserEntity,
@@ -148,8 +148,8 @@ const DEFAULT_EMAIL = DEFAULT_SESSION_EMAIL;
 export class SessionApp implements OnInit {
   /**Required for proper theme*/
 
-  config: TaonLoginConfig = {
-    linkToDashboard: '/',
+  config: TaonSessionConfig = {
+    // linkToDashboard: '/',
     // defaultEmail: DEFAULT_EMAIL,
     // defaultPassword: DEFAULT_PASSWORD,
   };

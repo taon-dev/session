@@ -22,6 +22,10 @@ import {
   TaonLoginErrors,
   TaonSessionState,
 } from './taon-session.models';
+import {
+  TaonSessionConfig,
+  TaonSessionProvider,
+} from './taon-session.provider';
 //#endregion
 
 //#region @backend

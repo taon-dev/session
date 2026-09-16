@@ -141,7 +141,7 @@ export class TaonSessionController extends TaonBaseController {
       try {
         const payload = (await UtilsJwt.verify(
           token,
-          this.taonSessionProvider.REFRESH_TOKEN_SECRET,
+          this.taonSessionProvider.cookies.REFRESH_TOKEN_SECRET,
         )) as any;
 
         const session = await this.taonSessionKvRepository.get(payload.rtId);
@@ -202,7 +202,7 @@ export class TaonSessionController extends TaonBaseController {
         try {
           const payload = (await UtilsJwt.verify(
             token,
-            this.taonSessionProvider.REFRESH_TOKEN_SECRET,
+            this.taonSessionProvider.cookies.REFRESH_TOKEN_SECRET,
           )) as any;
           await this.taonSessionKvRepository.delete(payload.rtId);
         } catch (error) {

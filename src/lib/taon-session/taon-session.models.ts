@@ -8,18 +8,6 @@ export interface TaonLoginData {
   password?: string;
 }
 
-export interface TaonLoginConfig {
-  googleClientId?: string;
-  microsoftClientId?: string;
-  diableLoginByEmail?: boolean;
-  defaultEmail?: string;
-  defaultPassword?: string;
-  enable2faEmail?: boolean;
-  enable2faAuthenticator?: boolean;
-  linkToDashboard: string;
-  displayDashboardButton?: boolean;
-}
-
 export enum TaonSessionState {
   LOADING_INITIAL_AUTH_INFO = 'LOADING_INITIAL_AUTH_INFO',
   LOGIN_OR_REGISTER = 'LOGIN_OR_REGISTER',
@@ -33,6 +21,9 @@ export enum TaonSessionState {
   TWO_FA_SMS = 'TWO_FA_SMS',
   TWO_FA_AUTHENTICATOR = 'TWO_FA_AUTHENTICATOR',
   LOGIN_SUCCESS = 'LOGIN_SUCCESS',
+  PROFILE_INFO = 'PROFILE_INFO',
+  PASSWORD_CHANGE = 'PASSWORD_CHANGE',
+  AVATAR_CHANGE = 'AVATAR_CHANGE',
 }
 
 export enum TaonLoginErrors {
