@@ -17,8 +17,8 @@ import { TaonSessionProvider } from './taon-session.provider';
 import { TaonSessionStateService } from './taon-session.state.service';
 //#endregion
 
-export const TaonSessionContext = createContext(() => ({
-  contextName: 'TaonSessionContext',
+export const TaonSessionAbstractContext = createContext(() => ({
+  contextName: 'TaonSessionAbstractContext',
   abstract: true,
   contexts: {
     TaonBaseContext,

@@ -4,7 +4,7 @@ import { UtilsJson, UtilsOs, UtilsTerminal } from 'tnp-core/src';
 import { Helpers, BaseCommandLineFeature } from 'tnp-helpers/src';
 import { BaseProject, BaseStartConfig } from 'tnp-helpers/src'; // @backend
 
-import { TaonSessionContext, TaonSessionController } from './taon-session';
+import { TaonSessionAbstractContext, TaonSessionController } from './taon-session';
 
 import { DEFAULT_SESSION_EMAIL, DEFAULT_SESSION_PASSWORD } from './index';
 
@@ -22,7 +22,7 @@ const TaonSessionActiveCtx = UtilsOs.isRunningInCloudflareWorker()
   ? ({} as any)
   : !UtilsOs.isRunningInCliMode()
     ? ({} as ReturnType<typeof Taon.createContext>)
-    : TaonSessionContext.cloneAsRemote({
+    : TaonSessionAbstractContext.cloneAsRemote({
         overrideRemoteHost: host,
         overrideContextName: 'SessionContext',
       });

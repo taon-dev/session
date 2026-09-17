@@ -47,7 +47,7 @@ import {
   DEFAULT_SESSION_EMAIL,
   DEFAULT_SESSION_PASSWORD,
   TaonSessionConfig,
-  TaonSessionContext,
+  TaonSessionAbstractContext,
   TaonSessionProvider,
   TaonSessionUserEntity,
   TaonSessionUserRepository,
@@ -306,7 +306,7 @@ var SessionContext = Taon.createContext(() => ({
   ...HOST_CONFIG['SessionContext'],
   contexts: {
     TaonBaseContext,
-    TaonSessionContext,
+    TaonSessionAbstractContext,
   },
   // logs: true,
   logs: {
