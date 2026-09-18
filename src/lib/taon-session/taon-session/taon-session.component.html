@@ -174,12 +174,12 @@
           {{ t.gettext('Login') }}
         </button> -->
 
-        <button
+        <!-- <button
           *ngIf="isInsideDialog"
           mat-button
           mat-dialog-close>
           {{ t.gettext('Cancel') }}
-        </button>
+        </button> -->
       </div>
     </div>
     <!-- #endregion -->
@@ -354,6 +354,29 @@
         class="mb-3"
         translate>
         Login Successfully
+      </h4>
+
+      @if (!isInsideDialog) {
+        <div class="w-full pt-3">
+          <!-- success stuff -->
+          <button
+            mat-button
+            (click)="logout()">
+            Logout
+          </button>
+        </div>
+      }
+    </div>
+    <!-- #endregion -->
+  </taon-slide-content-child>
+
+  <taon-slide-content-child [assignToState]="TaonSessionState.PROFILE_INFO">
+    <!-- #region profile info -->
+    <div class="p-5">
+      <h4
+        class="mb-3"
+        translate>
+        Welcome
       </h4>
 
       <div class="w-full pt-3">

@@ -97,7 +97,19 @@ export class TaonSessionStateService extends TaonBaseProvider {
     ],
     [
       TaonSessionState.LOGIN_SUCCESS,
-      [TaonSessionState.LOADING_LOGOUT_INFO, TaonSessionState.ENTER_PASSWORD],
+      [
+        TaonSessionState.LOADING_LOGOUT_INFO,
+        TaonSessionState.ENTER_PASSWORD,
+        TaonSessionState.PROFILE_INFO,
+      ],
+    ],
+    [
+      TaonSessionState.PROFILE_INFO,
+      [
+        TaonSessionState.LOGIN_SUCCESS,
+        TaonSessionState.LOADING_LOGOUT_INFO,
+        TaonSessionState.ENTER_PASSWORD,
+      ],
     ],
     [
       TaonSessionState.LOADING_LOGOUT_INFO,

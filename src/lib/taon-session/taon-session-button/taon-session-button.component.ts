@@ -21,6 +21,7 @@ import {
   TaonSessionProvider,
 } from '../taon-session.provider';
 import { TaonSessionStateService } from '../taon-session.state.service';
+import { TaonSessionState } from '../taon-session.models';
 
 //#endregion
 
@@ -83,8 +84,17 @@ export class TaonSessionButtonComponent implements OnInit {
   //#endregion
 
   //#region logout
-  logout(): void {
-    this.taonSessionStateService.logout();
+  profile(): void {
+    const instance = this.dialog.open(TaonSessionComponent, {
+      width: '410px',
+      data: null,
+      autoFocus: true,
+    });
+    const classInstance = instance.componentInstance;
+    classInstance.config = this.config;
+    classInstance.taonSessionStateService = this.taonSessionStateService;
+
+    this.taonSessionStateService.state.set(TaonSessionState.PROFILE_INFO);
   }
   //#endregion
 
