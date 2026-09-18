@@ -13,7 +13,12 @@
 <!-- STATE: {{ state.currentValue }} <br /> -->
 <!-- ERRORS: {{ form.errors | json }} <br /> -->
 <!-- IS LOGGED IN: {{ isLoggedIn$ | async }}<br /> -->
-
+<h1 class="flex items-center justify-center pt-10">
+  <mat-icon
+    class="!w-[100px] !h-[100px] !text-[100px] !leading-[100px]"
+    fontIcon="account_circle">
+  </mat-icon>
+</h1>
 <taon-slide-content
   #slide
   [whenAllowedAnimationMap]="whenAllowedAnimationMap">

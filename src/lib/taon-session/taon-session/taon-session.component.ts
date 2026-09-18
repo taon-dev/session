@@ -64,6 +64,7 @@ const t = Translation.for(Taon.__FILE_RELATIVE_PATH, Taon.LANG_IMPORT_MAP);
     TaonSessionApiService,
     TaonSessionStateService,
     TaonSessionProvider,
+    MatIconModule,
   ],
   imports: [
     //#region imports
@@ -120,7 +121,7 @@ export class TaonSessionComponent implements AfterViewInit, OnInit, OnDestroy {
 
   protected emailRegex = /^[a-zA-Z0-9._%+-]+@(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$/;
 
-  protected readonly taonSessionStateService: TaonSessionStateService = inject(
+  public taonSessionStateService: TaonSessionStateService = inject(
     TaonSessionStateService,
   );
 
@@ -315,6 +316,12 @@ export class TaonSessionComponent implements AfterViewInit, OnInit, OnDestroy {
     this.sub.add(
       this.taonSessionStateService.state.currentState$.subscribe(
         ({ currentState, previousState }) => {
+          if (
+            currentState === TaonSessionState.LOGIN_SUCCESS &&
+            this.isInsideDialog
+          ) {
+            this.close();
+          }
           this.form.controls.state.setValue(currentState);
           this.updateValidatorsFor(currentState);
           // console.log({ newState });

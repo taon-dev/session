@@ -4,7 +4,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
-  Injector,
   Input,
   OnInit,
 } from '@angular/core';
@@ -57,8 +56,6 @@ export class TaonSessionButtonComponent implements OnInit {
 
   private readonly router = inject(Router);
 
-  private readonly injector = inject(Injector);
-
   //#endregion
 
   constructor() {}
@@ -70,8 +67,10 @@ export class TaonSessionButtonComponent implements OnInit {
       width: '410px',
       data: null,
       autoFocus: true,
-    }).componentInstance;
-    instance.config = this.config;
+    });
+    const classInstance = instance.componentInstance;
+    classInstance.config = this.config;
+    classInstance.taonSessionStateService = this.taonSessionStateService;
   }
   //#endregion
 
