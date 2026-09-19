@@ -14,7 +14,7 @@
 <!-- ERRORS: {{ form.errors | json }} <br /> -->
 <!-- IS LOGGED IN: {{ isLoggedIn$ | async }}<br /> -->
 
-<button (click)="test()" >test</button>
+<!-- <button (click)="test()" >test</button> -->
 <h1 class="flex items-center justify-center pt-10">
   <mat-icon
     class="!w-[100px] !h-[100px] !text-[100px] !leading-[100px]"
@@ -130,14 +130,18 @@
           </mat-form-field>
         </form>
 
-        <div
-          class="divider"
-          *ngIf="googleClientId || microsoftClientId">
-          <span translate>or</span>
-        </div>
+        @if (isAnySocialLoginEnabled) {
+          <div class="divider">
+            <span translate>or</span>
+          </div>
+        }
 
         <!-- GOOGLE BUTTON -->
-        <div
+        @if (googleClientId) {
+          <google-login-register-button></google-login-register-button>
+        }
+
+        <!-- <div
           *ngIf="googleClientId"
           #googleBtn
           class="google-container">
@@ -151,7 +155,7 @@
             *ngIf="!googleButtonLoaded"
             mode="indeterminate"
             class="auth-progress" />
-        </div>
+        </div> -->
 
         <!-- MICROSOFT BUTTON -->
         <div

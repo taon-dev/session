@@ -52,6 +52,8 @@ import {
 } from '../taon-session.provider';
 import { TaonSessionStateService } from '../taon-session.state.service';
 import { TaonSessionValidator } from '../taon-session.validators';
+
+import { GoogleLoginRegisterButtonComponent } from './social-buttons/google-login-register-button.component';
 //#endregion
 
 const t = Translation.for(Taon.__FILE_RELATIVE_PATH, Taon.LANG_IMPORT_MAP);
@@ -92,6 +94,7 @@ const t = Translation.for(Taon.__FILE_RELATIVE_PATH, Taon.LANG_IMPORT_MAP);
     TaonSlideContentComponent,
     TaonSlideContentContentChildComponent,
     A11yModule,
+    GoogleLoginRegisterButtonComponent,
     //#endregion
   ],
 })
@@ -182,6 +185,10 @@ export class TaonSessionComponent implements AfterViewInit, OnInit, OnDestroy {
     return this.config.socialLogin.microsoft.microsoftClientId;
   }
 
+  get isAnySocialLoginEnabled(): boolean {
+    return this.config.socialLogin.isAnySocialLoginEnabled;
+  }
+
   get diableLoginByEmail(): boolean {
     return this.config.login.diableLoginByEmail;
   }
@@ -224,7 +231,9 @@ export class TaonSessionComponent implements AfterViewInit, OnInit, OnDestroy {
   private focusMainInput(state: TaonSessionState): void {
     switch (state) {
       case TaonSessionState.LOGIN_OR_REGISTER:
-        this.emailInput?.nativeElement.focus();
+        if (!this.config.socialLogin.isAnySocialLoginEnabled) {
+          this.emailInput?.nativeElement.focus();
+        }
         break;
 
       case TaonSessionState.ENTER_PASSWORD:
@@ -243,11 +252,6 @@ export class TaonSessionComponent implements AfterViewInit, OnInit, OnDestroy {
   }
   //#endregion
 
-  test() {
-    const config = this.taonSessionConfigService.clone();
-    console.log(JSON.stringify(config.socialLogin.google));
-  }
-
   //#region hooks
   ngOnInit(): void {
     const config = this.taonSessionConfigService.clone();
@@ -261,8 +265,6 @@ export class TaonSessionComponent implements AfterViewInit, OnInit, OnDestroy {
       },
     );
     this.config = config;
-    console.log(JSON.stringify(config.socialLogin.google));
-
     this.isLoggedIn$.pipe(take(1)).subscribe();
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.

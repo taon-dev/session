@@ -311,8 +311,7 @@ class TaonSessionProviderOverride extends TaonSessionProvider {
     super();
     this.socialLogin.google.enabled = true;
     this.socialLogin.google.googleClientId =
-      '289576612173-72ijl0ca3hfj3mbu60csmag03mr719f9.apps.googleusercontent.com';
-    console.log('CHNAGED', JSON.stringify(this.socialLogin.google));
+      '289576612173-2mh31b67pmq2qdes5jedno9tr1m542es.apps.googleusercontent.com';
   }
 }
 

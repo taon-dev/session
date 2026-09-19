@@ -110,3 +110,4 @@ export * from './taon-session-user-identity/taon-session-user-identity.subscribe
 export * from './taon-session-user-identity/taon-session-user-identity.utils'; 
 export * from './taon-session/taon-session/taon-session.component'; // @browser
 export * from './taon-session/taon-session-button/taon-session-button.component'; // @browser
+export * from './taon-session/taon-session/social-buttons/google-login-register-button.component'; // @browser

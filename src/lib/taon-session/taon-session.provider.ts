@@ -84,6 +84,15 @@ export class TaonSessionSocialLoginConfig extends TaonBaseClass {
       enabled: false,
     };
   }
+
+  public get isAnySocialLoginEnabled(): boolean {
+    return (
+      this.google.enabled ||
+      this.microsoft.enabled ||
+      this.facebook.enabled ||
+      this.apple.enabled
+    );
+  }
 }
 //#endregion
 
@@ -376,9 +385,6 @@ export class TaonSessionProvider extends TaonBaseProvider {
       cookies: this.cookies.clone(),
       login: this.login.clone(),
       socialLogin: this.socialLogin.clone(),
-      // cookies: this.cookies,
-      // login: this.login,
-      // socialLogin: this.socialLogin,
     };
   }
 }
