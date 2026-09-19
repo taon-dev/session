@@ -16,16 +16,12 @@ import { signal } from 'tnp-core/src';
 import { TaonStateMachine } from 'tnp-core/src';
 
 import type { TaonSessionComponent } from './taon-session/taon-session.component'; // @browser
-import { TaonSessionApiService } from './taon-session-api.service'; // @browser
+import { TaonSessionApiService } from './taon-session.api.service'; // @browser
 import {
   TaonErorsMap,
   TaonLoginErrors,
   TaonSessionState,
 } from './taon-session.models';
-import {
-  TaonSessionConfig,
-  TaonSessionProvider,
-} from './taon-session.provider';
 //#endregion
 
 //#region @backend

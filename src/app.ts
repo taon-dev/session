@@ -73,6 +73,8 @@ import {
   TaonMigration,
   TaonBaseMigration,
   TaonContext,
+  TaonProvider,
+  ClassHelpers,
 } from 'taon/src';
 import { TaonAdminService, TaonAdmin } from 'taon/src'; // @browser
 import { TaonStor } from 'taon-storage/src';
@@ -301,6 +303,19 @@ export const SessionConfig = mergeApplicationConfig(
 //#endregion
 //#endregion
 
+@TaonProvider({
+  className: 'TaonSessionProvider',
+})
+class TaonSessionProviderOverride extends TaonSessionProvider {
+  constructor() {
+    super();
+    this.socialLogin.google.enabled = true;
+    this.socialLogin.google.googleClientId =
+      '289576612173-72ijl0ca3hfj3mbu60csmag03mr719f9.apps.googleusercontent.com';
+    console.log('CHNAGED', JSON.stringify(this.socialLogin.google));
+  }
+}
+
 //#region  taon-jwt-cookie-header-session context
 var SessionContext = Taon.createContext(() => ({
   ...HOST_CONFIG['SessionContext'],
@@ -314,6 +329,9 @@ var SessionContext = Taon.createContext(() => ({
     // framework: true,
     routes: true,
     // db: true,
+  },
+  providers: {
+    [ClassHelpers.getName(TaonSessionProvider)]: TaonSessionProviderOverride,
   },
 
   session: true,

@@ -15,7 +15,7 @@ import { _, UtilsJwt } from 'tnp-core/src';
 import { TaonSessionUserEntity } from '../taon-session-user';
 import { TaonSessionUserRepository } from '../taon-session-user/taon-session-user.repository';
 
-import { TaonSessionKvRepository } from './taon-session-kv.repository';
+import { TaonSessionKvRepository } from './taon-session.kv.repository';
 import { TaonSessionMiddleware } from './taon-session.middleware';
 import { TaonLoginData } from './taon-session.models';
 import { TaonSessionProvider } from './taon-session.provider';

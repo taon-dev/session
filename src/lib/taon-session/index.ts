@@ -1,7 +1,8 @@
 export * from './taon-session';
 export * from './taon-session-button'; // @browser
-export * from './taon-session-api.service'; // @browser
-export * from './taon-session-kv.repository';
+export * from './taon-session.api.service'; // @browser
+export * from './taon-session.config.service'; // @browser
+export * from './taon-session.kv.repository';
 export * from './taon-session.abstract.context';
 export * from './taon-session.controller';
 export * from './taon-session.middleware';

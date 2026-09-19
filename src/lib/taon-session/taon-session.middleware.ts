@@ -8,7 +8,7 @@ import {
 } from 'taon/src';
 import { _, UtilsJwt } from 'tnp-core/src';
 
-import { TaonSessionKvRepository } from './taon-session-kv.repository';
+import { TaonSessionKvRepository } from './taon-session.kv.repository';
 import { TaonSessionProvider } from './taon-session.provider';
 //#endregion
 

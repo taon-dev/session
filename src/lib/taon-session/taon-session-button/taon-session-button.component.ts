@@ -15,13 +15,11 @@ import { walk } from 'lodash-walk-object/src';
 import { _ } from 'tnp-core/src';
 
 import { TaonSessionComponent } from '../taon-session/taon-session.component';
-import { TaonSessionApiService } from '../taon-session-api.service';
-import {
-  TaonSessionConfig,
-  TaonSessionProvider,
-} from '../taon-session.provider';
-import { TaonSessionStateService } from '../taon-session.state.service';
+import { TaonSessionApiService } from '../taon-session.api.service';
+import { TaonSessionConfigService } from '../taon-session.config.service';
 import { TaonSessionState } from '../taon-session.models';
+import { TaonSessionConfig } from '../taon-session.provider';
+import { TaonSessionStateService } from '../taon-session.state.service';
 
 //#endregion
 
@@ -33,7 +31,7 @@ import { TaonSessionState } from '../taon-session.models';
   providers: [
     TaonSessionApiService,
     TaonSessionStateService,
-    TaonSessionProvider,
+    TaonSessionConfigService,
   ],
   imports: [
     AsyncPipe,
@@ -48,7 +46,9 @@ export class TaonSessionButtonComponent implements OnInit {
 
   protected readonly taonSessionStateService = inject(TaonSessionStateService);
 
-  protected readonly taonSessionProvider = inject(TaonSessionProvider);
+  protected readonly taonSessionConfigService = inject(
+    TaonSessionConfigService,
+  );
 
   @Input()
   config: TaonSessionConfig;
@@ -100,7 +100,7 @@ export class TaonSessionButtonComponent implements OnInit {
 
   //#region hooks / ngOnInit
   ngOnInit(): void {
-    const config = this.taonSessionProvider.clone();
+    const config = this.taonSessionConfigService.clone();
     walk.Object(
       this.config || {},
       (value, lodashPath) => {

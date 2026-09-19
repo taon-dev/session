@@ -39,7 +39,8 @@ import {
 } from 'taon-ui/src';
 import { _ } from 'tnp-core/src';
 
-import { TaonSessionApiService } from '../taon-session-api.service';
+import { TaonSessionApiService } from '../taon-session.api.service';
+import { TaonSessionConfigService } from '../taon-session.config.service';
 import {
   TaonErorsMap,
   TaonLoginErrors,
@@ -64,6 +65,7 @@ const t = Translation.for(Taon.__FILE_RELATIVE_PATH, Taon.LANG_IMPORT_MAP);
     TaonSessionApiService,
     TaonSessionStateService,
     TaonSessionProvider,
+    TaonSessionConfigService,
     MatIconModule,
   ],
   imports: [
@@ -125,8 +127,8 @@ export class TaonSessionComponent implements AfterViewInit, OnInit, OnDestroy {
     TaonSessionStateService,
   );
 
-  protected readonly taonSessionProvider: TaonSessionProvider =
-    inject(TaonSessionProvider);
+  protected readonly taonSessionConfigService: TaonSessionConfigService =
+    inject(TaonSessionConfigService);
 
   protected form = new FormGroup(
     {
@@ -241,9 +243,14 @@ export class TaonSessionComponent implements AfterViewInit, OnInit, OnDestroy {
   }
   //#endregion
 
+  test() {
+    const config = this.taonSessionConfigService.clone();
+    console.log(JSON.stringify(config.socialLogin.google));
+  }
+
   //#region hooks
   ngOnInit(): void {
-    const config = this.taonSessionProvider.clone();
+    const config = this.taonSessionConfigService.clone();
     walk.Object(
       this.config || {},
       (value, lodashPath) => {
@@ -254,6 +261,7 @@ export class TaonSessionComponent implements AfterViewInit, OnInit, OnDestroy {
       },
     );
     this.config = config;
+    console.log(JSON.stringify(config.socialLogin.google));
 
     this.isLoggedIn$.pipe(take(1)).subscribe();
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.

@@ -346,9 +346,6 @@ export type TaonSessionConfig = Omit<
 @TaonProvider({
   className: 'TaonSessionProvider',
 })
-//#region @browser
-@Injectable()
-//#endregion
 export class TaonSessionProvider extends TaonBaseProvider {
   cookies = new TaonSessionCookiesConfig();
 
@@ -375,8 +372,13 @@ export class TaonSessionProvider extends TaonBaseProvider {
   // rateLimits = new TaonSessionRateLimitsConfig();
 
   clone(): TaonSessionConfig {
-    const cloned = _.cloneDeep(this);
-
-    return cloned;
+    return {
+      cookies: this.cookies.clone(),
+      login: this.login.clone(),
+      socialLogin: this.socialLogin.clone(),
+      // cookies: this.cookies,
+      // login: this.login,
+      // socialLogin: this.socialLogin,
+    };
   }
 }

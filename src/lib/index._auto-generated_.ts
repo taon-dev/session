@@ -72,11 +72,12 @@ export * from './taon-role/taon-role.provider';
 export * from './taon-role/taon-role.repository'; 
 export * from './taon-role/taon-role.subscriber'; 
 export * from './taon-role/taon-role.utils'; 
-export * from './taon-session/taon-session-api.service'; // @browser
-export * from './taon-session/taon-session-kv.repository'; 
 export * from './taon-session/taon-session.abstract.context'; 
+export * from './taon-session/taon-session.api.service'; // @browser
+export * from './taon-session/taon-session.config.service'; // @browser
 export * from './taon-session/taon-session.controller'; 
 export * from './taon-session/taon-session.entity'; 
+export * from './taon-session/taon-session.kv.repository'; 
 export * from './taon-session/taon-session.middleware'; 
 export * from './taon-session/taon-session.models'; 
 export * from './taon-session/taon-session.provider'; 
