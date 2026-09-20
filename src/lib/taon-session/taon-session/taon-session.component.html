@@ -91,6 +91,9 @@
           (ngSubmit)="executeActionForState()"
           class="w-full">
           <mat-form-field
+            [ngClass]="{
+              'cursor-not-allowed pointer-events-none select-none': diableLoginByEmail,
+            }"
             appearance="outline"
             class="w-full email-field">
             <mat-label *ngIf="!diableLoginByEmail">Email</mat-label>

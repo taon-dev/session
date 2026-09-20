@@ -322,6 +322,7 @@ class TaonSessionProviderOverride extends TaonSessionProvider {
   async _() {
     const googleSecret = await ENV_ANGULAR_NODE_APP_CONFIG_GOOGLE_SECRET();
     this.socialLogin.google.googleSecret = googleSecret;
+    await super._();
   }
   //#endregion
 }

@@ -321,6 +321,7 @@ export class TaonSessionComponent implements AfterViewInit, OnInit, OnDestroy {
       },
     );
     this.config = config;
+
     this.isLoggedIn$.pipe(take(1)).subscribe();
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
@@ -391,7 +392,8 @@ export class TaonSessionComponent implements AfterViewInit, OnInit, OnDestroy {
     const { email, password, passwordRepeat } = this.form.controls;
 
     email.setValidators(
-      state === TaonSessionState.LOGIN_OR_REGISTER
+      state === TaonSessionState.LOGIN_OR_REGISTER &&
+        !this.config?.login.diableLoginByEmail
         ? [Validators.required, Validators.pattern(this.emailRegex)]
         : [],
     );
@@ -409,7 +411,10 @@ export class TaonSessionComponent implements AfterViewInit, OnInit, OnDestroy {
         : [],
     );
 
-    email.updateValueAndValidity();
+    if (!this.config?.login.diableLoginByEmail) {
+      email.updateValueAndValidity();
+    }
+
     password.updateValueAndValidity();
     passwordRepeat.updateValueAndValidity();
   }

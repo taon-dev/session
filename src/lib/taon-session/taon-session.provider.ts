@@ -87,7 +87,7 @@ export class TaonSessionSocialLoginConfig extends TaonBaseClass {
   }
 
   public get isAnySocialLoginEnabled(): boolean {
-    return (
+    return !!(
       this.google.enabled ||
       this.microsoft.enabled ||
       this.facebook.enabled ||
@@ -385,6 +385,18 @@ export class TaonSessionProvider extends TaonBaseProvider {
   // security = new TaonSessionSecurityConfig();
 
   // rateLimits = new TaonSessionRateLimitsConfig();
+
+  async _() {
+    // TODO @UNCOMMENT disabled login by email when not on localhost
+    const originUrl = this.ctx.frontendHostUri;
+    const isLocalhost =
+      originUrl.hostname === 'localhost' ||
+      originUrl.hostname === '127.0.0.1' ||
+      originUrl.hostname === '[::1]';
+    if (!isLocalhost) {
+      this.login.diableLoginByEmail = true;
+    }
+  }
 
   clone(): TaonSessionConfig {
     return {
