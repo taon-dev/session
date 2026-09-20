@@ -179,30 +179,48 @@ export class TaonSessionStateService extends TaonBaseProvider {
     if (form.invalid) {
       return;
     }
+    const googleCodeField = form.controls.googleCode;
+    const isSocialLogin = googleCodeField.value!;
 
     //#region login action
     const loginAction = (): void => {
       const passwordField = form.controls.password;
-      passwordField.markAsTouched();
+      if (!isSocialLogin) {
+        passwordField.markAsTouched();
+      }
 
       this.state.set(TaonSessionState.LOADING_AUTH);
       this.taonSessionApiService
-        .login(form.controls.email.value!, passwordField.value!)
+        .login({
+          email: form.controls.email.value!,
+          password: passwordField.value!,
+          googleCode: googleCodeField.value!,
+        })
         .pipe(
           take(1),
           tap(okLogin => {
+            googleCodeField.reset();
             console.log({ okLogin });
             if (okLogin) {
               this.state.set(TaonSessionState.LOGIN_SUCCESS);
-              passwordField.markAsUntouched();
+              if (!isSocialLogin) {
+                passwordField.markAsUntouched();
+              }
             } else {
-              this.state.set(TaonSessionState.ENTER_PASSWORD);
-              passwordField.setErrors({
-                ...(passwordField.errors ?? {}),
-                [TaonLoginErrors.INVALID_PASSWORD]: true,
-              });
+              if (isSocialLogin) {
+                this.state.set(TaonSessionState.LOGIN_OR_REGISTER);
+                googleCodeField.setErrors({
+                  [TaonLoginErrors.INVALID_SOCIAL_LOGIN]: true,
+                });
+              } else {
+                this.state.set(TaonSessionState.ENTER_PASSWORD);
+                passwordField.setErrors({
+                  ...(passwordField.errors ?? {}),
+                  [TaonLoginErrors.INVALID_PASSWORD]: true,
+                });
 
-              passwordField.markAsTouched();
+                passwordField.markAsTouched();
+              }
             }
           }),
           finalize(() => {
@@ -216,28 +234,33 @@ export class TaonSessionStateService extends TaonBaseProvider {
     switch (this.state.currentValue) {
       //#region LOGIN_OR_REGISTER
       case TaonSessionState.LOGIN_OR_REGISTER:
-        this.state.set(TaonSessionState.LOADING_CHECK_USER_EMAIL_EXISTS);
-        this.taonSessionApiService
-          .userExists(form.controls.email.value!, {
-            goToPreviouseState: () => {
-              this.state.set(TaonSessionState.LOGIN_OR_REGISTER);
-            },
-          })
-          .pipe(
-            take(1),
-            tap(userExists => {
-              if (userExists) {
-                this.state.set(TaonSessionState.ENTER_PASSWORD);
-              } else {
-                this.state.set(TaonSessionState.ENTER_REGISTRATION_PASSWORDS);
-              }
-            }),
-            catchError(err => {
-              this.state.set(TaonSessionState.LOGIN_OR_REGISTER);
-              return NEVER;
-            }),
-          )
-          .subscribe();
+        if (isSocialLogin) {
+          loginAction();
+        } else {
+          this.state.set(TaonSessionState.LOADING_CHECK_USER_EMAIL_EXISTS);
+          this.taonSessionApiService
+            .userExists(form.controls.email.value!, {
+              goToPreviouseState: () => {
+                this.state.set(TaonSessionState.LOGIN_OR_REGISTER);
+              },
+            })
+            .pipe(
+              take(1),
+              tap(userExists => {
+                if (userExists) {
+                  this.state.set(TaonSessionState.ENTER_PASSWORD);
+                } else {
+                  this.state.set(TaonSessionState.ENTER_REGISTRATION_PASSWORDS);
+                }
+              }),
+              catchError(err => {
+                this.state.set(TaonSessionState.LOGIN_OR_REGISTER);
+                return NEVER;
+              }),
+            )
+            .subscribe();
+        }
+
         return;
       //#endregion
 

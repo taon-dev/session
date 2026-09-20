@@ -6,6 +6,13 @@ const t = Translation.for(Taon.__FILE_RELATIVE_PATH, Taon.LANG_IMPORT_MAP);
 export interface TaonLoginData {
   email?: string;
   password?: string;
+  googleCode?: string;
+}
+
+export interface GoogleCodeResponse {
+  code?: string;
+  error?: string;
+  error_description?: string;
 }
 
 export enum TaonSessionState {
@@ -28,11 +35,16 @@ export enum TaonSessionState {
 
 export enum TaonLoginErrors {
   INVALID_PASSWORD = 'INVALID_PASSWORD',
+  INVALID_SOCIAL_LOGIN = 'INVALID_SOCIAL_LOGIN',
   PASSWORDS_DO_NOT_MATCH = 'PASSWORDS_DO_NOT_MATCH',
 }
 
 export const TaonErorsMap = new Map([
   [TaonLoginErrors.INVALID_PASSWORD, t.gettext('Invalid Password')],
+  [
+    TaonLoginErrors.INVALID_SOCIAL_LOGIN,
+    t.gettext('Not able to login with social account'),
+  ],
   [
     TaonLoginErrors.PASSWORDS_DO_NOT_MATCH,
     t.gettext('Passwords do not match each other'),
