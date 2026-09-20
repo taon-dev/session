@@ -106,6 +106,7 @@ export class TaonSessionController extends TaonBaseController {
             this.taonSessionProvider.socialLogin.google.googleSecret,
             googleCode,
           );
+          console.log('SUCCESSFULLY DONE USING NEW API')
         } catch (error) {}
 
         if (googleData?.emailVerified) {
