@@ -42,6 +42,7 @@ import { _ } from 'tnp-core/src';
 import { TaonSessionApiService } from '../taon-session.api.service';
 import { TaonSessionConfigService } from '../taon-session.config.service';
 import {
+  GoogleCodeResponse,
   TaonErorsMap,
   TaonLoginErrors,
   TaonSessionState,
@@ -52,7 +53,11 @@ import {
 } from '../taon-session.provider';
 import { TaonSessionStateService } from '../taon-session.state.service';
 import { TaonSessionValidator } from '../taon-session.validators';
+
+import { GoogleLoginRegisterButtonComponent } from './social-buttons/google-login-register-button.component';
 //#endregion
+
+declare const google: any;
 
 const t = Translation.for(Taon.__FILE_RELATIVE_PATH, Taon.LANG_IMPORT_MAP);
 
@@ -92,6 +97,7 @@ const t = Translation.for(Taon.__FILE_RELATIVE_PATH, Taon.LANG_IMPORT_MAP);
     TaonSlideContentComponent,
     TaonSlideContentContentChildComponent,
     A11yModule,
+    GoogleLoginRegisterButtonComponent,
     //#endregion
   ],
 })
@@ -135,6 +141,7 @@ export class TaonSessionComponent implements AfterViewInit, OnInit, OnDestroy {
       email: new FormControl('', []),
       password: new FormControl('', []),
       passwordRepeat: new FormControl('', []),
+      googleCode: new FormControl('', []),
       state: new FormControl(
         this.taonSessionStateService.state.currentValue,
         [],
@@ -182,6 +189,10 @@ export class TaonSessionComponent implements AfterViewInit, OnInit, OnDestroy {
     return this.config.socialLogin.microsoft.microsoftClientId;
   }
 
+  get isAnySocialLoginEnabled(): boolean {
+    return this.config.socialLogin.isAnySocialLoginEnabled;
+  }
+
   get diableLoginByEmail(): boolean {
     return this.config.login.diableLoginByEmail;
   }
@@ -224,7 +235,9 @@ export class TaonSessionComponent implements AfterViewInit, OnInit, OnDestroy {
   private focusMainInput(state: TaonSessionState): void {
     switch (state) {
       case TaonSessionState.LOGIN_OR_REGISTER:
-        this.emailInput?.nativeElement.focus();
+        if (!this.config.socialLogin.isAnySocialLoginEnabled) {
+          this.emailInput?.nativeElement.focus();
+        }
         break;
 
       case TaonSessionState.ENTER_PASSWORD:
@@ -243,12 +256,59 @@ export class TaonSessionComponent implements AfterViewInit, OnInit, OnDestroy {
   }
   //#endregion
 
-  test() {
-    const config = this.taonSessionConfigService.clone();
-    console.log(JSON.stringify(config.socialLogin.google));
+  //#region google login
+  private googleCodeClient?: any;
+
+  private initGoogleLogin(): void {
+    this.googleCodeClient = google.accounts.oauth2.initCodeClient({
+      client_id: this.config.socialLogin.google.googleClientId,
+
+      scope: 'openid email profile',
+
+      ux_mode: 'popup',
+
+      callback: async (response: GoogleCodeResponse) => {
+        if (response.error) {
+          console.error('[google-login]', response);
+          return;
+        }
+
+        if (!response.code) {
+          return;
+        }
+
+        await this.loginWithGoogleCode(response.code);
+      },
+
+      error_callback: (error: any) => {
+        console.error('[google-login-popup]', error);
+      },
+    });
   }
 
+  public loginWithGoogle(): void {
+    this.form.controls.googleCode.setErrors({});
+    if (!this.googleCodeClient) {
+      this.initGoogleLogin();
+    }
+
+    this.googleCodeClient.requestCode();
+  }
+
+  private async loginWithGoogleCode(code: string): Promise<void> {
+    this.form.controls.googleCode.setValue(code);
+    // this.taonSessionStateService.state.set(TaonSessionState.LOADING_AUTH);
+    this.form.controls.email.reset();
+    this.form.controls.email.setValidators([]);
+    this.form.controls.email.setErrors({});
+    this.form.controls.email.updateValueAndValidity();
+    this.executeActionForState();
+  }
+  //#endregion
+
   //#region hooks
+
+  //#region hooks / on init
   ngOnInit(): void {
     const config = this.taonSessionConfigService.clone();
     walk.Object(
@@ -261,8 +321,6 @@ export class TaonSessionComponent implements AfterViewInit, OnInit, OnDestroy {
       },
     );
     this.config = config;
-    console.log(JSON.stringify(config.socialLogin.google));
-
     this.isLoggedIn$.pipe(take(1)).subscribe();
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
@@ -275,10 +333,45 @@ export class TaonSessionComponent implements AfterViewInit, OnInit, OnDestroy {
 
     this.resetPasswordScreen();
   }
+  //#endregion
 
+  //#region hooks / on destroy
   ngOnDestroy(): void {
     this.sub.unsubscribe();
   }
+  //#endregion
+
+  //#region hooks / after view init
+  ngAfterViewInit(): void {
+    this.sub.add(
+      this.taonSessionStateService.state.currentState$.subscribe(
+        ({ currentState, previousState }) => {
+          if (
+            currentState === TaonSessionState.LOGIN_SUCCESS &&
+            this.isInsideDialog
+          ) {
+            this.close();
+          }
+          this.form.controls.state.setValue(currentState);
+          if (currentState === TaonSessionState.LOGIN_OR_REGISTER) {
+            this.form.controls.googleCode.setValue('');
+          }
+          this.updateValidatorsFor(currentState);
+          // console.log({ newState });
+          if (this.slide) {
+            this.slide.goTo(currentState);
+            setTimeout(() => {
+              // console.log(`FOCUS: ${newState}`);
+              this.focusMainInput(currentState);
+            }, 1000);
+          }
+        },
+      ),
+    );
+  }
+  //#endregion
+
+  //#endregion
 
   //#region reset password field
   public resetPasswordScreen() {
@@ -293,6 +386,7 @@ export class TaonSessionComponent implements AfterViewInit, OnInit, OnDestroy {
   }
   //#endregion
 
+  //#region update validators for
   private updateValidatorsFor(state: TaonSessionState): void {
     const { email, password, passwordRepeat } = this.form.controls;
 
@@ -318,31 +412,6 @@ export class TaonSessionComponent implements AfterViewInit, OnInit, OnDestroy {
     email.updateValueAndValidity();
     password.updateValueAndValidity();
     passwordRepeat.updateValueAndValidity();
-  }
-
-  ngAfterViewInit(): void {
-    this.sub.add(
-      this.taonSessionStateService.state.currentState$.subscribe(
-        ({ currentState, previousState }) => {
-          if (
-            currentState === TaonSessionState.LOGIN_SUCCESS &&
-            this.isInsideDialog
-          ) {
-            this.close();
-          }
-          this.form.controls.state.setValue(currentState);
-          this.updateValidatorsFor(currentState);
-          // console.log({ newState });
-          if (this.slide) {
-            this.slide.goTo(currentState);
-            setTimeout(() => {
-              // console.log(`FOCUS: ${newState}`);
-              this.focusMainInput(currentState);
-            }, 1000);
-          }
-        },
-      ),
-    );
   }
   //#endregion
 }

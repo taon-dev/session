@@ -19,10 +19,6 @@ export class TaonSessionConfigService extends TaonBaseAngularService {
 
   clone(): TaonSessionConfig {
     const cloned = this.taonSessionProvider.clone();
-
-    // console.log('clone this ctor:', this.taonSessionProvider.clone());
-
-    console.log('cloned', JSON.stringify(cloned.socialLogin.google));
     return cloned;
   }
 }

@@ -81,6 +81,7 @@ export * from './taon-session/taon-session.kv.repository';
 export * from './taon-session/taon-session.middleware'; 
 export * from './taon-session/taon-session.models'; 
 export * from './taon-session/taon-session.provider'; 
+export * from './taon-session/taon-session.repository'; 
 export * from './taon-session/taon-session.state.service'; // @browser
 export * from './taon-session/taon-session.utils'; 
 export * from './taon-session/taon-session.validators'; 
@@ -110,3 +111,4 @@ export * from './taon-session-user-identity/taon-session-user-identity.subscribe
 export * from './taon-session-user-identity/taon-session-user-identity.utils'; 
 export * from './taon-session/taon-session/taon-session.component'; // @browser
 export * from './taon-session/taon-session-button/taon-session-button.component'; // @browser
+export * from './taon-session/taon-session/social-buttons/google-login-register-button.component'; // @browser

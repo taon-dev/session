@@ -87,7 +87,10 @@ import {
 import { Utils, UtilsOs } from 'tnp-core/src';
 
 import { HOST_CONFIG } from './app.hosts';
-import { ENV_ANGULAR_NODE_APP_BUILD_PWA_DISABLE_SERVICE_WORKER } from './lib/env/env.angular-node-app';
+import {
+  ENV_ANGULAR_NODE_APP_BUILD_PWA_DISABLE_SERVICE_WORKER,
+  ENV_ANGULAR_NODE_APP_CONFIG_GOOGLE_SECRET,
+} from './lib/env/env.angular-node-app';
 // @placeholder-for-imports
 //#endregion
 
@@ -311,9 +314,15 @@ class TaonSessionProviderOverride extends TaonSessionProvider {
     super();
     this.socialLogin.google.enabled = true;
     this.socialLogin.google.googleClientId =
-      '289576612173-72ijl0ca3hfj3mbu60csmag03mr719f9.apps.googleusercontent.com';
-    console.log('CHNAGED', JSON.stringify(this.socialLogin.google));
+      '289576612173-2mh31b67pmq2qdes5jedno9tr1m542es.apps.googleusercontent.com';
   }
+
+  //#region @backend
+  async _() {
+    const googleSecret = await ENV_ANGULAR_NODE_APP_CONFIG_GOOGLE_SECRET();
+    this.socialLogin.google.googleSecret = googleSecret;
+  }
+  //#endregion
 }
 
 //#region  taon-jwt-cookie-header-session context

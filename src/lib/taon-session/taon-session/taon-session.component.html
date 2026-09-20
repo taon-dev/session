@@ -14,7 +14,7 @@
 <!-- ERRORS: {{ form.errors | json }} <br /> -->
 <!-- IS LOGGED IN: {{ isLoggedIn$ | async }}<br /> -->
 
-<button (click)="test()" >test</button>
+<!-- <button (click)="test()" >test</button> -->
 <h1 class="flex items-center justify-center pt-10">
   <mat-icon
     class="!w-[100px] !h-[100px] !text-[100px] !leading-[100px]"
@@ -85,6 +85,7 @@
       </h4>
 
       <div class="w-full pt-3">
+        <!-- #region normal email -->
         <form
           [formGroup]="form"
           (ngSubmit)="executeActionForState()"
@@ -129,15 +130,30 @@
             </mat-error>
           </mat-form-field>
         </form>
+        <!-- #endregion -->
 
-        <div
-          class="divider"
-          *ngIf="googleClientId || microsoftClientId">
-          <span translate>or</span>
-        </div>
+        @if (isAnySocialLoginEnabled) {
+          <div class="divider">
+            <span translate>or</span>
+          </div>
+        }
 
         <!-- GOOGLE BUTTON -->
-        <div
+        @if (googleClientId) {
+          <google-login-register-button
+            (googleSignIn)="loginWithGoogle()"></google-login-register-button>
+
+          <mat-error
+            *ngIf="
+              form
+                .get('googleCode')
+                ?.hasError(TaonLoginErrors.INVALID_SOCIAL_LOGIN)
+            ">
+            {{ TaonErorsMap.get(TaonLoginErrors.INVALID_SOCIAL_LOGIN) }}
+          </mat-error>
+        }
+
+        <!-- <div
           *ngIf="googleClientId"
           #googleBtn
           class="google-container">
@@ -151,7 +167,7 @@
             *ngIf="!googleButtonLoaded"
             mode="indeterminate"
             class="auth-progress" />
-        </div>
+        </div> -->
 
         <!-- MICROSOFT BUTTON -->
         <div

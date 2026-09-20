@@ -52,6 +52,7 @@ export class TaonSessionSocialLoginConfig extends TaonBaseClass {
   declare public google: {
     enabled?: boolean;
     googleClientId?: string;
+    googleSecret?: string;
   };
 
   declare public facebook: {
@@ -83,6 +84,15 @@ export class TaonSessionSocialLoginConfig extends TaonBaseClass {
     this.apple = {
       enabled: false,
     };
+  }
+
+  public get isAnySocialLoginEnabled(): boolean {
+    return (
+      this.google.enabled ||
+      this.microsoft.enabled ||
+      this.facebook.enabled ||
+      this.apple.enabled
+    );
   }
 }
 //#endregion
@@ -347,6 +357,11 @@ export type TaonSessionConfig = Omit<
   className: 'TaonSessionProvider',
 })
 export class TaonSessionProvider extends TaonBaseProvider {
+  /**
+   * Production means here - it runs on real server
+   */
+  isProduction = isProduction;
+
   cookies = new TaonSessionCookiesConfig();
 
   login = new TaonSessionLoginConfig();
@@ -373,12 +388,10 @@ export class TaonSessionProvider extends TaonBaseProvider {
 
   clone(): TaonSessionConfig {
     return {
+      isProduction: this.isProduction,
       cookies: this.cookies.clone(),
       login: this.login.clone(),
       socialLogin: this.socialLogin.clone(),
-      // cookies: this.cookies,
-      // login: this.login,
-      // socialLogin: this.socialLogin,
     };
   }
 }

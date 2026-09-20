@@ -10,6 +10,7 @@ import {
   Body,
   POST,
 } from 'taon/src';
+import { FindOneOptions, FindOptionsWhere } from 'taon-typeorm/src';
 import { _, UtilsJwt } from 'tnp-core/src';
 
 import { TaonSessionUserEntity } from '../taon-session-user';
@@ -19,6 +20,9 @@ import { TaonSessionKvRepository } from './taon-session.kv.repository';
 import { TaonSessionMiddleware } from './taon-session.middleware';
 import { TaonLoginData } from './taon-session.models';
 import { TaonSessionProvider } from './taon-session.provider';
+import { TaonSessionUtils } from './taon-session.utils';
+
+const tempPassForSocialLogin = 'tempPassForSocialLogin';
 //#endregion
 
 @TaonController<TaonSessionController>({
@@ -88,14 +92,52 @@ export class TaonSessionController extends TaonBaseController {
   login(@Body() data: TaonLoginData): Taon.Response<boolean> {
     //#region @backendFunc
     return async (req, res) => {
-      const { email, password } = data || {};
+      let { email, password, googleCode } = data || {};
+      const isSocialLogin = !!googleCode;
 
-      const user = await this.taonSessionUserRepository.findOne({
-        where: {
-          email,
-          password,
-        },
+      if (isSocialLogin) {
+        //#region handle social login
+        let googleData: Awaited<
+          ReturnType<typeof TaonSessionUtils.verifyGoogleAuthorizationCode>
+        >;
+        try {
+          googleData = await TaonSessionUtils.verifyGoogleAuthorizationCode(
+            this.taonSessionProvider.socialLogin.google.googleClientId,
+            this.taonSessionProvider.socialLogin.google.googleSecret,
+            googleCode,
+          );
+        } catch (error) {}
+
+        if (googleData?.emailVerified) {
+          email = googleData.email;
+        } else {
+          Taon.error({
+            status: 500,
+            message: 'Invalid code or something went wrong with social login.',
+          });
+          return false;
+        }
+        //#endregion
+      }
+
+      const searchPayload: FindOptionsWhere<TaonSessionUserEntity> = {
+        email,
+      };
+      if (!isSocialLogin) {
+        searchPayload.password = password;
+      }
+
+      let user = await this.taonSessionUserRepository.findOne({
+        where: searchPayload,
       });
+
+      if (!user && isSocialLogin) {
+        user = new TaonSessionUserEntity().clone({
+          email,
+          password: tempPassForSocialLogin,
+        });
+        user = await this.taonSessionUserRepository.save(user);
+      }
 
       if (!user) {
         Taon.error({
