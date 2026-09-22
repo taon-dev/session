@@ -92,6 +92,7 @@ import {
   ENV_ANGULAR_NODE_APP_CONFIG_GOOGLE_CLIENT_ID,
   ENV_ANGULAR_NODE_APP_CONFIG_GOOGLE_SECRET,
 } from './lib/env/env.angular-node-app';
+import { TaonDraggableButtonPanelComponent } from '@taon-dev/ui/src'; // @browser
 // @placeholder-for-imports
 //#endregion
 
@@ -118,38 +119,45 @@ const DEFAULT_EMAIL = DEFAULT_SESSION_EMAIL;
     MatTabsModule,
     RouterModule,
     TaonAdminModeConfigurationComponent,
+    TaonDraggableButtonPanelComponent,
     TaonSessionComponent,
     TaonSessionButtonComponent,
     JsonPipe,
   ],
   template: `
-    <taon-admin-mode-configuration>
-      @if (itemsLoaded()) {
-        @if (navItems.length === 0 || forceShowBaseRootApp) {
-          <mat-card class="m-2">
-            <mat-card-content>
-              <h3>Basic app info</h3>
-              Name: taon-jwt-cookie-header-session<br />
-              Angular version: {{ angularVersion }}<br />
-              Taon backend: {{ taonMode }}<br />
-              <taon-session-button [config]="config" />
-            </mat-card-content>
-          </mat-card>
+    @if (itemsLoaded()) {
+      <mat-card class="m-2">
+        <mat-card-content>
+          <h3>Basic app info</h3>
+          Name: taon-jwt-cookie-header-session<br />
+          Angular version: {{ angularVersion }}<br />
+          Taon backend: {{ taonMode }}<br />
+          <div class="flex  flex-row items-center justify-center">
+            <taon-session-button [config]="config" />
 
-          <mat-card class="m-2">
-            <mat-card-content>
-              <taon-session [config]="config" />
-            </mat-card-content>
-          </mat-card>
-        }
-        <footer
-          class="text-center p-4 w-full select-none"
-          (click)="taonAdminService.enableDeveloperIf5Timetap()">
-          Copyright <strong>taon-jwt-cookie-header-session</strong> {{ year }}
-        </footer>
-      }
-    </taon-admin-mode-configuration>
+            <taon-draggable-button-panel
+              title="Taon Admin"
+              outlet="admin"
+              basePath="main">
+              <router-outlet name="admin" />
+            </taon-draggable-button-panel>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="m-2">
+        <mat-card-content>
+          <taon-session [config]="config" />
+        </mat-card-content>
+      </mat-card>
+      <router-outlet></router-outlet>
+    }
   `,
+  // <footer
+  //       class="text-center p-4 w-full select-none"
+  //       (click)="taonAdminService.enableDeveloperIf5Timetap()">
+  //       Copyright <strong>taon-jwt-cookie-header-session</strong> {{ year }}
+  //     </footer>
 })
 export class SessionApp implements OnInit {
   /**Required for proper theme*/
@@ -185,14 +193,6 @@ export class SessionApp implements OnInit {
   get activePath(): string {
     return globalThis?.location.pathname?.split('?')[0];
   }
-
-  navItems =
-    SessionClientRoutes.length <= 1
-      ? []
-      : SessionClientRoutes.filter(r => r.path !== undefined).map(r => ({
-          path: r.path === '' ? '/' : `/${r.path}`,
-          label: r.path === '' ? 'Home' : `${r.path}`,
-        }));
 
   openDialog(
     enterAnimationDuration: string | number,
@@ -242,21 +242,30 @@ export const SessionClientRoutes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: () => {
-      if (SessionClientRoutes.length === 1) {
-        return '';
-      }
-      return SessionClientRoutes.find(r => r.path !== '')!.path!;
-    },
+    redirectTo: 'app',
   },
-  // PUT ALL ROUTES HERE
-  // @placeholder-for-routes
-
-  // uncomment this to have NOT FOUND route
-  // {
-  //   path: '**',
-  //   component: TaonNotFoundComponent,
-  // },
+  {
+    // SessionExampleRoutes
+    path: 'app',
+    loadChildren: () =>
+      import('./app/session-example/session-example.routes').then(
+        m => m.SessionExampleRoutes,
+      ),
+  },
+  {
+    path: 'main',
+    outlet: 'admin',
+    providers: [
+      {
+        provide: TAON_CONTEXT,
+        useFactory: () => SessionContext,
+      },
+    ],
+    loadChildren: () =>
+      import('./app/app-backoffice/app-backoffice.routes').then(
+        m => m.AppBackofficeRoutes,
+      ),
+  },
 ];
 //#endregion
 //#endregion
@@ -307,6 +316,7 @@ export const SessionConfig = mergeApplicationConfig(
 //#endregion
 //#endregion
 
+//#region taon sesssion providers decorator
 @TaonProvider({
   className: 'TaonSessionProvider',
 })
@@ -326,6 +336,7 @@ class TaonSessionProviderOverride extends TaonSessionProvider {
   }
   //#endregion
 }
+//#endregion
 
 //#region  taon-jwt-cookie-header-session context
 var SessionContext = Taon.createContext(() => ({

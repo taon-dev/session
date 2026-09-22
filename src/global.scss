@@ -2,7 +2,9 @@
 // @use 'bootstrap/scss/bootstrap' as *; Conflict with primeflex
 @use '@angular/material' as mat;
 
+// tailwind included out of box
 @import 'tailwindcss';
+
 @import 'primeicons/primeicons.css';
 @import 'animate.css/animate.min.css';
 

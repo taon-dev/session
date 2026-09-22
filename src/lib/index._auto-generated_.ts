@@ -110,5 +110,11 @@ export * from './taon-session-user-identity/taon-session-user-identity.repositor
 export * from './taon-session-user-identity/taon-session-user-identity.subscriber'; 
 export * from './taon-session-user-identity/taon-session-user-identity.utils'; 
 export * from './taon-session/taon-session/taon-session.component'; // @browser
+export * from './taon-session/taon-session-backoffice/taon-session-backoffice.component'; // @browser
+export * from './taon-session/taon-session-backoffice/taon-session-backoffice.models'; 
+export * from './taon-session/taon-session-backoffice/taon-session-backoffice.routes'; // @browser
 export * from './taon-session/taon-session-button/taon-session-button.component'; // @browser
+export * from './taon-session-user/taon-session-backoffice-users/taon-session-backoffice-users.component'; // @browser
+export * from './taon-session-user/taon-session-backoffice-users/taon-session-backoffice-users.models'; 
+export * from './taon-session-user/taon-session-backoffice-users/taon-session-backoffice-users.routes'; // @browser
 export * from './taon-session/taon-session/social-buttons/google-login-register-button.component'; // @browser

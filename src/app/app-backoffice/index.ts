@@ -1,0 +1,1 @@
+export * from './app-backoffice.component'; // @browser
