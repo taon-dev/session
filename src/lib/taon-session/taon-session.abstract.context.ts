@@ -1,4 +1,5 @@
 //#region imports
+import { TaonEmailsAbstractContext } from '@taon-dev/emails/src';
 import { createContext, TaonBaseContext } from 'taon/src';
 
 import { TaonAuditEventsContext, TaonNotificationContext } from '../index';
@@ -22,6 +23,7 @@ export const TaonSessionAbstractContext = createContext(() => ({
   abstract: true,
   contexts: {
     TaonBaseContext,
+    TaonEmailsAbstractContext,
     TaonSessionUserContext,
     TaonAuthContextContext,
     TaonGroupContext,

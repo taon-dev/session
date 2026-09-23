@@ -2,7 +2,6 @@
 import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { TaonBackofficeComponent } from '@taon-dev/ui/src';
 
 import { AppBackofficeRoutes } from './app-backoffice.routes';
 //#endregion
@@ -12,7 +11,7 @@ import { AppBackofficeRoutes } from './app-backoffice.routes';
   templateUrl: './app-backoffice.component.html',
   styleUrls: ['./app-backoffice.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [AsyncPipe, RouterOutlet, TaonBackofficeComponent],
+  imports: [AsyncPipe, RouterOutlet],
 })
 export class AppBackofficeComponent {
   get routes() {

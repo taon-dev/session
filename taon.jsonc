@@ -33,7 +33,7 @@
     },
   ],
 
-  "isomorphicDependenciesForNpmLib": ["taon-ui"],
+  "isomorphicDependenciesForNpmLib": ["@taon-dev/ui", "@taon-dev/emails"],
 
   "overrideNpmName": "@taon-dev/session",
 

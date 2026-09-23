@@ -14,6 +14,7 @@ export const AppBackofficeRoutes: Routes = [
         path: 'users',
         menuItem: 'Users',
         icon: 'manage_accounts',
+        expandable: false,
         loader: () =>
           import('@taon-dev/session/src').then(
             m => m.TaonSessionBackofficeUsersRoutes,
@@ -21,11 +22,22 @@ export const AppBackofficeRoutes: Routes = [
       }),
       adminLazyRoute({
         path: 'session',
-        menuItem: 'Session',
+        menuItem: 'Sessions',
+        expandable: false,
         icon: 'login',
         loader: () =>
           import('@taon-dev/session/src').then(
             m => m.TaonSessionBackofficeRoutes,
+          ),
+      }),
+      adminLazyRoute({
+        path: 'emails',
+        menuItem: 'Emails',
+        expandable: false,
+        icon: 'email',
+        loader: () =>
+          import('@taon-dev/emails/src').then(
+            m => m.TaonEmailsBackofficeRoutes,
           ),
       }),
     ],
