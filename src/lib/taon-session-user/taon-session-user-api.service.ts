@@ -8,7 +8,7 @@ import type { TaonSessionUserEntity } from './taon-session-user.entity';
 
 @Injectable()
 export class TaonSessionUserApiService extends TaonBaseAngularService {
-  private taonSessionUserController = this.injectController(
+  public taonSessionUserController = this.injectController(
     TaonSessionUserController,
   );
 

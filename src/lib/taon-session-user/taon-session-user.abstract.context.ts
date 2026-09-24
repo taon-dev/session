@@ -16,9 +16,9 @@ export const TaonSessionUserContext = createContext(() => ({
   abstract: true,
   contexts: { TaonBaseContext },
   entities: {
-    TaonSessionUserEntity: TaonSessionUserEntity,
-    TaonSessionUserGroupEntity: TaonSessionUserGroupEntity,
-    TaonSessionUserRoleEntity: TaonSessionUserRoleEntity,
+    TaonSessionUserEntity,
+    TaonSessionUserGroupEntity,
+    TaonSessionUserRoleEntity,
   },
   controllers: { TaonSessionUserController },
   repositories: { TaonSessionUserRepository },

@@ -15,12 +15,11 @@ import { TaonSessionUserRepository } from './taon-session-user.repository';
 
 @TaonController<TaonSessionUserController>({
   className: 'TaonSessionUserController',
-  allowedMethods: [
-    // 'save/'
-  ],
+  allowedMethods: ['paginationQuery'],
 })
 export class TaonSessionUserController extends TaonBaseCrudController<TaonSessionUserEntity> {
-  entityClassResolveFn: () => typeof TaonSessionUserEntity = () => TaonSessionUserEntity;
+  entityClassResolveFn: () => typeof TaonSessionUserEntity = () =>
+    TaonSessionUserEntity;
 
   taonSessionUserRepository = this.injectCustomRepo(TaonSessionUserRepository);
 }

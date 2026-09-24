@@ -1,4 +1,7 @@
-<router-outlet></router-outlet>
-<p>
-  taon-session-backoffice-users works!
-</p>
+<taon-datatable
+  [entityCrudController]="crud"
+  [columns]="columns"
+  [allowedColumns]="['id', 'email']"
+  searchMode="advanced"
+  (addingItem)="add()">
+</taon-datatable>
