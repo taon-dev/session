@@ -28,8 +28,12 @@ export * from './taon-auth-context/taon-auth-context.provider';
 export * from './taon-auth-context/taon-auth-context.repository'; 
 export * from './taon-auth-context/taon-auth-context.subscriber'; 
 export * from './taon-auth-context/taon-auth-context.utils'; 
+export * from './taon-authorization-backoffice/taon-authorization-backoffice.component'; // @browser
+export * from './taon-authorization-backoffice/taon-authorization-backoffice.models'; 
+export * from './taon-authorization-backoffice/taon-authorization-backoffice.routes'; // @browser
 export * from './taon-group/taon-group-api.service'; // @browser
 export * from './taon-group/taon-group-role.entity'; 
+export * from './taon-group/taon-group-role.repository'; 
 export * from './taon-group/taon-group.abstract.context'; 
 export * from './taon-group/taon-group.constants'; 
 export * from './taon-group/taon-group.controller'; 
@@ -62,6 +66,7 @@ export * from './taon-permission/taon-permission.subscriber';
 export * from './taon-permission/taon-permission.utils'; 
 export * from './taon-role/taon-role-api.service'; // @browser
 export * from './taon-role/taon-role-permission.entity'; 
+export * from './taon-role/taon-role-permission.repository'; 
 export * from './taon-role/taon-role.abstract.context'; 
 export * from './taon-role/taon-role.constants'; 
 export * from './taon-role/taon-role.controller'; 
@@ -109,6 +114,15 @@ export * from './taon-session-user-identity/taon-session-user-identity.provider'
 export * from './taon-session-user-identity/taon-session-user-identity.repository'; 
 export * from './taon-session-user-identity/taon-session-user-identity.subscriber'; 
 export * from './taon-session-user-identity/taon-session-user-identity.utils'; 
+export * from './taon-group/taon-group-backoffice/taon-group-backoffice.component'; // @browser
+export * from './taon-group/taon-group-backoffice/taon-group-backoffice.models'; 
+export * from './taon-group/taon-group-backoffice/taon-group-backoffice.routes'; // @browser
+export * from './taon-permission/taon-permission-backoffice/taon-permission-backoffice.component'; // @browser
+export * from './taon-permission/taon-permission-backoffice/taon-permission-backoffice.models'; 
+export * from './taon-permission/taon-permission-backoffice/taon-permission-backoffice.routes'; // @browser
+export * from './taon-role/taon-role-backoffice/taon-role-backoffice.component'; // @browser
+export * from './taon-role/taon-role-backoffice/taon-role-backoffice.models'; 
+export * from './taon-role/taon-role-backoffice/taon-role-backoffice.routes'; // @browser
 export * from './taon-session/taon-session/taon-session.component'; // @browser
 export * from './taon-session/taon-session-backoffice/taon-session-backoffice.component'; // @browser
 export * from './taon-session/taon-session-backoffice/taon-session-backoffice.models'; 

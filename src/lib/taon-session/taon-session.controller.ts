@@ -9,7 +9,10 @@ import {
   TaonBaseController,
   Body,
   POST,
+  HttpStatusEnum,
+  getStatusCode,
 } from 'taon/src';
+import { HttpStatusCodeMap } from 'taon/src';
 import { FindOneOptions, FindOptionsWhere } from 'taon-typeorm/src';
 import { _, UtilsJwt } from 'tnp-core/src';
 
@@ -106,14 +109,14 @@ export class TaonSessionController extends TaonBaseController {
             this.taonSessionProvider.socialLogin.google.googleSecret,
             googleCode,
           );
-          console.log('SUCCESSFULLY DONE USING NEW API')
+          console.log('SUCCESSFULLY DONE USING NEW API');
         } catch (error) {}
 
         if (googleData?.emailVerified) {
           email = googleData.email;
         } else {
           Taon.error({
-            status: 500,
+            status: getStatusCode(HttpStatusEnum.INTERNAL_SERVER_ERROR),
             message: 'Invalid code or something went wrong with social login.',
           });
           return false;

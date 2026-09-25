@@ -1,0 +1,10 @@
+@if (!componentLoaded) {
+  <code>
+    In authorization section you can manager Group, Roles and Persmission inside
+    system.
+  </code>
+}
+
+<router-outlet
+  (activate)="onRouteActivate($event)"
+  (deactivate)="onRouteDeactivate($event)"></router-outlet>

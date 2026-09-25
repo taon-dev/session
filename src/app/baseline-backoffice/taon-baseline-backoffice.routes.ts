@@ -3,13 +3,24 @@ import { Routes } from '@angular/router';
 import { adminLazyRoute } from '@taon-dev/ui/src';
 //#endregion
 
-export const AppBackofficeRoutes: Routes = [
+export const TaonBaselineBackofficeRoutes: Routes = [
   {
     path: '',
     loadComponent: () =>
-      import('./app-backoffice.component').then(m => m.AppBackofficeComponent),
+      import('./taon-baseline-backoffice.component').then(
+        m => m.TaonBaselineBackofficeComponent,
+      ),
 
     children: [
+      adminLazyRoute({
+        path: 'sudo',
+        menuItem: 'Sudo',
+        color: 'red',
+        icon: 'supervisor_account',
+        expandable: false,
+        loader: () =>
+          import('@taon-dev/sudo/src').then(m => m.TaonSudoBackofficeRoutes),
+      }),
       adminLazyRoute({
         path: 'users',
         menuItem: 'Users',
@@ -31,6 +42,16 @@ export const AppBackofficeRoutes: Routes = [
           ),
       }),
       adminLazyRoute({
+        path: 'authorization',
+        menuItem: 'Authorization',
+        icon: 'apps',
+        expandable: true,
+        loader: () =>
+          import('@taon-dev/session/src').then(
+            m => m.TaonAuthorizationBackofficeRoutes,
+          ),
+      }),
+      adminLazyRoute({
         path: 'emails',
         menuItem: 'Emails',
         expandable: false,
@@ -45,8 +66,8 @@ export const AppBackofficeRoutes: Routes = [
 ];
 
 /**
- * By default exporting AppBackofficeRoutes,
+ * By default exporting TaonBaselineBackofficeRoutes,
  * the command `taon generate:app:routes`
  * will automatically add them to the root routes in ./src/app.ts.
  */
-// export default AppBackofficeRoutes;
+// export default TaonBaselineBackofficeRoutes;

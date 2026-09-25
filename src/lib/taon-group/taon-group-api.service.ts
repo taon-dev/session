@@ -3,22 +3,16 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Taon, TaonBaseAngularService } from 'taon/src';
 
-import type { TaonGroupEntity } from './taon-group.entity';
 import { TaonGroupController } from './taon-group.controller';
+import type { TaonGroupEntity } from './taon-group.entity';
 
 @Injectable()
 export class TaonGroupApiService extends TaonBaseAngularService {
-  private taonGroupController = this.injectController(TaonGroupController);
+  public taonGroupController = this.injectController(TaonGroupController);
 
   public get allMyEntities$(): Observable<TaonGroupEntity[]> {
     return this.taonGroupController.getAll().request!().observable.pipe(
       map(res => res.body?.json),
-    );
-  }
-
-  public helloWorld(user): Observable<string> {
-    return this.taonGroupController.helloWord(user).request!().observable.pipe(
-      map(res => res.responseText as string),
     );
   }
 }

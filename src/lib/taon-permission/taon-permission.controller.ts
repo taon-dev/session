@@ -1,4 +1,6 @@
 //#region imports
+import { TaonSessionUserController } from '../taon-session-user/taon-session-user.controller';
+import { TaonSessionRepository } from '../taon-session/taon-session.repository';
 import {
   Taon,
   ClassHelpers,
@@ -6,8 +8,10 @@ import {
   TaonBaseCrudController,
   Query,
   GET,
+  Models,
 } from 'taon/src';
 import { _ } from 'tnp-core/src';
+
 
 import { TaonPermissionEntity } from './taon-permission.entity';
 import { TaonPermissionRepository } from './taon-permission.repository';
@@ -15,30 +19,28 @@ import { TaonPermissionRepository } from './taon-permission.repository';
 
 @TaonController({
   className: 'TaonPermissionController',
-  allowedMethods: [],
+  allowedMethods: ['paginationQuery'],
 })
 export class TaonPermissionController extends TaonBaseCrudController<TaonPermissionEntity> {
-  entityClassResolveFn: () => typeof TaonPermissionEntity = () => TaonPermissionEntity;
+  entityClassResolveFn: () => typeof TaonPermissionEntity = () =>
+    TaonPermissionEntity;
 
   taonPermissionRepository = this.injectCustomRepo(TaonPermissionRepository);
 
-  //#region methods & getters / hello world
-  /**
-   * TODO remove this demo example method
-   */
-  @GET()
-  helloWord(@Query('yourName') yourName: string): Taon.Response<string> {
-    //#region @websqlFunc
-    return async (req, res) => {
-      const numOfEntities = await this.db.count();
-      const numberOfEvenEntities =
-        await this.taonPermissionRepository.countEntitesWithEvenId();
-      return `Hello ${yourName || 'world'} from ${ClassHelpers.getName(TaonPermissionController)}
-      controller..  ${numOfEntities} entites in db..
-      ${numberOfEvenEntities} entites with even ids (2,4,6,8 etc.)
-      `;
-    };
-    //#endregion
+  private readonly taonSessionRepository = this.injectCustomRepo(
+    TaonSessionRepository,
+  );
+
+  async beforeEachRequest({
+    req,
+    res,
+    methodConfig,
+  }: Models.TaonCtrlBeforeEachRequestParams<TaonSessionUserController>): Promise<void> {
+    if (methodConfig.methodName === 'paginationQuery') {
+      await this.taonSessionRepository.throwIfNotAuthenticated({
+        req,
+        res,
+      });
+    }
   }
-  //#endregion
 }

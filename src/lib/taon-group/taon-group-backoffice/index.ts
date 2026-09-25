@@ -1,0 +1,1 @@
+export * from './taon-group-backoffice.component'; // @browser

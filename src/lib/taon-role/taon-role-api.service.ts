@@ -8,7 +8,7 @@ import { TaonRoleController } from './taon-role.controller';
 
 @Injectable()
 export class TaonRoleApiService extends TaonBaseAngularService {
-  private taonRoleController = this.injectController(TaonRoleController);
+  public taonRoleController = this.injectController(TaonRoleController);
 
   public get allMyEntities$(): Observable<TaonRoleEntity[]> {
     return this.taonRoleController.getAll().request!().observable.pipe(
@@ -16,9 +16,5 @@ export class TaonRoleApiService extends TaonBaseAngularService {
     );
   }
 
-  public helloWorld(user): Observable<string> {
-    return this.taonRoleController.helloWord(user).request!().observable.pipe(
-      map(res => res.responseText as string),
-    );
-  }
+
 }

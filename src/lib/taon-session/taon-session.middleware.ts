@@ -10,44 +10,21 @@ import { _, UtilsJwt } from 'tnp-core/src';
 
 import { TaonSessionKvRepository } from './taon-session.kv.repository';
 import { TaonSessionProvider } from './taon-session.provider';
+import { TaonSessionRepository } from './taon-session.repository';
 //#endregion
 
 @TaonMiddleware({
   className: 'TaonSessionMiddleware',
 })
 export class TaonSessionMiddleware extends TaonBaseMiddleware {
-  taonSessionKvRepository = this.injectKvRepository(TaonSessionKvRepository);
-
-  taonSessionProvider = this.injectProvider(TaonSessionProvider);
+  taonSessionRepository = this.injectCustomRepo(TaonSessionRepository);
 
   //#region intercept server method
   async interceptServerMethod(
-    { req, res, next }: TaonServerMiddlewareInterceptOptions,
-    {
-      methodName,
-      expressPath,
-      httpRequestType,
-    }: TaonAdditionalMiddlewareMethodInfo,
+    data: TaonServerMiddlewareInterceptOptions,
   ): Promise<void> {
     //#region @backend
-    const token = this.taonSessionKvRepository.getTokenFromRequest(req);
-
-    if (!token) {
-      res.status(401).json({ message: 'No token' });
-      return;
-    }
-
-    try {
-      const payload = await UtilsJwt.verify(
-        token,
-        this.taonSessionProvider.cookies.ACCESS_TOKEN_SECRET,
-      ) as any;
-      (req as any).userId = payload.userId;
-      next();
-    } catch (err) {
-      console.log(err);
-      res.status(401).json({ message: 'Invalid token' });
-    }
+    await this.taonSessionRepository.throwIfNotAuthenticated(data);
     //#endregion
   }
   //#endregion

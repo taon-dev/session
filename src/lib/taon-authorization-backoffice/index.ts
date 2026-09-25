@@ -1,0 +1,1 @@
+export * from './taon-authorization-backoffice.component'; // @browser

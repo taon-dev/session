@@ -7,7 +7,8 @@ const env: Partial<EnvOptions> = {
     useDomain: true,
   },
   config: {
-    googleSecret: () => `$$$TAON_ENCRYPTED_START$$$v1:600000:G+wKPKbNIqo2HfcCZ1F/UA==:muQFsICTOqwc7y/b:/jQups1I4RNW9Qf6jQH6GqnG8CQNmYbT8xm5Y+Fo8fUarHzNl+sz9KZjk/gXh9zjnIqz$$$TAON_ENCRYPTED_END$$$`,
+    superUsers: () => `$$$TAON_ENCRYPTED_START$$$v1:600000:QYYXA4uI+TLCHMn9EfkVLw==:hU5IdeTPY5XVmjDQ:Rm2+029f549YGWLjirFI8P/ioiZj+4PLUu0Nws8pgmQ=$$$TAON_ENCRYPTED_END$$$`,
+    googleSecret: () => `$$$TAON_ENCRYPTED_START$$$v1:600000:yp7FC5OKJvsxCOpQVy25mg==:hJTwPV7WUFHnIBl3:nlaJKk42dFMX5kOi04m7sfhjVMtoMQPUml90Xgm7weZWfGRaDD7+P6JhKhi9rP1Gdv1N$$$TAON_ENCRYPTED_END$$$`,
     googleClientId: '289576612173-2mh31b67pmq2qdes5jedno9tr1m542es.apps.googleusercontent.com',
   },
   loading: {

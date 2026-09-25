@@ -38,6 +38,11 @@ export class TaonRoleEntity extends TaonBaseAbstractEntity<TaonRoleEntity> {
   name!: string;
 
   //#region @websql
+  @Column({ type: 'varchar' })
+  //#endregion
+  code!: string;
+
+  //#region @websql
   @Column({ nullable: true, type: 'varchar' })
   //#endregion
   description?: string;

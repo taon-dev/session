@@ -1,3 +1,5 @@
+import { TaonServerMiddlewareInterceptOptions } from 'ng2-rest/src';
+
 export namespace TaonSessionUtils {
   interface GoogleTokenResponse {
     access_token?: string;

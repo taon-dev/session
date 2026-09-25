@@ -6,8 +6,12 @@ import {
   TaonBaseCrudController,
   Query,
   GET,
+  Models,
 } from 'taon/src';
 import { _ } from 'tnp-core/src';
+
+import { TaonSessionRepository } from '../taon-session/taon-session.repository';
+import { TaonSessionUserController } from '../taon-session-user/taon-session-user.controller';
 
 import { TaonGroupEntity } from './taon-group.entity';
 import { TaonGroupRepository } from './taon-group.repository';
@@ -15,30 +19,31 @@ import { TaonGroupRepository } from './taon-group.repository';
 
 @TaonController({
   className: 'TaonGroupController',
-  allowedMethods: [],
+  allowedMethods: ['paginationQuery'],
 })
-export class TaonGroupController extends TaonBaseCrudController<TaonGroupEntity> {
+export class TaonGroupController extends TaonBaseCrudController<
+  TaonGroupEntity,
+  {},
+  TaonGroupController
+> {
   entityClassResolveFn: () => typeof TaonGroupEntity = () => TaonGroupEntity;
 
   taonGroupRepository = this.injectCustomRepo(TaonGroupRepository);
 
-  //#region methods & getters / hello world
-  /**
-   * TODO remove this demo example method
-   */
-  @GET()
-  helloWord(@Query('yourName') yourName: string): Taon.Response<string> {
-    //#region @websqlFunc
-    return async (req, res) => {
-      const numOfEntities = await this.db.count();
-      const numberOfEvenEntities =
-        await this.taonGroupRepository.countEntitesWithEvenId();
-      return `Hello ${yourName || 'world'} from ${ClassHelpers.getName(TaonGroupController)}
-      controller..  ${numOfEntities} entites in db..
-      ${numberOfEvenEntities} entites with even ids (2,4,6,8 etc.)
-      `;
-    };
-    //#endregion
+  private readonly taonSessionRepository = this.injectCustomRepo(
+    TaonSessionRepository,
+  );
+
+  async beforeEachRequest({
+    req,
+    res,
+    methodConfig,
+  }: Models.TaonCtrlBeforeEachRequestParams<TaonSessionUserController>): Promise<void> {
+    if (methodConfig.methodName === 'paginationQuery') {
+      await this.taonSessionRepository.throwIfNotAuthenticated({
+        req,
+        res,
+      });
+    }
   }
-  //#endregion
 }

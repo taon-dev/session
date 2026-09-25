@@ -31,6 +31,11 @@ export class TaonGroupEntity extends TaonBaseAbstractEntity<TaonGroupEntity> {
   name!: string;
 
   //#region @websql
+  @Column({ type: 'varchar' })
+  //#endregion
+  code!: string;
+
+  //#region @websql
   @Column({ type: 'varchar', nullable: true })
   //#endregion
   description?: string;

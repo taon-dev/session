@@ -1,5 +1,7 @@
 //#region imports
+import { TaonRolePermissionRepository } from '../taon-role/taon-role-permission.repository';
 import { createContext, TaonBaseContext } from 'taon/src';
+
 
 import { TaonRolePermissionEntity } from './taon-role-permission.entity';
 import { TaonRoleController } from './taon-role.controller';
@@ -14,9 +16,12 @@ export const TaonRoleContext = createContext(() => ({
   contextName: 'TaonRoleContext',
   abstract: true,
   contexts: { TaonBaseContext },
-  entities: { TaonRoleEntity: TaonRoleEntity, TaonRolePermissionEntity: TaonRolePermissionEntity },
+  entities: {
+    TaonRoleEntity: TaonRoleEntity,
+    TaonRolePermissionEntity: TaonRolePermissionEntity,
+  },
   controllers: { TaonRoleController },
-  repositories: { TaonRoleRepository },
+  repositories: { TaonRoleRepository, TaonRolePermissionRepository },
   providers: { TaonRoleProvider },
   middlewares: { TaonRoleMiddleware },
   subscribers: { TaonRoleSubscriber },

@@ -15,7 +15,7 @@ export class TaonSessionKvRepository extends TaonBaseKvRepository {
   taonSessionProvider = this.injectProvider(TaonSessionProvider);
 
   //#region create access token
-  public async createAccessToken(userId: string): Promise<string> {
+  public async createAccessToken(userId: number): Promise<string> {
     //#region @backendFunc
     return await UtilsJwt.sign(
       { userId },
@@ -29,7 +29,7 @@ export class TaonSessionKvRepository extends TaonBaseKvRepository {
   //#endregion
 
   //#region create refresh token
-  public async createRefreshToken(userId: string): Promise<string> {
+  public async createRefreshToken(userId: number): Promise<string> {
     //#region @backendFunc
     const rtId = crypto.randomUUID();
 

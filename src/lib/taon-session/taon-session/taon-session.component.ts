@@ -364,7 +364,7 @@ export class TaonSessionComponent implements AfterViewInit, OnInit, OnDestroy {
             setTimeout(() => {
               // console.log(`FOCUS: ${newState}`);
               this.focusMainInput(currentState);
-            }, 1000);
+            }, 500);
           }
         },
       ),
