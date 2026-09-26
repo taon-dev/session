@@ -362,6 +362,8 @@ export class TaonSessionProvider extends TaonBaseProvider {
    */
   isProduction = isProduction;
 
+  superUsersEmails: string[] = [];
+
   cookies = new TaonSessionCookiesConfig();
 
   login = new TaonSessionLoginConfig();

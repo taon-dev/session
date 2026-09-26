@@ -20,6 +20,10 @@ import { TaonAuthContextDefaultsValues } from './taon-auth-context.constants';
 export class TaonAuthContextEntity extends TaonBaseAbstractEntity<TaonAuthContextEntity> {
   user!: TaonSessionUserEntity;
 
+  isSuperUser: boolean = false;
+
+  isLocalhostBackend: boolean = false;
+
   session!: TaonSessionEntity;
 
   groups: string[] = [];

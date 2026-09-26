@@ -53,6 +53,17 @@ export class TaonSessionApiService extends TaonBaseAngularService {
       }),
     );
   }
+
+  emptyContext(): Observable<TaonAuthContextEntity> {
+    return this.taonSessionController.emptyContext().request!().observable.pipe(
+      map(resp => {
+        return resp.body.json;
+      }),
+      catchError(() => {
+        return of(null);
+      }),
+    );
+  }
   //#endregion
 
   //#region get current user id

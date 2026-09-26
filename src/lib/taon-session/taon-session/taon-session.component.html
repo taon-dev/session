@@ -13,7 +13,7 @@
 <!-- STATE: {{ state.currentValue }} <br /> -->
 <!-- ERRORS: {{ form.errors | json }} <br /> -->
 <!-- IS LOGGED IN: {{ isLoggedIn$ | async }}<br /> -->
-
+<!-- {{ context$ | async | json }} -->
 <!-- <button (click)="test()" >test</button> -->
 <h1 class="flex items-center justify-center pt-10">
   <mat-icon
@@ -92,7 +92,8 @@
           class="w-full">
           <mat-form-field
             [ngClass]="{
-              'cursor-not-allowed pointer-events-none select-none': diableLoginByEmail,
+              'cursor-not-allowed pointer-events-none select-none':
+                diableLoginByEmail,
             }"
             appearance="outline"
             class="w-full email-field">
@@ -407,6 +408,8 @@
           (click)="logout()">
           Logout
         </button>
+        <br />
+        <!-- context -->
       </div>
     </div>
     <!-- #endregion -->

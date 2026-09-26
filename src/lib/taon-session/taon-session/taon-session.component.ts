@@ -158,6 +158,8 @@ export class TaonSessionComponent implements AfterViewInit, OnInit, OnDestroy {
 
   isLoggedIn$ = this.taonSessionStateService.isLoggedIn$;
 
+  context$ = this.taonSessionStateService.context$; // TODO @LAST
+
   protected sub = new Subscription();
 
   protected googleButtonLoaded = false;

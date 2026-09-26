@@ -47,6 +47,7 @@ import { TaonSessionUtils } from './taon-session.utils';
     'logout',
     'refresh',
     'context',
+    'emptyContext',
   ],
 })
 export class TaonSessionController extends TaonBaseController {
@@ -385,6 +386,18 @@ export class TaonSessionController extends TaonBaseController {
     return async (req, res) => {
       const userId = (req as any)!.userId;
       const context = await this.taonAuthContextRepository.getContext(userId);
+      return context;
+    };
+    //#endregion
+  }
+  //#endregion
+
+  //#region empty context
+  @GET()
+  emptyContext(): Taon.Response<TaonAuthContextEntity> {
+    //#region @websqlFunc
+    return async (req, res) => {
+      const context = await this.taonAuthContextRepository.getContext();
       return context;
     };
     //#endregion

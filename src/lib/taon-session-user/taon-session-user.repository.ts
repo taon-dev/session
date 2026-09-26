@@ -26,12 +26,20 @@ export class TaonSessionUserRepository extends TaonBaseRepository<TaonSessionUse
   ): Promise<TaonSessionUserEntity | null> {
     //#region @websqlFunc
 
-    return await this.findOne({
+    const user = await this.findOne({
       where: {
         id: userId as any,
       },
+      relations: {
+        identities: true,
+      },
     });
 
+    for (const identity of user.identities || []) {
+      delete identity.passwordHash;
+    }
+
+    return user;
     //#endregion
   }
 }

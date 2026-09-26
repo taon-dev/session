@@ -5,6 +5,7 @@ import { Raw } from 'taon-typeorm/src';
 import { TaonGroupRepository } from '../taon-group/taon-group.repository';
 import { TaonPermissionRepository } from '../taon-permission/taon-permission.repository';
 import { TaonRoleRepository } from '../taon-role/taon-role.repository';
+import { TaonSessionProvider } from '../taon-session/taon-session.provider';
 import { TaonSessionRepository } from '../taon-session/taon-session.repository';
 import { TaonSessionUserRepository } from '../taon-session-user/taon-session-user.repository';
 
@@ -34,29 +35,53 @@ export class TaonAuthContextRepository extends TaonBaseRepository<TaonAuthContex
     TaonPermissionRepository,
   );
 
+  private readonly taonSessionProvider =
+    this.injectProvider(TaonSessionProvider);
+
   private readonly taonRoleRepository =
     this.injectCustomRepo(TaonRoleRepository);
   //#endregion
 
   //#region get context
   public async getContext(
-    userId: number | string,
+    userId?: number | string,
   ): Promise<TaonAuthContextEntity> {
     //#region @websqlFunc
     const context = new TaonAuthContextEntity();
-    context.user = await this.taonSessionUserRepository.getUserById(userId);
-    context.session = await this.taonSessionRepository.getSessionBy(userId);
-    context.groups = (
-      await this.taonGroupRepository.getGroupsForUserId(userId)
-    ).map(c => c.code);
+    context.user = !userId
+      ? null
+      : await this.taonSessionUserRepository.getUserById(userId);
+    context.session = !userId
+      ? null
+      : await this.taonSessionRepository.getSessionBy(userId);
 
-    context.roles = (
-      await this.taonRoleRepository.getRolesForUserId(userId)
-    ).map(c => c.code);
+    context.groups = !userId
+      ? null
+      : (await this.taonGroupRepository.getGroupsForUserId(userId)).map(
+          c => c.code,
+        );
 
-    context.permissions = (
-      await this.taonPermissionRepository.getPermissionsForUserId(userId)
-    ).map(c => c.code);
+    context.roles = !userId
+      ? null
+      : (await this.taonRoleRepository.getRolesForUserId(userId)).map(
+          c => c.code,
+        );
+
+    !userId
+      ? null
+      : (context.permissions = (
+          await this.taonPermissionRepository.getPermissionsForUserId(userId)
+        ).map(c => c.code));
+
+    const userEmails = context.user?.identities?.map(c => c.email) || [];
+    context.isSuperUser = this.taonSessionProvider.superUsersEmails.some(s =>
+      userEmails.includes(s),
+    );
+
+    // console.log('context.user', context.user);
+
+    context.isLocalhostBackend =
+      this.ctx.frontendHostUri.host.includes('localhost:');
 
     return context;
     //#endregion

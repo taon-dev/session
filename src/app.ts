@@ -97,6 +97,7 @@ import {
   ENV_ANGULAR_NODE_APP_BUILD_PWA_DISABLE_SERVICE_WORKER,
   ENV_ANGULAR_NODE_APP_CONFIG_GOOGLE_CLIENT_ID,
   ENV_ANGULAR_NODE_APP_CONFIG_GOOGLE_SECRET,
+  ENV_ANGULAR_NODE_APP_CONFIG_SUPER_USERS,
 } from './lib/env/env.angular-node-app';
 // @placeholder-for-imports
 //#endregion
@@ -106,6 +107,10 @@ console.log('🚀 [ TAON IS STARTING ]');
 const DEFAULT_PASSWORD = DEFAULT_SESSION_PASSWORD;
 
 const DEFAULT_EMAIL = DEFAULT_SESSION_EMAIL;
+
+const DEFAULT_PASSWORD2 = DEFAULT_SESSION_PASSWORD;
+
+const DEFAULT_EMAIL2 = 2 + DEFAULT_SESSION_EMAIL;
 //#endregion
 
 //#region taon-jwt-cookie-header-session component
@@ -340,12 +345,22 @@ class TaonSessionProviderOverride extends TaonSessionProvider {
     this.socialLogin.google.enabled = true;
     this.socialLogin.google.googleClientId =
       ENV_ANGULAR_NODE_APP_CONFIG_GOOGLE_CLIENT_ID;
+
+    this.login.defaultEmail = DEFAULT_EMAIL;
   }
 
   //#region @backend
   async _() {
     const googleSecret = await ENV_ANGULAR_NODE_APP_CONFIG_GOOGLE_SECRET();
     this.socialLogin.google.googleSecret = googleSecret;
+
+    this.superUsersEmails = [
+      DEFAULT_EMAIL,
+      ...(await ENV_ANGULAR_NODE_APP_CONFIG_SUPER_USERS()).split(','),
+    ];
+
+    console.log('active super users', this.superUsersEmails);
+
     await super._();
   }
   //#endregion
@@ -401,30 +416,64 @@ export const SessionStartFunction = async (
     TaonSessionUserIdentityRepository,
   );
 
-  const existingIdentity =
-    await taonSessionUserIdentityRepository.findPasswordIdentity(DEFAULT_EMAIL);
+  await (async () => {
+    const existingIdentity =
+      await taonSessionUserIdentityRepository.findPasswordIdentity(
+        DEFAULT_EMAIL,
+      );
 
-  if (!existingIdentity) {
-    const user = await taonSessionUserRepository.save(
-      new TaonSessionUserEntity().clone({
-        username: TaonSessionUserUtils.generateRandomUsername(),
-      }),
-    );
+    if (!existingIdentity) {
+      const user = await taonSessionUserRepository.save(
+        new TaonSessionUserEntity().clone({
+          username: TaonSessionUserUtils.generateRandomUsername(),
+        }),
+      );
 
-    await taonSessionUserIdentityRepository.createPasswordIdentity(
-      user.id,
-      DEFAULT_EMAIL,
-      DEFAULT_PASSWORD,
-    );
+      await taonSessionUserIdentityRepository.createPasswordIdentity(
+        user.id,
+        DEFAULT_EMAIL,
+        DEFAULT_PASSWORD,
+      );
 
-    await taonSessionUserIdentityRepository.createSocialIdentity(
-      user.id,
-      TaonSessionIdentityProvider.GOOGLE,
-      'idfromgoogle',
-      `fromgogle${DEFAULT_EMAIL}`,
-      true,
-    );
-  }
+      await taonSessionUserIdentityRepository.createSocialIdentity(
+        user.id,
+        TaonSessionIdentityProvider.GOOGLE,
+        'idfromgoogle',
+        `fromgogle${DEFAULT_EMAIL}`,
+        true,
+      );
+    }
+  })();
+
+  await (async () => {
+    const existingIdentity =
+      await taonSessionUserIdentityRepository.findPasswordIdentity(
+        DEFAULT_EMAIL2,
+      );
+
+    if (!existingIdentity) {
+      const user = await taonSessionUserRepository.save(
+        new TaonSessionUserEntity().clone({
+          username: TaonSessionUserUtils.generateRandomUsername(),
+        }),
+      );
+
+      await taonSessionUserIdentityRepository.createPasswordIdentity(
+        user.id,
+        DEFAULT_EMAIL2,
+        DEFAULT_PASSWORD2,
+      );
+
+      await taonSessionUserIdentityRepository.createSocialIdentity(
+        user.id,
+        TaonSessionIdentityProvider.MICROSOFT,
+        'idfrommicrosoft',
+        `fromgogle${DEFAULT_EMAIL2}`,
+        true,
+      );
+    }
+  })();
+
   //#endregion
   //#endregion
 

@@ -6,6 +6,7 @@ import {
   finalize,
   map,
   NEVER,
+  Observable,
   of,
   switchMap,
   take,
@@ -14,6 +15,8 @@ import {
 import { TaonBaseProvider, TaonProvider } from 'taon/src';
 import { signal } from 'tnp-core/src';
 import { TaonStateMachine } from 'tnp-core/src';
+
+import { TaonAuthContextEntity } from '../taon-auth-context/taon-auth-context.entity';
 
 import type { TaonSessionComponent } from './taon-session/taon-session.component'; // @browser
 import { TaonSessionApiService } from './taon-session.api.service'; // @browser
@@ -158,6 +161,18 @@ export class TaonSessionStateService extends TaonBaseProvider {
       return isLoggedIn;
     }),
   );
+
+  //#region @browser
+  public context$: Observable<TaonAuthContextEntity> = this.isLoggedIn$.pipe(
+    switchMap(isLoggedIn => {
+      if (!isLoggedIn) {
+        return this.taonSessionApiService.emptyContext();
+      }
+      return this.taonSessionApiService.context();
+    }),
+  );
+  //#endregion
+
   //#endregion
 
   // private static idOfInstnace = 0;
@@ -200,7 +215,7 @@ export class TaonSessionStateService extends TaonBaseProvider {
           take(1),
           tap(okLogin => {
             googleCodeField.reset();
-            console.log({ okLogin });
+            // console.log({ okLogin });
             if (okLogin) {
               this.state.set(TaonSessionState.LOGIN_SUCCESS);
               if (!isSocialLogin) {
