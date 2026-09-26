@@ -22,9 +22,13 @@ import { TaonSessionUserRoleEntity } from '../taon-session-user/taon-session-use
 
 //#endregion
 
-@TaonEntity({
+@TaonEntity<TaonSessionUserEntity>({
   className: 'TaonSessionUserEntity',
   createTable: true,
+  defaultModelMapping: () => ({
+    '': TaonSessionUserEntity,
+    identities: [TaonSessionUserIdentityEntity],
+  }),
 })
 export class TaonSessionUserEntity extends TaonBaseAbstractEntity<TaonSessionUserEntity> {
   //#region @websql

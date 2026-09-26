@@ -29,13 +29,25 @@ export class TaonSessionBackofficeUsersComponent {
       header: 'ID',
       field: 'id',
       sortable: true,
+      showExpand: true,
     },
     {
-      header: 'Email',
-      field: 'email',
+      header: 'Username',
+      field: 'username',
       sortable: true,
     },
   ];
 
-  add() {}
+  identityColumns: MtxGridColumn[] = [
+    {
+      header: 'Provider',
+      field: 'provider',
+    },
+    {
+      header: 'Email',
+      field: 'email',
+    },
+  ];
+
+  add(): void {}
 }

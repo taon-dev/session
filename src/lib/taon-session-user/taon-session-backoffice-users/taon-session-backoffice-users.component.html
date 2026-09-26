@@ -1,7 +1,22 @@
 <taon-datatable
   [entityCrudController]="crud"
   [columns]="columns"
-  [allowedColumns]="['id', 'email']"
+  [allowedColumns]="['id', 'username']"
   searchMode="advanced"
-  (addingItem)="add()">
+  (addingItem)="add()"
+  [expansionTemplate]="expansionTemplate">
 </taon-datatable>
+
+<ng-template
+  #expansionTemplate
+  let-user>
+  <taon-datatable
+    [data]="user.identities"
+    [columns]="identityColumns"
+    [pageSize]="5"
+    [hideSearch]="true"
+    [hideAddButton]="true"
+    [showPaginator]="false"
+    searchMode="simple">
+  </taon-datatable>
+</ng-template>

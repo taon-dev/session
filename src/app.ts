@@ -54,6 +54,9 @@ import {
   TaonSessionUserEntity,
   TaonSessionUserRepository,
   MIGRATIONS_CLASSES_FOR_SessionContext,
+  TaonSessionUserIdentityRepository,
+  TaonSessionUserUtils,
+  TaonSessionIdentityProvider,
 } from '@taon-dev/session/src';
 import {
   TaonSessionComponent,
@@ -390,21 +393,38 @@ export const SessionStartFunction = async (
 
   //#region add default email
   //#region @backend
-  const ins = ref.getInstanceBy(TaonSessionUserRepository);
+  const taonSessionUserRepository = ref.getInstanceBy(
+    TaonSessionUserRepository,
+  );
 
-  // const user = await ins.findOne({
-  //   where: {
-  //     email: DEFAULT_EMAIL,
-  //   },
-  // });
-  // if (!user) {
-  //   await ins.save(
-  //     new TaonSessionUserEntity().clone({
-  //       email: DEFAULT_EMAIL,
-  //       password: DEFAULT_PASSWORD,
-  //     }),
-  //   );
-  // }
+  const taonSessionUserIdentityRepository = ref.getInstanceBy(
+    TaonSessionUserIdentityRepository,
+  );
+
+  const existingIdentity =
+    await taonSessionUserIdentityRepository.findPasswordIdentity(DEFAULT_EMAIL);
+
+  if (!existingIdentity) {
+    const user = await taonSessionUserRepository.save(
+      new TaonSessionUserEntity().clone({
+        username: TaonSessionUserUtils.generateRandomUsername(),
+      }),
+    );
+
+    await taonSessionUserIdentityRepository.createPasswordIdentity(
+      user.id,
+      DEFAULT_EMAIL,
+      DEFAULT_PASSWORD,
+    );
+
+    await taonSessionUserIdentityRepository.createSocialIdentity(
+      user.id,
+      TaonSessionIdentityProvider.GOOGLE,
+      'idfromgoogle',
+      `fromgogle${DEFAULT_EMAIL}`,
+      true,
+    );
+  }
   //#endregion
   //#endregion
 
