@@ -1,5 +1,6 @@
 //#region imports
 import { Injectable } from '@angular/core';
+import { TaonAuthContextEntity } from '@taon-dev/session/src';
 import { NEVER, Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { Taon, TaonBaseAngularService } from 'taon/src';
@@ -42,11 +43,10 @@ export class TaonSessionApiService extends TaonBaseAngularService {
   //#endregion
 
   //#region me
-  me(): Observable<string> {
-    return this.taonSessionController.me().request!().observable.pipe(
+  context(): Observable<TaonAuthContextEntity> {
+    return this.taonSessionController.context().request!().observable.pipe(
       map(resp => {
-        const text = resp.body.text;
-        return text;
+        return resp.body.json;
       }),
       catchError(() => {
         return of(null);

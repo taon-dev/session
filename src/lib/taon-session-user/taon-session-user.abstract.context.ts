@@ -2,6 +2,8 @@
 import { createContext, TaonBaseContext } from 'taon/src';
 
 import { TaonSessionUserGroupEntity } from './taon-session-user-group.entity';
+import { TaonSessionUserIdentityEntity } from './taon-session-user-identity.entity';
+import { TaonSessionUserIdentityRepository } from './taon-session-user-identity.repository';
 import { TaonSessionUserRoleEntity } from './taon-session-user-role.entity';
 import { TaonSessionUserController } from './taon-session-user.controller';
 import { TaonSessionUserEntity } from './taon-session-user.entity';
@@ -19,9 +21,13 @@ export const TaonSessionUserContext = createContext(() => ({
     TaonSessionUserEntity,
     TaonSessionUserGroupEntity,
     TaonSessionUserRoleEntity,
+    TaonSessionUserIdentityEntity,
   },
   controllers: { TaonSessionUserController },
-  repositories: { TaonSessionUserRepository },
+  repositories: {
+    TaonSessionUserRepository,
+    TaonSessionUserIdentityRepository,
+  },
   providers: { TaonSessionUserProvider },
   middlewares: { TaonSessionUserMiddleware },
   subscribers: { TaonSessionUserSubscriber },

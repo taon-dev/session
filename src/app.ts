@@ -392,19 +392,19 @@ export const SessionStartFunction = async (
   //#region @backend
   const ins = ref.getInstanceBy(TaonSessionUserRepository);
 
-  const user = await ins.findOne({
-    where: {
-      email: DEFAULT_EMAIL,
-    },
-  });
-  if (!user) {
-    await ins.save(
-      new TaonSessionUserEntity().clone({
-        email: DEFAULT_EMAIL,
-        password: DEFAULT_PASSWORD,
-      }),
-    );
-  }
+  // const user = await ins.findOne({
+  //   where: {
+  //     email: DEFAULT_EMAIL,
+  //   },
+  // });
+  // if (!user) {
+  //   await ins.save(
+  //     new TaonSessionUserEntity().clone({
+  //       email: DEFAULT_EMAIL,
+  //       password: DEFAULT_PASSWORD,
+  //     }),
+  //   );
+  // }
   //#endregion
   //#endregion
 

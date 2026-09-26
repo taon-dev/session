@@ -11,17 +11,10 @@ import { TaonGroupEntity } from './taon-group.entity';
 export class TaonGroupRepository extends TaonBaseRepository<TaonGroupEntity> {
   entityClassResolveFn: () => typeof TaonGroupEntity = () => TaonGroupEntity;
 
-  /**
-   * TODO remove this demo example method
-   */
-  async countEntitesWithEvenId(): Promise<number> {
-    //#region @websqlFunc
-    const result = await this.count({
-      where: {
-        id: Raw(alias => `${alias} % 2 = 0`),
-      },
-    });
-    return result;
-    //#endregion
+  async getGroupsForUserId(
+    userId: number | string,
+  ): Promise<TaonGroupEntity[]> {
+    // TODO
+    return [];
   }
 }

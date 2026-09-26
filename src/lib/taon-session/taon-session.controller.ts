@@ -1,5 +1,9 @@
 //#region imports
 import {
+  TaonAuthContextEntity,
+  TaonAuthContextRepository,
+} from '@taon-dev/session/src';
+import {
   Taon,
   ClassHelpers,
   TaonController,
@@ -11,21 +15,26 @@ import {
   POST,
   HttpStatusEnum,
   getStatusCode,
+  getStatusText,
 } from 'taon/src';
 import { HttpStatusCodeMap } from 'taon/src';
 import { FindOneOptions, FindOptionsWhere } from 'taon-typeorm/src';
 import { _, UtilsJwt } from 'tnp-core/src';
 
-import { TaonSessionUserEntity } from '../taon-session-user';
+import {
+  TaonSessionIdentityProvider,
+  TaonSessionUserEntity,
+} from '../taon-session-user';
+import { TaonSessionUserIdentityRepository } from '../taon-session-user/taon-session-user-identity.repository';
 import { TaonSessionUserRepository } from '../taon-session-user/taon-session-user.repository';
 
 import { TaonSessionKvRepository } from './taon-session.kv.repository';
 import { TaonSessionMiddleware } from './taon-session.middleware';
 import { TaonLoginData } from './taon-session.models';
 import { TaonSessionProvider } from './taon-session.provider';
+import { TaonSessionRepository } from './taon-session.repository';
 import { TaonSessionUtils } from './taon-session.utils';
 
-const tempPassForSocialLogin = 'tempPassForSocialLogin';
 //#endregion
 
 @TaonController<TaonSessionController>({
@@ -37,16 +46,34 @@ const tempPassForSocialLogin = 'tempPassForSocialLogin';
     'login',
     'logout',
     'refresh',
-    'me',
-    'helloWorld',
+    'context',
   ],
 })
 export class TaonSessionController extends TaonBaseController {
-  taonSessionKvRepository = this.injectKvRepository(TaonSessionKvRepository);
+  //#region fields & getters
+  private readonly taonSessionKvRepository = this.injectKvRepository(
+    TaonSessionKvRepository,
+  );
 
-  taonSessionProvider = this.injectProvider(TaonSessionProvider);
+  private readonly taonSessionUserIdentityRepository = this.injectCustomRepo(
+    TaonSessionUserIdentityRepository,
+  );
 
-  taonSessionUserRepository = this.injectCustomRepo(TaonSessionUserRepository);
+  private readonly taonSessionProvider =
+    this.injectProvider(TaonSessionProvider);
+
+  private readonly taonSessionUserRepository = this.injectCustomRepo(
+    TaonSessionUserRepository,
+  );
+
+  private readonly taonAuthContextRepository = this.injectCustomRepo(
+    TaonAuthContextRepository,
+  );
+
+  private readonly taonSessionRepository = this.injectCustomRepo(
+    TaonSessionRepository,
+  );
+  //#endregion
 
   //#region createUser
   @POST()
@@ -54,20 +81,25 @@ export class TaonSessionController extends TaonBaseController {
     @Body('email') email: string,
     @Body('password') password: string,
   ): Taon.Response<TaonSessionUserEntity | null> {
-    //#region @backendFunc
+    //#region @websqlFunc
     return async (req, res) => {
-      const exitedUser = await this.taonSessionUserRepository.findOne({
-        where: {
+      const existingIdentity =
+        await this.taonSessionUserIdentityRepository.findPasswordIdentity(
           email,
-        },
-      });
-      if (exitedUser) {
+        );
+
+      if (existingIdentity) {
         return null;
       }
 
-      let user = new TaonSessionUserEntity().clone({ email, password });
-      user = await this.taonSessionUserRepository.save(user);
-      delete user.password;
+      const user = await this.taonSessionUserRepository.createUser();
+
+      await this.taonSessionUserIdentityRepository.createPasswordIdentity(
+        user.id,
+        email,
+        password,
+      );
+
       return user;
     };
     //#endregion
@@ -77,14 +109,14 @@ export class TaonSessionController extends TaonBaseController {
   //#region userExists
   @POST()
   userExists(@Body('email') email: string): Taon.Response<boolean> {
-    //#region @backendFunc
+    //#region @websqlFunc
     return async (req, res) => {
-      const exitedUser = await this.taonSessionUserRepository.findOne({
-        where: {
+      const identity =
+        await this.taonSessionUserIdentityRepository.findPasswordIdentity(
           email,
-        },
-      });
-      return !!exitedUser;
+        );
+
+      return !!identity;
     };
     //#endregion
   }
@@ -93,67 +125,131 @@ export class TaonSessionController extends TaonBaseController {
   //#region login
   @POST()
   login(@Body() data: TaonLoginData): Taon.Response<boolean> {
-    //#region @backendFunc
+    //#region @websqlFunc
     return async (req, res) => {
       let { email, password, googleCode } = data || {};
+
       const isSocialLogin = !!googleCode;
 
+      let user: TaonSessionUserEntity | null = null;
+
       if (isSocialLogin) {
-        //#region handle social login
+        //#region google login
+
         let googleData: Awaited<
           ReturnType<typeof TaonSessionUtils.verifyGoogleAuthorizationCode>
         >;
+
         try {
           googleData = await TaonSessionUtils.verifyGoogleAuthorizationCode(
             this.taonSessionProvider.socialLogin.google.googleClientId,
             this.taonSessionProvider.socialLogin.google.googleSecret,
             googleCode,
           );
-          console.log('SUCCESSFULLY DONE USING NEW API');
-        } catch (error) {}
-
-        if (googleData?.emailVerified) {
-          email = googleData.email;
-        } else {
+        } catch (error) {
           Taon.error({
-            status: getStatusCode(HttpStatusEnum.INTERNAL_SERVER_ERROR),
-            message: 'Invalid code or something went wrong with social login.',
+            status: getStatusCode(HttpStatusEnum.INVALID_CREDENTIALS),
+            message: getStatusText(HttpStatusEnum.INVALID_CREDENTIALS),
           });
+
           return false;
         }
+
+        if (
+          !googleData?.sub ||
+          !googleData?.email ||
+          !googleData?.emailVerified
+        ) {
+          Taon.error({
+            status: getStatusCode(HttpStatusEnum.INVALID_CREDENTIALS),
+            message: 'Invalid Google authentication.',
+          });
+
+          return false;
+        }
+
+        let identity =
+          await this.taonSessionUserIdentityRepository.findSocialIdentity(
+            TaonSessionIdentityProvider.GOOGLE,
+            googleData.sub,
+          );
+
+        if (identity) {
+          user = await this.taonSessionUserRepository.findOne({
+            where: {
+              id: identity.userId,
+            },
+          });
+        } else {
+          // First login with this Google account.
+          user = await this.taonSessionUserRepository.createUser();
+
+          identity =
+            await this.taonSessionUserIdentityRepository.createSocialIdentity(
+              user.id,
+              TaonSessionIdentityProvider.GOOGLE,
+              googleData.sub,
+              googleData.email,
+              googleData.emailVerified,
+            );
+        }
+
+        //#endregion
+      } else {
+        //#region password login
+
+        if (!email || !password) {
+          Taon.error({
+            status: getStatusCode(HttpStatusEnum.INVALID_CREDENTIALS),
+            message: getStatusText(HttpStatusEnum.INVALID_CREDENTIALS),
+          });
+
+          return false;
+        }
+
+        const identity =
+          await this.taonSessionUserIdentityRepository.verifyPassword(
+            email,
+            password,
+          );
+
+        if (!identity) {
+          Taon.error({
+            status: getStatusCode(HttpStatusEnum.INVALID_CREDENTIALS),
+            message: getStatusText(HttpStatusEnum.INVALID_CREDENTIALS),
+          });
+
+          return false;
+        }
+
+        user = await this.taonSessionUserRepository.findOne({
+          where: {
+            id: identity.userId,
+          },
+        });
+
         //#endregion
       }
 
-      const searchPayload: FindOptionsWhere<TaonSessionUserEntity> = {
-        email,
-      };
-      if (!isSocialLogin) {
-        searchPayload.password = password;
-      }
+      //#region validate user
 
-      let user = await this.taonSessionUserRepository.findOne({
-        where: searchPayload,
-      });
-
-      if (!user && isSocialLogin) {
-        user = new TaonSessionUserEntity().clone({
-          email,
-          password: tempPassForSocialLogin,
-        });
-        user = await this.taonSessionUserRepository.save(user);
-      }
-
-      if (!user) {
+      if (!user || !user.isActive) {
         Taon.error({
-          status: 401,
-          message: 'Invalid credentials',
+          status: getStatusCode(HttpStatusEnum.INVALID_CREDENTIALS),
+          message: getStatusText(HttpStatusEnum.INVALID_CREDENTIALS),
         });
+
         return false;
       }
+
+      //#endregion
+
+      //#region create auth tokens
 
       const accessToken = await this.taonSessionKvRepository.createAccessToken(
         user.id,
       );
+
       const refreshToken =
         await this.taonSessionKvRepository.createRefreshToken(user.id);
 
@@ -162,6 +258,19 @@ export class TaonSessionController extends TaonBaseController {
         accessToken,
         refreshToken,
       );
+
+      //#endregion
+
+      //#region create session
+
+      await this.taonSessionRepository.createSession({
+        userId: user.id,
+        deviceName: '',
+        ip: '',
+        userAgent: '',
+      });
+
+      //#endregion
 
       return true;
     };
@@ -172,7 +281,7 @@ export class TaonSessionController extends TaonBaseController {
   //#region refresh
   @POST()
   refresh(): Taon.Response<boolean> {
-    //#region @backendFunc
+    //#region @websqlFunc
     return async (req, res) => {
       const token = req!.cookies?.refreshToken;
 
@@ -240,7 +349,7 @@ export class TaonSessionController extends TaonBaseController {
   //#region logout
   @POST()
   logout(): Taon.Response<boolean> {
-    //#region @backendFunc
+    //#region @websqlFunc
     return async (req, res) => {
       const token = req!.cookies?.refreshToken;
 
@@ -264,18 +373,19 @@ export class TaonSessionController extends TaonBaseController {
   }
   //#endregion
 
-  //#region me
+  //#region context
   @GET({
     middlewares: ({ parentMiddlewares }) => ({
       TaonSessionMiddleware,
       ...parentMiddlewares,
     }),
   })
-  me(): Taon.Response<string> {
-    //#region @backendFunc
+  context(): Taon.Response<TaonAuthContextEntity> {
+    //#region @websqlFunc
     return async (req, res) => {
       const userId = (req as any)!.userId;
-      return `Userid: ${userId}`;
+      const context = await this.taonAuthContextRepository.getContext(userId);
+      return context;
     };
     //#endregion
   }
@@ -289,26 +399,12 @@ export class TaonSessionController extends TaonBaseController {
     }),
   })
   getCurrentUserId(): Taon.Response<number> {
-    //#region @backendFunc
+    //#region @websqlFunc
     return async (req, res) => {
       const userId = (req as any)!.userId;
       return Number(userId);
     };
     //#endregion
-  }
-  //#endregion
-
-  //#region hello world
-  @GET()
-  helloWorld(): Taon.Response<string> {
-    return async () => 'hello world from TaonSessionController';
-  }
-
-  @GET()
-  helloWorldJson(): Taon.Response<any> {
-    return async () => {
-      helo: 'world';
-    };
   }
   //#endregion
 }

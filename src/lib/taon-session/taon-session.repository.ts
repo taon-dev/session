@@ -20,6 +20,7 @@ import { TaonSessionProvider } from './taon-session.provider';
   className: 'TaonSessionRepository',
 })
 export class TaonSessionRepository extends TaonBaseRepository<TaonSessionEntity> {
+  //#region fields & getters
   entityClassResolveFn: () => typeof TaonSessionEntity = () =>
     TaonSessionEntity;
 
@@ -29,7 +30,30 @@ export class TaonSessionRepository extends TaonBaseRepository<TaonSessionEntity>
 
   private readonly taonSessionProvider =
     this.injectProvider(TaonSessionProvider);
+  //#endregion
 
+  //#region create session entity
+  async createSession(
+    partialSessino: Partial<TaonSessionEntity>,
+  ): Promise<TaonSessionEntity> {
+    //#region @websqlFunc
+    let session = new TaonSessionEntity().clone(partialSessino);
+    session = await this.save(session);
+    return session;
+    //#endregion
+  }
+  //#endregion
+
+  //#region get session by id
+  async getSessionBy(userId: number | string): Promise<TaonSessionEntity> {
+    // TODO not only id ?
+    // let session = new TaonSessionEntity().clone(partialSessino);
+    // session = await this.save(session);
+    return null;
+  }
+  //#endregion
+
+  //#region throw if not authroized
   async throwIfNotAuthenticated({
     req,
     res,
@@ -47,7 +71,7 @@ export class TaonSessionRepository extends TaonBaseRepository<TaonSessionEntity>
     if (!token) {
       Taon.error({
         message: getStatusText(HttpStatusEnum.NO_TOKEN),
-        code: getStatusCode(HttpStatusEnum.NO_TOKEN),
+        status: getStatusCode(HttpStatusEnum.NO_TOKEN),
       });
       return;
     }
@@ -63,9 +87,10 @@ export class TaonSessionRepository extends TaonBaseRepository<TaonSessionEntity>
     } catch (err) {
       Taon.error({
         message: getStatusText(HttpStatusEnum.INVALID_TOKEN),
-        code: getStatusCode(HttpStatusEnum.INVALID_TOKEN),
+        status: getStatusCode(HttpStatusEnum.INVALID_TOKEN),
       });
     }
     //#endregion
   }
+  //#endregion
 }

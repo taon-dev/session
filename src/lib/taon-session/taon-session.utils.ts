@@ -35,7 +35,7 @@ export namespace TaonSessionUtils {
     GOOGLE_CLIENT_SECRET: string,
     code: string,
   ) {
-    //#region @backendFunc
+    //#region @websqlFunc
 
     // ---------------------------------------------------------
     // 1. Exchange authorization code for tokens

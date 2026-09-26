@@ -92,6 +92,8 @@ export * from './taon-session/taon-session.utils';
 export * from './taon-session/taon-session.validators'; 
 export * from './taon-session-user/taon-session-user-api.service'; // @browser
 export * from './taon-session-user/taon-session-user-group.entity'; 
+export * from './taon-session-user/taon-session-user-identity.entity'; 
+export * from './taon-session-user/taon-session-user-identity.repository'; 
 export * from './taon-session-user/taon-session-user-role.entity'; 
 export * from './taon-session-user/taon-session-user.abstract.context'; 
 export * from './taon-session-user/taon-session-user.constants'; 
@@ -103,17 +105,6 @@ export * from './taon-session-user/taon-session-user.provider';
 export * from './taon-session-user/taon-session-user.repository'; 
 export * from './taon-session-user/taon-session-user.subscriber'; 
 export * from './taon-session-user/taon-session-user.utils'; 
-export * from './taon-session-user-identity/taon-session-user-identity-api.service'; // @browser
-export * from './taon-session-user-identity/taon-session-user-identity.abstract.context'; 
-export * from './taon-session-user-identity/taon-session-user-identity.constants'; 
-export * from './taon-session-user-identity/taon-session-user-identity.controller'; 
-export * from './taon-session-user-identity/taon-session-user-identity.entity'; 
-export * from './taon-session-user-identity/taon-session-user-identity.middleware'; 
-export * from './taon-session-user-identity/taon-session-user-identity.models'; 
-export * from './taon-session-user-identity/taon-session-user-identity.provider'; 
-export * from './taon-session-user-identity/taon-session-user-identity.repository'; 
-export * from './taon-session-user-identity/taon-session-user-identity.subscriber'; 
-export * from './taon-session-user-identity/taon-session-user-identity.utils'; 
 export * from './taon-group/taon-group-backoffice/taon-group-backoffice.component'; // @browser
 export * from './taon-group/taon-group-backoffice/taon-group-backoffice.models'; 
 export * from './taon-group/taon-group-backoffice/taon-group-backoffice.routes'; // @browser

@@ -47,7 +47,7 @@ export class TaonSessionEntity extends TaonBaseAbstractEntity<TaonSessionEntity>
   //#endregion
 
   //#region @websql
-  @Column({ type: 'varchar' })
+  @Column({ nullable: true, type: 'varchar' })
   //#endregion
   tokenHash!: string;
 
@@ -72,7 +72,7 @@ export class TaonSessionEntity extends TaonBaseAbstractEntity<TaonSessionEntity>
   lastActivityAt?: Date;
 
   //#region @websql
-  @Column({ type: 'datetime' })
+  @Column({ nullable: true, type: 'datetime' })
   //#endregion
   expiresAt!: Date;
 
@@ -87,7 +87,7 @@ export class TaonSessionEntity extends TaonBaseAbstractEntity<TaonSessionEntity>
   revokeReason?: string;
 
   //#region @websql
-  @CreateDateColumn()
+  @CreateDateColumn({ nullable: true })
   //#endregion
   createdAt!: Date;
 }

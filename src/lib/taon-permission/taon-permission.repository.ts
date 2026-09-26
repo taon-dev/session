@@ -11,17 +11,10 @@ import { TaonPermissionEntity } from './taon-permission.entity';
 export class TaonPermissionRepository extends TaonBaseRepository<TaonPermissionEntity> {
   entityClassResolveFn: () => typeof TaonPermissionEntity = () => TaonPermissionEntity;
 
-  /**
-   * TODO remove this demo example method
-   */
-  async countEntitesWithEvenId(): Promise<number> {
-    //#region @websqlFunc
-    const result = await this.count({
-      where: {
-        id: Raw(alias => `${alias} % 2 = 0`),
-      },
-    });
-    return result;
-    //#endregion
+  async getPermissionsForUserId(
+    userId: number | string,
+  ): Promise<TaonPermissionEntity[]> {
+    // TODO
+    return [];
   }
 }

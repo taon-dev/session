@@ -9,7 +9,6 @@ import { TaonPermissionContext } from '../taon-permission/taon-permission.abstra
 import { TaonRoleContext } from '../taon-role/taon-role.abstract.context';
 import { TaonSessionRepository } from '../taon-session/taon-session.repository';
 import { TaonSessionUserContext } from '../taon-session-user/taon-session-user.abstract.context';
-import { TaonSessionUserIdentityContext } from '../taon-session-user-identity/taon-session-user-identity.abstract.context';
 
 import { TaonSessionController } from './taon-session.controller';
 import { TaonSessionEntity } from './taon-session.entity';
@@ -30,7 +29,6 @@ export const TaonSessionAbstractContext = createContext(() => ({
     TaonGroupContext,
     TaonPermissionContext,
     TaonRoleContext,
-    TaonSessionUserIdentityContext,
     TaonNotificationContext,
     TaonAuditEventsContext,
   },

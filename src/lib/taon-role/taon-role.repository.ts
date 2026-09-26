@@ -11,17 +11,8 @@ import { TaonRoleEntity } from './taon-role.entity';
 export class TaonRoleRepository extends TaonBaseRepository<TaonRoleEntity> {
   entityClassResolveFn: () => typeof TaonRoleEntity = () => TaonRoleEntity;
 
-  /**
-   * TODO remove this demo example method
-   */
-  async countEntitesWithEvenId(): Promise<number> {
-    //#region @websqlFunc
-    const result = await this.count({
-      where: {
-        id: Raw(alias => `${alias} % 2 = 0`),
-      },
-    });
-    return result;
-    //#endregion
+  async getRolesForUserId(userId: number | string): Promise<TaonRoleEntity[]> {
+    // TODO
+    return [];
   }
 }

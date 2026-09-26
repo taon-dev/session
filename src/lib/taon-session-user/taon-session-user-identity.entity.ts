@@ -1,28 +1,18 @@
-//#region imports
-import { TaonSessionUserEntity } from '../taon-session-user/taon-session-user.entity';
 import {
   BooleanColumn,
   Column,
   CreateDateColumn,
-  CustomColumn,
+  Index,
   JoinColumn,
   ManyToOne,
-  Taon,
   TaonBaseAbstractEntity,
   TaonEntity,
   UpdateDateColumn,
 } from 'taon/src';
-import { _ } from 'tnp-core/src';
 
-export enum UserIdentityExternal {
-  PASSWORD = 'password',
-  GOOGLE = 'google',
-  GITHUB = 'github',
-  MICROSOFT = 'microsoft',
-}
+import { TaonSessionUserEntity } from '../taon-session-user/taon-session-user.entity';
 
-import { TaonSessionUserIdentityDefaultsValues } from './taon-session-user-identity.constants';
-//#endregion
+import { TaonSessionIdentityProvider } from './taon-session-user.models';
 
 @TaonEntity({
   className: 'TaonSessionUserIdentityEntity',
@@ -45,51 +35,53 @@ export class TaonSessionUserIdentityEntity extends TaonBaseAbstractEntity<TaonSe
   //#endregion
   user!: TaonSessionUserEntity;
 
+  /**
+   * PASSWORD / GOOGLE / MICROSOFT / APPLE / FACEBOOK
+   */
   //#region @websql
-  @Column({ type: 'varchar', length: 20 })
+  @Column({ type: 'varchar', length: 50 })
   //#endregion
-  provider!: UserIdentityExternal;
+  provider!: TaonSessionIdentityProvider;
 
   /**
-   * For Google:
-   * Google's stable `sub`.
+   * PASSWORD:
+   *   normalized email
    *
-   * For GitHub:
-   * GitHub user ID.
+   * GOOGLE:
+   *   Google's stable `sub`, NOT email
    *
-   * For local password:
-   * you could use User.id/string identifier.
+   * Other OAuth providers:
+   *   stable provider-specific account id
    */
-
   //#region @websql
-  @Column({ type: 'varchar' })
+  @Column({ type: 'varchar', length: 500 })
   //#endregion
   providerUserId!: string;
 
   /**
-   * Provider-reported email.
+   * Convenience/contact email reported by this identity.
    *
-   * Do NOT use this alone as identity.
+   * Do NOT use this as the primary OAuth identity key.
    */
-
   //#region @websql
-  @Column({ nullable: true, type: 'varchar' })
+  @Column({ nullable: true, type: 'varchar', length: 500 })
   //#endregion
-  providerEmail?: string;
+  email?: string;
+
+  /**
+   * Only PASSWORD identities have this.
+   *
+   * Never store plaintext here.
+   */
+  //#region @websql
+  @Column({ nullable: true, type: 'varchar', length: 500 })
+  //#endregion
+  passwordHash?: string;
 
   //#region @websql
   @BooleanColumn(false)
   //#endregion
-  providerEmailVerified!: boolean;
-
-  /**
-   * Only relevant for PASSWORD identity.
-   */
-
-  //#region @websql
-  @Column({ nullable: true, type: 'varchar' })
-  //#endregion
-  passwordHash?: string;
+  isEmailVerified!: boolean;
 
   //#region @websql
   @CreateDateColumn()

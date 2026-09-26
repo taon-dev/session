@@ -21,25 +21,5 @@ export class TaonAuthContextController extends TaonBaseCrudController<TaonAuthCo
   entityClassResolveFn: () => typeof TaonAuthContextEntity = () =>
     TaonAuthContextEntity;
 
-  taonAuthContextRepository = this.injectCustomRepo(TaonAuthContextRepository);
-
-  //#region methods & getters / hello world
-  /**
-   * TODO remove this demo example method
-   */
-  @GET()
-  helloWord(@Query('yourName') yourName: string): Taon.Response<string> {
-    //#region @websqlFunc
-    return async (req, res) => {
-      const numOfEntities = await this.db.count();
-      const numberOfEvenEntities =
-        await this.taonAuthContextRepository.countEntitesWithEvenId();
-      return `Hello ${yourName || 'world'} from ${ClassHelpers.getName(TaonAuthContextController)}
-      controller..  ${numOfEntities} entites in db..
-      ${numberOfEvenEntities} entites with even ids (2,4,6,8 etc.)
-      `;
-    };
-    //#endregion
-  }
-  //#endregion
+  private readonly taonAuthContextRepository = this.injectCustomRepo(TaonAuthContextRepository);
 }
