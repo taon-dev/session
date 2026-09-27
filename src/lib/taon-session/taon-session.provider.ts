@@ -70,6 +70,11 @@ export class TaonSessionSocialLoginConfig extends TaonBaseClass {
     appleClientId?: string;
   };
 
+  declare public github: {
+    enabled?: boolean;
+    githubClientId?: string;
+  };
+
   constructor() {
     super();
     this.google = {

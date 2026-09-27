@@ -55,6 +55,7 @@ import { TaonSessionStateService } from '../taon-session.state.service';
 import { TaonSessionValidator } from '../taon-session.validators';
 
 import { GoogleLoginRegisterButtonComponent } from './social-buttons/google-login-register-button.component';
+import { TaonSessionProfileComponent } from './taon-session-profile/taon-session-profile.component';
 //#endregion
 
 declare const google: any;
@@ -71,7 +72,6 @@ const t = Translation.for(Taon.__FILE_RELATIVE_PATH, Taon.LANG_IMPORT_MAP);
     TaonSessionStateService,
     TaonSessionProvider,
     TaonSessionConfigService,
-    MatIconModule,
   ],
   imports: [
     //#region imports
@@ -98,6 +98,7 @@ const t = Translation.for(Taon.__FILE_RELATIVE_PATH, Taon.LANG_IMPORT_MAP);
     TaonSlideContentContentChildComponent,
     A11yModule,
     GoogleLoginRegisterButtonComponent,
+    TaonSessionProfileComponent,
     //#endregion
   ],
 })
@@ -221,7 +222,9 @@ export class TaonSessionComponent implements AfterViewInit, OnInit, OnDestroy {
 
   //#region logout
   public logout(): void {
-    this.taonSessionStateService.logout();
+    this.taonSessionStateService.logout(() => {
+      this.close();
+    });
   }
   //#endregion
 

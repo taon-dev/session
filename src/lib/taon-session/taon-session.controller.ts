@@ -1,4 +1,5 @@
 //#region imports
+import { Translation } from '@taon-dev/i18n/src';
 import {
   TaonAuthContextEntity,
   TaonAuthContextRepository,
@@ -25,6 +26,7 @@ import {
   TaonSessionIdentityProvider,
   TaonSessionUserEntity,
 } from '../taon-session-user';
+import { TaonSessionUserIdentityEntity } from '../taon-session-user/taon-session-user-identity.entity';
 import { TaonSessionUserIdentityRepository } from '../taon-session-user/taon-session-user-identity.repository';
 import { TaonSessionUserRepository } from '../taon-session-user/taon-session-user.repository';
 
@@ -37,9 +39,12 @@ import { TaonSessionUtils } from './taon-session.utils';
 
 //#endregion
 
+const t = Translation.for(Taon.__FILE_RELATIVE_PATH, Taon.LANG_IMPORT_MAP);
+
 @TaonController<TaonSessionController>({
   className: 'TaonSessionController',
   allowedMethods: [
+    //#region allowed method
     'createUser',
     'userExists',
     'getCurrentUserId',
@@ -48,6 +53,9 @@ import { TaonSessionUtils } from './taon-session.utils';
     'refresh',
     'context',
     'emptyContext',
+    'connectIdentity',
+    'disconnectIdentity',
+    //#endregion
   ],
 })
 export class TaonSessionController extends TaonBaseController {
@@ -84,6 +92,13 @@ export class TaonSessionController extends TaonBaseController {
   ): Taon.Response<TaonSessionUserEntity | null> {
     //#region @websqlFunc
     return async (req, res) => {
+      if (this.taonSessionProvider.login.diableLoginByEmail) {
+        Taon.error({
+          message: t.gettext('Login by email is disalbed'),
+          status: getStatusCode(HttpStatusEnum.UNAUTHORIZED),
+        });
+        return null;
+      }
       const existingIdentity =
         await this.taonSessionUserIdentityRepository.findPasswordIdentity(
           email,
@@ -112,12 +127,186 @@ export class TaonSessionController extends TaonBaseController {
   userExists(@Body('email') email: string): Taon.Response<boolean> {
     //#region @websqlFunc
     return async (req, res) => {
+      if (this.taonSessionProvider.login.diableLoginByEmail) {
+        Taon.error({
+          message: t.gettext('Login by email is disalbed'),
+          status: getStatusCode(HttpStatusEnum.UNAUTHORIZED),
+        });
+        return true;
+      }
       const identity =
         await this.taonSessionUserIdentityRepository.findPasswordIdentity(
           email,
         );
 
       return !!identity;
+    };
+    //#endregion
+  }
+  //#endregion
+
+  //#region get google identity
+  private async getGoogleIdentity(data: TaonLoginData): Promise<{
+    identity?: TaonSessionUserIdentityEntity | null | undefined;
+    error: boolean;
+    googleData?: Awaited<
+      ReturnType<typeof TaonSessionUtils.verifyGoogleAuthorizationCode>
+    >;
+  }> {
+    //#region @backendFunc
+    const { googleCode } = data;
+
+    let googleData: Awaited<
+      ReturnType<typeof TaonSessionUtils.verifyGoogleAuthorizationCode>
+    >;
+
+    try {
+      googleData = await TaonSessionUtils.verifyGoogleAuthorizationCode(
+        this.taonSessionProvider.socialLogin.google.googleClientId!,
+        this.taonSessionProvider.socialLogin.google.googleSecret!,
+        googleCode!,
+      );
+    } catch (error) {
+      Taon.error({
+        status: getStatusCode(HttpStatusEnum.INVALID_CREDENTIALS),
+        message: getStatusText(HttpStatusEnum.INVALID_CREDENTIALS),
+      });
+      return { error: true };
+    }
+
+    if (!googleData?.sub || !googleData?.email || !googleData?.emailVerified) {
+      Taon.error({
+        status: getStatusCode(HttpStatusEnum.INVALID_CREDENTIALS),
+        message: 'Invalid Google authentication.',
+      });
+      return { error: true };
+    }
+
+    let identity =
+      await this.taonSessionUserIdentityRepository.findSocialIdentity(
+        TaonSessionIdentityProvider.GOOGLE,
+        googleData.sub,
+      );
+
+    return { identity, error: false, googleData };
+    //#endregion
+  }
+  //#endregion
+
+  //#region connect identity
+  @POST({
+    middlewares: ({ parentMiddlewares }) => ({
+      TaonSessionMiddleware,
+      ...parentMiddlewares,
+    }),
+  })
+  connectIdentity(@Body() data: TaonLoginData): Taon.Response<boolean> {
+    //#region @websqlFunc
+    return async (req, res) => {
+      const userId = Number((req as any)!.userId);
+      const provider = data.googleCode
+        ? TaonSessionIdentityProvider.GOOGLE
+        : void 0;
+
+      switch (provider) {
+        case TaonSessionIdentityProvider.GOOGLE: {
+          const { identity, error, googleData } = await this.getGoogleIdentity({
+            googleCode: data.googleCode,
+          });
+
+          if (error) {
+            return false;
+          }
+
+          if (identity) {
+            if (identity.userId === userId) {
+              // Already connected to this user.
+              return true;
+            }
+
+            Taon.error({
+              status: getStatusCode(HttpStatusEnum.CONFLICT),
+              message: t.gettext(
+                'This Google account is already connected to another user.',
+              ),
+            });
+
+            return false;
+          }
+
+          await this.taonSessionUserIdentityRepository.createSocialIdentity(
+            userId,
+            TaonSessionIdentityProvider.GOOGLE,
+            googleData!.sub,
+            googleData!.email,
+            googleData!.emailVerified,
+          );
+
+          return true;
+        }
+
+        default: {
+          Taon.error({
+            status: getStatusCode(HttpStatusEnum.BAD_REQUEST),
+            message: t.gettext('Unsupported identity provider.'),
+          });
+
+          return false;
+        }
+      }
+    };
+    //#endregion
+  }
+  //#endregion
+
+  //#region disconnect identity
+  @POST({
+    middlewares: ({ parentMiddlewares }) => ({
+      TaonSessionMiddleware,
+      ...parentMiddlewares,
+    }),
+  })
+  disconnectIdentity(
+    @Body('provider') provider: TaonSessionIdentityProvider,
+  ): Taon.Response<boolean> {
+    //#region @websqlFunc
+    return async (req, res) => {
+      const userId = Number((req as any)!.userId);
+
+      const identity = await this.taonSessionUserIdentityRepository.findOne({
+        where: {
+          userId,
+          provider,
+        },
+      });
+
+      if (!identity) {
+        Taon.error({
+          status: getStatusCode(HttpStatusEnum.NOT_FOUND),
+          message: t.gettext('Identity not found.'),
+        });
+
+        return false;
+      }
+
+      const identities = await this.taonSessionUserIdentityRepository.find({
+        where: {
+          userId,
+        },
+      });
+
+      if (identities.length <= 1) {
+        Taon.error({
+          status: getStatusCode(HttpStatusEnum.BAD_REQUEST),
+          message: t.gettext('You cannot disconnect your only sign-in method.'),
+        });
+
+        return false;
+      }
+
+      await this.taonSessionUserIdentityRepository.remove(identity);
+
+      return true;
     };
     //#endregion
   }
@@ -137,43 +326,12 @@ export class TaonSessionController extends TaonBaseController {
       if (isSocialLogin) {
         //#region google login
 
-        let googleData: Awaited<
-          ReturnType<typeof TaonSessionUtils.verifyGoogleAuthorizationCode>
-        >;
+        let { identity, error, googleData } =
+          await this.getGoogleIdentity(data);
 
-        try {
-          googleData = await TaonSessionUtils.verifyGoogleAuthorizationCode(
-            this.taonSessionProvider.socialLogin.google.googleClientId,
-            this.taonSessionProvider.socialLogin.google.googleSecret,
-            googleCode,
-          );
-        } catch (error) {
-          Taon.error({
-            status: getStatusCode(HttpStatusEnum.INVALID_CREDENTIALS),
-            message: getStatusText(HttpStatusEnum.INVALID_CREDENTIALS),
-          });
-
+        if (error) {
           return false;
         }
-
-        if (
-          !googleData?.sub ||
-          !googleData?.email ||
-          !googleData?.emailVerified
-        ) {
-          Taon.error({
-            status: getStatusCode(HttpStatusEnum.INVALID_CREDENTIALS),
-            message: 'Invalid Google authentication.',
-          });
-
-          return false;
-        }
-
-        let identity =
-          await this.taonSessionUserIdentityRepository.findSocialIdentity(
-            TaonSessionIdentityProvider.GOOGLE,
-            googleData.sub,
-          );
 
         if (identity) {
           user = await this.taonSessionUserRepository.findOne({
@@ -189,12 +347,11 @@ export class TaonSessionController extends TaonBaseController {
             await this.taonSessionUserIdentityRepository.createSocialIdentity(
               user.id,
               TaonSessionIdentityProvider.GOOGLE,
-              googleData.sub,
-              googleData.email,
-              googleData.emailVerified,
+              googleData!.sub,
+              googleData!.email,
+              googleData!.emailVerified,
             );
         }
-
         //#endregion
       } else {
         //#region password login
@@ -237,7 +394,7 @@ export class TaonSessionController extends TaonBaseController {
       if (!user || !user.isActive) {
         Taon.error({
           status: getStatusCode(HttpStatusEnum.INVALID_CREDENTIALS),
-          message: getStatusText(HttpStatusEnum.INVALID_CREDENTIALS),
+          message: t.gettext(`User is not active`),
         });
 
         return false;

@@ -1,0 +1,31 @@
+:host {
+  display: block;
+}
+
+.tab-content {
+  padding: 24px;
+}
+
+.description {
+  margin: 0 0 20px;
+  opacity: 0.7;
+}
+
+.identity-buttons {
+  display: flex;
+  flex-wrap: wrap;
+
+  mat-button-toggle {
+    width: 100%;
+  }
+
+  mat-icon {
+    margin-right: 8px;
+  }
+}
+
+.profile-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding: 16px;
+}

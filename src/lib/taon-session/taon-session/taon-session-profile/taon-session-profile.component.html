@@ -1,0 +1,99 @@
+<mat-tab-group taonHorizontalWheelScroll>
+  <!-- CONNECT IDENTITIES -->
+  <mat-tab [label]="t.gettext('Connect')">
+    <div class="tab-content">
+      <h3>{{ t.gettext('Connect sign-in method') }}</h3>
+
+      <p class="description">
+        {{
+          t.gettext('Connect additional ways of signing in to your account.')
+        }}
+      </p>
+
+      <mat-button-toggle-group
+        class="identity-buttons"
+        [hideSingleSelectionIndicator]="true">
+        @if (canConnectEmail$ | async) {
+          <!-- TODO @LAST -->
+          <mat-button-toggle [disabled]="true" (click)="connectEmail()">
+            <mat-icon>email</mat-icon>
+            Email
+          </mat-button-toggle>
+        } @else {
+          <mat-button-toggle
+            (click)="disconnect(TaonSessionIdentityProvider.PASSWORD)">
+            <mat-icon>email</mat-icon>
+            Disconnect Email
+          </mat-button-toggle>
+        }
+
+        @if (canConnectGoogle$ | async) {
+          <mat-button-toggle (click)="connectGoogle()">
+            <mat-icon>account_circle</mat-icon>
+            Google
+          </mat-button-toggle>
+        } @else {
+          <mat-button-toggle
+            (click)="disconnect(TaonSessionIdentityProvider.GOOGLE)">
+            <mat-icon>close</mat-icon>
+            Disconnect Google
+          </mat-button-toggle>
+        }
+
+        <!-- TODO -->
+        <!-- <mat-button-toggle
+          [disabled]="true"
+          (click)="connectApple()">
+          <mat-icon>apple</mat-icon>
+          Apple
+        </mat-button-toggle>
+
+        <mat-button-toggle
+          [disabled]="true"
+          (click)="connectMicrosoft()">
+          <mat-icon>window</mat-icon>
+          Microsoft
+        </mat-button-toggle>
+
+        <mat-button-toggle
+          [disabled]="true"
+          (click)="connectFacebook()">
+          <mat-icon>public</mat-icon>
+          Facebook
+        </mat-button-toggle>
+
+        <mat-button-toggle
+          [disabled]="true"
+          (click)="connectGithub()">
+          <mat-icon>public</mat-icon>
+          Github
+        </mat-button-toggle> -->
+      </mat-button-toggle-group>
+    </div>
+  </mat-tab>
+
+  <!-- CHANGE PICTURE -->
+  <mat-tab label="Change Picture">
+    <div class="tab-content">
+      <!-- TODO change profile picture -->
+    </div>
+  </mat-tab>
+
+  <!-- CHANGE PASSWORD -->
+  <mat-tab label="Change Password">
+    <div class="tab-content">
+      <!-- TODO change password -->
+    </div>
+  </mat-tab>
+</mat-tab-group>
+
+<mat-divider></mat-divider>
+
+<div class="profile-actions">
+  <button
+    mat-button
+    (click)="onLogout()">
+    <mat-icon>logout</mat-icon>
+    {{ t.gettext('Logout') }}
+  </button>
+</div>

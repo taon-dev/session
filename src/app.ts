@@ -44,7 +44,6 @@ import { provideServerRendering, withRoutes } from '@angular/ssr';
 import { RenderMode, ServerRoute } from '@angular/ssr';
 import { provideHotToastConfig } from '@ngneat/hot-toast'; // @browser
 import Aura from '@primeng/themes/aura'; // @browser
-import { TaonBaselineBackofficeOutletName } from '@taon-dev/baseline/src';
 import {
   DEFAULT_SESSION_EMAIL,
   DEFAULT_SESSION_PASSWORD,
@@ -62,7 +61,10 @@ import {
   TaonSessionComponent,
   TaonSessionButtonComponent,
 } from '@taon-dev/session/src'; // @browser
-import { TaonDraggableButtonPanelComponent } from '@taon-dev/ui/src'; // @browser
+import {
+  TaonDraggableButtonPanelComponent,
+  TaonBaselineBackofficeOutletName,
+} from '@taon-dev/ui/src'; // @browser
 import { providePrimeNG } from 'primeng/config'; // @browser
 import { BehaviorSubject, Observable, map, switchMap } from 'rxjs';
 import {
@@ -111,6 +113,10 @@ const DEFAULT_EMAIL = DEFAULT_SESSION_EMAIL;
 const DEFAULT_PASSWORD2 = DEFAULT_SESSION_PASSWORD;
 
 const DEFAULT_EMAIL2 = 2 + DEFAULT_SESSION_EMAIL;
+
+const DEFAULT_PASSWORD3 = DEFAULT_SESSION_PASSWORD;
+
+const DEFAULT_EMAIL3 = 'dariusz@taon.dev';
 //#endregion
 
 //#region taon-jwt-cookie-header-session component
@@ -156,7 +162,8 @@ const DEFAULT_EMAIL2 = 2 + DEFAULT_SESSION_EMAIL;
 
       <mat-card class="m-2">
         <mat-card-content>
-          <taon-session [config]="config" />
+          Test
+          <!-- <taon-session [config]="config" /> -->
         </mat-card-content>
       </mat-card>
       <router-outlet></router-outlet>
@@ -469,6 +476,58 @@ export const SessionStartFunction = async (
         TaonSessionIdentityProvider.MICROSOFT,
         'idfrommicrosoft',
         `fromgogle${DEFAULT_EMAIL2}`,
+        true,
+      );
+    }
+  })();
+
+  await (async () => {
+    const existingIdentity =
+      await taonSessionUserIdentityRepository.findPasswordIdentity(
+        DEFAULT_EMAIL,
+      );
+
+    if (!existingIdentity) {
+      const user = await taonSessionUserRepository.save(
+        new TaonSessionUserEntity().clone({
+          username: TaonSessionUserUtils.generateRandomUsername(),
+        }),
+      );
+
+      await taonSessionUserIdentityRepository.createPasswordIdentity(
+        user.id,
+        DEFAULT_EMAIL,
+        DEFAULT_PASSWORD,
+      );
+
+      await taonSessionUserIdentityRepository.createSocialIdentity(
+        user.id,
+        TaonSessionIdentityProvider.GOOGLE,
+        'idfromgoogle',
+        `fromgogle${DEFAULT_EMAIL}`,
+        true,
+      );
+    }
+  })();
+
+  await (async () => {
+    const existingIdentity =
+      await taonSessionUserIdentityRepository.findPasswordIdentity(
+        DEFAULT_EMAIL3,
+      );
+
+    if (!existingIdentity) {
+      const user = await taonSessionUserRepository.save(
+        new TaonSessionUserEntity().clone({
+          username: TaonSessionUserUtils.generateRandomUsername(),
+        }),
+      );
+
+      await taonSessionUserIdentityRepository.createSocialIdentity(
+        user.id,
+        TaonSessionIdentityProvider.GOOGLE,
+        'idfromgoogle',
+        `fromgogle${DEFAULT_EMAIL3}`,
         true,
       );
     }

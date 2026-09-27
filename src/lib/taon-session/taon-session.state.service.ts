@@ -8,6 +8,7 @@ import {
   NEVER,
   Observable,
   of,
+  shareReplay,
   switchMap,
   take,
   tap,
@@ -314,7 +315,7 @@ export class TaonSessionStateService extends TaonBaseProvider {
     //#endregion
   }
 
-  public logout(): void {
+  public logout(successCallback?: () => void): void {
     this.state.set(TaonSessionState.LOADING_LOGOUT_INFO);
 
     //#region @browser
@@ -325,6 +326,7 @@ export class TaonSessionStateService extends TaonBaseProvider {
         tap(logoutOk => {
           if (logoutOk) {
             this.state.set(TaonSessionState.LOGIN_OR_REGISTER);
+            successCallback?.();
           } else {
             this.state.set(TaonSessionState.LOGIN_SUCCESS);
           }

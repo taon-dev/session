@@ -123,3 +123,5 @@ export * from './taon-session-user/taon-session-backoffice-users/taon-session-ba
 export * from './taon-session-user/taon-session-backoffice-users/taon-session-backoffice-users.models'; 
 export * from './taon-session-user/taon-session-backoffice-users/taon-session-backoffice-users.routes'; // @browser
 export * from './taon-session/taon-session/social-buttons/google-login-register-button.component'; // @browser
+export * from './taon-session/taon-session/taon-session-profile/taon-session-profile.component'; // @browser
+export * from './taon-session/taon-session/taon-session-profile/taon-session-profile.models'; 

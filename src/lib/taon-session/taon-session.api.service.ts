@@ -1,8 +1,11 @@
 //#region imports
 import { Injectable } from '@angular/core';
-import { TaonAuthContextEntity } from '@taon-dev/session/src';
+import {
+  TaonAuthContextEntity,
+  TaonSessionIdentityProvider,
+} from '@taon-dev/session/src';
 import { NEVER, Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, map, share, tap } from 'rxjs/operators';
 import { Taon, TaonBaseAngularService } from 'taon/src';
 
 import { TaonSessionUserEntity } from '../taon-session-user/taon-session-user.entity';
@@ -32,6 +35,36 @@ export class TaonSessionApiService extends TaonBaseAngularService {
   //#region logout
   logout(): Observable<boolean> {
     return this.taonSessionController.logout().request!().observable.pipe(
+      map(resp => {
+        return !!resp.body.booleanValue;
+      }),
+      catchError(() => {
+        return of(false);
+      }),
+    );
+  }
+  //#endregion
+
+  //#region connect idenitty
+  connectIdentity(data: TaonLoginData): Observable<boolean> {
+    return this.taonSessionController.connectIdentity(data)
+      .request!().observable.pipe(
+      map(resp => {
+        return !!resp.body.booleanValue;
+      }),
+      catchError(() => {
+        return of(false);
+      }),
+    );
+  }
+  //#endregion
+
+  //#region disconnect idenitty
+  disconnectIdentity(
+    provider: TaonSessionIdentityProvider,
+  ): Observable<boolean> {
+    return this.taonSessionController.disconnectIdentity(provider)
+      .request!().observable.pipe(
       map(resp => {
         return !!resp.body.booleanValue;
       }),
@@ -77,6 +110,7 @@ export class TaonSessionApiService extends TaonBaseAngularService {
       catchError(() => {
         return of(null);
       }),
+      share()
     );
   }
   //#endregion

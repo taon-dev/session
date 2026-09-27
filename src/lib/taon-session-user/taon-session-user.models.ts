@@ -10,4 +10,5 @@ export enum TaonSessionIdentityProvider {
   MICROSOFT = 'MICROSOFT',
   APPLE = 'APPLE',
   FACEBOOK = 'FACEBOOK',
+  GITHUB = 'GITHUB',
 }

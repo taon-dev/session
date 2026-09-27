@@ -1,6 +1,40 @@
 # @taon-dev/session
+Keyclock like isomorphic backend/frontend taon library.
 
-Handle jwt/cookie/header inside taon app
+Handle inside taon app:
+
+- jwt/cookie/header login/registration
+- authorizaiton
+
+# Installation
+
+It is not reccomeded to use this package outside taon ecosystem.
+
+template
+```html
+<taon-session [config]="config" />
+```
+component
+```ts
+import {
+  TaonSessionComponent,
+  TaonSessionButtonComponent,
+  TaonSessionConfig,
+} from '@taon-dev/session/src'; // @browser
+
+@Component({
+  imports:[TaonSessionButtonComponent],
+})
+class Component {
+  config: TaonSessionConfig = {
+    // login: {
+    //   linkToDashboard: '/my-dashboard'
+    // }
+  };
+}
+```
+
+
 
 # How to protecte controllers methods with session middleware ?
 ```ts

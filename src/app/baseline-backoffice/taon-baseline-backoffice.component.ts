@@ -2,7 +2,7 @@
 import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { ENV_ANGULAR_NODE_APP_WEBSITE_TITLE } from '@taon-dev/baseline/src';
+import { ENV_ANGULAR_NODE_APP_WEBSITE_TITLE } from '@taon-dev/session/src';
 import {
   TaonAdminLayoutComponent,
   TaonBackofficeNotificationsComponent,

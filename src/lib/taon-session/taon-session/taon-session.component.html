@@ -403,12 +403,10 @@
 
       <div class="w-full pt-3">
         <!-- success stuff -->
-        <button
-          mat-button
-          (click)="logout()">
-          Logout
-        </button>
-        <br />
+
+        <taon-session-profile
+          [config]="config"
+          (logout)="logout()" />
         <!-- context -->
       </div>
     </div>
