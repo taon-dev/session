@@ -10,6 +10,7 @@
 - 🔲 change username
 - 🔲 password change
 - 🔲 remember me
+- 🔲 profile picture change authorization + authenticaiton
 
 ----
 Future:
