@@ -1,0 +1,55 @@
+<div class="profile-picture">
+  <label
+    class="profile-picture__avatar"
+    [class.profile-picture__avatar--disabled]="uploading()">
+    @if (pictureUrl()) {
+      <img
+        class="profile-picture__image"
+        [src]="pictureUrl()"
+        alt="Profile picture" />
+    } @else {
+      <mat-icon class="profile-picture__placeholder">account_circle</mat-icon>
+      <!-- <svg
+        class="profile-picture__placeholder"
+        viewBox="0 0 24 24"
+        aria-hidden="true">
+        <path
+          d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4Zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4Z" />
+      </svg> -->
+    }
+
+    @if (loading() || uploading()) {
+      <div class="profile-picture__loading">...</div>
+    }
+
+    <input
+      class="profile-picture__input"
+      type="file"
+      [accept]="accept"
+      [disabled]="uploading()"
+      (change)="fileSelected($event)" />
+  </label>
+
+  <div class="profile-picture__actions">
+    <label class="profile-picture__button">
+      {{ pictureUrl() ? 'Change picture' : 'Upload picture' }}
+
+      <input
+        class="profile-picture__input"
+        type="file"
+        [accept]="accept"
+        [disabled]="uploading()"
+        (change)="fileSelected($event)" />
+    </label>
+
+    @if (pictureUrl()) {
+      <button
+        class="profile-picture__button"
+        type="button"
+        [disabled]="uploading()"
+        (click)="removePicture()">
+        Remove
+      </button>
+    }
+  </div>
+</div>

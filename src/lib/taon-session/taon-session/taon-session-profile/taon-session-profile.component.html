@@ -15,7 +15,9 @@
         [hideSingleSelectionIndicator]="true">
         @if (canConnectEmail$ | async) {
           <!-- TODO @LAST -->
-          <mat-button-toggle [disabled]="true" (click)="connectEmail()">
+          <mat-button-toggle
+            [disabled]="true"
+            (click)="connectEmail()">
             <mat-icon>email</mat-icon>
             Email
           </mat-button-toggle>
@@ -73,11 +75,12 @@
   </mat-tab>
 
   <!-- CHANGE PICTURE -->
-  <mat-tab label="Change Picture">
+  <!-- <mat-tab label="Change Picture">
     <div class="tab-content">
-      <!-- TODO change profile picture -->
+      <taon-profile-picture />
+
     </div>
-  </mat-tab>
+  </mat-tab> -->
 
   <!-- CHANGE PASSWORD -->
   <mat-tab label="Change Password">

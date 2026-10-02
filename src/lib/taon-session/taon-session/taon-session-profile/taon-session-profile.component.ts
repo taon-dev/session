@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatDialog } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -24,15 +25,17 @@ import {
 import { map } from 'rxjs';
 import { Taon } from 'taon/src';
 
+import { GoogleCodeResponse, TaonSessionConfig } from '../../../index';
+// import { TaonProfilePictureComponent } from '../../../taon-session/taon-profile/taon-profile-picture/taon-profile-picture.component';
 import { TaonSessionApiService } from '../../../taon-session/taon-session.api.service';
 import { TaonSessionStateService } from '../../../taon-session/taon-session.state.service';
 import { TaonSessionIdentityProvider } from '../../../taon-session-user/taon-session-user.models';
-import { GoogleCodeResponse, TaonSessionConfig } from '../../../index';
-import { MatDialog } from '@angular/material/dialog';
+
+//#endregion
+
 declare const google: any;
 
 const t = Translation.for(Taon.__FILE_RELATIVE_PATH, Taon.LANG_IMPORT_MAP);
-//#endregion
 
 @Component({
   selector: 'taon-session-profile',
@@ -50,6 +53,7 @@ const t = Translation.for(Taon.__FILE_RELATIVE_PATH, Taon.LANG_IMPORT_MAP);
     MatInputModule,
     MatFormFieldModule,
     TaonHorizontalWheelScrollDirective,
+    // TaonProfilePictureComponent,
   ],
 })
 export class TaonSessionProfileComponent {

@@ -56,6 +56,7 @@ import { TaonSessionValidator } from '../taon-session.validators';
 
 import { GoogleLoginRegisterButtonComponent } from './social-buttons/google-login-register-button.component';
 import { TaonSessionProfileComponent } from './taon-session-profile/taon-session-profile.component';
+import { TaonProfilePictureComponent } from '../taon-profile/taon-profile-picture';
 //#endregion
 
 declare const google: any;
@@ -99,6 +100,7 @@ const t = Translation.for(Taon.__FILE_RELATIVE_PATH, Taon.LANG_IMPORT_MAP);
     A11yModule,
     GoogleLoginRegisterButtonComponent,
     TaonSessionProfileComponent,
+    TaonProfilePictureComponent,
     //#endregion
   ],
 })

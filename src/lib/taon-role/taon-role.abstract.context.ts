@@ -6,10 +6,10 @@ import { createContext, TaonBaseContext } from 'taon/src';
 import { TaonRolePermissionEntity } from './taon-role-permission.entity';
 import { TaonRoleController } from './taon-role.controller';
 import { TaonRoleEntity } from './taon-role.entity';
-import { TaonRoleMiddleware } from './taon-role.middleware';
+// import { TaonRoleMiddleware } from './taon-role.middleware';/
 import { TaonRoleProvider } from './taon-role.provider';
 import { TaonRoleRepository } from './taon-role.repository';
-import { TaonRoleSubscriber } from './taon-role.subscriber';
+// import { TaonRoleSubscriber } from './taon-role.subscriber';
 //#endregion
 
 export const TaonRoleContext = createContext(() => ({
@@ -23,6 +23,6 @@ export const TaonRoleContext = createContext(() => ({
   controllers: { TaonRoleController },
   repositories: { TaonRoleRepository, TaonRolePermissionRepository },
   providers: { TaonRoleProvider },
-  middlewares: { TaonRoleMiddleware },
-  subscribers: { TaonRoleSubscriber },
+  // middlewares: { TaonRoleMiddleware },
+  // subscribers: { TaonRoleSubscriber },
 }));
