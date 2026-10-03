@@ -12,10 +12,8 @@ const app = createFakeExpressApp();
 export default {
   fetch: createWorkerAdapter(app, async (overrideHost, req, res, env) => {
     const TAON_LOCAL_DEV = env.TAON_LOCAL_DEV === 'true';
-    console.log({
-      TAON_LOCAL_DEV,
-    });
     GlobalStorage.set('TAON_LOCAL_DEV', TAON_LOCAL_DEV);
+    GlobalStorage.set('TAON_TEMP_STORAGE', env.TAON_TEMP_STORAGE);
     GlobalStorage.set(
       UtilsSecretEnv.MASTER_PASS_KEY,
       env[UtilsSecretEnv.MASTER_PASS_KEY],

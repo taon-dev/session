@@ -40,7 +40,6 @@ export class TaonSessionUserController extends TaonBaseCrudController<
     res,
     methodConfig,
     classConfig,
-    resolvedParams,
   }: Models.TaonCtrlBeforeEachRequestParams<TaonSessionUserController>): Promise<void> {
     if (methodConfig.methodName === 'paginationQuery') {
       await this.taonSessionRepository.throwIfNotAuthenticated({
