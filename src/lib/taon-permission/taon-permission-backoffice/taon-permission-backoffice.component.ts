@@ -3,8 +3,9 @@ import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { MtxGridColumn } from '@ng-matero/extensions/grid';
-import { TaonPermissionApiService } from '@taon-dev/session/src';
 import { TaonDatatableComponent } from '@taon-dev/ui/src';
+
+import { TaonPermissionApiService } from '../taon-permission-api.service';
 //#endregion
 
 @Component({

@@ -1,13 +1,11 @@
 //#region imports
 import { Injectable } from '@angular/core';
-import {
-  TaonAuthContextEntity,
-  TaonSessionIdentityProvider,
-} from '@taon-dev/session/src';
 import { NEVER, Observable, of } from 'rxjs';
 import { catchError, map, share, tap } from 'rxjs/operators';
 import { Taon, TaonBaseAngularService } from 'taon/src';
 
+import { TaonSessionIdentityProvider } from '../index';
+import { TaonAuthContextEntity } from '../taon-auth-context/taon-auth-context.entity';
 import { TaonSessionUserEntity } from '../taon-session-user/taon-session-user.entity';
 
 import { TaonSessionController } from './taon-session.controller';
@@ -110,7 +108,7 @@ export class TaonSessionApiService extends TaonBaseAngularService {
       catchError(() => {
         return of(null);
       }),
-      share()
+      share(),
     );
   }
   //#endregion
