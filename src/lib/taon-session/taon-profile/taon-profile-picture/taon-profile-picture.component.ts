@@ -2,15 +2,20 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  Input,
   OnDestroy,
   inject,
   signal,
 } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
+import { Translation } from '@taon-dev/i18n/src';
+import { Taon } from 'taon/src';
 
 import { TaonProfileApiService } from '../taon-profile.api.service';
 import { TaonProfileModels } from '../taon-profile.models';
-import { MatIconModule } from '@angular/material/icon';
 //#endregion
+
+const t = Translation.for(Taon.__FILE_RELATIVE_PATH, Taon.LANG_IMPORT_MAP);
 
 @Component({
   selector: 'taon-profile-picture',
@@ -22,6 +27,10 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class TaonProfilePictureComponent implements OnDestroy {
   //#region inject
+
+  @Input() hideButtons: boolean = false;
+
+  public readonly t = t.for(this);
 
   private readonly taonProfileApiService = inject(TaonProfileApiService);
 

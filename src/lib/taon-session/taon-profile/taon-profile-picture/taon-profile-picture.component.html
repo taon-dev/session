@@ -30,26 +30,32 @@
       (change)="fileSelected($event)" />
   </label>
 
-  <div class="profile-picture__actions">
-    <label class="profile-picture__button">
-      {{ pictureUrl() ? 'Change picture' : 'Upload picture' }}
+  @if (!hideButtons) {
+    <div class="profile-picture__actions">
+      <label class="profile-picture__button">
+        {{
+          pictureUrl()
+            ? t.gettext('Change picture')
+            : t.gettext('Upload picture')
+        }}
 
-      <input
-        class="profile-picture__input"
-        type="file"
-        [accept]="accept"
-        [disabled]="uploading()"
-        (change)="fileSelected($event)" />
-    </label>
+        <input
+          class="profile-picture__input"
+          type="file"
+          [accept]="accept"
+          [disabled]="uploading()"
+          (change)="fileSelected($event)" />
+      </label>
 
-    @if (pictureUrl()) {
-      <button
-        class="profile-picture__button"
-        type="button"
-        [disabled]="uploading()"
-        (click)="removePicture()">
-        Remove
-      </button>
-    }
-  </div>
+      @if (pictureUrl()) {
+        <button
+          class="profile-picture__button"
+          type="button"
+          [disabled]="uploading()"
+          (click)="removePicture()">
+          {{ t.gettext('Remove') }}
+        </button>
+      }
+    </div>
+  }
 </div>
