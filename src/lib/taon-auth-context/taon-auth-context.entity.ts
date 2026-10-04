@@ -5,19 +5,30 @@ import {
   CustomColumn,
   Taon,
   TaonBaseAbstractEntity,
+  TaonBaseEntity,
   TaonEntity,
 } from 'taon/src';
 import { _ } from 'tnp-core/src';
 
-
-import { TaonAuthContextDefaultsValues } from './taon-auth-context.constants';
 //#endregion
+
+export interface TaonAuthorizationSchema {
+  group: string;
+  role: string;
+  permission: string;
+}
 
 @TaonEntity({
   className: 'TaonAuthContextEntity',
   createTable: false,
 })
-export class TaonAuthContextEntity extends TaonBaseAbstractEntity<TaonAuthContextEntity> {
+export class TaonAuthContextEntity<
+  AUTH extends TaonAuthorizationSchema = {
+    group: string;
+    role: string;
+    permission: string;
+  },
+> extends TaonBaseEntity<TaonAuthContextEntity> {
   user!: TaonSessionUserEntity;
 
   isSuperUser: boolean = false;
@@ -26,21 +37,21 @@ export class TaonAuthContextEntity extends TaonBaseAbstractEntity<TaonAuthContex
 
   session!: TaonSessionEntity;
 
-  groups: string[] = [];
+  groups: AUTH['group'][] = [];
 
-  roles: string[] = [];
+  roles: AUTH['role'][] = [];
 
-  permissions: string[] = [];
+  permissions: AUTH['permission'][] = [];
 
-  hasPermission(permission: string): boolean {
+  hasPermission(permission: AUTH['permission']): boolean {
     return this.permissions.includes(permission);
   }
 
-  hasRole(role: string): boolean {
+  hasRole(role: AUTH['role']): boolean {
     return this.roles.includes(role);
   }
 
-  isInGroup(group: string): boolean {
+  isInGroup(group: AUTH['group']): boolean {
     return this.groups.includes(group);
   }
 }
