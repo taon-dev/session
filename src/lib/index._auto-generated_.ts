@@ -81,6 +81,7 @@ export * from './taon-session/taon-session.utils';
 export * from './taon-session/taon-session.validators'; 
 export * from './taon-session-user/taon-session-user-api.service'; // @browser
 export * from './taon-session-user/taon-session-user-group.entity'; 
+export * from './taon-session-user/taon-session-user-group.repository'; 
 export * from './taon-session-user/taon-session-user-identity.entity'; 
 export * from './taon-session-user/taon-session-user-identity.repository'; 
 export * from './taon-session-user/taon-session-user-role.entity'; 
@@ -97,12 +98,16 @@ export * from './taon-session-user/taon-session-user.utils';
 export * from './taon-group/taon-group-backoffice/taon-group-backoffice.component'; // @browser
 export * from './taon-group/taon-group-backoffice/taon-group-backoffice.models'; 
 export * from './taon-group/taon-group-backoffice/taon-group-backoffice.routes'; // @browser
+export * from './taon-group/taon-group-chooser/taon-group-chooser.component'; // @browser
 export * from './taon-permission/taon-permission-backoffice/taon-permission-backoffice.component'; // @browser
 export * from './taon-permission/taon-permission-backoffice/taon-permission-backoffice.models'; 
 export * from './taon-permission/taon-permission-backoffice/taon-permission-backoffice.routes'; // @browser
+export * from './taon-permission/taon-permission-chooser/taon-permission-chooser.component'; // @browser
+export * from './taon-permission/taon-permission-view-edit/taon-permission-view-edit.component'; // @browser
 export * from './taon-role/taon-role-backoffice/taon-role-backoffice.component'; // @browser
 export * from './taon-role/taon-role-backoffice/taon-role-backoffice.models'; 
 export * from './taon-role/taon-role-backoffice/taon-role-backoffice.routes'; // @browser
+export * from './taon-role/taon-role-chooser/taon-role-chooser.component'; // @browser
 export * from './taon-session/taon-profile/taon-profile.abstract.context'; 
 export * from './taon-session/taon-profile/taon-profile.api.service'; // @browser
 export * from './taon-session/taon-profile/taon-profile.config.service'; // @browser

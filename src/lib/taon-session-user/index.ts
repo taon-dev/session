@@ -1,4 +1,5 @@
 export * from './taon-session-user-api.service'; // @browser
+export * from './taon-session-user-group.repository';
 export * from './taon-session-user.abstract.context';
 export * from './taon-session-user.constants';
 export * from './taon-session-user.controller';

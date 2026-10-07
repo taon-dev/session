@@ -1,3 +1,17 @@
 :host {
   display: block;
 }
+
+.permission-details {
+  &__section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 8px 0;
+  }
+
+  &__section-title {
+    margin: 0;
+    font-weight: 600;
+  }
+}

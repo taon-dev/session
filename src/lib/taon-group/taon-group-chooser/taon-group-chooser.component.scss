@@ -1,0 +1,14 @@
+:host {
+  display: block;
+}
+
+.taon-group-chooser {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+
+  &__field {
+    min-width: 260px;
+  }
+}

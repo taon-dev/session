@@ -17,4 +17,27 @@ export class TaonPermissionRepository extends TaonBaseRepository<TaonPermissionE
     // TODO
     return [];
   }
+
+  async updateDescription(
+    permissionId: number,
+    description: string,
+  ): Promise<TaonPermissionEntity> {
+    //#region @websqlFunc
+
+    const permission = await this.findOne({
+      where: {
+        id: permissionId as any,
+      },
+    });
+
+    if (!permission) {
+      return null;
+    }
+
+    permission.description = description;
+
+    return await this.save(permission);
+
+    //#endregion
+  }
 }

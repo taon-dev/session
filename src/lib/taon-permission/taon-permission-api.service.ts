@@ -17,4 +17,29 @@ export class TaonPermissionApiService extends TaonBaseAngularService {
       map(res => res.body?.json),
     );
   }
+
+  //#region methods / all permissions
+
+  async getAllPermissions(): Promise<TaonPermissionEntity[]> {
+    const response = await this.taonPermissionController.getAll().request();
+
+    return response.body?.json ?? [];
+  }
+
+  //#endregion
+
+  //#region methods / description
+
+  async updateDescription(
+    permissionId: number,
+    description: string,
+  ): Promise<TaonPermissionEntity> {
+    const response = await this.taonPermissionController
+      .updateDescription(permissionId, description)
+      .request();
+
+    return response.body?.json;
+  }
+
+  //#endregion
 }

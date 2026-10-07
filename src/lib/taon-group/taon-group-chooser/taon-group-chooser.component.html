@@ -1,0 +1,39 @@
+<div class="taon-group-chooser">
+  <mat-form-field
+    appearance="outline"
+    subscriptSizing="dynamic"
+    class="taon-group-chooser__field">
+    <mat-label> Group </mat-label>
+
+    <mat-select
+      [(ngModel)]="selectedGroupId"
+      [disabled]="loading() || saving()">
+      @for (group of availableGroups; track group.id) {
+        <mat-option [value]="group.id">
+          {{ group.name }} ({{ group.code }})
+        </mat-option>
+      } @empty {
+        <mat-option [disabled]="true"> No groups available </mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+  <button
+    mat-flat-button
+    color="primary"
+    type="button"
+    [disabled]="!selectedGroupId || saving()"
+    (click)="assign()">
+    <mat-icon> add </mat-icon>
+
+    Assign
+  </button>
+
+  <button
+    mat-button
+    type="button"
+    [disabled]="saving()"
+    (click)="cancel()">
+    Cancel
+  </button>
+</div>

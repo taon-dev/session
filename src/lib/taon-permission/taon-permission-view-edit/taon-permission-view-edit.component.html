@@ -1,0 +1,54 @@
+<div class="taon-permission-view-edit">
+  @if (editMode()) {
+    <mat-form-field
+      appearance="outline"
+      subscriptSizing="dynamic"
+      class="taon-permission-view-edit__field">
+      <mat-label> Description </mat-label>
+
+      <textarea
+        matInput
+        rows="4"
+        [ngModel]="draftDescription()"
+        (ngModelChange)="draftDescription.set($event)"
+        [disabled]="saving()">
+      </textarea>
+    </mat-form-field>
+
+    <div class="taon-permission-view-edit__actions">
+      <button
+        mat-flat-button
+        color="primary"
+        type="button"
+        [disabled]="saving()"
+        (click)="save()">
+        <mat-icon> save </mat-icon>
+
+        Save
+      </button>
+
+      <button
+        mat-button
+        type="button"
+        [disabled]="saving()"
+        (click)="cancel()">
+        Cancel
+      </button>
+    </div>
+  } @else {
+    <div class="taon-permission-view-edit__description">
+      {{ description() || 'No description' }}
+    </div>
+
+    <div class="taon-permission-view-edit__actions">
+      <button
+        mat-stroked-button
+        type="button"
+        (click)="edit()">
+        <mat-icon> edit </mat-icon>
+
+        Edit
+      </button>
+    </div>
+  }
+</div>

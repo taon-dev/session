@@ -4,19 +4,107 @@
   [allowedColumns]="['id', 'username']"
   searchMode="advanced"
   (addingItem)="add()"
+  (expansionChange)="userExpansionChanged($event)"
   [expansionTemplate]="expansionTemplate">
 </taon-datatable>
 
 <ng-template
   #expansionTemplate
   let-user>
-  <taon-datatable
-    [data]="user.identities"
-    [columns]="identityColumns"
-    [pageSize]="5"
-    [hideSearch]="true"
-    [hideAddButton]="true"
-    [showPaginator]="false"
-    searchMode="simple">
-  </taon-datatable>
+  <!-- profile -->
+  <div class="user-details__profile">
+    <div class="user-details__profile-picture">
+      <mat-icon class="user-details__profile-picture-placeholder">
+        account_circle
+      </mat-icon>
+    </div>
+
+    <div class="user-details__profile-fields">
+      <div class="user-details__profile-field">
+        <span class="user-details__profile-label"> First Name </span>
+
+        <span class="user-details__profile-value"> - </span>
+      </div>
+
+      <div class="user-details__profile-field">
+        <span class="user-details__profile-label"> Surname </span>
+
+        <span class="user-details__profile-value"> - </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- groups -->
+  <div class="user-details__section">
+    <div class="user-details__section-header">
+      <h4 class="user-details__section-title">User groups</h4>
+
+      @if (groupChooserUserId() !== user.id) {
+        <button
+          mat-flat-button
+          color="primary"
+          type="button"
+          (click)="openGroupChooser(user.id)">
+          <mat-icon> group_add </mat-icon>
+
+          Assign group
+        </button>
+      }
+    </div>
+
+    @if (groupChooserUserId() === user.id) {
+      <taon-group-chooser
+        [userId]="user.id"
+        [excludedGroupIds]="assignedGroupIds(user.id)"
+        (assigned)="groupAssigned(user.id)"
+        (cancelled)="closeGroupChooser()">
+      </taon-group-chooser>
+    }
+
+    <taon-datatable
+      [data]="groupRowsFor(user.id)"
+      [columns]="groupColumns"
+      [pageSize]="5"
+      [hideSearch]="true"
+      [hideAddButton]="true"
+      [showPaginator]="false"
+      searchMode="simple"
+      [expansionTemplate]="groupExpansionTemplate">
+    </taon-datatable>
+  </div>
+
+  <!-- providers -->
+  <div class="user-details__section">
+    <h4 class="user-details__section-title">Providers</h4>
+
+    <taon-datatable
+      [data]="user.identities"
+      [columns]="identityColumns"
+      [pageSize]="5"
+      [hideSearch]="true"
+      [hideAddButton]="true"
+      [showPaginator]="false"
+      searchMode="simple">
+    </taon-datatable>
+  </div>
+</ng-template>
+
+<ng-template
+  #groupExpansionTemplate
+  let-group>
+  <div class="user-details__group-permissions">
+    <span class="user-details__section-title"> Permissions from group </span>
+
+    <ul class="user-details__permission-list">
+      @for (permission of group.permissions; track permission.permissionId) {
+        <li class="user-details__permission-item">
+          {{ permission.name }} ({{ permission.code }})
+        </li>
+      } @empty {
+        <li class="user-details__permission-item">
+          No permissions available through this group
+        </li>
+      }
+    </ul>
+  </div>
 </ng-template>

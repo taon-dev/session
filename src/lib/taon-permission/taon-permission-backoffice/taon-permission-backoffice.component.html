@@ -1,7 +1,19 @@
 <taon-datatable
   [entityCrudController]="crud"
   [columns]="columns"
-  [allowedColumns]="['id', 'email']"
+  [allowedColumns]="['id', 'name', 'code']"
   searchMode="advanced"
-  (addingItem)="add()">
+  (addingItem)="add()"
+  [expansionTemplate]="expansionTemplate">
 </taon-datatable>
+
+<ng-template
+  #expansionTemplate
+  let-permission>
+  <div class="permission-details__section">
+    <h4 class="permission-details__section-title">Description</h4>
+
+    <taon-permission-view-edit [permission]="permission">
+    </taon-permission-view-edit>
+  </div>
+</ng-template>

@@ -8,6 +8,8 @@ import {
   TaonBaseCrudController,
   Query,
   GET,
+  PUT,
+  Body,
   Models,
 } from 'taon/src';
 import { _ } from 'tnp-core/src';
@@ -19,7 +21,13 @@ import { TaonPermissionRepository } from './taon-permission.repository';
 
 @TaonController({
   className: 'TaonPermissionController',
-  allowedMethods: ['paginationQuery'],
+  allowedMethods: [
+    //#region allowed methods
+    'paginationQuery',
+    'getAll',
+    'updateDescription',
+    //#endregion
+  ],
 })
 export class TaonPermissionController extends TaonBaseCrudController<TaonPermissionEntity> {
   entityClassResolveFn: () => typeof TaonPermissionEntity = () =>
@@ -36,11 +44,26 @@ export class TaonPermissionController extends TaonBaseCrudController<TaonPermiss
     res,
     methodConfig,
   }: Models.TaonCtrlBeforeEachRequestParams<TaonSessionUserController>): Promise<void> {
-    if (methodConfig.methodName === 'paginationQuery') {
-      await this.taonSessionRepository.throwIfNotAuthenticated({
-        req,
-        res,
-      });
-    }
+    await this.taonSessionRepository.throwIfNotAuthenticated({
+      req,
+      res,
+    });
   }
+
+  //#region methods & getters / update description
+  @PUT()
+  updateDescription(
+    @Body('permissionId') permissionId: number,
+    @Body('description') description: string,
+  ): Taon.Response<TaonPermissionEntity> {
+    //#region @websqlFunc
+    return async () => {
+      return await this.taonPermissionRepository.updateDescription(
+        Number(permissionId),
+        description,
+      );
+    };
+    //#endregion
+  }
+  //#endregion
 }

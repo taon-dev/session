@@ -1,0 +1,39 @@
+<div class="taon-permission-chooser">
+  <mat-form-field
+    appearance="outline"
+    subscriptSizing="dynamic"
+    class="taon-permission-chooser__field">
+    <mat-label> Permission </mat-label>
+
+    <mat-select
+      [(ngModel)]="selectedPermissionId"
+      [disabled]="loading() || saving()">
+      @for (permission of availablePermissions; track permission.id) {
+        <mat-option [value]="permission.id">
+          {{ permission.name }} ({{ permission.code }})
+        </mat-option>
+      } @empty {
+        <mat-option [disabled]="true"> No permissions available </mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+  <button
+    mat-flat-button
+    color="primary"
+    type="button"
+    [disabled]="!selectedPermissionId || saving()"
+    (click)="assign()">
+    <mat-icon> add </mat-icon>
+
+    Assign
+  </button>
+
+  <button
+    mat-button
+    type="button"
+    [disabled]="saving()"
+    (click)="cancel()">
+    Cancel
+  </button>
+</div>

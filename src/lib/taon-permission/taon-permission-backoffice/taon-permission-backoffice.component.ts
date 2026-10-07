@@ -6,6 +6,7 @@ import { MtxGridColumn } from '@ng-matero/extensions/grid';
 import { TaonDatatableComponent } from '@taon-dev/ui/src';
 
 import { TaonPermissionApiService } from '../taon-permission-api.service';
+import { TaonPermissionViewEditComponent } from '../taon-permission-view-edit/taon-permission-view-edit.component';
 //#endregion
 
 @Component({
@@ -13,7 +14,12 @@ import { TaonPermissionApiService } from '../taon-permission-api.service';
   templateUrl: './taon-permission-backoffice.component.html',
   styleUrls: ['./taon-permission-backoffice.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [AsyncPipe, RouterOutlet, TaonDatatableComponent],
+  imports: [
+    AsyncPipe,
+    RouterOutlet,
+    TaonDatatableComponent,
+    TaonPermissionViewEditComponent,
+  ],
   providers: [TaonPermissionApiService],
 })
 export class TaonPermissionBackofficeComponent {
@@ -29,6 +35,7 @@ export class TaonPermissionBackofficeComponent {
       header: 'ID',
       field: 'id',
       sortable: true,
+      showExpand: true,
     },
     {
       header: 'Name',
@@ -42,5 +49,5 @@ export class TaonPermissionBackofficeComponent {
     },
   ];
 
-  add() {}
+  add(): void {}
 }
