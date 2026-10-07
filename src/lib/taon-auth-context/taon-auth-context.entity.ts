@@ -44,14 +44,23 @@ export class TaonAuthContextEntity<
   permissions: AUTH['permission'][] = [];
 
   hasPermission(permission: AUTH['permission']): boolean {
+    if (this.isSuperUser) {
+      return true;
+    }
     return this.permissions.includes(permission);
   }
 
   hasRole(role: AUTH['role']): boolean {
+    if (this.isSuperUser) {
+      return true;
+    }
     return this.roles.includes(role);
   }
 
   isInGroup(group: AUTH['group']): boolean {
+    if (this.isSuperUser) {
+      return true;
+    }
     return this.groups.includes(group);
   }
 }
