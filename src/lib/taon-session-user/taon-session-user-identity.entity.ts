@@ -18,6 +18,9 @@ import { TaonSessionIdentityProvider } from './taon-session-user.models';
   className: 'TaonSessionUserIdentityEntity',
   createTable: true,
 })
+//#region @websql
+@Index(['provider', 'providerUserId'], { unique: true })
+//#endregion
 export class TaonSessionUserIdentityEntity extends TaonBaseAbstractEntity<TaonSessionUserIdentityEntity> {
   //#region @websql
   @Column({ type: 'int' })

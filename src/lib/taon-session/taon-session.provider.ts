@@ -369,6 +369,11 @@ export class TaonSessionProvider extends TaonBaseProvider {
 
   superUsersEmails: string[] = [];
 
+  /**
+   * Resolve social accounts by verified email as well as provider identity.
+   */
+  linkSocialAccountEmail = false;
+
   cookies = new TaonSessionCookiesConfig();
 
   login = new TaonSessionLoginConfig();
@@ -408,6 +413,7 @@ export class TaonSessionProvider extends TaonBaseProvider {
   clone(): TaonSessionConfig {
     return {
       isProduction: this.isProduction,
+      linkSocialAccountEmail: this.linkSocialAccountEmail,
       cookies: this.cookies.clone(),
       login: this.login.clone(),
       socialLogin: this.socialLogin.clone(),

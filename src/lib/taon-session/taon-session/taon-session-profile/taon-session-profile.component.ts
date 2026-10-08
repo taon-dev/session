@@ -7,7 +7,9 @@ import {
   inject,
   Input,
   Output,
+  signal,
 } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatDialog } from '@angular/material/dialog';
@@ -22,13 +24,14 @@ import {
   TaonConfirmDialogComponent,
   TaonHorizontalWheelScrollDirective,
 } from '@taon-dev/ui/src';
-import { map } from 'rxjs';
+import { firstValueFrom, map, shareReplay } from 'rxjs';
 import { Taon } from 'taon/src';
 
 import { GoogleCodeResponse, TaonSessionConfig } from '../../../index';
 // import { TaonProfilePictureComponent } from '../../../taon-session/taon-profile/taon-profile-picture/taon-profile-picture.component';
 import { TaonSessionApiService } from '../../../taon-session/taon-session.api.service';
 import { TaonSessionStateService } from '../../../taon-session/taon-session.state.service';
+import { TaonSessionUserEntity } from '../../../taon-session-user/taon-session-user.entity';
 import { TaonSessionIdentityProvider } from '../../../taon-session-user/taon-session-user.models';
 
 //#endregion
@@ -52,6 +55,7 @@ const t = Translation.for(Taon.__FILE_RELATIVE_PATH, Taon.LANG_IMPORT_MAP);
     MatDividerModule,
     MatInputModule,
     MatFormFieldModule,
+    ReactiveFormsModule,
     TaonHorizontalWheelScrollDirective,
     // TaonProfilePictureComponent,
   ],
@@ -69,7 +73,35 @@ export class TaonSessionProfileComponent {
 
   public readonly taonSessionStateService = inject(TaonSessionStateService);
 
-  readonly context$ = this.taonSessionStateService.context$;
+  readonly context$ = this.taonSessionStateService.context$.pipe(
+    shareReplay({ bufferSize: 1, refCount: true }),
+  );
+
+  readonly usernameForm = new FormGroup({
+    username: new FormControl('', { nonNullable: true, validators: [
+      Validators.required, Validators.maxLength(255), Validators.pattern(/\S/),
+    ] }),
+  });
+
+  readonly passwordForm = new FormGroup({
+    email: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.email] }),
+    password: new FormControl('', { nonNullable: true, validators: [
+      Validators.required, Validators.minLength(8), Validators.maxLength(128),
+    ] }),
+    passwordRepeat: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+  });
+
+  readonly savingUsername = signal(false);
+
+  readonly usernameError = signal('');
+
+  readonly usernameSaved = signal(false);
+
+  readonly showPasswordForm = signal(false);
+
+  readonly savingPassword = signal(false);
+
+  readonly passwordError = signal('');
 
   get isVisibleGoogle(): boolean {
     return this.config?.socialLogin?.google?.enabled;
@@ -198,14 +230,79 @@ export class TaonSessionProfileComponent {
   //#endregion
 
   //#region connect email
-  connectEmail(): void {
-    // TODO open dialog/form:
-    // - email
-    // - password
-    // - repeat password
-    // - verify email
+  connectEmail(user?: TaonSessionUserEntity | null): void {
+    const identity = user?.identities?.find(identity =>
+      identity.isEmailVerified === true && !!identity.email,
+    );
+    if (!identity) {
+      this.passwordError.set(this.t.gettext('Connect a sign-in method with a verified email first.'));
+      return;
+    }
+    this.passwordForm.reset({ email: identity.email, password: '', passwordRepeat: '' });
+    this.passwordError.set('');
+    this.showPasswordForm.set(true);
   }
   //#endregion
+
+  async savePassword(): Promise<void> {
+    this.passwordForm.markAllAsTouched();
+    this.passwordError.set('');
+    if (this.passwordForm.invalid || this.savingPassword()) {
+      return;
+    }
+    const { email, password, passwordRepeat } = this.passwordForm.getRawValue();
+    if (password !== passwordRepeat) {
+      this.passwordError.set(this.t.gettext('Passwords do not match each other'));
+      return;
+    }
+    this.savingPassword.set(true);
+    try {
+      const connected = await firstValueFrom(this.taonSessionApiService.connectPassword(email, password));
+      if (!connected) {
+        this.passwordError.set(this.t.gettext('Unable to connect email/password.'));
+        return;
+      }
+      this.passwordForm.reset();
+      this.showPasswordForm.set(false);
+      this.taonSessionStateService.refreshContext();
+    } catch (error) {
+      console.error('[connect-email]', error);
+      this.passwordError.set(this.t.gettext('Unable to connect email/password. The email may already belong to another account.'));
+    } finally {
+      this.savingPassword.set(false);
+    }
+  }
+
+  async saveUsername(): Promise<void> {
+    this.usernameForm.markAllAsTouched();
+    this.usernameError.set('');
+    this.usernameSaved.set(false);
+    if (this.usernameForm.invalid || this.savingUsername()) {
+      return;
+    }
+    const username = this.usernameForm.controls.username.value.trim();
+    this.savingUsername.set(true);
+    try {
+      const available = await firstValueFrom(this.taonSessionApiService.usernameAvailable(username));
+      if (!available) {
+        this.usernameError.set(this.t.gettext('This username is already taken.'));
+        return;
+      }
+      const saved = await firstValueFrom(this.taonSessionApiService.changeUsername(username));
+      if (!saved) {
+        this.usernameError.set(this.t.gettext('Unable to update username.'));
+        return;
+      }
+      this.usernameForm.reset();
+      this.usernameSaved.set(true);
+      this.taonSessionStateService.refreshContext();
+    } catch (error) {
+      console.error('[change-username]', error);
+      this.usernameError.set(this.t.gettext('Unable to update username. It may already be taken.'));
+    } finally {
+      this.savingUsername.set(false);
+    }
+  }
 
   //#region connect google
   private googleCodeClient?: any;

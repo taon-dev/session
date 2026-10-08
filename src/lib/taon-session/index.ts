@@ -1,4 +1,5 @@
 export * from './taon-session';
+export * from './taon-session-backoffice';
 export * from './taon-session-button'; // @browser
 export * from './taon-session.api.service'; // @browser
 export * from './taon-session.config.service'; // @browser

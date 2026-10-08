@@ -124,9 +124,12 @@ export * from './taon-session/taon-session/taon-session.component'; // @browser
 export * from './taon-session/taon-session-backoffice/taon-backoffice-details-page.component'; // @browser
 export * from './taon-session/taon-session-backoffice/taon-backoffice-details.resolver'; // @browser
 export * from './taon-session/taon-session-backoffice/taon-backoffice-navigation.service'; // @browser
+export * from './taon-session/taon-session-backoffice/taon-session-backoffice.api.service'; // @browser
 export * from './taon-session/taon-session-backoffice/taon-session-backoffice.component'; // @browser
+export * from './taon-session/taon-session-backoffice/taon-session-backoffice.controller'; 
 export * from './taon-session/taon-session-backoffice/taon-session-backoffice.models'; 
 export * from './taon-session/taon-session-backoffice/taon-session-backoffice.routes'; // @browser
+export * from './taon-session/taon-session-backoffice/taon-session-details.component'; // @browser
 export * from './taon-session/taon-session-button/taon-session-button.component'; // @browser
 export * from './taon-session-user/taon-session-backoffice-users/taon-session-backoffice-users.component'; // @browser
 export * from './taon-session-user/taon-session-backoffice-users/taon-session-backoffice-users.models'; 

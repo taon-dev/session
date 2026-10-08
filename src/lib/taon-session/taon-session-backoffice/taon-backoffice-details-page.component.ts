@@ -1,5 +1,10 @@
 import { AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, forwardRef, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  forwardRef,
+  inject,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs';
 
@@ -9,6 +14,7 @@ import { TaonRoleDetailsComponent } from '../../taon-role/taon-role-backoffice/t
 import { TaonSessionUserDetailsComponent } from '../../taon-session-user/taon-session-backoffice-users/taon-session-user-details.component';
 
 import type { TaonBackofficeDetail } from './taon-backoffice-details.resolver';
+import { TaonSessionDetailsComponent } from './taon-session-details.component';
 
 @Component({
   selector: 'taon-backoffice-details-page',
@@ -19,13 +25,21 @@ import type { TaonBackofficeDetail } from './taon-backoffice-details.resolver';
     forwardRef(() => TaonGroupDetailsComponent),
     forwardRef(() => TaonRoleDetailsComponent),
     forwardRef(() => TaonPermissionDetailsComponent),
+    forwardRef(() => TaonSessionDetailsComponent),
   ],
   template: `
     @if (detail$ | async; as detail) {
       @switch (detail.kind) {
+        @case ('session') {
+          <h2>Session #{{ detail.entity.id }}</h2>
+          <taon-session-details
+            [sessionId]="detail.entity.id"
+            [detail]="detail.entity"></taon-session-details>
+        }
         @case ('user') {
           <h2>User: {{ detail.entity.username }} (#{{ detail.entity.id }})</h2>
-          <taon-session-user-details [user]="detail.entity"></taon-session-user-details>
+          <taon-session-user-details
+            [user]="detail.entity"></taon-session-user-details>
         }
         @case ('group') {
           <h2>Group: {{ detail.entity.name }} (#{{ detail.entity.id }})</h2>
@@ -36,8 +50,11 @@ import type { TaonBackofficeDetail } from './taon-backoffice-details.resolver';
           <taon-role-details [role]="detail.entity"></taon-role-details>
         }
         @case ('permission') {
-          <h2>Permission: {{ detail.entity.name }} (#{{ detail.entity.id }})</h2>
-          <taon-permission-details [permission]="detail.entity"></taon-permission-details>
+          <h2>
+            Permission: {{ detail.entity.name }} (#{{ detail.entity.id }})
+          </h2>
+          <taon-permission-details
+            [permission]="detail.entity"></taon-permission-details>
         }
       }
     }

@@ -1,3 +1,4 @@
+@let context = context$ | async;
 <mat-tab-group taonHorizontalWheelScroll>
   <!-- CONNECT IDENTITIES -->
   <mat-tab [label]="t.gettext('Connect')">
@@ -14,10 +15,9 @@
         class="identity-buttons"
         [hideSingleSelectionIndicator]="true">
         @if (canConnectEmail$ | async) {
-          <!-- TODO @LAST -->
           <mat-button-toggle
-            [disabled]="true"
-            (click)="connectEmail()">
+            [disabled]="config?.login?.diableLoginByEmail"
+            (click)="connectEmail(context?.user)">
             <mat-icon>email</mat-icon>
             Email
           </mat-button-toggle>
@@ -71,6 +71,29 @@
           Github
         </mat-button-toggle> -->
       </mat-button-toggle-group>
+      @if (showPasswordForm()) {
+        <form [formGroup]="passwordForm" (ngSubmit)="savePassword()">
+          <mat-form-field>
+            <mat-label>{{ t.gettext('Verified email') }}</mat-label>
+            <input matInput formControlName="email" readonly />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>{{ t.gettext('Password') }}</mat-label>
+            <input matInput type="password" formControlName="password" autocomplete="new-password" />
+            <mat-error>{{ t.gettext('Password must contain between 8 and 128 characters.') }}</mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>{{ t.gettext('Repeat password') }}</mat-label>
+            <input matInput type="password" formControlName="passwordRepeat" autocomplete="new-password" />
+          </mat-form-field>
+          <button mat-button type="submit" [disabled]="savingPassword() || passwordForm.invalid">
+            {{ t.gettext('Save password') }}
+          </button>
+        </form>
+      }
+      @if (passwordError()) {
+        <p role="alert">{{ passwordError() }}</p>
+      }
     </div>
   </mat-tab>
 
@@ -86,6 +109,28 @@
   <mat-tab label="Change Password">
     <div class="tab-content">
       <!-- TODO change password -->
+    </div>
+  </mat-tab>
+  <mat-tab [label]="t.gettext('Change Username')">
+    <div class="tab-content">
+      <p>{{ t.gettext('Current username') }}: {{ context?.user?.username || '-' }}</p>
+      <form [formGroup]="usernameForm" (ngSubmit)="saveUsername()">
+        <mat-form-field>
+          <mat-label>{{ t.gettext('New username') }}</mat-label>
+          <input matInput formControlName="username" autocomplete="username" [readonly]="savingUsername()"
+            (input)="usernameError.set(''); usernameSaved.set(false)" />
+          <mat-error>{{ t.gettext('Username must contain between 1 and 255 characters.') }}</mat-error>
+        </mat-form-field>
+        <button mat-button type="submit" [disabled]="savingUsername() || usernameForm.invalid">
+          {{ t.gettext('Save username') }}
+        </button>
+      </form>
+      @if (usernameError()) {
+        <p role="alert">{{ usernameError() }}</p>
+      }
+      @if (usernameSaved()) {
+        <p role="status">{{ t.gettext('Username updated.') }}</p>
+      }
     </div>
   </mat-tab>
 </mat-tab-group>

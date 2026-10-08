@@ -16,6 +16,21 @@ import { TaonLoginData } from './taon-session.models';
 export class TaonSessionApiService extends TaonBaseAngularService {
   private taonSessionController = this.injectController(TaonSessionController);
 
+  usernameAvailable(username: string): Observable<boolean> {
+    return this.taonSessionController.usernameAvailable(username)
+      .request!().observable.pipe(map(resp => !!resp.body.booleanValue));
+  }
+
+  changeUsername(username: string): Observable<boolean> {
+    return this.taonSessionController.changeUsername(username)
+      .request!().observable.pipe(map(resp => !!resp.body.booleanValue));
+  }
+
+  connectPassword(email: string, password: string): Observable<boolean> {
+    return this.taonSessionController.connectIdentity({ email, password })
+      .request!().observable.pipe(map(resp => !!resp.body.booleanValue));
+  }
+
   //#region login
 
   login(data: TaonLoginData): Observable<boolean> {

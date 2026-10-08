@@ -14,6 +14,7 @@ import {
 import { _ } from 'tnp-core/src';
 
 import { TaonSessionUserEntity } from '../taon-session-user/taon-session-user.entity';
+import { TaonSessionIdentityProvider } from '../taon-session-user/taon-session-user.models';
 
 //#endregion
 
@@ -26,6 +27,16 @@ export class TaonSessionEntity extends TaonBaseAbstractEntity<TaonSessionEntity>
   @Column({ type: 'int' })
   //#endregion
   userId!: number;
+
+  //#region @websql
+  @Column({ type: 'int', nullable: true })
+  //#endregion
+  identityId?: number;
+
+  //#region @websql
+  @Column({ type: 'varchar', length: 50, nullable: true })
+  //#endregion
+  authenticationProvider?: TaonSessionIdentityProvider;
 
   //#region @websql
   @ManyToOne(() => TaonSessionUserEntity, user => user.sessions, {
@@ -52,7 +63,7 @@ export class TaonSessionEntity extends TaonBaseAbstractEntity<TaonSessionEntity>
   tokenHash!: string;
 
   //#region @websql
-  @Column({ nullable: true, type: 'varchar' })
+  @Column({ nullable: true, type: 'varchar', length: 4096 })
   //#endregion
   userAgent?: string;
 

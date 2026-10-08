@@ -1,0 +1,50 @@
+@if (loading()) {
+  <p role="status">{{ t.gettext('Loading session details...') }}</p>
+}
+@if (error()) {
+  <p role="alert">{{ error() }}</p>
+}
+@if (session(); as detail) {
+  <dl class="grid grid-cols-[auto_1fr] gap-x-4 gap-y-2 p-4">
+    <dt>{{ t.gettext('Session ID') }}</dt>
+    <dd>{{ detail.id }}</dd>
+    <dt>{{ t.gettext('User ID') }}</dt>
+    <dd>{{ detail.userId }}</dd>
+    <dt>{{ t.gettext('Username') }}</dt>
+    <dd>
+      @if (detail.user; as user) {
+        <a [routerLink]="taonBackofficeNavigationService.detailsLink('user', user.id)">
+          {{ user.username || 'User #' + user.id }}
+        </a>
+      } @else {
+        {{ t.gettext('Unavailable') }}
+      }
+    </dd>
+    <dt>{{ t.gettext('Email') }}</dt>
+    <dd>{{ detail.identity?.email || t.gettext('Unavailable') }}</dd>
+    <dt>{{ t.gettext('Provider') }}</dt>
+    <dd>{{ detail.authenticationProvider || detail.identity?.provider || t.gettext('Unavailable') }}</dd>
+    @if (detail.identityId) {
+      <dt>{{ t.gettext('Identity ID') }}</dt>
+      <dd>{{ detail.identityId }}</dd>
+    }
+    <dt>{{ t.gettext('Device') }}</dt>
+    <dd>{{ detail.deviceName || t.gettext('Unknown') }}</dd>
+    <dt>{{ t.gettext('IP') }}</dt>
+    <dd>{{ detail.ip || t.gettext('Unknown') }}</dd>
+    <dt>{{ t.gettext('User agent') }}</dt>
+    <dd class="break-all">{{ detail.userAgent || t.gettext('Unknown') }}</dd>
+    <dt>{{ t.gettext('Logged in') }}</dt>
+    <dd>{{ (detail.createdAt | date: 'medium') || t.gettext('Unknown') }}</dd>
+    <dt>{{ t.gettext('Last activity') }}</dt>
+    <dd>{{ (detail.lastActivityAt | date: 'medium') || t.gettext('Unknown') }}</dd>
+    <dt>{{ t.gettext('Expires') }}</dt>
+    <dd>{{ (detail.expiresAt | date: 'medium') || t.gettext('Unknown') }}</dd>
+    <dt>{{ t.gettext('Revoked') }}</dt>
+    <dd>{{ (detail.revokedAt | date: 'medium') || t.gettext('Not revoked') }}</dd>
+    @if (detail.revokeReason) {
+      <dt>{{ t.gettext('Revocation reason') }}</dt>
+      <dd>{{ detail.revokeReason }}</dd>
+    }
+  </dl>
+}

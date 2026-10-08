@@ -1,8 +1,11 @@
 //#region imports
+
 import { inject, Injectable } from '@angular/core'; // @browser
+
 import {
   BehaviorSubject,
   catchError,
+  combineLatest,
   finalize,
   map,
   NEVER,
@@ -13,6 +16,7 @@ import {
   take,
   tap,
 } from 'rxjs';
+
 import { TaonBaseProvider, TaonProvider } from 'taon/src';
 import { signal } from 'tnp-core/src';
 import { TaonStateMachine } from 'tnp-core/src';
@@ -26,6 +30,7 @@ import {
   TaonLoginErrors,
   TaonSessionState,
 } from './taon-session.models';
+
 //#endregion
 
 //#region @backend
@@ -36,19 +41,34 @@ import {
 //#region @browser
 @Injectable()
 //#endregion
-//#region @backend
-//#endregion
 export class TaonSessionStateService extends TaonBaseProvider {
   //#region fields & getters
+
   //#region @browser
   protected readonly taonSessionApiService = inject(TaonSessionApiService);
   //#endregion
 
-  protected refreshSrc = new BehaviorSubject(void 0);
+  /**
+   * Refreshes session/authentication information.
+   *
+   * This causes getCurrentUserId() to be called again.
+   */
+  protected readonly refreshSrc = new BehaviorSubject<void>(void 0);
 
-  protected userId = signal<number | undefined>(void 0);
+  /**
+   * Refreshes authorization context without reloading
+   * the current session/user.
+   *
+   * Useful when roles/groups/permissions change while
+   * the currently authenticated user stays the same.
+   */
+  protected readonly contextRefreshSrc = new BehaviorSubject<void>(void 0);
 
-  protected currentSlide = signal(TaonSessionState.LOADING_INITIAL_AUTH_INFO);
+  protected readonly userId = signal<number | undefined>(void 0);
+
+  protected readonly currentSlide = signal(
+    TaonSessionState.LOADING_INITIAL_AUTH_INFO,
+  );
 
   private allowedStateMap = new Map<TaonSessionState, TaonSessionState[]>([
     [
@@ -121,20 +141,24 @@ export class TaonSessionStateService extends TaonBaseProvider {
     defaultValue: this.currentSlide(),
     allowedStateMap: this.allowedStateMap,
     effect: (nextState, previousState, debugMode) => {
-      // console.log('GOTO SLIDE' + nextState);
       this.currentSlide.set(nextState);
     },
   });
 
-  protected userId$ = this.refreshSrc.asObservable().pipe(
-    tap(() => {
-      this.userId();
-      // console.log('should start load');
-    }),
+  /**
+   * Current authenticated user.
+   *
+   * Shared because multiple consumers may depend on userId$,
+   * isLoggedIn$ and context$ at the same time.
+   *
+   * One refresh => one getCurrentUserId() request.
+   */
+  protected readonly userId$ = this.refreshSrc.pipe(
     switchMap(() => {
       //#region @backend
       return of(1000000);
       //#endregion
+
       //#region @browser
       return this.taonSessionApiService.getCurrentUserId().pipe(
         catchError(() => {
@@ -144,45 +168,64 @@ export class TaonSessionStateService extends TaonBaseProvider {
       );
       //#endregion
     }),
+
     tap(userId => {
-      const isLoggedIn = !!userId;
-      if (isLoggedIn) {
+      this.userId.set(userId);
+
+      if (userId) {
         this.state.set(TaonSessionState.LOGIN_SUCCESS);
       } else {
         this.state.set(TaonSessionState.LOGIN_OR_REGISTER);
       }
-      this.userId.set(userId);
+    }),
+
+    shareReplay({
+      bufferSize: 1,
+      refCount: true,
     }),
   );
 
-  public isLoggedIn$ = this.userId$.pipe(
-    map(userId => {
-      const isLoggedIn = !!userId;
-      // console.log({ isLoggedIn });
-      return isLoggedIn;
-    }),
-  );
+  /**
+   * Projection of userId$.
+   *
+   * Does NOT cause another getCurrentUserId() call because
+   * userId$ is shared.
+   */
+  public readonly isLoggedIn$ = this.userId$.pipe(map(userId => !!userId));
 
   //#region @browser
-  public context$: Observable<TaonAuthContextEntity> = this.isLoggedIn$.pipe(
-    switchMap(isLoggedIn => {
-      if (!isLoggedIn) {
+
+  /**
+   * Current authorization context.
+   *
+   * Reloaded when:
+   *
+   * 1. session/user changes
+   * 2. refreshContext() is explicitly called
+   *
+   * Multiple subscribers share the same context request.
+   */
+  public readonly context$: Observable<TaonAuthContextEntity> = combineLatest([
+    this.userId$,
+    this.contextRefreshSrc,
+  ]).pipe(
+    switchMap(([userId]) => {
+      if (!userId) {
         return this.taonSessionApiService.emptyContext();
       }
+
       return this.taonSessionApiService.context();
     }),
+
+    shareReplay({
+      bufferSize: 1,
+      refCount: true,
+    }),
   );
-  //#endregion
 
   //#endregion
 
-  // private static idOfInstnace = 0;
-
-  // constructor() {
-  // console.log(
-  //   `Creating instance no. ${++TaonSessionStateService.idOfInstnace}`,
-  // );
-  // }
+  //#endregion
 
   public executeActionForState(
     //#region @browser
@@ -192,20 +235,25 @@ export class TaonSessionStateService extends TaonBaseProvider {
     //#region @browser
 
     form.updateValueAndValidity();
+
     if (form.invalid) {
       return;
     }
+
     const googleCodeField = form.controls.googleCode;
     const isSocialLogin = googleCodeField.value!;
 
     //#region login action
+
     const loginAction = (): void => {
       const passwordField = form.controls.password;
+
       if (!isSocialLogin) {
         passwordField.markAsTouched();
       }
 
       this.state.set(TaonSessionState.LOADING_AUTH);
+
       this.taonSessionApiService
         .login({
           email: form.controls.email.value!,
@@ -214,22 +262,26 @@ export class TaonSessionStateService extends TaonBaseProvider {
         })
         .pipe(
           take(1),
+
           tap(okLogin => {
             googleCodeField.reset();
-            // console.log({ okLogin });
+
             if (okLogin) {
               this.state.set(TaonSessionState.LOGIN_SUCCESS);
+
               if (!isSocialLogin) {
                 passwordField.markAsUntouched();
               }
             } else {
               if (isSocialLogin) {
                 this.state.set(TaonSessionState.LOGIN_OR_REGISTER);
+
                 googleCodeField.setErrors({
                   [TaonLoginErrors.INVALID_SOCIAL_LOGIN]: true,
                 });
               } else {
                 this.state.set(TaonSessionState.ENTER_PASSWORD);
+
                 passwordField.setErrors({
                   ...(passwordField.errors ?? {}),
                   [TaonLoginErrors.INVALID_PASSWORD]: true,
@@ -239,21 +291,25 @@ export class TaonSessionStateService extends TaonBaseProvider {
               }
             }
           }),
+
           finalize(() => {
-            this.refreshSrc.next(void 0);
+            this.refresh();
           }),
         )
         .subscribe();
     };
+
     //#endregion
 
     switch (this.state.currentValue) {
       //#region LOGIN_OR_REGISTER
+
       case TaonSessionState.LOGIN_OR_REGISTER:
         if (isSocialLogin) {
           loginAction();
         } else {
           this.state.set(TaonSessionState.LOADING_CHECK_USER_EMAIL_EXISTS);
+
           this.taonSessionApiService
             .userExists(form.controls.email.value!, {
               goToPreviouseState: () => {
@@ -262,6 +318,7 @@ export class TaonSessionStateService extends TaonBaseProvider {
             })
             .pipe(
               take(1),
+
               tap(userExists => {
                 if (userExists) {
                   this.state.set(TaonSessionState.ENTER_PASSWORD);
@@ -269,6 +326,7 @@ export class TaonSessionStateService extends TaonBaseProvider {
                   this.state.set(TaonSessionState.ENTER_REGISTRATION_PASSWORDS);
                 }
               }),
+
               catchError(err => {
                 this.state.set(TaonSessionState.LOGIN_OR_REGISTER);
                 return NEVER;
@@ -278,15 +336,19 @@ export class TaonSessionStateService extends TaonBaseProvider {
         }
 
         return;
+
       //#endregion
 
       //#region ENTER_REGISTRATION_PASSWORDS
+
       case TaonSessionState.ENTER_REGISTRATION_PASSWORDS:
         this.state.set(TaonSessionState.LOADING_CREATING_USER);
+
         this.taonSessionApiService
           .createUser(form.controls.email.value!, form.controls.password.value!)
           .pipe(
             take(1),
+
             tap(user => {
               if (user) {
                 loginAction();
@@ -294,24 +356,31 @@ export class TaonSessionStateService extends TaonBaseProvider {
                 this.state.set(TaonSessionState.ENTER_REGISTRATION_PASSWORDS);
               }
             }),
+
             catchError(err => {
               this.state.set(TaonSessionState.ENTER_REGISTRATION_PASSWORDS);
+
               return NEVER;
             }),
           )
           .subscribe();
+
         return;
+
       //#endregion
 
       //#region ENTER_PASSWORD
+
       case TaonSessionState.ENTER_PASSWORD:
         loginAction();
         return;
+
       //#endregion
 
       default:
         break;
     }
+
     //#endregion
   }
 
@@ -319,10 +388,12 @@ export class TaonSessionStateService extends TaonBaseProvider {
     this.state.set(TaonSessionState.LOADING_LOGOUT_INFO);
 
     //#region @browser
+
     this.taonSessionApiService
       .logout()
       .pipe(
         take(1),
+
         tap(logoutOk => {
           if (logoutOk) {
             this.state.set(TaonSessionState.LOGIN_OR_REGISTER);
@@ -331,15 +402,36 @@ export class TaonSessionStateService extends TaonBaseProvider {
             this.state.set(TaonSessionState.LOGIN_SUCCESS);
           }
         }),
+
         finalize(() => {
-          this.refreshSrc.next(void 0);
+          this.refresh();
         }),
       )
       .subscribe();
+
     //#endregion
   }
 
+  /**
+   * Reload complete authentication/session state.
+   *
+   * This causes:
+   *
+   * getCurrentUserId()
+   *   -> userId$
+   *   -> isLoggedIn$
+   *   -> context$
+   */
   public refresh(): void {
     this.refreshSrc.next(void 0);
+  }
+
+  /**
+   * Reload authorization context only.
+   *
+   * Does NOT call getCurrentUserId().
+   */
+  public refreshContext(): void {
+    this.contextRefreshSrc.next(void 0);
   }
 }

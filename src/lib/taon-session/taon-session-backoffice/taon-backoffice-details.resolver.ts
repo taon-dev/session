@@ -10,12 +10,15 @@ import { TaonPermissionApiService } from '../../taon-permission/taon-permission-
 import type { TaonPermissionEntity } from '../../taon-permission/taon-permission.entity';
 import { TaonSessionUserApiService } from '../../taon-session-user/taon-session-user-api.service';
 import type { TaonSessionUserEntity } from '../../taon-session-user/taon-session-user.entity';
+import { TaonSessionBackofficeApiService } from './taon-session-backoffice.api.service';
+import type { TaonSessionBackofficeModels } from './taon-session-backoffice.models';
 
 export type TaonBackofficeDetail =
   | { kind: 'user'; entity: TaonSessionUserEntity }
   | { kind: 'group'; entity: TaonGroupEntity }
   | { kind: 'role'; entity: TaonRoleEntity }
-  | { kind: 'permission'; entity: TaonPermissionEntity };
+  | { kind: 'permission'; entity: TaonPermissionEntity }
+  | { kind: 'session'; entity: TaonSessionBackofficeModels.SessionDetails };
 
 export const taonBackofficeDetailsResolver: ResolveFn<
   TaonBackofficeDetail
@@ -27,6 +30,12 @@ export const taonBackofficeDetailsResolver: ResolveFn<
 
   let detail: TaonBackofficeDetail;
   switch (route.data['kind']) {
+    case 'session':
+      detail = {
+        kind: 'session',
+        entity: await inject(TaonSessionBackofficeApiService).getSessionDetails(id),
+      };
+      break;
     case 'user':
       detail = {
         kind: 'user',

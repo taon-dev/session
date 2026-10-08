@@ -1,1 +1,12 @@
-hello from sesion
+<h2>{{ t.gettext('Active sessions') }}</h2>
+<taon-datatable
+  [entityCrudController]="crud"
+  [columns]="columns"
+  [allowedColumns]="['userId', 'deviceName', 'ip']"
+  [hideAddButton]="true"
+  searchMode="advanced"
+  [expansionTemplate]="expansionTemplate">
+</taon-datatable>
+<ng-template #expansionTemplate let-session>
+  <taon-session-details [sessionId]="session.id"></taon-session-details>
+</ng-template>

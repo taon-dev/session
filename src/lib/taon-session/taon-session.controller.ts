@@ -30,6 +30,7 @@ import { TaonSessionUserIdentityEntity } from '../taon-session-user/taon-session
 import { TaonSessionUserIdentityRepository } from '../taon-session-user/taon-session-user-identity.repository';
 import { TaonSessionUserRepository } from '../taon-session-user/taon-session-user.repository';
 
+import { TaonSessionEntity } from './taon-session.entity';
 import { TaonSessionKvRepository } from './taon-session.kv.repository';
 import { TaonSessionMiddleware } from './taon-session.middleware';
 import { TaonLoginData } from './taon-session.models';
@@ -55,6 +56,8 @@ const t = Translation.for(Taon.__FILE_RELATIVE_PATH, Taon.LANG_IMPORT_MAP);
     'emptyContext',
     'connectIdentity',
     'disconnectIdentity',
+    'usernameAvailable',
+    'changeUsername',
     //#endregion
   ],
 })
@@ -99,24 +102,10 @@ export class TaonSessionController extends TaonBaseController {
         });
         return null;
       }
-      const existingIdentity =
-        await this.taonSessionUserIdentityRepository.findPasswordIdentity(
-          email,
-        );
-
-      if (existingIdentity) {
-        return null;
-      }
-
-      const user = await this.taonSessionUserRepository.createUser();
-
-      await this.taonSessionUserIdentityRepository.createPasswordIdentity(
-        user.id,
+      return this.taonSessionUserIdentityRepository.registerPasswordUser(
         email,
         password,
       );
-
-      return user;
     };
     //#endregion
   }
@@ -139,7 +128,13 @@ export class TaonSessionController extends TaonBaseController {
           email,
         );
 
-      return !!identity;
+      return (
+        !!identity ||
+        (this.taonSessionProvider.linkSocialAccountEmail === true &&
+          (await this.taonSessionUserIdentityRepository.findUserIdByEmail(
+            email,
+          )) !== undefined)
+      );
     };
     //#endregion
   }
@@ -174,7 +169,11 @@ export class TaonSessionController extends TaonBaseController {
       return { error: true };
     }
 
-    if (!googleData?.sub || !googleData?.email || !googleData?.emailVerified) {
+    if (
+      !googleData?.sub ||
+      !googleData?.email ||
+      googleData?.emailVerified !== true
+    ) {
       Taon.error({
         status: getStatusCode(HttpStatusEnum.INVALID_CREDENTIALS),
         message: 'Invalid Google authentication.',
@@ -206,9 +205,40 @@ export class TaonSessionController extends TaonBaseController {
       const userId = Number((req as any)!.userId);
       const provider = data.googleCode
         ? TaonSessionIdentityProvider.GOOGLE
-        : void 0;
+        : data.email && data.password
+          ? TaonSessionIdentityProvider.PASSWORD
+          : void 0;
 
       switch (provider) {
+        case TaonSessionIdentityProvider.PASSWORD: {
+          if (this.taonSessionProvider.login.diableLoginByEmail) {
+            Taon.error({
+              context: 'connectIdentity diableLoginByEmail',
+              status: getStatusCode(HttpStatusEnum.UNAUTHORIZED),
+              message: t.gettext('Login by email is disabled.'),
+            });
+          }
+          if (
+            typeof data.password !== 'string' ||
+            data.password.length < 8 ||
+            data.password.length > 128
+          ) {
+            Taon.error({
+              context: 'connectIdentity data.password',
+              status: getStatusCode(HttpStatusEnum.BAD_REQUEST),
+              message: t.gettext(
+                'Password must contain between 8 and 128 characters.',
+              ),
+            });
+          }
+          await this.taonSessionUserIdentityRepository.connectPasswordIdentity(
+            userId,
+            data.email!,
+            data.password!,
+          );
+          return true;
+        }
+
         case TaonSessionIdentityProvider.GOOGLE: {
           const { identity, error, googleData } = await this.getGoogleIdentity({
             googleCode: data.googleCode,
@@ -254,6 +284,46 @@ export class TaonSessionController extends TaonBaseController {
           return false;
         }
       }
+    };
+    //#endregion
+  }
+  //#endregion
+
+  //#region username available
+  @POST({
+    middlewares: ({ parentMiddlewares }) => ({
+      TaonSessionMiddleware,
+      ...parentMiddlewares,
+    }),
+  })
+  usernameAvailable(
+    @Body('username') username: string,
+  ): Taon.Response<boolean> {
+    //#region @websqlFunc
+    return async req =>
+      this.taonSessionUserRepository.isUsernameAvailable(
+        username,
+        Number('userId' in req ? req.userId : undefined),
+      );
+    //#endregion
+  }
+  //#endregion
+
+  //#region change username
+  @POST({
+    middlewares: ({ parentMiddlewares }) => ({
+      TaonSessionMiddleware,
+      ...parentMiddlewares,
+    }),
+  })
+  changeUsername(@Body('username') username: string): Taon.Response<boolean> {
+    //#region @websqlFunc
+    return async req => {
+      await this.taonSessionUserRepository.changeUsername(
+        Number('userId' in req ? req.userId : undefined),
+        username,
+      );
+      return true;
     };
     //#endregion
   }
@@ -322,6 +392,7 @@ export class TaonSessionController extends TaonBaseController {
       const isSocialLogin = !!googleCode;
 
       let user: TaonSessionUserEntity | null = null;
+      let loginIdentity: TaonSessionUserIdentityEntity;
 
       if (isSocialLogin) {
         //#region google login
@@ -333,28 +404,29 @@ export class TaonSessionController extends TaonBaseController {
           return false;
         }
 
-        if (identity) {
-          user = await this.taonSessionUserRepository.findOne({
-            where: {
-              id: identity.userId,
-            },
-          });
-        } else {
-          // First login with this Google account.
-          user = await this.taonSessionUserRepository.createUser();
-
+        if (!identity) {
           identity =
-            await this.taonSessionUserIdentityRepository.createSocialIdentity(
-              user.id,
+            await this.taonSessionUserIdentityRepository.resolveSocialIdentity(
               TaonSessionIdentityProvider.GOOGLE,
               googleData!.sub,
               googleData!.email,
               googleData!.emailVerified,
             );
         }
+        loginIdentity = identity;
+        user = await this.taonSessionUserRepository.findOne({
+          where: { id: identity.userId },
+        });
         //#endregion
       } else {
         //#region password login
+
+        if (this.taonSessionProvider.login.diableLoginByEmail) {
+          Taon.error({
+            status: getStatusCode(HttpStatusEnum.UNAUTHORIZED),
+            message: t.gettext('Login by email is disabled.'),
+          });
+        }
 
         if (!email || !password) {
           Taon.error({
@@ -385,6 +457,7 @@ export class TaonSessionController extends TaonBaseController {
             id: identity.userId,
           },
         });
+        loginIdentity = identity;
 
         //#endregion
       }
@@ -402,31 +475,70 @@ export class TaonSessionController extends TaonBaseController {
 
       //#endregion
 
+      // await (async () => {
+      //   const session = new TaonSessionEntity();
+
+      //   session.userId = 1;
+      //   session.lastActivityAt = new Date();
+      //   session.expiresAt = new Date(Date.now() + 60_000);
+
+      //   console.log('BEFORE', {
+      //     lastActivityAt: session.lastActivityAt,
+      //     expiresAt: session.expiresAt,
+      //   });
+
+      //   const saved = await this.taonSessionRepository.save(session);
+
+      //   console.log('AFTER', {
+      //     lastActivityAt: saved.lastActivityAt,
+      //     expiresAt: saved.expiresAt,
+      //   });
+      // })();
+
+      //#region create session
+
+      const sessionObjToSave = new TaonSessionEntity().clone({
+        userId: user.id,
+        identityId: loginIdentity.id,
+        authenticationProvider: loginIdentity.provider,
+        ...TaonSessionUtils.getRequestMetadata(req),
+        lastActivityAt: new Date(),
+        expiresAt: new Date(
+          Date.now() +
+            this.taonSessionProvider.cookies.REFRESH_TOKEN_EXPIRES_SECONDS *
+              1000,
+        ),
+      });
+
+      const session =
+        await this.taonSessionRepository.createSession(sessionObjToSave);
+
+      // const loaded = await this.taonSessionRepository.findOne({
+      //   where: { id: session.id },
+      // });
+
+      // console.log('RELOADED SESSION', loaded);
+
+      //#endregion
+
       //#region create auth tokens
 
       const accessToken = await this.taonSessionKvRepository.createAccessToken(
         user.id,
+        session.id,
       );
 
       const refreshToken =
-        await this.taonSessionKvRepository.createRefreshToken(user.id);
+        await this.taonSessionKvRepository.createRefreshToken(
+          user.id,
+          session.id,
+        );
 
       this.taonSessionKvRepository.setAuthCookies(
         res!,
         accessToken,
         refreshToken,
       );
-
-      //#endregion
-
-      //#region create session
-
-      await this.taonSessionRepository.createSession({
-        userId: user.id,
-        deviceName: '',
-        ip: '',
-        userAgent: '',
-      });
 
       //#endregion
 
@@ -446,59 +558,84 @@ export class TaonSessionController extends TaonBaseController {
       if (!token) {
         Taon.error({
           status: 401,
+          context: 'refresh',
           message: 'No refresh token',
         });
         return false;
       }
 
+      let payload: UtilsJwt.JwtPayload;
       try {
-        const payload = (await UtilsJwt.verify(
+        payload = await UtilsJwt.verify(
           token,
           this.taonSessionProvider.cookies.REFRESH_TOKEN_SECRET,
-        )) as any;
-
-        const session = await this.taonSessionKvRepository.get(payload.rtId);
-
-        if (!session) {
-          Taon.error({
-            status: 401,
-            message: 'Invalid refresh token',
-          });
-          return false;
-        }
-
-        if (session.expiresAt < Date.now()) {
-          await this.taonSessionKvRepository.delete(payload.rtId);
-          Taon.error({
-            status: 401,
-            message: 'Expired refresh token',
-          });
-          return false;
-        }
-
-        // ROTATION (important)
-        await this.taonSessionKvRepository.delete(payload.rtId);
-
-        const newAccessToken =
-          await this.taonSessionKvRepository.createAccessToken(session.userId);
-
-        const newRefreshToken =
-          await this.taonSessionKvRepository.createRefreshToken(session.userId);
-
-        this.taonSessionKvRepository.setAuthCookies(
-          res!,
-          newAccessToken,
-          newRefreshToken,
         );
-
-        return true;
       } catch {
+        Taon.error({
+          status: 401,
+          context: 'refresh verification',
+          message: 'Invalid refresh token',
+        });
+        return false;
+      }
+      if (typeof payload.rtId !== 'string' || !payload.rtId) {
+        Taon.error({
+          status: 401,
+          context: 'refresh rotation',
+          message: 'Invalid refresh token',
+        });
+        return false;
+      }
+
+      const session = await this.taonSessionKvRepository.get(payload.rtId);
+
+      if (!session) {
         Taon.error({
           status: 401,
           message: 'Invalid refresh token',
         });
         return false;
       }
+
+      if (session.expiresAt <= Date.now()) {
+        await this.taonSessionKvRepository.delete(payload.rtId);
+        Taon.error({
+          status: 401,
+          message: 'Expired refresh token',
+        });
+        return false;
+      }
+
+      if (session.sessionId !== undefined) {
+        await this.taonSessionRepository.touchSession(
+          session.sessionId,
+          session.userId,
+          true,
+        );
+      }
+
+      // ROTATION (important)
+      await this.taonSessionKvRepository.delete(payload.rtId);
+
+      const newAccessToken =
+        await this.taonSessionKvRepository.createAccessToken(
+          session.userId,
+          session.sessionId,
+        );
+
+      const newRefreshToken =
+        await this.taonSessionKvRepository.createRefreshToken(
+          session.userId,
+          session.sessionId,
+        );
+
+      this.taonSessionKvRepository.setAuthCookies(
+        res!,
+        newAccessToken,
+        newRefreshToken,
+      );
+
+      return true;
     };
     //#endregion
   }
@@ -509,18 +646,54 @@ export class TaonSessionController extends TaonBaseController {
   logout(): Taon.Response<boolean> {
     //#region @websqlFunc
     return async (req, res) => {
-      const token = req!.cookies?.refreshToken;
+      const refreshToken = req!.cookies?.refreshToken;
+      const token =
+        refreshToken || this.taonSessionKvRepository.getTokenFromRequest(req);
 
       if (token) {
+        let payload: UtilsJwt.JwtPayload;
         try {
-          const payload = (await UtilsJwt.verify(
+          payload = await UtilsJwt.verify(
             token,
-            this.taonSessionProvider.cookies.REFRESH_TOKEN_SECRET,
-          )) as any;
-          await this.taonSessionKvRepository.delete(payload.rtId);
+            refreshToken
+              ? this.taonSessionProvider.cookies.REFRESH_TOKEN_SECRET
+              : this.taonSessionProvider.cookies.ACCESS_TOKEN_SECRET,
+          );
         } catch (error) {
           console.error(error);
+          this.taonSessionKvRepository.clearAuthCookies(res!);
+          Taon.error({
+            status: 401,
+            context: 'logout',
+            message: getStatusText(HttpStatusEnum.INVALID_TOKEN),
+          });
           return false;
+        }
+        if (refreshToken) {
+          if (typeof payload.rtId !== 'string' || !payload.rtId) {
+            Taon.error({
+              status: 401,
+              context: 'logout',
+              message: 'Invalid refresh token',
+            });
+            return false;
+          }
+          const session = await this.taonSessionKvRepository.get(payload.rtId);
+          if (session?.sessionId !== undefined) {
+            await this.taonSessionRepository.revokeSession(
+              session.sessionId,
+              session.userId,
+            );
+          }
+          await this.taonSessionKvRepository.delete(payload.rtId);
+        } else if (
+          typeof payload.sessionId === 'number' &&
+          typeof payload.userId === 'number'
+        ) {
+          await this.taonSessionRepository.revokeSession(
+            payload.sessionId,
+            payload.userId,
+          );
         }
       }
 

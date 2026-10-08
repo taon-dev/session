@@ -11,6 +11,7 @@ import { TaonProfileAbstractContext } from '../taon-session/taon-profile/taon-pr
 import { TaonSessionRepository } from '../taon-session/taon-session.repository';
 import { TaonSessionUserContext } from '../taon-session-user/taon-session-user.abstract.context';
 
+import { TaonSessionBackofficeController } from './taon-session-backoffice/taon-session-backoffice.controller';
 import { TaonSessionController } from './taon-session.controller';
 import { TaonSessionEntity } from './taon-session.entity';
 import { TaonSessionKvRepository } from './taon-session.kv.repository';
@@ -35,7 +36,7 @@ export const TaonSessionAbstractContext = createContext(() => ({
     TaonProfileAbstractContext,
   },
   entities: { TaonSessionEntity: TaonSessionEntity },
-  controllers: { TaonSessionController },
+  controllers: { TaonSessionController, TaonSessionBackofficeController },
   repositories: { TaonSessionKvRepository, TaonSessionRepository },
   providers: {
     TaonSessionProvider,

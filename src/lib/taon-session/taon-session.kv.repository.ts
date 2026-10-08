@@ -11,14 +11,26 @@ import { TaonSessionProvider } from './taon-session.provider';
 @TaonRepository({
   className: 'TaonSessionKvRepository',
 })
-export class TaonSessionKvRepository extends TaonBaseKvRepository {
+export class TaonSessionKvRepository extends TaonBaseKvRepository<
+  Record<
+    string,
+    {
+      userId: number;
+      expiresAt: number;
+      sessionId?: number;
+    }
+  >
+> {
   taonSessionProvider = this.injectProvider(TaonSessionProvider);
 
   //#region create access token
-  public async createAccessToken(userId: number): Promise<string> {
+  public async createAccessToken(
+    userId: number,
+    sessionId?: number,
+  ): Promise<string> {
     //#region @websqlFunc
     return await UtilsJwt.sign(
-      { userId },
+      { userId, sessionId },
       this.taonSessionProvider.cookies.ACCESS_TOKEN_SECRET,
       {
         expiresIn: this.taonSessionProvider.cookies.ACCESS_TOKEN_EXPIRES,
@@ -29,7 +41,10 @@ export class TaonSessionKvRepository extends TaonBaseKvRepository {
   //#endregion
 
   //#region create refresh token
-  public async createRefreshToken(userId: number): Promise<string> {
+  public async createRefreshToken(
+    userId: number,
+    sessionId?: number,
+  ): Promise<string> {
     //#region @websqlFunc
     const rtId = crypto.randomUUID();
 
@@ -37,7 +52,7 @@ export class TaonSessionKvRepository extends TaonBaseKvRepository {
       Date.now() +
       this.taonSessionProvider.cookies.REFRESH_TOKEN_EXPIRES_SECONDS * 1000;
 
-    await this.set(rtId, { userId, expiresAt });
+    await this.set(rtId, { userId, expiresAt, sessionId });
 
     const token = await UtilsJwt.sign(
       { rtId },

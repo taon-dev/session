@@ -162,7 +162,6 @@ const DEFAULT_EMAIL3 = 'dariusz@taon.dev';
 
       <mat-card class="m-2">
         <mat-card-content>
-          Test
           <!-- <taon-session [config]="config" /> -->
         </mat-card-content>
       </mat-card>
@@ -526,7 +525,7 @@ export const SessionStartFunction = async (
       await taonSessionUserIdentityRepository.createSocialIdentity(
         user.id,
         TaonSessionIdentityProvider.GOOGLE,
-        'idfromgoogle',
+        'idfromgoogle2',
         `fromgogle${DEFAULT_EMAIL3}`,
         true,
       );

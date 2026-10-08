@@ -2,7 +2,7 @@
 import { Injectable, inject } from '@angular/core';
 import { ActivatedRoute, PRIMARY_OUTLET, Router, UrlTree } from '@angular/router';
 
-export type TaonBackofficeEntity = 'user' | 'group' | 'role' | 'permission';
+export type TaonBackofficeEntity = 'user' | 'group' | 'role' | 'permission' | 'session';
 
 @Injectable()
 export class TaonBackofficeNavigationService {
@@ -36,7 +36,11 @@ export class TaonBackofficeNavigationService {
       ? ['users']
       : ['session', 'user'];
     const target =
-      entity === 'user' ? userPath : ['authorization', `${entity}s`];
+      entity === 'user'
+        ? userPath
+        : entity === 'session'
+          ? ['session']
+          : ['authorization', `${entity}s`];
     const [first, ...rest] = [...base, ...target, String(id)];
     const currentOutlet =
       this.router.parseUrl(this.router.url).root.children[outletRoot.outlet];

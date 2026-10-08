@@ -1,6 +1,32 @@
 import { TaonServerMiddlewareInterceptOptions } from 'ng2-rest/src';
 
 export namespace TaonSessionUtils {
+  export const getRequestMetadata = (
+    req: TaonServerMiddlewareInterceptOptions['req'],
+  ): { userAgent?: string; ip?: string; deviceName?: string } => {
+    //#region @websqlFunc
+    const header = req.headers?.['user-agent'];
+    const userAgent = typeof header === 'string' ? header.slice(0, 4096) : undefined;
+    // Express applies trust-proxy; the Worker adapter resolves the edge IP.
+    const ip = req.ip || req.socket?.remoteAddress;
+    const browsers = [
+      ['Edg/', 'Edge'], ['OPR/', 'Opera'], ['Chrome/', 'Chrome'],
+      ['Firefox/', 'Firefox'], ['Safari/', 'Safari'],
+    ];
+    const systems = [
+      ['Android', 'Android'], ['iPhone|iPad', 'iOS'], ['Windows', 'Windows'],
+      ['Macintosh', 'macOS'], ['Linux', 'Linux'],
+    ];
+    const browser = browsers.find(([pattern]) => userAgent?.includes(pattern))?.[1];
+    const system = systems.find(([pattern]) => new RegExp(pattern).test(userAgent || ''))?.[1];
+    return {
+      userAgent,
+      ip,
+      deviceName: [browser, system].filter(Boolean).join(' / ') || undefined,
+    };
+    //#endregion
+  };
+
   interface GoogleTokenResponse {
     access_token?: string;
     expires_in?: number;
@@ -93,7 +119,7 @@ export namespace TaonSessionUtils {
       throw new Error('Google identity does not contain email.');
     }
 
-    if (!payload.email_verified) {
+    if (payload.email_verified !== true) {
       throw new Error('Google email is not verified.');
     }
 
