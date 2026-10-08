@@ -3,6 +3,7 @@ import { AsyncPipe, CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  forwardRef,
   inject,
   Input,
   OnInit,
@@ -29,7 +30,7 @@ import { TaonSessionStateService } from '../taon-session.state.service';
   styleUrls: ['./taon-session-button.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    TaonSessionApiService,
+    forwardRef(() => TaonSessionApiService),
     TaonSessionStateService,
     TaonSessionConfigService,
   ],

@@ -1,24 +1,27 @@
 //#region imports
 import { Routes } from '@angular/router';
-import { adminLazyRoute } from '@taon-dev/ui/src';
+import { TaonRoleApiService } from '../taon-role-api.service';
+import { taonBackofficeDetailsResolver } from '../../taon-session/taon-session-backoffice/taon-backoffice-details.resolver';
 //#endregion
 
 export const TaonRoleBackofficeRoutes: Routes = [
   {
     path: '',
+    pathMatch: 'full',
     loadComponent: () =>
-      import('./taon-role-backoffice.component').then(m => m.TaonRoleBackofficeComponent),
-
-    children: [
-      // adminLazyRoute({
-      //   path: 'dashboard',
-      //   menuItem: 'Dashboard',
-      //   icon: 'dashboard',
-      //   expandable: false,
-      //   loader: () =>
-      //     import('./anothermodule.routes').then(m => m.DashboardRoutes),
-      // }),
-    ],
+      import('./taon-role-backoffice.component').then(
+        m => m.TaonRoleBackofficeComponent,
+      ),
+  },
+  {
+    path: ':id',
+    data: { kind: 'role', hideInNavigation: true },
+    providers: [TaonRoleApiService],
+    resolve: { detail: taonBackofficeDetailsResolver },
+    loadComponent: () =>
+      import('../../taon-session/taon-session-backoffice/taon-backoffice-details-page.component').then(
+        m => m.TaonBackofficeDetailsPageComponent,
+      ),
   },
 ];
 

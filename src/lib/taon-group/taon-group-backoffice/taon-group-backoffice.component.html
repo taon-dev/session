@@ -4,47 +4,8 @@
   [allowedColumns]="['id', 'name', 'code']"
   searchMode="advanced"
   (addingItem)="add()"
-  (expansionChange)="groupExpansionChanged($event)"
   [expansionTemplate]="expansionTemplate">
 </taon-datatable>
-
-<ng-template
-  #expansionTemplate
-  let-group>
-  <div class="group-details__section">
-    <div class="group-details__section-header">
-      <h4 class="group-details__section-title">Group roles</h4>
-
-      @if (roleChooserGroupId() !== group.id) {
-        <button
-          mat-flat-button
-          color="primary"
-          type="button"
-          (click)="openRoleChooser(group.id)">
-          <mat-icon> add_moderator </mat-icon>
-
-          Assign role
-        </button>
-      }
-    </div>
-
-    @if (roleChooserGroupId() === group.id) {
-      <taon-role-chooser
-        [groupId]="group.id"
-        [excludedRoleIds]="assignedRoleIds(group.id)"
-        (assigned)="roleAssigned(group.id)"
-        (cancelled)="closeRoleChooser()">
-      </taon-role-chooser>
-    }
-
-    <taon-datatable
-      [data]="roleRowsFor(group.id)"
-      [columns]="roleColumns"
-      [pageSize]="5"
-      [hideSearch]="true"
-      [hideAddButton]="true"
-      [showPaginator]="false"
-      searchMode="simple">
-    </taon-datatable>
-  </div>
+<ng-template #expansionTemplate let-group>
+  <taon-group-details [group]="group"></taon-group-details>
 </ng-template>

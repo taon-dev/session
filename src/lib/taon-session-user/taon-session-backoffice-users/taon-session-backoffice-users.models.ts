@@ -1,9 +1,7 @@
 export namespace TaonSessionBackofficeUsersModels {
-  export type AssignedGroupPermissionRow = {
-    permissionId: number;
+  export type AssignedGroupRoleRow = {
+    roleId: number;
     name: string;
-    code: string;
-    description?: string;
   };
 
   export type AssignedGroupRow = {
@@ -12,6 +10,6 @@ export namespace TaonSessionBackofficeUsersModels {
     name: string;
     code: string;
     description?: string;
-    permissions: AssignedGroupPermissionRow[];
+    roles: AssignedGroupRoleRow[];
   };
 }

@@ -4,9 +4,9 @@ import { NEVER, Observable, of } from 'rxjs';
 import { catchError, map, share, tap } from 'rxjs/operators';
 import { Taon, TaonBaseAngularService } from 'taon/src';
 
-import { TaonSessionIdentityProvider } from '../index';
 import { TaonAuthContextEntity } from '../taon-auth-context/taon-auth-context.entity';
 import { TaonSessionUserEntity } from '../taon-session-user/taon-session-user.entity';
+import { TaonSessionIdentityProvider } from '../taon-session-user/taon-session-user.models';
 
 import { TaonSessionController } from './taon-session.controller';
 import { TaonLoginData } from './taon-session.models';

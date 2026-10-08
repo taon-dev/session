@@ -4,47 +4,8 @@
   [allowedColumns]="['id', 'name', 'code']"
   searchMode="advanced"
   (addingItem)="add()"
-  (expansionChange)="roleExpansionChanged($event)"
   [expansionTemplate]="expansionTemplate">
 </taon-datatable>
-
-<ng-template
-  #expansionTemplate
-  let-role>
-  <div class="role-details__section">
-    <div class="role-details__section-header">
-      <h4 class="role-details__section-title">Role permissions</h4>
-
-      @if (permissionChooserRoleId() !== role.id) {
-        <button
-          mat-flat-button
-          color="primary"
-          type="button"
-          (click)="openPermissionChooser(role.id)">
-          <mat-icon> add </mat-icon>
-
-          Assign permission
-        </button>
-      }
-    </div>
-
-    @if (permissionChooserRoleId() === role.id) {
-      <taon-permission-chooser
-        [roleId]="role.id"
-        [excludedPermissionIds]="assignedPermissionIds(role.id)"
-        (assigned)="permissionAssigned(role.id)"
-        (cancelled)="closePermissionChooser()">
-      </taon-permission-chooser>
-    }
-
-    <taon-datatable
-      [data]="permissionRowsFor(role.id)"
-      [columns]="permissionColumns"
-      [pageSize]="5"
-      [hideSearch]="true"
-      [hideAddButton]="true"
-      [showPaginator]="false"
-      searchMode="simple">
-    </taon-datatable>
-  </div>
+<ng-template #expansionTemplate let-role>
+  <taon-role-details [role]="role"></taon-role-details>
 </ng-template>

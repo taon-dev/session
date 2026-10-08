@@ -1,7 +1,7 @@
 <div class="profile-picture">
   <label
     class="profile-picture__avatar"
-    [class.profile-picture__avatar--disabled]="uploading()">
+    [class.profile-picture__avatar--disabled]="uploading() || readOnly">
     @if (pictureUrl()) {
       <img
         class="profile-picture__image"
@@ -26,11 +26,11 @@
       class="profile-picture__input"
       type="file"
       [accept]="accept"
-      [disabled]="uploading()"
+      [disabled]="uploading() || readOnly"
       (change)="fileSelected($event)" />
   </label>
 
-  @if (!hideButtons) {
+  @if (!hideButtons && !readOnly) {
     <div class="profile-picture__actions">
       <label class="profile-picture__button">
         {{

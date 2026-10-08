@@ -10,10 +10,5 @@
 <ng-template
   #expansionTemplate
   let-permission>
-  <div class="permission-details__section">
-    <h4 class="permission-details__section-title">Description</h4>
-
-    <taon-permission-view-edit [permission]="permission">
-    </taon-permission-view-edit>
-  </div>
+  <taon-permission-details [permission]="permission"></taon-permission-details>
 </ng-template>

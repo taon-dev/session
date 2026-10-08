@@ -22,13 +22,6 @@
     justify-content: center;
   }
 
-  &__profile-picture-placeholder {
-    font-size: 96px;
-    width: 96px;
-    height: 96px;
-    opacity: 0.5;
-  }
-
   &__profile-fields {
     display: flex;
     flex-direction: column;
@@ -69,14 +62,14 @@
     font-weight: 600;
   }
 
-  &__group-permissions {
+  &__group-roles {
     display: flex;
     flex-direction: column;
     gap: 4px;
     padding: 8px;
   }
 
-  &__permission-list {
+  &__role-list {
     margin: 0;
     padding-left: 20px;
   }

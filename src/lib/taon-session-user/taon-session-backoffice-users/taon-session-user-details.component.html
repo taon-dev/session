@@ -1,0 +1,99 @@
+<a [routerLink]="navigation.detailsLink('user', user.id)">User details #{{ user.id }}</a>
+  <!-- profile -->
+  <div class="user-details__profile">
+    <div class="user-details__profile-picture">
+      <taon-profile-picture
+        [userId]="user.id"
+        [readOnly]="!(context$ | async)?.isSuperUser">
+      </taon-profile-picture>
+    </div>
+
+    <div class="user-details__profile-fields">
+      <div class="user-details__profile-field">
+        <span class="user-details__profile-label"> First Name </span>
+
+        <span class="user-details__profile-value"> - </span>
+      </div>
+
+      <div class="user-details__profile-field">
+        <span class="user-details__profile-label"> Surname </span>
+
+        <span class="user-details__profile-value"> - </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- groups -->
+  <div class="user-details__section">
+    <div class="user-details__section-header">
+      <h4 class="user-details__section-title">User groups</h4>
+
+      @if (groupChooserUserId() !== user.id) {
+        <button
+          mat-flat-button
+          color="primary"
+          type="button"
+          (click)="openGroupChooser(user.id)">
+          <mat-icon> group_add </mat-icon>
+
+          Assign group
+        </button>
+      }
+    </div>
+
+    @if (groupChooserUserId() === user.id) {
+      <taon-group-chooser
+        [userId]="user.id"
+        [excludedGroupIds]="assignedGroupIds(user.id)"
+        (assigned)="groupAssigned(user.id)"
+        (cancelled)="closeGroupChooser()">
+      </taon-group-chooser>
+    }
+
+    <taon-datatable
+      [data]="groupRowsFor(user.id)"
+      [columns]="groupColumns"
+      [pageSize]="5"
+      [hideSearch]="true"
+      [hideAddButton]="true"
+      [showPaginator]="false"
+      searchMode="simple"
+      [expansionTemplate]="groupExpansionTemplate">
+    </taon-datatable>
+  </div>
+
+  <!-- providers -->
+  <div class="user-details__section">
+    <h4 class="user-details__section-title">Providers</h4>
+
+    <taon-datatable
+      [data]="user.identities"
+      [columns]="identityColumns"
+      [pageSize]="5"
+      [hideSearch]="true"
+      [hideAddButton]="true"
+      [showPaginator]="false"
+      searchMode="simple">
+    </taon-datatable>
+  </div>
+
+
+<ng-template
+  #groupExpansionTemplate
+  let-group>
+  <div class="user-details__group-roles">
+    <span class="user-details__section-title"> Roles from groups </span>
+
+    <ul class="user-details__role-list">
+      @for (role of group.roles; track role.roleId) {
+        <li class="user-details__role-item">
+          <a [routerLink]="navigation.detailsLink('role', role.roleId)">{{ role.name }}</a>
+        </li>
+      } @empty {
+        <li class="user-details__role-item">
+          No roles available through this group
+        </li>
+      }
+    </ul>
+  </div>
+</ng-template>

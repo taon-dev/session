@@ -1,12 +1,13 @@
 //#region imports
-import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
 import { MtxGridColumn } from '@ng-matero/extensions/grid';
 import { TaonDatatableComponent } from '@taon-dev/ui/src';
 
+import { TaonBackofficeNavigationService } from '../../taon-session/taon-session-backoffice/taon-backoffice-navigation.service';
 import { TaonPermissionApiService } from '../taon-permission-api.service';
-import { TaonPermissionViewEditComponent } from '../taon-permission-view-edit/taon-permission-view-edit.component';
+import type { TaonPermissionEntity } from '../taon-permission.entity';
+
+import { TaonPermissionDetailsComponent } from './taon-permission-details.component';
 //#endregion
 
 @Component({
@@ -15,14 +16,14 @@ import { TaonPermissionViewEditComponent } from '../taon-permission-view-edit/ta
   styleUrls: ['./taon-permission-backoffice.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    AsyncPipe,
-    RouterOutlet,
     TaonDatatableComponent,
-    TaonPermissionViewEditComponent,
+    TaonPermissionDetailsComponent,
   ],
-  providers: [TaonPermissionApiService],
+  providers: [TaonPermissionApiService, TaonBackofficeNavigationService],
 })
 export class TaonPermissionBackofficeComponent {
+  readonly navigation = inject(TaonBackofficeNavigationService);
+
   taonPermissionApiService = inject(TaonPermissionApiService);
 
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -46,6 +47,20 @@ export class TaonPermissionBackofficeComponent {
       header: 'Code',
       field: 'code',
       sortable: true,
+    },
+    {
+      header: 'Actions',
+      field: 'actions',
+      type: 'button',
+      buttons: [
+        {
+          type: 'icon',
+          icon: 'open_in_new',
+          tooltip: 'Permission details',
+          click: (permission: TaonPermissionEntity) =>
+            this.navigation.openDetails('permission', permission.id),
+        },
+      ],
     },
   ];
 

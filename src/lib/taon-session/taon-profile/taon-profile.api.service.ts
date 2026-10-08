@@ -18,21 +18,23 @@ export class TaonProfileApiService extends TaonBaseAngularService {
 
   //#region methods
 
-  async hasProfilePicture(): Promise<boolean> {
+  async hasProfilePicture(userId?: number | string): Promise<boolean> {
     const response = await this.taonProfileController
-      .exists(TaonProfileModels.PROFILE_PICTURE_FILE_NAME)
+      .exists(TaonProfileModels.pictureKey(userId))
       .request();
 
     return response.body.json;
   }
 
-  async getProfilePictureBlob(): Promise<Blob | undefined> {
-    if (!(await this.hasProfilePicture())) {
+  async getProfilePictureBlob(
+    userId?: number | string,
+  ): Promise<Blob | undefined> {
+    if (!(await this.hasProfilePicture(userId))) {
       return undefined;
     }
 
     const response = await this.taonProfileController
-      .download(TaonProfileModels.PROFILE_PICTURE_FILE_NAME)
+      .download(TaonProfileModels.pictureKey(userId))
       .request();
 
     const blobFromPicture = await response.body.native.blob();
@@ -40,7 +42,10 @@ export class TaonProfileApiService extends TaonBaseAngularService {
     return blobFromPicture;
   }
 
-  async uploadProfilePicture(file: File): Promise<void> {
+  async uploadProfilePicture(
+    file: File,
+    userId?: number | string,
+  ): Promise<void> {
     const renamedFile = new File(
       [file],
       TaonProfileModels.PROFILE_PICTURE_FILE_NAME,
@@ -54,12 +59,17 @@ export class TaonProfileApiService extends TaonBaseAngularService {
 
     formData.append('file', renamedFile);
 
-    await this.taonProfileController.uploadFormDataToServer(formData).request();
+    await this.taonProfileController
+      .uploadFormDataToServer(
+        formData,
+        userId === undefined ? undefined : { userId: Number(userId) },
+      )
+      .request();
   }
 
-  async deleteProfilePicture(): Promise<void> {
+  async deleteProfilePicture(userId?: number | string): Promise<void> {
     await this.taonProfileController
-      .delete(TaonProfileModels.PROFILE_PICTURE_FILE_NAME)
+      .delete(TaonProfileModels.pictureKey(userId))
       .request();
   }
 

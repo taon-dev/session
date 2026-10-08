@@ -35,7 +35,7 @@ export class TaonSessionUserRepository extends TaonBaseRepository<TaonSessionUse
       },
     });
 
-    for (const identity of user.identities || []) {
+    for (const identity of user?.identities || []) {
       delete identity.passwordHash;
     }
 

@@ -4,8 +4,12 @@ import {
   Component,
   Input,
   OnDestroy,
+  OnInit,
+  OnChanges,
+  SimpleChanges,
   inject,
   signal,
+  forwardRef,
 } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { Translation } from '@taon-dev/i18n/src';
@@ -23,12 +27,16 @@ const t = Translation.for(Taon.__FILE_RELATIVE_PATH, Taon.LANG_IMPORT_MAP);
   styleUrls: ['./taon-profile-picture.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [MatIconModule],
-  providers: [TaonProfileApiService],
+  providers: [forwardRef(() => TaonProfileApiService)],
 })
-export class TaonProfilePictureComponent implements OnDestroy {
+export class TaonProfilePictureComponent implements OnDestroy, OnInit, OnChanges {
   //#region inject
 
   @Input() hideButtons: boolean = false;
+
+  @Input() userId?: number | string;
+
+  @Input() readOnly = false;
 
   public readonly t = t.for(this);
 
@@ -48,12 +56,22 @@ export class TaonProfilePictureComponent implements OnDestroy {
 
   private objectUrl?: string;
 
+  private destroyed = false;
+
+  private loadVersion = 0;
+
   //#endregion
 
-  //#region constructor
+  //#region lifecycle
 
-  constructor() {
+  ngOnInit(): void {
     void this.loadProfilePicture();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.userId && !changes.userId.firstChange) {
+      void this.loadProfilePicture();
+    }
   }
 
   //#endregion
@@ -62,19 +80,28 @@ export class TaonProfilePictureComponent implements OnDestroy {
 
   async loadProfilePicture(): Promise<void> {
     this.loading.set(true);
+    const version = ++this.loadVersion;
+    this.clearPictureUrl();
 
     try {
-      const blob = await this.taonProfileApiService.getProfilePictureBlob();
+      const blob = await this.taonProfileApiService.getProfilePictureBlob(
+        this.userId,
+      );
 
-      this.setPictureBlob(blob);
-    } catch (e) {
-      this.clearPictureUrl();
+      if (!this.destroyed && version === this.loadVersion) {
+        this.setPictureBlob(blob);
+      }
     } finally {
-      this.loading.set(false);
+      if (version === this.loadVersion) {
+        this.loading.set(false);
+      }
     }
   }
 
   async fileSelected(event: Event): Promise<void> {
+    if (this.readOnly) {
+      throw new Error('Profile picture is read-only');
+    }
     const input = event.target as HTMLInputElement;
 
     const file = input.files?.[0];
@@ -86,7 +113,7 @@ export class TaonProfilePictureComponent implements OnDestroy {
     this.uploading.set(true);
 
     try {
-      await this.taonProfileApiService.uploadProfilePicture(file);
+      await this.taonProfileApiService.uploadProfilePicture(file, this.userId);
 
       await this.loadProfilePicture();
     } finally {
@@ -98,12 +125,20 @@ export class TaonProfilePictureComponent implements OnDestroy {
   }
 
   async removePicture(): Promise<void> {
+    if (this.readOnly) {
+      throw new Error('Profile picture is read-only');
+    }
     this.uploading.set(true);
+    const userId = this.userId;
 
     try {
-      await this.taonProfileApiService.deleteProfilePicture();
+      await this.taonProfileApiService.deleteProfilePicture(userId);
 
-      this.clearPictureUrl();
+      if (!this.destroyed && userId === this.userId) {
+        ++this.loadVersion;
+        this.loading.set(false);
+        this.clearPictureUrl();
+      }
     } finally {
       this.uploading.set(false);
     }
@@ -136,6 +171,7 @@ export class TaonProfilePictureComponent implements OnDestroy {
   //#region destroy
 
   ngOnDestroy(): void {
+    this.destroyed = true;
     this.clearPictureUrl();
   }
 

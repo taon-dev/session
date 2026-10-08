@@ -21,7 +21,7 @@ import { TaonSessionUserRepository } from './taon-session-user.repository';
 
 @TaonController<TaonSessionUserController>({
   className: 'TaonSessionUserController',
-  allowedMethods: ['paginationQuery'],
+  allowedMethods: ['paginationQuery', 'getBy'],
 })
 export class TaonSessionUserController extends TaonBaseCrudController<
   TaonSessionUserEntity,
@@ -41,12 +41,22 @@ export class TaonSessionUserController extends TaonBaseCrudController<
     methodConfig,
     classConfig,
   }: Models.TaonCtrlBeforeEachRequestParams<TaonSessionUserController>): Promise<void> {
-    if (methodConfig.methodName === 'paginationQuery') {
+    if (['paginationQuery', 'getBy'].includes(methodConfig.methodName)) {
       await this.taonSessionRepository.throwIfNotAuthenticated({
         req,
         res,
       });
     }
+  }
+
+  @GET()
+  getBy(
+    @Query('id') id: number | string,
+  ): Models.Http.Response<TaonSessionUserEntity> {
+    //#region @websqlFunc
+    return async () =>
+      this.injectCustomRepo(TaonSessionUserRepository).getUserById(id);
+    //#endregion
   }
 
   protected paginationQueryMethods(): (keyof TaonSessionUserController)[] {

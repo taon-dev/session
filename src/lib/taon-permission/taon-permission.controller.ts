@@ -25,6 +25,7 @@ import { TaonPermissionRepository } from './taon-permission.repository';
     //#region allowed methods
     'paginationQuery',
     'getAll',
+    'getBy',
     'updateDescription',
     //#endregion
   ],

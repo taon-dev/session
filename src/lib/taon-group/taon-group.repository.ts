@@ -1,6 +1,5 @@
 //#region imports
 import { TaonBaseRepository, TaonRepository } from 'taon/src';
-import { Raw } from 'taon-typeorm/src';
 
 import { TaonGroupEntity } from './taon-group.entity';
 //#endregion
@@ -21,16 +20,12 @@ export class TaonGroupRepository extends TaonBaseRepository<TaonGroupEntity> {
         userGroups: {
           userId: Number(userId),
         },
-      } as any,
+      },
       relations: {
         groupRoles: {
-          role: {
-            rolePermissions: {
-              permission: true,
-            },
-          },
+          role: true,
         },
-      } as any,
+      },
     });
 
     //#endregion

@@ -29,6 +29,7 @@ import { TaonGroupRepository } from './taon-group.repository';
     //#region allowed methods
     'paginationQuery',
     'getAll',
+    'getBy',
     'getGroupsForUser',
     'assignGroupToUser',
     'unassignGroupFromUser',

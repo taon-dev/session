@@ -1,24 +1,27 @@
 //#region imports
 import { Routes } from '@angular/router';
-import { adminLazyRoute } from '@taon-dev/ui/src';
+import { TaonSessionUserApiService } from '../taon-session-user-api.service';
+import { taonBackofficeDetailsResolver } from '../../taon-session/taon-session-backoffice/taon-backoffice-details.resolver';
 //#endregion
 
 export const TaonSessionBackofficeUsersRoutes: Routes = [
   {
     path: '',
+    pathMatch: 'full',
     loadComponent: () =>
-      import('./taon-session-backoffice-users.component').then(m => m.TaonSessionBackofficeUsersComponent),
-
-    children: [
-      // adminLazyRoute({
-      //   path: 'dashboard',
-      //   menuItem: 'Dashboard',
-      //   icon: 'dashboard',
-      //   expandable: false,
-      //   loader: () =>
-      //     import('./anothermodule.routes').then(m => m.DashboardRoutes),
-      // }),
-    ],
+      import('./taon-session-backoffice-users.component').then(
+        m => m.TaonSessionBackofficeUsersComponent,
+      ),
+  },
+  {
+    path: ':id',
+    data: { kind: 'user', hideInNavigation: true },
+    providers: [TaonSessionUserApiService],
+    resolve: { detail: taonBackofficeDetailsResolver },
+    loadComponent: () =>
+      import('../../taon-session/taon-session-backoffice/taon-backoffice-details-page.component').then(
+        m => m.TaonBackofficeDetailsPageComponent,
+      ),
   },
 ];
 

@@ -28,6 +28,7 @@ import { TaonRoleRepository } from './taon-role.repository';
     //#region allowed methods
     'paginationQuery',
     'getAll',
+    'getBy',
     'getPermissionsForRole',
     'assignPermissionToRole',
     'unassignPermissionFromRole',

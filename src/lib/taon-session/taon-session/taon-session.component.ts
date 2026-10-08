@@ -11,6 +11,7 @@ import {
   OnInit,
   OnDestroy,
   ElementRef,
+  forwardRef,
 } from '@angular/core';
 import {
   ReactiveFormsModule,
@@ -39,6 +40,7 @@ import {
 } from 'taon-ui/src';
 import { _ } from 'tnp-core/src';
 
+import { TaonProfilePictureComponent } from '../taon-profile/taon-profile-picture';
 import { TaonSessionApiService } from '../taon-session.api.service';
 import { TaonSessionConfigService } from '../taon-session.config.service';
 import {
@@ -56,7 +58,6 @@ import { TaonSessionValidator } from '../taon-session.validators';
 
 import { GoogleLoginRegisterButtonComponent } from './social-buttons/google-login-register-button.component';
 import { TaonSessionProfileComponent } from './taon-session-profile/taon-session-profile.component';
-import { TaonProfilePictureComponent } from '../taon-profile/taon-profile-picture';
 //#endregion
 
 declare const google: any;
@@ -69,7 +70,7 @@ const t = Translation.for(Taon.__FILE_RELATIVE_PATH, Taon.LANG_IMPORT_MAP);
   styleUrls: ['./taon-session.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    TaonSessionApiService,
+    forwardRef(() => TaonSessionApiService),
     TaonSessionStateService,
     TaonSessionProvider,
     TaonSessionConfigService,
