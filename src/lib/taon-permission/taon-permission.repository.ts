@@ -9,15 +9,19 @@ import { TaonPermissionEntity } from './taon-permission.entity';
   className: 'TaonPermissionRepository',
 })
 export class TaonPermissionRepository extends TaonBaseRepository<TaonPermissionEntity> {
-  entityClassResolveFn: () => typeof TaonPermissionEntity = () => TaonPermissionEntity;
+  entityClassResolveFn: () => typeof TaonPermissionEntity = () =>
+    TaonPermissionEntity;
 
+  //#region methods / get permissions for user id
   async getPermissionsForUserId(
     userId: number | string,
   ): Promise<TaonPermissionEntity[]> {
     // TODO
     return [];
   }
+  //#endregion
 
+  //#region methods / update description
   async updateDescription(
     permissionId: number,
     description: string,
@@ -40,4 +44,5 @@ export class TaonPermissionRepository extends TaonBaseRepository<TaonPermissionE
 
     //#endregion
   }
+  //#endregion
 }

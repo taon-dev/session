@@ -161,6 +161,7 @@ export class TaonAuthContextRepository<
     //#endregion
   }
 
+  //#region API / persist tree
   public async persistTree(
     options: PersistAuthorizationTreeOptions<
       AUTH['group'],
@@ -271,11 +272,11 @@ export class TaonAuthContextRepository<
 
     //#endregion
   }
+  //#endregion
 
   //#endregion
 
-  //#region private methods
-
+  //#region methods / get or create group
   private async getOrCreateGroup(code: AUTH['group'], name: string) {
     //#region @websqlFunc
 
@@ -298,7 +299,9 @@ export class TaonAuthContextRepository<
 
     //#endregion
   }
+  //#endregion
 
+  //#region methods / get or create role
   private async getOrCreateRole(code: AUTH['role'], name: string) {
     //#region @websqlFunc
 
@@ -321,7 +324,9 @@ export class TaonAuthContextRepository<
 
     //#endregion
   }
+  //#endregion
 
+  //#region methods / get or create permission
   private async getOrCreatePermission(code: AUTH['permission'], name: string) {
     //#region @websqlFunc
 
@@ -344,6 +349,7 @@ export class TaonAuthContextRepository<
 
     //#endregion
   }
+  //#endregion
 
   //#region assign role
 
@@ -404,8 +410,6 @@ export class TaonAuthContextRepository<
 
     //#endregion
   }
-
-  //#endregion
 
   //#endregion
 }

@@ -10,6 +10,7 @@ import { TaonGroupEntity } from './taon-group.entity';
 export class TaonGroupRepository extends TaonBaseRepository<TaonGroupEntity> {
   entityClassResolveFn: () => typeof TaonGroupEntity = () => TaonGroupEntity;
 
+  //#region API / get groups for user id
   async getGroupsForUserId(
     userId: number | string,
   ): Promise<TaonGroupEntity[]> {
@@ -30,4 +31,5 @@ export class TaonGroupRepository extends TaonBaseRepository<TaonGroupEntity> {
 
     //#endregion
   }
+  //#endregion
 }

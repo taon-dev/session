@@ -11,11 +11,13 @@ import { TaonGroupRoleEntity } from './taon-group-role.entity';
   className: 'TaonGroupRoleRepository',
 })
 export class TaonGroupRoleRepository extends TaonBaseRepository<TaonGroupRoleEntity> {
-  entityClassResolveFn: () => typeof TaonGroupRoleEntity = () => TaonGroupRoleEntity;
+  entityClassResolveFn: () => typeof TaonGroupRoleEntity = () =>
+    TaonGroupRoleEntity;
 
   /**
    * TODO remove this demo example method
    */
+  //#region API / count entites with even id
   async countEntitesWithEvenId(): Promise<number> {
     //#region @websqlFunc
     const result = await this.count({
@@ -26,7 +28,9 @@ export class TaonGroupRoleRepository extends TaonBaseRepository<TaonGroupRoleEnt
     return result;
     //#endregion
   }
+  //#endregion
 
+  //#region API / get roles for group id
   async getRolesForGroupId(groupId: number): Promise<TaonRoleEntity[]> {
     //#region @websqlFunc
 
@@ -43,7 +47,9 @@ export class TaonGroupRoleRepository extends TaonBaseRepository<TaonGroupRoleEnt
 
     //#endregion
   }
+  //#endregion
 
+  //#region API / assign role to group
   async assignRoleToGroup(
     groupId: number,
     roleId: number,
@@ -70,7 +76,9 @@ export class TaonGroupRoleRepository extends TaonBaseRepository<TaonGroupRoleEnt
 
     //#endregion
   }
+  //#endregion
 
+  //#region API / unassign role from group
   async unassignRoleFromGroup(groupId: number, roleId: number): Promise<void> {
     //#region @websqlFunc
 
@@ -89,4 +97,5 @@ export class TaonGroupRoleRepository extends TaonBaseRepository<TaonGroupRoleEnt
 
     //#endregion
   }
+  //#endregion
 }

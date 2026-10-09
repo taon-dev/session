@@ -60,7 +60,8 @@ export class TaonGroupController extends TaonBaseCrudController<
     TaonSessionRepository,
   );
 
-  async beforeEachRequest({
+  //#region  methods & getters / before each request
+  protected async beforeEachRequest({
     req,
     res,
     methodConfig,
@@ -70,6 +71,7 @@ export class TaonGroupController extends TaonBaseCrudController<
       res,
     });
   }
+  //#endregion
 
   //#region methods & getters / groups assigned to user
   @GET()
