@@ -213,14 +213,6 @@
     "tslint.*": false,
     "!templates-subprojects/**/package.json": false,
     "*.i18n.data.ts": false,
-    "**/*.i18n.data.ts": false,
-    "AGENTS.md": false,
-    "**/AGENTS.md": false,
-    ".ai": false,
-    "**/.ai": false,
-    ".github/copilot-instructions.md": false,
-    "**/.github/copilot-instructions.md": false,
-    ".ai/examples": false,
-    "**/.ai/examples": false
+    "**/*.i18n.data.ts": false
   }
 }
