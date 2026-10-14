@@ -557,9 +557,10 @@ export class TaonSessionController extends TaonBaseController {
 
       if (!token) {
         Taon.error({
-          status: 401,
+          status: getStatusCode(HttpStatusEnum.NO_REFRESH_TOKEN),
           context: 'refresh',
-          message: 'No refresh token',
+          code: HttpStatusEnum.NO_REFRESH_TOKEN,
+          message: getStatusText(HttpStatusEnum.NO_REFRESH_TOKEN),
         });
         return false;
       }
@@ -572,17 +573,19 @@ export class TaonSessionController extends TaonBaseController {
         );
       } catch {
         Taon.error({
-          status: 401,
+          status: getStatusCode(HttpStatusEnum.INVALID_REFRESH_TOKEN),
+          code: HttpStatusEnum.INVALID_REFRESH_TOKEN,
           context: 'refresh verification',
-          message: 'Invalid refresh token',
+          message: getStatusText(HttpStatusEnum.INVALID_REFRESH_TOKEN),
         });
         return false;
       }
       if (typeof payload.rtId !== 'string' || !payload.rtId) {
         Taon.error({
-          status: 401,
+          status: getStatusCode(HttpStatusEnum.INVALID_REFRESH_TOKEN),
+          code: HttpStatusEnum.INVALID_REFRESH_TOKEN,
           context: 'refresh rotation',
-          message: 'Invalid refresh token',
+          message: getStatusText(HttpStatusEnum.INVALID_REFRESH_TOKEN),
         });
         return false;
       }
@@ -591,8 +594,10 @@ export class TaonSessionController extends TaonBaseController {
 
       if (!session) {
         Taon.error({
-          status: 401,
-          message: 'Invalid refresh token',
+          status: getStatusCode(HttpStatusEnum.INVALID_REFRESH_TOKEN),
+          code: HttpStatusEnum.INVALID_REFRESH_TOKEN,
+          context: 'not sesion rtid',
+          message: getStatusText(HttpStatusEnum.INVALID_REFRESH_TOKEN),
         });
         return false;
       }
@@ -600,8 +605,9 @@ export class TaonSessionController extends TaonBaseController {
       if (session.expiresAt <= Date.now()) {
         await this.taonSessionKvRepository.delete(payload.rtId);
         Taon.error({
-          status: 401,
-          message: 'Expired refresh token',
+          status: getStatusCode(HttpStatusEnum.EXPIRED_REFRESH_TOKEN),
+          code: HttpStatusEnum.EXPIRED_REFRESH_TOKEN,
+          message: getStatusText(HttpStatusEnum.EXPIRED_REFRESH_TOKEN),
         });
         return false;
       }
@@ -663,7 +669,8 @@ export class TaonSessionController extends TaonBaseController {
           console.error(error);
           this.taonSessionKvRepository.clearAuthCookies(res!);
           Taon.error({
-            status: 401,
+            status: getStatusCode(HttpStatusEnum.INVALID_TOKEN),
+            code: HttpStatusEnum.INVALID_TOKEN,
             context: 'logout',
             message: getStatusText(HttpStatusEnum.INVALID_TOKEN),
           });
@@ -672,9 +679,10 @@ export class TaonSessionController extends TaonBaseController {
         if (refreshToken) {
           if (typeof payload.rtId !== 'string' || !payload.rtId) {
             Taon.error({
-              status: 401,
+              status: getStatusCode(HttpStatusEnum.INVALID_REFRESH_TOKEN),
+              code: HttpStatusEnum.INVALID_REFRESH_TOKEN,
               context: 'logout',
-              message: 'Invalid refresh token',
+              message: getStatusText(HttpStatusEnum.INVALID_REFRESH_TOKEN),
             });
             return false;
           }

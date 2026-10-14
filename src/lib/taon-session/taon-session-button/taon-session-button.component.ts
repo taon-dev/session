@@ -1,4 +1,5 @@
 //#region imports
+import { TaonAuthContextEntity } from '../../taon-auth-context/taon-auth-context.entity';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -7,6 +8,7 @@ import {
   inject,
   Input,
   OnInit,
+  output,
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
@@ -21,6 +23,8 @@ import { TaonSessionConfigService } from '../taon-session.config.service';
 import { TaonSessionState } from '../taon-session.models';
 import { TaonSessionConfig } from '../taon-session.provider';
 import { TaonSessionStateService } from '../taon-session.state.service';
+// import { toSignal } from '@angular/core/rxjs-interop';
+import { Subscription, take } from 'rxjs';
 
 //#endregion
 
@@ -57,6 +61,10 @@ export class TaonSessionButtonComponent implements OnInit {
   private readonly dialog = inject(MatDialog);
 
   private readonly router = inject(Router);
+
+  protected sub = new Subscription();
+
+  public readonly context = output<TaonAuthContextEntity>();
 
   //#endregion
 
@@ -137,6 +145,18 @@ export class TaonSessionButtonComponent implements OnInit {
     )
       ? this.config.login.displayDashboardButton
       : true;
+
+    this.sub.add(
+      this.taonSessionStateService.context$.subscribe(context => {
+        this.context.emit(context);
+      }),
+    );
+
+    this.taonSessionStateService.refreshContext();
   }
   //#endregion
+
+  ngOnDestroy(): void {
+    this.sub.unsubscribe();
+  }
 }

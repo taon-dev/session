@@ -1,5 +1,11 @@
 import { Translation } from '@taon-dev/i18n/src';
-import { getStatusCode, HttpStatusEnum, Taon, TaonBaseRepository, TaonRepository } from 'taon/src';
+import {
+  getStatusCode,
+  HttpStatusEnum,
+  Taon,
+  TaonBaseRepository,
+  TaonRepository,
+} from 'taon/src';
 import type { EntityManager } from 'taon-typeorm/src';
 import { UtilsPasswords } from 'tnp-helpers/src';
 
@@ -19,13 +25,19 @@ export class TaonSessionUserIdentityRepository extends TaonBaseRepository<TaonSe
   entityClassResolveFn: () => typeof TaonSessionUserIdentityEntity = () =>
     TaonSessionUserIdentityEntity;
 
-  private readonly userRepository = this.injectCustomRepo(TaonSessionUserRepository);
+  private readonly userRepository = this.injectCustomRepo(
+    TaonSessionUserRepository,
+  );
 
   private readonly sessionProvider = this.injectProvider(TaonSessionProvider);
 
   normalizeEmail(email: string): string {
     //#region @websqlFunc
-    if (typeof email !== 'string' || !email.trim() || email.trim().length > 500) {
+    if (
+      typeof email !== 'string' ||
+      !email.trim() ||
+      email.trim().length > 500
+    ) {
       Taon.error({
         status: getStatusCode(HttpStatusEnum.BAD_REQUEST),
         message: t.gettext('A valid email address is required.'),
@@ -41,18 +53,25 @@ export class TaonSessionUserIdentityRepository extends TaonBaseRepository<TaonSe
   ): Promise<number | undefined> {
     //#region @websqlFunc
     const normalizedEmail = this.normalizeEmail(email);
-    const identities = await manager.getRepository<TaonSessionUserIdentityEntity>(this.target).find({
-      select: { userId: true },
-      where: [
-        { provider: TaonSessionIdentityProvider.PASSWORD, providerUserId: normalizedEmail },
-        { email: normalizedEmail, isEmailVerified: true },
-      ],
-    });
+    const identities = await manager
+      .getRepository<TaonSessionUserIdentityEntity>(TaonSessionUserIdentityEntity)
+      .find({
+        select: { userId: true },
+        where: [
+          {
+            provider: TaonSessionIdentityProvider.PASSWORD,
+            providerUserId: normalizedEmail,
+          },
+          { email: normalizedEmail, isEmailVerified: true },
+        ],
+      });
     const userIds = [...new Set(identities.map(identity => identity.userId))];
     if (userIds.length > 1) {
       Taon.error({
         status: getStatusCode(HttpStatusEnum.CONFLICT),
-        message: t.gettext('This email belongs to multiple accounts. Contact an administrator.'),
+        message: t.gettext(
+          'This email belongs to multiple accounts. Contact an administrator.',
+        ),
       });
     }
     return userIds[0];
@@ -67,18 +86,27 @@ export class TaonSessionUserIdentityRepository extends TaonBaseRepository<TaonSe
   ): Promise<TaonSessionUserIdentityEntity> {
     //#region @websqlFunc
     return this.connection.transaction('SERIALIZABLE', async manager => {
-      const identities = manager.getRepository<TaonSessionUserIdentityEntity>(this.target);
-      const existing = await identities.findOne({ where: { provider, providerUserId } });
+      const identities = manager.getRepository<TaonSessionUserIdentityEntity>(
+        TaonSessionUserIdentityEntity,
+      );
+      const existing = await identities.findOne({
+        where: { provider, providerUserId },
+      });
       if (existing) {
         return existing;
       }
-      const userId = this.sessionProvider.linkSocialAccountEmail === true && isEmailVerified === true
-        ? await this.findUserIdByEmail(email, manager)
-        : undefined;
-      const users = manager.getRepository<TaonSessionUserEntity>(this.userRepository.target);
-      const user = userId === undefined
-        ? await users.save(new TaonSessionUserEntity())
-        : await users.findOne({ where: { id: userId } });
+      const userId =
+        this.sessionProvider.linkSocialAccountEmail === true &&
+        isEmailVerified === true
+          ? await this.findUserIdByEmail(email, manager)
+          : undefined;
+      const users = manager.getRepository<TaonSessionUserEntity>(
+        TaonSessionUserEntity,
+      );
+      const user =
+        userId === undefined
+          ? await users.save(new TaonSessionUserEntity())
+          : await users.findOne({ where: { id: userId } });
       if (!user?.isActive) {
         Taon.error({
           context: 'resolveSocialIdentity',
@@ -87,13 +115,21 @@ export class TaonSessionUserIdentityRepository extends TaonBaseRepository<TaonSe
         });
       }
       return this.createSocialIdentity(
-        user.id, provider, providerUserId, email, isEmailVerified, manager,
+        user.id,
+        provider,
+        providerUserId,
+        email,
+        isEmailVerified,
+        manager,
       );
     });
     //#endregion
   }
 
-  async registerPasswordUser(email: string, password: string): Promise<TaonSessionUserEntity | null> {
+  async registerPasswordUser(
+    email: string,
+    password: string,
+  ): Promise<TaonSessionUserEntity | null> {
     //#region @websqlFunc
     const normalizedEmail = this.normalizeEmail(email);
     if (typeof password !== 'string' || !password) {
@@ -105,25 +141,38 @@ export class TaonSessionUserIdentityRepository extends TaonBaseRepository<TaonSe
     }
     const passwordHash = await UtilsPasswords.hashPassword(password);
     return this.connection.transaction('SERIALIZABLE', async manager => {
-      const identities = manager.getRepository<TaonSessionUserIdentityEntity>(this.target);
+      const identities = manager.getRepository<TaonSessionUserIdentityEntity>(
+        TaonSessionUserIdentityEntity,
+      );
       const existing = await identities.findOne({
         select: { id: true },
-        where: { provider: TaonSessionIdentityProvider.PASSWORD, providerUserId: normalizedEmail },
+        where: {
+          provider: TaonSessionIdentityProvider.PASSWORD,
+          providerUserId: normalizedEmail,
+        },
       });
       if (existing) {
         return null;
       }
-      if (this.sessionProvider.linkSocialAccountEmail === true &&
-        await this.findUserIdByEmail(email, manager) !== undefined) {
+      if (
+        this.sessionProvider.linkSocialAccountEmail === true &&
+        (await this.findUserIdByEmail(email, manager)) !== undefined
+      ) {
         Taon.error({
           context: 'registerPasswordUser',
           status: getStatusCode(HttpStatusEnum.CONFLICT),
-          message: t.gettext('Sign in with your existing provider, then connect email/password in your profile.'),
+          message: t.gettext(
+            'Sign in with your existing provider, then connect email/password in your profile.',
+          ),
         });
       }
-      const user = await manager.getRepository<TaonSessionUserEntity>(this.userRepository.target)
+      // const targetForUserRepository = this.userRepository.target;
+      const user = await manager
+        .getRepository<TaonSessionUserEntity>(TaonSessionUserEntity)
         .save(new TaonSessionUserEntity());
-      await identities.save(this.passwordIdentity(user.id, normalizedEmail, passwordHash, false));
+      await identities.save(
+        this.passwordIdentity(user.id, normalizedEmail, passwordHash, false),
+      );
       return user;
     });
     //#endregion
@@ -138,7 +187,9 @@ export class TaonSessionUserIdentityRepository extends TaonBaseRepository<TaonSe
     const normalizedEmail = this.normalizeEmail(email);
     const passwordHash = await UtilsPasswords.hashPassword(password);
     await this.connection.transaction('SERIALIZABLE', async manager => {
-      const identities = manager.getRepository<TaonSessionUserIdentityEntity>(this.target);
+      const identities = manager.getRepository<TaonSessionUserIdentityEntity>(
+        TaonSessionUserIdentityEntity,
+      );
       const verifiedIdentity = await identities.findOne({
         select: { id: true },
         where: { userId, email: normalizedEmail, isEmailVerified: true },
@@ -147,7 +198,9 @@ export class TaonSessionUserIdentityRepository extends TaonBaseRepository<TaonSe
         Taon.error({
           context: 'connectPasswordIdentity',
           status: getStatusCode(HttpStatusEnum.BAD_REQUEST),
-          message: t.gettext('Use a verified email from a connected sign-in method.'),
+          message: t.gettext(
+            'Use a verified email from a connected sign-in method.',
+          ),
         });
       }
       const emailUserId = await this.findUserIdByEmail(email, manager);
@@ -159,10 +212,14 @@ export class TaonSessionUserIdentityRepository extends TaonBaseRepository<TaonSe
         Taon.error({
           context: 'connectPasswordIdentity',
           status: getStatusCode(HttpStatusEnum.CONFLICT),
-          message: t.gettext('Email/password is already connected or this email belongs to another account.'),
+          message: t.gettext(
+            'Email/password is already connected or this email belongs to another account.',
+          ),
         });
       }
-      await identities.save(this.passwordIdentity(userId, normalizedEmail, passwordHash, true));
+      await identities.save(
+        this.passwordIdentity(userId, normalizedEmail, passwordHash, true),
+      );
     });
     //#endregion
   }
@@ -177,7 +234,10 @@ export class TaonSessionUserIdentityRepository extends TaonBaseRepository<TaonSe
     const normalizedEmail = this.normalizeEmail(email);
 
     const identity = this.passwordIdentity(
-      userId, normalizedEmail, await UtilsPasswords.hashPassword(password), false,
+      userId,
+      normalizedEmail,
+      await UtilsPasswords.hashPassword(password),
+      false,
     );
 
     return await this.save(identity);
@@ -274,7 +334,11 @@ export class TaonSessionUserIdentityRepository extends TaonBaseRepository<TaonSe
       isEmailVerified: isEmailVerified === true,
     });
 
-    return await manager.getRepository<TaonSessionUserIdentityEntity>(this.target).save(identity);
+    return await manager
+      .getRepository<TaonSessionUserIdentityEntity>(
+        TaonSessionUserIdentityEntity,
+      )
+      .save(identity);
 
     //#endregion
   }

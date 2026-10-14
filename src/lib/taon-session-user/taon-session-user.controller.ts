@@ -1,4 +1,5 @@
 //#region imports
+import { Translation } from '@taon-dev/i18n/src';
 import {
   Taon,
   ClassHelpers,
@@ -8,16 +9,22 @@ import {
   GET,
   Models,
   TaonPaginationQuery,
+  getStatusCode,
+  HttpStatusEnum,
 } from 'taon/src';
 import { Entity } from 'taon-typeorm/src';
 import { _ } from 'tnp-core/src';
 
+import { TaonAuthContextRepository } from '../taon-auth-context/taon-auth-context.repository';
 import { TaonSessionRepository } from '../taon-session/taon-session.repository';
 
 import { TaonSessionUserIdentityEntity } from './taon-session-user-identity.entity';
 import { TaonSessionUserEntity } from './taon-session-user.entity';
 import { TaonSessionUserRepository } from './taon-session-user.repository';
+
 //#endregion
+
+const t = Translation.for(Taon.__FILE_RELATIVE_PATH, Taon.LANG_IMPORT_MAP);
 
 @TaonController<TaonSessionUserController>({
   className: 'TaonSessionUserController',
@@ -35,6 +42,10 @@ export class TaonSessionUserController extends TaonBaseCrudController<
     TaonSessionRepository,
   );
 
+  private readonly taonAuthContextRepository = this.injectCustomRepo(
+    TaonAuthContextRepository,
+  );
+
   async beforeEachRequest({
     req,
     res,
@@ -46,6 +57,16 @@ export class TaonSessionUserController extends TaonBaseCrudController<
         req,
         res,
       });
+
+      const context = await this.taonAuthContextRepository.getContext(
+        req.userId,
+      );
+      if (!context.isSuperUser) {
+        Taon.error({
+          status: getStatusCode(HttpStatusEnum.FORBIDDEN),
+          message: t.gettext('Only super users can view sessions'),
+        });
+      }
     }
   }
 

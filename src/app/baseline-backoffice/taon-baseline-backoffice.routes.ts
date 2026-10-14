@@ -1,7 +1,10 @@
 //#region imports
 import { Routes } from '@angular/router';
-import { adminLazyRoute } from '@taon-dev/ui/src';
+import { TaonAuthContextEntity } from '@taon-dev/session/src';
+import { adminLazyRoute as adminLazyRouteBase } from '@taon-dev/ui/src';
 //#endregion
+
+const adminLazyRoute = adminLazyRouteBase<TaonAuthContextEntity>;
 
 export const TaonBaselineBackofficeRoutes: Routes = [
   {
@@ -13,6 +16,7 @@ export const TaonBaselineBackofficeRoutes: Routes = [
 
     children: [
       adminLazyRoute({
+        isVisible: ({ context }) => context.isSuperUser || context.isLocalhostBackend,
         path: 'sudo',
         menuItem: 'Sudo',
         color: 'red',
@@ -22,6 +26,7 @@ export const TaonBaselineBackofficeRoutes: Routes = [
           import('@taon-dev/sudo/src').then(m => m.TaonSudoBackofficeRoutes),
       }),
       adminLazyRoute({
+        isDisabled: ({ context }) => !context.user,
         path: 'users',
         menuItem: 'Users',
         icon: 'manage_accounts',
@@ -32,6 +37,7 @@ export const TaonBaselineBackofficeRoutes: Routes = [
           ),
       }),
       adminLazyRoute({
+        isDisabled: ({ context }) => !context.user,
         path: 'session',
         menuItem: 'Sessions',
         expandable: false,
@@ -42,6 +48,7 @@ export const TaonBaselineBackofficeRoutes: Routes = [
           ),
       }),
       adminLazyRoute({
+        isDisabled: ({ context }) => !context.user,
         path: 'authorization',
         menuItem: 'Authorization',
         icon: 'apps',
@@ -52,6 +59,7 @@ export const TaonBaselineBackofficeRoutes: Routes = [
           ),
       }),
       adminLazyRoute({
+        isDisabled: ({ context }) => !context.user,
         path: 'emails',
         menuItem: 'Emails',
         expandable: false,

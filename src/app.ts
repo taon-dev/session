@@ -56,6 +56,7 @@ import {
   TaonSessionUserIdentityRepository,
   TaonSessionUserUtils,
   TaonSessionIdentityProvider,
+  TaonAuthContextEntity,
 } from '@taon-dev/session/src';
 import {
   TaonSessionComponent,
@@ -97,8 +98,10 @@ import { Utils, UtilsOs } from 'tnp-core/src';
 import { HOST_CONFIG } from './app.hosts';
 import {
   ENV_ANGULAR_NODE_APP_BUILD_PWA_DISABLE_SERVICE_WORKER,
+  ENV_ANGULAR_NODE_APP_CONFIG_ACCESS_TOKEN_SECRET,
   ENV_ANGULAR_NODE_APP_CONFIG_GOOGLE_CLIENT_ID,
   ENV_ANGULAR_NODE_APP_CONFIG_GOOGLE_SECRET,
+  ENV_ANGULAR_NODE_APP_CONFIG_REFRESH_TOKEN_SECRET,
   ENV_ANGULAR_NODE_APP_CONFIG_SUPER_USERS,
 } from './lib/env/env.angular-node-app';
 // @placeholder-for-imports
@@ -148,11 +151,14 @@ const DEFAULT_EMAIL3 = 'dariusz@taon.dev';
           Angular version: {{ angularVersion }}<br />
           Taon backend: {{ taonMode }}<br />
           <div class="flex  flex-row items-center justify-center">
-            <taon-session-button [config]="config" />
+            <taon-session-button
+              [config]="config"
+              (context)="context = $event" />
 
             <taon-draggable-button-panel
               title="Taon Admin"
               [outlet]="outlet"
+              [context]="context"
               [basePath]="basePath">
               <router-outlet [name]="outlet" />
             </taon-draggable-button-panel>
@@ -212,6 +218,8 @@ export class SessionApp implements OnInit {
   get activePath(): string {
     return globalThis?.location.pathname?.split('?')[0];
   }
+
+  public readonly context: TaonAuthContextEntity;
 
   openDialog(
     enterAnimationDuration: string | number,
@@ -365,7 +373,19 @@ class TaonSessionProviderOverride extends TaonSessionProvider {
       ...(await ENV_ANGULAR_NODE_APP_CONFIG_SUPER_USERS()).split(','),
     ];
 
+    this.cookies.ACCESS_TOKEN_SECRET =
+      await ENV_ANGULAR_NODE_APP_CONFIG_ACCESS_TOKEN_SECRET();
+
+    this.cookies.REFRESH_TOKEN_SECRET =
+      await ENV_ANGULAR_NODE_APP_CONFIG_REFRESH_TOKEN_SECRET();
+
     console.log('active super users', this.superUsersEmails);
+
+    if (this.isLocalhost) {
+      this.login.diableLoginByEmail = false;
+    } else {
+      this.login.diableLoginByEmail = true;
+    }
 
     await super._();
   }

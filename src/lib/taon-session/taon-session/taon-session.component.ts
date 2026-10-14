@@ -1,4 +1,5 @@
 //#region imports
+import { TaonAuthContextEntity } from '../../taon-auth-context/taon-auth-context.entity';
 import { A11yModule } from '@angular/cdk/a11y';
 import { AsyncPipe, CommonModule, JsonPipe } from '@angular/common';
 import {
@@ -12,6 +13,7 @@ import {
   OnDestroy,
   ElementRef,
   forwardRef,
+  output,
 } from '@angular/core';
 import {
   ReactiveFormsModule,
@@ -163,6 +165,8 @@ export class TaonSessionComponent implements AfterViewInit, OnInit, OnDestroy {
   isLoggedIn$ = this.taonSessionStateService.isLoggedIn$;
 
   context$ = this.taonSessionStateService.context$; // TODO @LAST
+
+  public readonly context = output<TaonAuthContextEntity>();
 
   protected sub = new Subscription();
 
@@ -341,6 +345,10 @@ export class TaonSessionComponent implements AfterViewInit, OnInit, OnDestroy {
     }
 
     this.resetPasswordScreen();
+
+    this.sub.add(
+      this.context$.subscribe(context => this.context.emit(context)),
+    );
   }
   //#endregion
 

@@ -33,7 +33,8 @@ export class TaonSessionKvRepository extends TaonBaseKvRepository<
       { userId, sessionId },
       this.taonSessionProvider.cookies.ACCESS_TOKEN_SECRET,
       {
-        expiresIn: this.taonSessionProvider.cookies.ACCESS_TOKEN_EXPIRES,
+        expiresIn:
+          this.taonSessionProvider.cookies.ACCESS_TOKEN_EXPIRES_IN_SECONDS,
       },
     );
     //#endregion
@@ -75,22 +76,32 @@ export class TaonSessionKvRepository extends TaonBaseKvRepository<
     refreshToken: string,
   ): void {
     //#region @websqlFunc
-    res.cookie('accessToken', accessToken, {
-      httpOnly: this.taonSessionProvider.cookies.httpOnly,
-      secure: this.taonSessionProvider.cookies.secure, // set true in production (HTTPS)
-      sameSite: 'lax',
-      path: '/',
-      maxAge: 1000 * 60 * 15,
-    });
+    res.cookie(
+      this.taonSessionProvider.cookies.accessTokenCookieName,
+      accessToken,
+      {
+        httpOnly: this.taonSessionProvider.cookies.httpOnly,
+        secure: this.taonSessionProvider.cookies.secure, // set true in production (HTTPS)
+        sameSite: 'lax',
+        path: '/',
+        maxAge:
+          1000 *
+          this.taonSessionProvider.cookies.ACCESS_TOKEN_EXPIRES_IN_SECONDS,
+      },
+    );
 
-    res.cookie('refreshToken', refreshToken, {
-      httpOnly: this.taonSessionProvider.cookies.httpOnly,
-      secure: this.taonSessionProvider.cookies.secure,
-      sameSite: 'strict',
-      path: '/refresh',
-      maxAge:
-        1000 * this.taonSessionProvider.cookies.REFRESH_TOKEN_EXPIRES_SECONDS,
-    });
+    res.cookie(
+      this.taonSessionProvider.cookies.refreshTokenCookieName,
+      refreshToken,
+      {
+        httpOnly: this.taonSessionProvider.cookies.httpOnly,
+        secure: this.taonSessionProvider.cookies.secure,
+        sameSite: 'strict',
+        path: '/refresh',
+        maxAge:
+          1000 * this.taonSessionProvider.cookies.REFRESH_TOKEN_EXPIRES_SECONDS,
+      },
+    );
     //#endregion
   }
   //#endregion
@@ -98,8 +109,12 @@ export class TaonSessionKvRepository extends TaonBaseKvRepository<
   //#region clear auth cookies
   public clearAuthCookies(res: express.Response): void {
     //#region @websqlFunc
-    res.cookie('accessToken', '', { maxAge: 0 });
-    res.cookie('refreshToken', '', { maxAge: 0 });
+    res.cookie(this.taonSessionProvider.cookies.accessTokenCookieName, '', {
+      maxAge: 0,
+    });
+    res.cookie(this.taonSessionProvider.cookies.refreshTokenCookieName, '', {
+      maxAge: 0,
+    });
     //#endregion
   }
   //#endregion
@@ -107,7 +122,9 @@ export class TaonSessionKvRepository extends TaonBaseKvRepository<
   //#region get token from request
   public getTokenFromRequest(req: express.Request): string | null {
     //#region @websqlFunc
-    const cookieToken = req.cookies?.accessToken;
+    const cookieToken = (req.cookies || {})[
+      this.taonSessionProvider.cookies.accessTokenCookieName
+    ];
 
     const authHeader = req.headers['authorization'];
     const headerToken =

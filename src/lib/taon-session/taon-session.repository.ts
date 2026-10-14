@@ -66,6 +66,7 @@ export class TaonSessionRepository extends TaonBaseRepository<TaonSessionEntity>
     ) {
       Taon.error({
         context: 'requireActiveSession',
+        code: HttpStatusEnum.INVALID_TOKEN,
         message: getStatusText(HttpStatusEnum.INVALID_TOKEN),
         status: getStatusCode(HttpStatusEnum.INVALID_TOKEN),
       });
@@ -139,6 +140,8 @@ export class TaonSessionRepository extends TaonBaseRepository<TaonSessionEntity>
     if (!token) {
       Taon.error({
         message: getStatusText(HttpStatusEnum.NO_TOKEN),
+        context: 'getTokenFromRequest',
+        code: HttpStatusEnum.NO_TOKEN,
         status: getStatusCode(HttpStatusEnum.NO_TOKEN),
       });
       return;
@@ -153,6 +156,7 @@ export class TaonSessionRepository extends TaonBaseRepository<TaonSessionEntity>
     } catch (err) {
       Taon.error({
         context: 'throwIfNotAuthenticated',
+        code: HttpStatusEnum.INVALID_TOKEN,
         message: getStatusText(HttpStatusEnum.INVALID_TOKEN),
         status: getStatusCode(HttpStatusEnum.INVALID_TOKEN),
       });
@@ -165,6 +169,7 @@ export class TaonSessionRepository extends TaonBaseRepository<TaonSessionEntity>
     ) {
       Taon.error({
         context: 'throwIfNotAuthenticated',
+        code: HttpStatusEnum.INVALID_TOKEN,
         message: getStatusText(HttpStatusEnum.INVALID_TOKEN),
         status: getStatusCode(HttpStatusEnum.INVALID_TOKEN),
       });
@@ -178,6 +183,7 @@ export class TaonSessionRepository extends TaonBaseRepository<TaonSessionEntity>
       ) {
         Taon.error({
           context: 'throwIfNotAuthenticated',
+          code: HttpStatusEnum.INVALID_TOKEN,
           message: getStatusText(HttpStatusEnum.INVALID_TOKEN),
           status: getStatusCode(HttpStatusEnum.INVALID_TOKEN),
         });

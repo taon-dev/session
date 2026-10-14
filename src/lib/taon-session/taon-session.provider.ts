@@ -3,6 +3,8 @@ import { TaonBaseClass, TaonBaseProvider, TaonProvider } from 'taon/src';
 import { CoreModels, GlobalStorage, UtilsOs, _ } from 'tnp-core/src';
 
 //#region config classes
+const DEFAULT_ACCESS_TOKEN_SECRET = 'access-secret';
+const DEFAULT_REFRESH_TOKEN_SECRET = 'refresh-secret';
 
 //#region config classes / cookies
 const isProduction =
@@ -14,7 +16,7 @@ export class TaonSessionCookiesConfig extends TaonBaseClass {
 
   declare public REFRESH_TOKEN_SECRET: string;
 
-  declare public ACCESS_TOKEN_EXPIRES: string;
+  declare public ACCESS_TOKEN_EXPIRES_IN_SECONDS: number;
 
   declare public REFRESH_TOKEN_EXPIRES_SECONDS: number;
 
@@ -31,10 +33,10 @@ export class TaonSessionCookiesConfig extends TaonBaseClass {
   constructor() {
     super();
     //#region @backend
-    this.ACCESS_TOKEN_SECRET = 'access-secret';
-    this.REFRESH_TOKEN_SECRET = 'refresh-secret';
+    this.ACCESS_TOKEN_SECRET = DEFAULT_ACCESS_TOKEN_SECRET;
+    this.REFRESH_TOKEN_SECRET = DEFAULT_REFRESH_TOKEN_SECRET;
     //#endregion
-    this.ACCESS_TOKEN_EXPIRES = '15m';
+    this.ACCESS_TOKEN_EXPIRES_IN_SECONDS = 60 * 15;
     this.REFRESH_TOKEN_EXPIRES_SECONDS = 60 * 60 * 24 * 7;
     this.accessTokenCookieName = 'taon_access_token';
     this.refreshTokenCookieName = 'taon_refresh_token';
@@ -398,15 +400,25 @@ export class TaonSessionProvider extends TaonBaseProvider {
 
   // rateLimits = new TaonSessionRateLimitsConfig();
 
-  async _() {
-    // TODO @UNCOMMENT disabled login by email when not on localhost
+  public get isLocalhost(): boolean {
     const originUrl = this.ctx.frontendHostUri;
-    const isLocalhost =
+    return (
       originUrl.hostname === 'localhost' ||
       originUrl.hostname === '127.0.0.1' ||
-      originUrl.hostname === '[::1]';
+      originUrl.hostname === '[::1]'
+    );
+  }
+
+  async _() {
+    const isLocalhost = this.isLocalhost;
     if (!isLocalhost) {
-      this.login.diableLoginByEmail = true;
+      if (this.cookies.ACCESS_TOKEN_SECRET === DEFAULT_ACCESS_TOKEN_SECRET) {
+        throw `Please change the default access token secret when not on localhost.`;
+      }
+
+      if (this.cookies.REFRESH_TOKEN_SECRET === DEFAULT_REFRESH_TOKEN_SECRET) {
+        throw `Please change the default refresh token secret when not on localhost.`;
+      }
     }
   }
 
