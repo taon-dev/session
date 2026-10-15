@@ -52,24 +52,22 @@ export class TaonSessionBackofficeController extends TaonBaseCrudController<
   async beforeEachRequest({
     req,
     res,
+    methodConfig,
+    classConfig,
   }: Models.TaonCtrlBeforeEachRequestParams<TaonSessionBackofficeController>): Promise<void> {
-    //#region @websqlFunc
-    await this.taonSessionRepository.throwIfNotAuthenticated({ req, res });
-    const userId = Number('userId' in req ? req.userId : undefined);
-    if (!Number.isSafeInteger(userId) || userId <= 0) {
+    await this.taonSessionRepository.throwIfNotAuthenticated({
+      req,
+      res,
+    });
+
+    const context = await this.taonAuthContextRepository.getContext(req.userId);
+
+    if (!context || !context.hasAccess.toViewSessions) {
       Taon.error({
         status: getStatusCode(HttpStatusEnum.FORBIDDEN),
-        message: t.gettext('Only super users can view sessions'),
+        message: t.gettext('You are not authorized to view sessions'),
       });
     }
-    const context = await this.taonAuthContextRepository.getContext(userId);
-    if (!context.isSuperUser) {
-      Taon.error({
-        status: getStatusCode(HttpStatusEnum.FORBIDDEN),
-        message: t.gettext('Only super users can view sessions'),
-      });
-    }
-    //#endregion
   }
 
   protected async defaultPaginationQuery(
@@ -84,7 +82,12 @@ export class TaonSessionBackofficeController extends TaonBaseCrudController<
     );
     const qb = this.db
       .createQueryBuilder('session')
-      .select(['session.id', 'session.userId', 'session.deviceName', 'session.ip'])
+      .select([
+        'session.id',
+        'session.userId',
+        'session.deviceName',
+        'session.ip',
+      ])
       .where('session.revokedAt IS NULL')
       .andWhere('session.expiresAt > :now', { now: new Date() });
 
@@ -201,7 +204,11 @@ export class TaonSessionBackofficeController extends TaonBaseCrudController<
         revokeReason: session.revokeReason,
         user: user ? { id: user.id, username: user.username } : null,
         identity: identity
-          ? { id: identity.id, email: identity.email, provider: identity.provider }
+          ? {
+              id: identity.id,
+              email: identity.email,
+              provider: identity.provider,
+            }
           : null,
       };
     };

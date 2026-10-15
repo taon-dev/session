@@ -1,4 +1,5 @@
 //#region imports
+import { TaonSessionUserProvider } from '../taon-session-user/taon-session-user.provider';
 import { Translation } from '@taon-dev/i18n/src';
 import {
   Taon,
@@ -21,6 +22,11 @@ import { TaonSessionRepository } from '../taon-session/taon-session.repository';
 import { TaonSessionUserIdentityEntity } from './taon-session-user-identity.entity';
 import { TaonSessionUserEntity } from './taon-session-user.entity';
 import { TaonSessionUserRepository } from './taon-session-user.repository';
+import {
+  TaonSessionCoreAuthorization,
+  TaonSessionCorePermissions,
+  TaonSessionCoreRoles,
+} from '../index';
 
 //#endregion
 
@@ -35,6 +41,7 @@ export class TaonSessionUserController extends TaonBaseCrudController<
   {},
   TaonSessionUserController
 > {
+  //#region fields & getters
   entityClassResolveFn: () => typeof TaonSessionUserEntity = () =>
     TaonSessionUserEntity;
 
@@ -43,9 +50,12 @@ export class TaonSessionUserController extends TaonBaseCrudController<
   );
 
   private readonly taonAuthContextRepository = this.injectCustomRepo(
-    TaonAuthContextRepository,
+    TaonAuthContextRepository<TaonSessionCoreAuthorization>,
   );
 
+  //#endregion
+
+  //#region methods / before each request
   async beforeEachRequest({
     req,
     res,
@@ -61,15 +71,18 @@ export class TaonSessionUserController extends TaonBaseCrudController<
       const context = await this.taonAuthContextRepository.getContext(
         req.userId,
       );
-      if (!context.isSuperUser) {
+
+      if (!context || !context.hasAccess.toViewUsers) {
         Taon.error({
           status: getStatusCode(HttpStatusEnum.FORBIDDEN),
-          message: t.gettext('Only super users can view sessions'),
+          message: t.gettext('You are not authorized to view users'),
         });
       }
     }
   }
+  //#endregion
 
+  //#region methods / get by
   @GET()
   getBy(
     @Query('id') id: number | string,
@@ -79,11 +92,15 @@ export class TaonSessionUserController extends TaonBaseCrudController<
       this.injectCustomRepo(TaonSessionUserRepository).getUserById(id);
     //#endregion
   }
+  //#endregion
 
+  //#region methods / pagination query methods
   protected paginationQueryMethods(): (keyof TaonSessionUserController)[] {
     return ['customPaginationQuery'] as any;
   }
+  //#endregion
 
+  //#region methods / pagination query
   @GET()
   paginationQuery(
     queryJson?: TaonPaginationQuery<any>,
@@ -94,7 +111,9 @@ export class TaonSessionUserController extends TaonBaseCrudController<
       return data;
     };
   }
+  //#endregion
 
+  //#region methods / custom pagination query
   protected async customPaginationQuery(
     query: TaonPaginationQuery<TaonSessionUserController>,
   ): Promise<[TaonSessionUserEntity[], number]> {
@@ -143,4 +162,5 @@ export class TaonSessionUserController extends TaonBaseCrudController<
     return [users, total];
     //#endregion
   }
+  //#endregion
 }

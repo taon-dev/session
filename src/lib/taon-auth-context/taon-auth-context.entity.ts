@@ -1,66 +1,60 @@
 //#region imports
-import { TaonSessionUserEntity } from '../taon-session-user/taon-session-user.entity';
+import { TaonBaseEntity, TaonEntity } from 'taon/src';
+import { CoreModels } from 'tnp-core/src';
+
 import { TaonSessionEntity } from '../taon-session/taon-session.entity';
-import {
-  CustomColumn,
-  Taon,
-  TaonBaseAbstractEntity,
-  TaonBaseEntity,
-  TaonEntity,
-} from 'taon/src';
-import { _ } from 'tnp-core/src';
+import { TaonSessionUserEntity } from '../taon-session-user/taon-session-user.entity';
+
+import { TaonAuthContextHasAccess } from './taon-auth-context-has-access';
 
 //#endregion
 
+export type TaonAuthorizationDefinition = Readonly<Record<string, string>>;
+
 export interface TaonAuthorizationSchema {
-  group: string;
-  role: string;
-  permission: string;
+  groups: TaonAuthorizationDefinition;
+  roles: TaonAuthorizationDefinition;
+  permissions: TaonAuthorizationDefinition;
 }
 
-@TaonEntity({
+@TaonEntity<TaonAuthContextEntity>({
   className: 'TaonAuthContextEntity',
   createTable: false,
 })
 export class TaonAuthContextEntity<
-  AUTH extends TaonAuthorizationSchema = {
-    group: string;
-    role: string;
-    permission: string;
-  },
+  AUTH extends TaonAuthorizationSchema = TaonAuthorizationSchema,
 > extends TaonBaseEntity<TaonAuthContextEntity> {
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  get hasAccess() {
+    return this.injectClass<TaonAuthContextHasAccess, [TaonAuthContextEntity]>(
+      TaonAuthContextHasAccess,
+      this,
+    );
+  }
+
   user!: TaonSessionUserEntity;
-
-  isSuperUser: boolean = false;
-
-  isLocalhostBackend: boolean = false;
 
   session!: TaonSessionEntity;
 
-  groups: AUTH['group'][] = [];
+  isSuperUser = false;
 
-  roles: AUTH['role'][] = [];
+  isLocalhostBackend = false;
 
-  permissions: AUTH['permission'][] = [];
+  groups: CoreModels.ValueOf<AUTH['groups']>[] = [];
 
-  hasPermission(permission: AUTH['permission']): boolean {
-    if (this.isSuperUser) {
-      return true;
-    }
-    return this.permissions.includes(permission);
+  roles: CoreModels.ValueOf<AUTH['roles']>[] = [];
+
+  permissions: CoreModels.ValueOf<AUTH['permissions']>[] = [];
+
+  hasPermission(permission: CoreModels.ValueOf<AUTH['permissions']>): boolean {
+    return this.isSuperUser || this.permissions.includes(permission);
   }
 
-  hasRole(role: AUTH['role']): boolean {
-    if (this.isSuperUser) {
-      return true;
-    }
-    return this.roles.includes(role);
+  hasRole(role: CoreModels.ValueOf<AUTH['roles']>): boolean {
+    return this.isSuperUser || this.roles.includes(role);
   }
 
-  isInGroup(group: AUTH['group']): boolean {
-    if (this.isSuperUser) {
-      return true;
-    }
-    return this.groups.includes(group);
+  isInGroup(group: CoreModels.ValueOf<AUTH['groups']>): boolean {
+    return this.isSuperUser || this.groups.includes(group);
   }
 }

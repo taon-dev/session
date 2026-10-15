@@ -157,6 +157,7 @@ const DEFAULT_EMAIL3 = 'dariusz@taon.dev';
 
             <taon-draggable-button-panel
               title="Taon Admin"
+              [autoHideIcon]="false"
               [outlet]="outlet"
               [context]="context"
               [basePath]="basePath">

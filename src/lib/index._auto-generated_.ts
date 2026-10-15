@@ -3,7 +3,6 @@
 // This disable this auto generate file.
 // set property "shouldGenerateAutogenIndexFile: false" 
 // in taon.jsonc of your project. 
-export * from './app.data'; 
 export * from './build-info._auto-generated_'; 
 export * from './my-organization-proj'; 
 export * from './start-cli'; 
@@ -18,6 +17,7 @@ export * from './taon-audit-events/taon-audit-events.provider';
 export * from './taon-audit-events/taon-audit-events.repository'; 
 export * from './taon-audit-events/taon-audit-events.subscriber'; 
 export * from './taon-audit-events/taon-audit-events.utils'; 
+export * from './taon-auth-context/taon-auth-context-has-access'; 
 export * from './taon-auth-context/taon-auth-context.abstract.context'; 
 export * from './taon-auth-context/taon-auth-context.entity'; 
 export * from './taon-auth-context/taon-auth-context.repository'; 

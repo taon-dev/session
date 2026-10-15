@@ -192,7 +192,17 @@ export class TaonSessionStateService extends TaonBaseProvider {
    * Does NOT cause another getCurrentUserId() call because
    * userId$ is shared.
    */
-  public readonly isLoggedIn$ = this.userId$.pipe(map(userId => !!userId));
+  public readonly isLoggedIn$ = this.userId$.pipe(
+    map(userId => !!userId),
+    tap(isLoggedIn => {
+      if (
+        !isLoggedIn &&
+        this.state.currentValue === TaonSessionState.PROFILE_INFO
+      ) {
+        this.state.set(TaonSessionState.LOGIN_OR_REGISTER);
+      }
+    }),
+  );
 
   //#region @browser
 

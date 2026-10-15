@@ -1,10 +1,6 @@
 //#region imports
 import { Translation } from '@taon-dev/i18n/src';
 import {
-  TaonAuthContextEntity,
-  TaonAuthContextRepository,
-} from '@taon-dev/session/src';
-import {
   Taon,
   ClassHelpers,
   TaonController,
@@ -22,6 +18,8 @@ import { HttpStatusCodeMap } from 'taon/src';
 import { FindOneOptions, FindOptionsWhere } from 'taon-typeorm/src';
 import { _, UtilsJwt } from 'tnp-core/src';
 
+import { TaonAuthContextEntity } from '../taon-auth-context/taon-auth-context.entity';
+import { TaonAuthContextRepository } from '../taon-auth-context/taon-auth-context.repository';
 import {
   TaonSessionIdentityProvider,
   TaonSessionUserEntity,
