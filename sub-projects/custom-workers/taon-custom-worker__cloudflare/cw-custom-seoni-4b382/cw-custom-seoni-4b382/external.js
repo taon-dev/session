@@ -48,4 +48,5 @@ export default [
   '@parcel/watcher', //  ✅
   'favicons', //  ✅
   'multer',//  ✅
+  'busboy',//  ✅
 ]
