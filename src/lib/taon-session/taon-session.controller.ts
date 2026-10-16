@@ -547,17 +547,15 @@ export class TaonSessionController extends TaonBaseController {
   }
   //#endregion
 
-  // protected async tryRefreshAccessToken({
-  //   req,
-  //   res,
-  // }: Models.TaonCtrlBeforeEachRequestParams<any>): Promise<boolean> {
-  //   const sessionRefreshOK =
-  //     await this.taonSessionRepository.tryRefreshAccessToken(req, res, {
-  //       throwErrors: false,
-  //     });
-  //   console.log('EXTENDING SESSION !!!', { sessionRefreshOK });
-  //   return sessionRefreshOK;
-  // }
+  //#region try refresh access token
+  public async tryRefreshAccessToken(): Promise<boolean> {
+    const data = await this.refresh().request({
+      reauthenticateOn401: null,
+    });
+    return data.body.booleanValue;
+  }
+
+  //#endregion
 
   //#region refresh
   @POST()
@@ -689,9 +687,9 @@ export class TaonSessionController extends TaonBaseController {
   // async _() {
   //   const that = this;
   //   // apply to the whole context
-  //   this.ctx.tryRefreshAccessTokenGlobalCallback = request => {
+  //   this.ctx.tryRefreshAccessTokenGlobalCallback = () => {
   //     console.log('USING GLOBAL CALLBACK');
-  //     return that.tryRefreshAccessToken(request);
+  //     return that.tryRefreshAccessToken();
   //   };
   //   await super._();
   // }

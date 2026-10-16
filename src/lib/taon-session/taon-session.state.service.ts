@@ -80,7 +80,11 @@ class TaonSessionStateInstance {
   private allowedStateMap = new Map<TaonSessionState, TaonSessionState[]>([
     [
       TaonSessionState.LOADING_INITIAL_AUTH_INFO,
-      [TaonSessionState.LOGIN_OR_REGISTER, TaonSessionState.LOGIN_SUCCESS],
+      [
+        TaonSessionState.LOGIN_OR_REGISTER,
+        TaonSessionState.LOGIN_SUCCESS,
+        TaonSessionState.PROFILE_INFO,
+      ],
     ],
     [
       TaonSessionState.LOGIN_OR_REGISTER,
@@ -151,6 +155,7 @@ class TaonSessionStateInstance {
   public state = new TaonStateMachine<TaonSessionState>({
     defaultValue: this.currentSlide(),
     allowedStateMap: this.allowedStateMap,
+    // debugMode: true,
     effect: (nextState, previousState, debugMode) => {
       log.info('states', {
         nextState,
@@ -178,7 +183,8 @@ class TaonSessionStateInstance {
 
       //#region @browser
       return this.taonSessionApiService.getCurrentUserId().pipe(
-        catchError(() => {
+        catchError(err => {
+          // console.log('error 1', err);
           this.state.set(TaonSessionState.LOGIN_OR_REGISTER);
           return of(void 0);
         }),
@@ -187,9 +193,12 @@ class TaonSessionStateInstance {
     }),
 
     tap(userId => {
+      // console.log('userid', { userId });
       this.userId.set(userId);
 
-      if (!userId) {
+      if (userId) {
+        this.state.set(TaonSessionState.PROFILE_INFO);
+      } else {
         this.state.set(TaonSessionState.LOGIN_OR_REGISTER);
       }
     }),
@@ -329,7 +338,14 @@ class TaonSessionStateInstance {
 
     //#endregion
 
+    // console.log(`action for ${this.state.currentValue}`);
     switch (this.state.currentValue) {
+
+      // this is done automatically when subscribed
+      // case TaonSessionState.LOADING_INITIAL_AUTH_INFO:
+      //   this.refresh();
+      //   return;
+
       //#region PROFILE_INFO
       case TaonSessionState.PROFILE_INFO:
         this.refresh();
