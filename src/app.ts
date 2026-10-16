@@ -369,8 +369,10 @@ class TaonSessionProviderOverride extends TaonSessionProvider {
     this.linkSocialAccountEmail = true;
   }
 
-  //#region @backend
   async _() {
+    console.log('helo world!!!!!!!!!!!');
+
+    //#region @backend
     const googleSecret = await ENV_ANGULAR_NODE_APP_CONFIG_GOOGLE_SECRET();
     this.socialLogin.google.googleSecret = googleSecret;
 
@@ -379,13 +381,15 @@ class TaonSessionProviderOverride extends TaonSessionProvider {
       ...(await ENV_ANGULAR_NODE_APP_CONFIG_SUPER_USERS()).split(','),
     ];
 
+    console.log('active super users', this.superUsersEmails);
+
     this.cookies.ACCESS_TOKEN_SECRET =
       await ENV_ANGULAR_NODE_APP_CONFIG_ACCESS_TOKEN_SECRET();
 
     this.cookies.REFRESH_TOKEN_SECRET =
       await ENV_ANGULAR_NODE_APP_CONFIG_REFRESH_TOKEN_SECRET();
+    //#endregion
 
-    console.log('active super users', this.superUsersEmails);
     console.log('is localhost ', this.isLocalhost);
 
     if (this.isLocalhost) {
@@ -396,7 +400,6 @@ class TaonSessionProviderOverride extends TaonSessionProvider {
 
     await super._();
   }
-  //#endregion
 }
 //#endregion
 

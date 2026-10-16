@@ -57,9 +57,7 @@ import {
   TaonSessionAndSessionButtonCommon,
   TaonSessionState,
 } from '../taon-session.models';
-import {
-  TaonSessionConfig,
-} from '../taon-session.provider';
+import { TaonSessionConfig } from '../taon-session.provider';
 import { TaonSessionStateService } from '../taon-session.state.service';
 import { TaonSessionValidator } from '../taon-session.validators';
 
@@ -345,6 +343,7 @@ export class TaonSessionComponent implements AfterViewInit, OnInit, OnDestroy {
   //#region hooks / on init
   ngOnInit(): void {
     const config = this.taonSessionConfigService.clone();
+    // console.log({ config });
     walk.Object(
       this.config || {},
       (value, lodashPath) => {
@@ -367,6 +366,10 @@ export class TaonSessionComponent implements AfterViewInit, OnInit, OnDestroy {
     }
 
     this.resetPasswordScreen();
+
+    if (this.config.login.diableLoginByEmail) {
+      this.form.controls.email.setValue('');
+    }
 
     this.sub.add(
       this.context$.subscribe(context => this.context.emit(context)),
