@@ -9,7 +9,12 @@ import {
   Output,
   signal,
 } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatDialog } from '@angular/material/dialog';
@@ -78,17 +83,33 @@ export class TaonSessionProfileComponent {
   );
 
   readonly usernameForm = new FormGroup({
-    username: new FormControl('', { nonNullable: true, validators: [
-      Validators.required, Validators.maxLength(255), Validators.pattern(/\S/),
-    ] }),
+    username: new FormControl('', {
+      nonNullable: true,
+      validators: [
+        Validators.required,
+        Validators.maxLength(255),
+        Validators.pattern(/\S/),
+      ],
+    }),
   });
 
   readonly passwordForm = new FormGroup({
-    email: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.email] }),
-    password: new FormControl('', { nonNullable: true, validators: [
-      Validators.required, Validators.minLength(8), Validators.maxLength(128),
-    ] }),
-    passwordRepeat: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+    email: new FormControl('', {
+      nonNullable: true,
+      validators: [Validators.required, Validators.email],
+    }),
+    password: new FormControl('', {
+      nonNullable: true,
+      validators: [
+        Validators.required,
+        Validators.minLength(8),
+        Validators.maxLength(128),
+      ],
+    }),
+    passwordRepeat: new FormControl('', {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
   });
 
   readonly savingUsername = signal(false);
@@ -121,6 +142,10 @@ export class TaonSessionProfileComponent {
 
   get isVisibleGithub(): boolean {
     return this.config?.socialLogin?.github?.enabled;
+  }
+
+  get linkSocialAccountEmail(): boolean {
+    return this.config?.linkSocialAccountEmail;
   }
 
   /**
@@ -231,19 +256,26 @@ export class TaonSessionProfileComponent {
 
   //#region connect email
   connectEmail(user?: TaonSessionUserEntity | null): void {
-    const identity = user?.identities?.find(identity =>
-      identity.isEmailVerified === true && !!identity.email,
+    const identity = user?.identities?.find(
+      identity => identity.isEmailVerified === true && !!identity.email,
     );
     if (!identity) {
-      this.passwordError.set(this.t.gettext('Connect a sign-in method with a verified email first.'));
+      this.passwordError.set(
+        this.t.gettext('Connect a sign-in method with a verified email first.'),
+      );
       return;
     }
-    this.passwordForm.reset({ email: identity.email, password: '', passwordRepeat: '' });
+    this.passwordForm.reset({
+      email: identity.email,
+      password: '',
+      passwordRepeat: '',
+    });
     this.passwordError.set('');
     this.showPasswordForm.set(true);
   }
   //#endregion
 
+  //#region save password
   async savePassword(): Promise<void> {
     this.passwordForm.markAllAsTouched();
     this.passwordError.set('');
@@ -252,14 +284,20 @@ export class TaonSessionProfileComponent {
     }
     const { email, password, passwordRepeat } = this.passwordForm.getRawValue();
     if (password !== passwordRepeat) {
-      this.passwordError.set(this.t.gettext('Passwords do not match each other'));
+      this.passwordError.set(
+        this.t.gettext('Passwords do not match each other'),
+      );
       return;
     }
     this.savingPassword.set(true);
     try {
-      const connected = await firstValueFrom(this.taonSessionApiService.connectPassword(email, password));
+      const connected = await firstValueFrom(
+        this.taonSessionApiService.connectPassword(email, password),
+      );
       if (!connected) {
-        this.passwordError.set(this.t.gettext('Unable to connect email/password.'));
+        this.passwordError.set(
+          this.t.gettext('Unable to connect email/password.'),
+        );
         return;
       }
       this.passwordForm.reset();
@@ -267,12 +305,18 @@ export class TaonSessionProfileComponent {
       this.taonSessionStateService.refreshContext();
     } catch (error) {
       console.error('[connect-email]', error);
-      this.passwordError.set(this.t.gettext('Unable to connect email/password. The email may already belong to another account.'));
+      this.passwordError.set(
+        this.t.gettext(
+          'Unable to connect email/password. The email may already belong to another account.',
+        ),
+      );
     } finally {
       this.savingPassword.set(false);
     }
   }
+  //#endregion
 
+  //#region save username
   async saveUsername(): Promise<void> {
     this.usernameForm.markAllAsTouched();
     this.usernameError.set('');
@@ -283,12 +327,18 @@ export class TaonSessionProfileComponent {
     const username = this.usernameForm.controls.username.value.trim();
     this.savingUsername.set(true);
     try {
-      const available = await firstValueFrom(this.taonSessionApiService.usernameAvailable(username));
+      const available = await firstValueFrom(
+        this.taonSessionApiService.usernameAvailable(username),
+      );
       if (!available) {
-        this.usernameError.set(this.t.gettext('This username is already taken.'));
+        this.usernameError.set(
+          this.t.gettext('This username is already taken.'),
+        );
         return;
       }
-      const saved = await firstValueFrom(this.taonSessionApiService.changeUsername(username));
+      const saved = await firstValueFrom(
+        this.taonSessionApiService.changeUsername(username),
+      );
       if (!saved) {
         this.usernameError.set(this.t.gettext('Unable to update username.'));
         return;
@@ -298,11 +348,14 @@ export class TaonSessionProfileComponent {
       this.taonSessionStateService.refreshContext();
     } catch (error) {
       console.error('[change-username]', error);
-      this.usernameError.set(this.t.gettext('Unable to update username. It may already be taken.'));
+      this.usernameError.set(
+        this.t.gettext('Unable to update username. It may already be taken.'),
+      );
     } finally {
       this.savingUsername.set(false);
     }
   }
+  //#endregion
 
   //#region connect google
   private googleCodeClient?: any;

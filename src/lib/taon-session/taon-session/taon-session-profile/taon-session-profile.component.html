@@ -1,49 +1,52 @@
 @let context = context$ | async;
+<!-- linkSocialAccountEmail: {{ linkSocialAccountEmail  }} -->
 <mat-tab-group taonHorizontalWheelScroll>
   <!-- CONNECT IDENTITIES -->
-  <mat-tab [label]="t.gettext('Connect')">
-    <div class="tab-content">
-      <h3>{{ t.gettext('Connect sign-in method') }}</h3>
 
-      <p class="description">
-        {{
-          t.gettext('Connect additional ways of signing in to your account.')
-        }}
-      </p>
+  @if (!linkSocialAccountEmail) {
+    <mat-tab [label]="t.gettext('Connect')">
+      <div class="tab-content">
+        <h3>{{ t.gettext('Connect sign-in method') }}</h3>
 
-      <mat-button-toggle-group
-        class="identity-buttons"
-        [hideSingleSelectionIndicator]="true">
-        @if (canConnectEmail$ | async) {
-          <mat-button-toggle
-            [disabled]="config?.login?.diableLoginByEmail"
-            (click)="connectEmail(context?.user)">
-            <mat-icon>email</mat-icon>
-            Email
-          </mat-button-toggle>
-        } @else {
-          <mat-button-toggle
-            (click)="disconnect(TaonSessionIdentityProvider.PASSWORD)">
-            <mat-icon>email</mat-icon>
-            Disconnect Email
-          </mat-button-toggle>
-        }
+        <p class="description">
+          {{
+            t.gettext('Connect additional ways of signing in to your account.')
+          }}
+        </p>
 
-        @if (canConnectGoogle$ | async) {
-          <mat-button-toggle (click)="connectGoogle()">
-            <mat-icon>account_circle</mat-icon>
-            Google
-          </mat-button-toggle>
-        } @else {
-          <mat-button-toggle
-            (click)="disconnect(TaonSessionIdentityProvider.GOOGLE)">
-            <mat-icon>close</mat-icon>
-            Disconnect Google
-          </mat-button-toggle>
-        }
+        <mat-button-toggle-group
+          class="identity-buttons"
+          [hideSingleSelectionIndicator]="true">
+          @if (canConnectEmail$ | async) {
+            <mat-button-toggle
+              [disabled]="config?.login?.diableLoginByEmail"
+              (click)="connectEmail(context?.user)">
+              <mat-icon>email</mat-icon>
+              Email
+            </mat-button-toggle>
+          } @else {
+            <mat-button-toggle
+              (click)="disconnect(TaonSessionIdentityProvider.PASSWORD)">
+              <mat-icon>email</mat-icon>
+              Disconnect Email
+            </mat-button-toggle>
+          }
 
-        <!-- TODO -->
-        <!-- <mat-button-toggle
+          @if (canConnectGoogle$ | async) {
+            <mat-button-toggle (click)="connectGoogle()">
+              <mat-icon>account_circle</mat-icon>
+              Google
+            </mat-button-toggle>
+          } @else {
+            <mat-button-toggle
+              (click)="disconnect(TaonSessionIdentityProvider.GOOGLE)">
+              <mat-icon>close</mat-icon>
+              Disconnect Google
+            </mat-button-toggle>
+          }
+
+          <!-- TODO -->
+          <!-- <mat-button-toggle
           [disabled]="true"
           (click)="connectApple()">
           <mat-icon>apple</mat-icon>
@@ -70,32 +73,51 @@
           <mat-icon>public</mat-icon>
           Github
         </mat-button-toggle> -->
-      </mat-button-toggle-group>
-      @if (showPasswordForm()) {
-        <form [formGroup]="passwordForm" (ngSubmit)="savePassword()">
-          <mat-form-field>
-            <mat-label>{{ t.gettext('Verified email') }}</mat-label>
-            <input matInput formControlName="email" readonly />
-          </mat-form-field>
-          <mat-form-field>
-            <mat-label>{{ t.gettext('Password') }}</mat-label>
-            <input matInput type="password" formControlName="password" autocomplete="new-password" />
-            <mat-error>{{ t.gettext('Password must contain between 8 and 128 characters.') }}</mat-error>
-          </mat-form-field>
-          <mat-form-field>
-            <mat-label>{{ t.gettext('Repeat password') }}</mat-label>
-            <input matInput type="password" formControlName="passwordRepeat" autocomplete="new-password" />
-          </mat-form-field>
-          <button mat-button type="submit" [disabled]="savingPassword() || passwordForm.invalid">
-            {{ t.gettext('Save password') }}
-          </button>
-        </form>
-      }
-      @if (passwordError()) {
-        <p role="alert">{{ passwordError() }}</p>
-      }
-    </div>
-  </mat-tab>
+        </mat-button-toggle-group>
+        @if (showPasswordForm()) {
+          <form
+            [formGroup]="passwordForm"
+            (ngSubmit)="savePassword()">
+            <mat-form-field>
+              <mat-label>{{ t.gettext('Verified email') }}</mat-label>
+              <input
+                matInput
+                formControlName="email"
+                readonly />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>{{ t.gettext('Password') }}</mat-label>
+              <input
+                matInput
+                type="password"
+                formControlName="password"
+                autocomplete="new-password" />
+              <mat-error>{{
+                t.gettext('Password must contain between 8 and 128 characters.')
+              }}</mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>{{ t.gettext('Repeat password') }}</mat-label>
+              <input
+                matInput
+                type="password"
+                formControlName="passwordRepeat"
+                autocomplete="new-password" />
+            </mat-form-field>
+            <button
+              mat-button
+              type="submit"
+              [disabled]="savingPassword() || passwordForm.invalid">
+              {{ t.gettext('Save password') }}
+            </button>
+          </form>
+        }
+        @if (passwordError()) {
+          <p role="alert">{{ passwordError() }}</p>
+        }
+      </div>
+    </mat-tab>
+  }
 
   <!-- CHANGE PICTURE -->
   <!-- <mat-tab label="Change Picture">
@@ -106,22 +128,40 @@
   </mat-tab> -->
 
   <!-- CHANGE PASSWORD -->
-  <mat-tab label="Change Password">
-    <div class="tab-content">
-      <!-- TODO change password -->
-    </div>
-  </mat-tab>
+   <!-- TODO @UNCOMMENT when sending emails ready -->
+  @if (!linkSocialAccountEmail) {
+    <mat-tab label="Change Password">
+      <div class="tab-content">
+        <!-- TODO change password -->
+      </div>
+    </mat-tab>
+  }
+
   <mat-tab [label]="t.gettext('Change Username')">
     <div class="tab-content">
-      <p>{{ t.gettext('Current username') }}: {{ context?.user?.username || '-' }}</p>
-      <form [formGroup]="usernameForm" (ngSubmit)="saveUsername()">
+      <p>
+        {{ t.gettext('Current username') }}:
+        {{ context?.user?.username || '-' }}
+      </p>
+      <form
+        [formGroup]="usernameForm"
+        (ngSubmit)="saveUsername()">
         <mat-form-field>
           <mat-label>{{ t.gettext('New username') }}</mat-label>
-          <input matInput formControlName="username" autocomplete="username" [readonly]="savingUsername()"
+          <input
+            matInput
+            formControlName="username"
+            autocomplete="username"
+            [readonly]="savingUsername()"
             (input)="usernameError.set(''); usernameSaved.set(false)" />
-          <mat-error>{{ t.gettext('Username must contain between 1 and 255 characters.') }}</mat-error>
+          <mat-error>{{
+            t.gettext('Username must contain between 1 and 255 characters.')
+          }}</mat-error>
         </mat-form-field>
-        <button mat-button type="submit" [disabled]="savingUsername() || usernameForm.invalid">
+        <button
+          mat-button
+          type="submit"
+          [disabled]="savingUsername() || usernameForm.invalid">
           {{ t.gettext('Save username') }}
         </button>
       </form>

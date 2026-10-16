@@ -365,6 +365,8 @@ class TaonSessionProviderOverride extends TaonSessionProvider {
       ENV_ANGULAR_NODE_APP_CONFIG_GOOGLE_CLIENT_ID;
 
     this.login.defaultEmail = DEFAULT_EMAIL;
+    // TODO @REMOVE_THIS this is waiting for emails implementation
+    this.linkSocialAccountEmail = true;
   }
 
   //#region @backend
