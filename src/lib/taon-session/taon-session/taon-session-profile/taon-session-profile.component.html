@@ -128,7 +128,7 @@
   </mat-tab> -->
 
   <!-- CHANGE PASSWORD -->
-   <!-- TODO @UNCOMMENT when sending emails ready -->
+  <!-- TODO @UNCOMMENT when sending emails ready -->
   @if (!linkSocialAccountEmail) {
     <mat-tab label="Change Password">
       <div class="tab-content">
@@ -161,7 +161,11 @@
         <button
           mat-button
           type="submit"
-          [disabled]="savingUsername() || usernameForm.invalid">
+          [disabled]="
+            savingUsername() ||
+            usernameForm.invalid ||
+            !this.usernameForm.controls.username.value
+          ">
           {{ t.gettext('Save username') }}
         </button>
       </form>

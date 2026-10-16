@@ -85,11 +85,7 @@ export class TaonSessionProfileComponent {
   readonly usernameForm = new FormGroup({
     username: new FormControl('', {
       nonNullable: true,
-      validators: [
-        Validators.required,
-        Validators.maxLength(255),
-        Validators.pattern(/\S/),
-      ],
+      validators: [Validators.maxLength(255), Validators.pattern(/\S/)],
     }),
   });
 

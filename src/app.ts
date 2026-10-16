@@ -386,6 +386,7 @@ class TaonSessionProviderOverride extends TaonSessionProvider {
       await ENV_ANGULAR_NODE_APP_CONFIG_REFRESH_TOKEN_SECRET();
 
     console.log('active super users', this.superUsersEmails);
+    console.log('is localhost ', this.isLocalhost);
 
     if (this.isLocalhost) {
       this.login.diableLoginByEmail = false;
