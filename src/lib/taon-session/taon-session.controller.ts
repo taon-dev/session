@@ -13,6 +13,7 @@ import {
   HttpStatusEnum,
   getStatusCode,
   getStatusText,
+  Models,
 } from 'taon/src';
 import { HttpStatusCodeMap } from 'taon/src';
 import { FindOneOptions, FindOptionsWhere } from 'taon-typeorm/src';
@@ -546,100 +547,26 @@ export class TaonSessionController extends TaonBaseController {
   }
   //#endregion
 
+  // protected async tryRefreshAccessToken({
+  //   req,
+  //   res,
+  // }: Models.TaonCtrlBeforeEachRequestParams<any>): Promise<boolean> {
+  //   const sessionRefreshOK =
+  //     await this.taonSessionRepository.tryRefreshAccessToken(req, res, {
+  //       throwErrors: false,
+  //     });
+  //   console.log('EXTENDING SESSION !!!', { sessionRefreshOK });
+  //   return sessionRefreshOK;
+  // }
+
   //#region refresh
   @POST()
   refresh(): Taon.Response<boolean> {
     //#region @websqlFunc
     return async (req, res) => {
-      const token = req!.cookies?.refreshToken;
-
-      if (!token) {
-        Taon.error({
-          status: getStatusCode(HttpStatusEnum.NO_REFRESH_TOKEN),
-          context: 'refresh',
-          code: HttpStatusEnum.NO_REFRESH_TOKEN,
-          message: getStatusText(HttpStatusEnum.NO_REFRESH_TOKEN),
-        });
-        return false;
-      }
-
-      let payload: UtilsJwt.JwtPayload;
-      try {
-        payload = await UtilsJwt.verify(
-          token,
-          this.taonSessionProvider.cookies.REFRESH_TOKEN_SECRET,
-        );
-      } catch {
-        Taon.error({
-          status: getStatusCode(HttpStatusEnum.INVALID_REFRESH_TOKEN),
-          code: HttpStatusEnum.INVALID_REFRESH_TOKEN,
-          context: 'refresh verification',
-          message: getStatusText(HttpStatusEnum.INVALID_REFRESH_TOKEN),
-        });
-        return false;
-      }
-      if (typeof payload.rtId !== 'string' || !payload.rtId) {
-        Taon.error({
-          status: getStatusCode(HttpStatusEnum.INVALID_REFRESH_TOKEN),
-          code: HttpStatusEnum.INVALID_REFRESH_TOKEN,
-          context: 'refresh rotation',
-          message: getStatusText(HttpStatusEnum.INVALID_REFRESH_TOKEN),
-        });
-        return false;
-      }
-
-      const session = await this.taonSessionKvRepository.get(payload.rtId);
-
-      if (!session) {
-        Taon.error({
-          status: getStatusCode(HttpStatusEnum.INVALID_REFRESH_TOKEN),
-          code: HttpStatusEnum.INVALID_REFRESH_TOKEN,
-          context: 'not sesion rtid',
-          message: getStatusText(HttpStatusEnum.INVALID_REFRESH_TOKEN),
-        });
-        return false;
-      }
-
-      if (session.expiresAt <= Date.now()) {
-        await this.taonSessionKvRepository.delete(payload.rtId);
-        Taon.error({
-          status: getStatusCode(HttpStatusEnum.EXPIRED_REFRESH_TOKEN),
-          code: HttpStatusEnum.EXPIRED_REFRESH_TOKEN,
-          message: getStatusText(HttpStatusEnum.EXPIRED_REFRESH_TOKEN),
-        });
-        return false;
-      }
-
-      if (session.sessionId !== undefined) {
-        await this.taonSessionRepository.touchSession(
-          session.sessionId,
-          session.userId,
-          true,
-        );
-      }
-
-      // ROTATION (important)
-      await this.taonSessionKvRepository.delete(payload.rtId);
-
-      const newAccessToken =
-        await this.taonSessionKvRepository.createAccessToken(
-          session.userId,
-          session.sessionId,
-        );
-
-      const newRefreshToken =
-        await this.taonSessionKvRepository.createRefreshToken(
-          session.userId,
-          session.sessionId,
-        );
-
-      this.taonSessionKvRepository.setAuthCookies(
-        res!,
-        newAccessToken,
-        newRefreshToken,
-      );
-
-      return true;
+      return await this.taonSessionRepository.tryRefreshAccessToken(req, res, {
+        throwErrors: true,
+      });
     };
     //#endregion
   }
@@ -720,8 +647,10 @@ export class TaonSessionController extends TaonBaseController {
   context(): Taon.Response<TaonAuthContextEntity> {
     //#region @websqlFunc
     return async (req, res) => {
-      const userId = (req as any)!.userId;
-      const context = await this.taonAuthContextRepository.getContext(userId);
+      const context = await this.taonAuthContextRepository.getContext(
+        req.userId,
+        req.sessionId,
+      );
       return context;
     };
     //#endregion
@@ -756,4 +685,14 @@ export class TaonSessionController extends TaonBaseController {
     //#endregion
   }
   //#endregion
+
+  // async _() {
+  //   const that = this;
+  //   // apply to the whole context
+  //   this.ctx.tryRefreshAccessTokenGlobalCallback = request => {
+  //     console.log('USING GLOBAL CALLBACK');
+  //     return that.tryRefreshAccessToken(request);
+  //   };
+  //   await super._();
+  // }
 }

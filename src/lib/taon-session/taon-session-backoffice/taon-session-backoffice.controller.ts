@@ -60,7 +60,10 @@ export class TaonSessionBackofficeController extends TaonBaseCrudController<
       res,
     });
 
-    const context = await this.taonAuthContextRepository.getContext(req.userId);
+    const context = await this.taonAuthContextRepository.getContext(
+      req.userId,
+      req.sessionId,
+    );
 
     if (!context || !context.hasAccess.toViewSessions) {
       Taon.error({

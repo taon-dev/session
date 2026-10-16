@@ -1,5 +1,4 @@
 //#region imports
-import { TaonAuthContextEntity } from '../../taon-auth-context/taon-auth-context.entity';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -9,22 +8,27 @@ import {
   Input,
   OnInit,
   output,
+  OnDestroy,
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { Router, RouterOutlet } from '@angular/router';
 import { walk } from 'lodash-walk-object/src';
+import { Subscription, take } from 'rxjs';
 import { _ } from 'tnp-core/src';
 
+import { TaonAuthContextEntity } from '../../taon-auth-context/taon-auth-context.entity';
 import { TaonSessionComponent } from '../taon-session/taon-session.component';
 import { TaonSessionApiService } from '../taon-session.api.service';
 import { TaonSessionConfigService } from '../taon-session.config.service';
-import { TaonSessionState } from '../taon-session.models';
+import {
+  TaonSessionAndSessionButtonCommon,
+  TaonSessionState,
+} from '../taon-session.models';
 import { TaonSessionConfig } from '../taon-session.provider';
 import { TaonSessionStateService } from '../taon-session.state.service';
 // import { toSignal } from '@angular/core/rxjs-interop';
-import { Subscription, take } from 'rxjs';
 
 //#endregion
 
@@ -46,8 +50,10 @@ import { Subscription, take } from 'rxjs';
     CommonModule,
   ],
 })
-export class TaonSessionButtonComponent implements OnInit {
+export class TaonSessionButtonComponent implements OnInit, OnDestroy {
   //#region fields & getters
+
+  TaonSessionState = TaonSessionState;
 
   protected readonly taonSessionStateService = inject(TaonSessionStateService);
 
@@ -68,19 +74,28 @@ export class TaonSessionButtonComponent implements OnInit {
 
   //#endregion
 
-  constructor() {}
+  constructor() {
+    this.taonSessionStateService.activate({
+      from: 'taon-session-button',
+    });
+  }
 
   //#region methods / open login dialog
 
-  openLogin(): void {
+  open(state?: TaonSessionState): void {
     const instance = this.dialog.open(TaonSessionComponent, {
       width: '410px',
-      data: null,
+      data: {
+        activeSessionInstanceId: this.taonSessionStateService.active.instanceId,
+      } as TaonSessionAndSessionButtonCommon,
       autoFocus: true,
     });
     const classInstance = instance.componentInstance;
     classInstance.config = this.config;
-    classInstance.taonSessionStateService = this.taonSessionStateService;
+
+    if (state === TaonSessionState.PROFILE_INFO) {
+      this.taonSessionStateService.executeActionForState(classInstance.form);
+    }
   }
   //#endregion
 
@@ -89,21 +104,6 @@ export class TaonSessionButtonComponent implements OnInit {
     if (this.config.login.linkToDashboard) {
       void this.router.navigateByUrl(this.config.login.linkToDashboard);
     }
-  }
-  //#endregion
-
-  //#region logout
-  profile(): void {
-    const instance = this.dialog.open(TaonSessionComponent, {
-      width: '410px',
-      data: null,
-      autoFocus: true,
-    });
-    const classInstance = instance.componentInstance;
-    classInstance.config = this.config;
-    classInstance.taonSessionStateService = this.taonSessionStateService;
-
-    this.taonSessionStateService.state.set(TaonSessionState.PROFILE_INFO);
   }
   //#endregion
 
@@ -158,5 +158,6 @@ export class TaonSessionButtonComponent implements OnInit {
 
   ngOnDestroy(): void {
     this.sub.unsubscribe();
+    this.taonSessionStateService.deactivate();
   }
 }

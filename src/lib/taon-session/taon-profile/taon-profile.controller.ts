@@ -26,12 +26,12 @@ const t = Translation.for(Taon.__FILE_RELATIVE_PATH, Taon.LANG_IMPORT_MAP);
   className: 'TaonProfileController',
   allowedMethods: ['exists', 'download', 'delete', 'uploadFormDataToServer'],
 })
-export class TaonProfileController extends TaonBaseStorageController<
-  TaonProfileModels.PictureQuery
-> {
+export class TaonProfileController extends TaonBaseStorageController<TaonProfileModels.PictureQuery> {
   //#region storage hooks
 
-  private readonly taonSessionRepository = this.injectCustomRepo(TaonSessionRepository);
+  private readonly taonSessionRepository = this.injectCustomRepo(
+    TaonSessionRepository,
+  );
 
   private readonly authRepository = this.injectCustomRepo(
     TaonAuthContextRepository,
@@ -81,7 +81,10 @@ export class TaonProfileController extends TaonBaseStorageController<
 
     if (userId !== currentUserId) {
       if (isUpload || methodConfig.methodName === 'delete') {
-        const context = await this.authRepository.getContext(currentUserId);
+        const context = await this.authRepository.getContext(
+          currentUserId,
+          req.sessionId,
+        );
         if (!context.isSuperUser) {
           Taon.error({
             status: getStatusCode(HttpStatusEnum.FORBIDDEN),

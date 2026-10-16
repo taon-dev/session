@@ -155,8 +155,11 @@ const DEFAULT_EMAIL3 = 'dariusz@taon.dev';
               [config]="config"
               (context)="context = $event" />
 
+            <ng-template #headerCenterTemplate>hello header!</ng-template>
+
             <taon-draggable-button-panel
               title="Taon Admin"
+              [headerCenterTemplate]="headerCenterTemplate"
               [autoHideIcon]="false"
               [outlet]="outlet"
               [context]="context"

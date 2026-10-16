@@ -14,6 +14,7 @@ import {
   ElementRef,
   forwardRef,
   output,
+  Injector,
 } from '@angular/core';
 import {
   ReactiveFormsModule,
@@ -23,7 +24,11 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -49,11 +54,11 @@ import {
   GoogleCodeResponse,
   TaonErorsMap,
   TaonLoginErrors,
+  TaonSessionAndSessionButtonCommon,
   TaonSessionState,
 } from '../taon-session.models';
 import {
   TaonSessionConfig,
-  TaonSessionProvider,
 } from '../taon-session.provider';
 import { TaonSessionStateService } from '../taon-session.state.service';
 import { TaonSessionValidator } from '../taon-session.validators';
@@ -74,7 +79,6 @@ const t = Translation.for(Taon.__FILE_RELATIVE_PATH, Taon.LANG_IMPORT_MAP);
   providers: [
     forwardRef(() => TaonSessionApiService),
     TaonSessionStateService,
-    TaonSessionProvider,
     TaonSessionConfigService,
   ],
   imports: [
@@ -109,6 +113,14 @@ const t = Translation.for(Taon.__FILE_RELATIVE_PATH, Taon.LANG_IMPORT_MAP);
 })
 export class TaonSessionComponent implements AfterViewInit, OnInit, OnDestroy {
   //#region fields & getters
+  public state: TaonSessionState;
+
+  private readonly dialogData = inject<TaonSessionAndSessionButtonCommon>(
+    MAT_DIALOG_DATA,
+    {
+      optional: true,
+    },
+  );
 
   @Input()
   public config: TaonSessionConfig;
@@ -135,23 +147,31 @@ export class TaonSessionComponent implements AfterViewInit, OnInit, OnDestroy {
 
   protected emailRegex = /^[a-zA-Z0-9._%+-]+@(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$/;
 
+  public activeSessionInstanceId: string;
+
   public taonSessionStateService: TaonSessionStateService = inject(
     TaonSessionStateService,
   );
 
+  private readonly activateHook = this.dialogData?.activeSessionInstanceId
+    ? this.taonSessionStateService.activate({
+        from: 'taon-session when in dialog',
+        hash: this.dialogData.activeSessionInstanceId,
+      })
+    : this.taonSessionStateService.activate({
+        from: 'taon-session when standalone',
+      });
+
   protected readonly taonSessionConfigService: TaonSessionConfigService =
     inject(TaonSessionConfigService);
 
-  protected form = new FormGroup(
+  public form = new FormGroup(
     {
       email: new FormControl('', []),
       password: new FormControl('', []),
       passwordRepeat: new FormControl('', []),
       googleCode: new FormControl('', []),
-      state: new FormControl(
-        this.taonSessionStateService.state.currentValue,
-        [],
-      ),
+      state: new FormControl(this.taonSessionStateService.currentValue, []),
     },
     {
       validators: [TaonSessionValidator.passwordMatchValidator],
@@ -209,6 +229,8 @@ export class TaonSessionComponent implements AfterViewInit, OnInit, OnDestroy {
 
   //#endregion
 
+  constructor() {}
+
   //#region reload me
   public reloadMe(): void {
     this.taonSessionStateService.refresh();
@@ -223,7 +245,7 @@ export class TaonSessionComponent implements AfterViewInit, OnInit, OnDestroy {
 
   //#region goto
   public goTo(action: TaonSessionState): void {
-    this.taonSessionStateService.state.set(action);
+    this.taonSessionStateService.setState(action);
   }
   //#endregion
 
@@ -355,18 +377,25 @@ export class TaonSessionComponent implements AfterViewInit, OnInit, OnDestroy {
   //#region hooks / on destroy
   ngOnDestroy(): void {
     this.sub.unsubscribe();
+    if (!this.isInsideDialog) {
+      this.taonSessionStateService.deactivate();
+    }
   }
   //#endregion
 
   //#region hooks / after view init
+
   ngAfterViewInit(): void {
     this.sub.add(
-      this.taonSessionStateService.state.currentState$.subscribe(
+      this.taonSessionStateService.currentState$.subscribe(
         ({ currentState, previousState }) => {
+          // console.log('in compoennt', { currentState, previousState });
+          this.state = currentState;
           if (
             currentState === TaonSessionState.LOGIN_SUCCESS &&
             this.isInsideDialog
           ) {
+            this.taonSessionStateService.executeActionForState(this.form);
             this.close();
           }
           this.form.controls.state.setValue(currentState);
@@ -374,9 +403,10 @@ export class TaonSessionComponent implements AfterViewInit, OnInit, OnDestroy {
             this.form.controls.googleCode.setValue('');
           }
           this.updateValidatorsFor(currentState);
-          // console.log({ newState });
+          // console.log({ currentState });
           if (this.slide) {
             this.slide.goTo(currentState);
+            // console.log('Should go to slide ' + currentState);
             setTimeout(() => {
               // console.log(`FOCUS: ${newState}`);
               this.focusMainInput(currentState);

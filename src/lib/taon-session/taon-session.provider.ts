@@ -36,7 +36,8 @@ export class TaonSessionCookiesConfig extends TaonBaseClass {
     this.ACCESS_TOKEN_SECRET = DEFAULT_ACCESS_TOKEN_SECRET;
     this.REFRESH_TOKEN_SECRET = DEFAULT_REFRESH_TOKEN_SECRET;
     //#endregion
-    this.ACCESS_TOKEN_EXPIRES_IN_SECONDS = 60 * 15;
+    // this.ACCESS_TOKEN_EXPIRES_IN_SECONDS = 4;  // 4 seconds
+    this.ACCESS_TOKEN_EXPIRES_IN_SECONDS = 60 * 15; // 15 minutes
     this.REFRESH_TOKEN_EXPIRES_SECONDS = 60 * 60 * 24 * 7;
     this.accessTokenCookieName = 'taon_access_token';
     this.refreshTokenCookieName = 'taon_refresh_token';

@@ -70,6 +70,7 @@ export class TaonSessionUserController extends TaonBaseCrudController<
 
       const context = await this.taonAuthContextRepository.getContext(
         req.userId,
+        req.sessionId,
       );
 
       if (!context || !context.hasAccess.toViewUsers) {

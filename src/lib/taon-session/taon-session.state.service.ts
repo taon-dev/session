@@ -1,7 +1,9 @@
 //#region imports
 
-import { inject, Injectable } from '@angular/core'; // @browser
-
+import { computed, inject, Injectable } from '@angular/core';
+import { signal } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
+import { Level, Log } from 'ng2-logger/src';
 import {
   BehaviorSubject,
   catchError,
@@ -12,50 +14,50 @@ import {
   Observable,
   of,
   shareReplay,
+  Subscription,
   switchMap,
   take,
   tap,
 } from 'rxjs';
-
-import { TaonBaseProvider, TaonProvider } from 'taon/src';
-import { signal } from 'tnp-core/src';
+import { Taon, TaonBaseProvider, TaonProvider } from 'taon/src';
 import { TaonStateMachine } from 'tnp-core/src';
 
 import { TaonAuthContextEntity } from '../taon-auth-context/taon-auth-context.entity';
 
-import type { TaonSessionComponent } from './taon-session/taon-session.component'; // @browser
-import { TaonSessionApiService } from './taon-session.api.service'; // @browser
+import type { TaonSessionComponent } from './taon-session/taon-session.component';
+import { TaonSessionApiService } from './taon-session.api.service';
+import { TaonSessionConfigService } from './taon-session.config.service';
 import {
   TaonErorsMap,
   TaonLoginErrors,
   TaonSessionState,
 } from './taon-session.models';
-// import { toSignal } from '@angular/core/rxjs-interop';
 
 //#endregion
 
-//#region @backend
-@TaonProvider({
-  className: 'TaonSessionStateService',
-})
-//#endregion
-//#region @browser
-@Injectable()
-//#endregion
-export class TaonSessionStateService extends TaonBaseProvider {
+const log = Log.create(Taon.__FILE_RELATIVE_PATH, Level.ERROR);
+
+const intitialState = TaonSessionState.LOADING_INITIAL_AUTH_INFO;
+
+class TaonSessionStateInstance {
   //#region fields & getters
 
-  //#region @browser
-  protected readonly taonSessionApiService = inject(TaonSessionApiService);
+  inited = false;
+
+  //#region fields & getters / instace id
+  readonly instanceId = crypto.randomUUID();
   //#endregion
 
+  //#region fields & getters / refresh src
   /**
    * Refreshes session/authentication information.
    *
    * This causes getCurrentUserId() to be called again.
    */
   protected readonly refreshSrc = new BehaviorSubject<void>(void 0);
+  //#endregion
 
+  //#region fields & getters / context refresh src
   /**
    * Refreshes authorization context without reloading
    * the current session/user.
@@ -64,13 +66,17 @@ export class TaonSessionStateService extends TaonBaseProvider {
    * the currently authenticated user stays the same.
    */
   protected readonly contextRefreshSrc = new BehaviorSubject<void>(void 0);
+  //#endregion
 
+  //#region fields & getters / user id
   protected readonly userId = signal<number | undefined>(void 0);
+  //#endregion
 
-  protected readonly currentSlide = signal(
-    TaonSessionState.LOADING_INITIAL_AUTH_INFO,
-  );
+  //#region fields & getters / current slide
+  protected readonly currentSlide = signal(intitialState);
+  //#endregion
 
+  //#region fields & getters / allowed state map
   private allowedStateMap = new Map<TaonSessionState, TaonSessionState[]>([
     [
       TaonSessionState.LOADING_INITIAL_AUTH_INFO,
@@ -122,6 +128,7 @@ export class TaonSessionStateService extends TaonBaseProvider {
         TaonSessionState.LOADING_LOGOUT_INFO,
         TaonSessionState.ENTER_PASSWORD,
         TaonSessionState.PROFILE_INFO,
+        TaonSessionState.LOGIN_OR_REGISTER,
       ],
     ],
     [
@@ -130,6 +137,7 @@ export class TaonSessionStateService extends TaonBaseProvider {
         TaonSessionState.LOGIN_SUCCESS,
         TaonSessionState.LOADING_LOGOUT_INFO,
         TaonSessionState.ENTER_PASSWORD,
+        TaonSessionState.LOGIN_OR_REGISTER,
       ],
     ],
     [
@@ -137,15 +145,23 @@ export class TaonSessionStateService extends TaonBaseProvider {
       [TaonSessionState.LOGIN_OR_REGISTER, TaonSessionState.LOGIN_SUCCESS],
     ],
   ]);
+  //#endregion
 
+  //#region fields & getters / state
   public state = new TaonStateMachine<TaonSessionState>({
     defaultValue: this.currentSlide(),
     allowedStateMap: this.allowedStateMap,
     effect: (nextState, previousState, debugMode) => {
+      log.info('states', {
+        nextState,
+        previousState,
+      });
       this.currentSlide.set(nextState);
     },
   });
+  //#endregion
 
+  //#region fields & getters / user id
   /**
    * Current authenticated user.
    *
@@ -154,7 +170,7 @@ export class TaonSessionStateService extends TaonBaseProvider {
    *
    * One refresh => one getCurrentUserId() request.
    */
-  protected readonly userId$ = this.refreshSrc.pipe(
+  public readonly userId$ = this.refreshSrc.pipe(
     switchMap(() => {
       //#region @backend
       return of(1000000);
@@ -173,9 +189,7 @@ export class TaonSessionStateService extends TaonBaseProvider {
     tap(userId => {
       this.userId.set(userId);
 
-      if (userId) {
-        this.state.set(TaonSessionState.LOGIN_SUCCESS);
-      } else {
+      if (!userId) {
         this.state.set(TaonSessionState.LOGIN_OR_REGISTER);
       }
     }),
@@ -185,27 +199,19 @@ export class TaonSessionStateService extends TaonBaseProvider {
       refCount: true,
     }),
   );
+  //#endregion
 
+  //#region fields & getters / is logged in
   /**
    * Projection of userId$.
    *
    * Does NOT cause another getCurrentUserId() call because
    * userId$ is shared.
    */
-  public readonly isLoggedIn$ = this.userId$.pipe(
-    map(userId => !!userId),
-    tap(isLoggedIn => {
-      if (
-        !isLoggedIn &&
-        this.state.currentValue === TaonSessionState.PROFILE_INFO
-      ) {
-        this.state.set(TaonSessionState.LOGIN_OR_REGISTER);
-      }
-    }),
-  );
+  public readonly isLoggedIn$ = this.userId$.pipe(map(userId => !!userId));
+  //#endregion
 
-  //#region @browser
-
+  //#region fields & getters / context
   /**
    * Current authorization context.
    *
@@ -233,18 +239,29 @@ export class TaonSessionStateService extends TaonBaseProvider {
       refCount: true,
     }),
   );
+  //#endregion
 
+  //#region fields & getters / taon sessin api service
+  protected get taonSessionApiService(): TaonSessionApiService {
+    return this.taonSessionStateService.taonSessionApiService;
+  }
+  //#endregion
+
+  //#region fields & getters / taon sessin api service
+  protected get taonSessionConfigService(): TaonSessionConfigService {
+    return this.taonSessionStateService.taonSessionConfigService;
+  }
   //#endregion
 
   //#endregion
 
-  public executeActionForState(
-    //#region @browser
-    form: TaonSessionComponent['form'],
-    //#endregion
-  ): void {
-    //#region @browser
+  //#region constructor
+  constructor(private taonSessionStateService: TaonSessionStateService) {}
+  //#endregion
 
+  //#region API / execute action for state
+
+  public executeActionForState(form: TaonSessionComponent['form']): void {
     form.updateValueAndValidity();
 
     if (form.invalid) {
@@ -313,6 +330,22 @@ export class TaonSessionStateService extends TaonBaseProvider {
     //#endregion
 
     switch (this.state.currentValue) {
+      //#region PROFILE_INFO
+      case TaonSessionState.PROFILE_INFO:
+        this.refresh();
+        return;
+      //#endregion
+
+      //#region LOGIN_SUCCESS
+      case TaonSessionState.LOGIN_SUCCESS:
+        this.state.set(TaonSessionState.PROFILE_INFO);
+
+        // setTimeout(() => { // TODO @LAST refresh token or logout
+        //   this.refresh();
+        // }, this.taonSessionConfigService.clone().cookies.ACCESS_TOKEN_EXPIRES_IN_SECONDS * 1000);
+        return;
+      //#endregion
+
       //#region LOGIN_OR_REGISTER
 
       case TaonSessionState.LOGIN_OR_REGISTER:
@@ -391,10 +424,10 @@ export class TaonSessionStateService extends TaonBaseProvider {
       default:
         break;
     }
-
-    //#endregion
   }
+  //#endregion
 
+  //#region API / logout
   public logout(successCallback?: () => void): void {
     this.state.set(TaonSessionState.LOADING_LOGOUT_INFO);
 
@@ -422,7 +455,9 @@ export class TaonSessionStateService extends TaonBaseProvider {
 
     //#endregion
   }
+  //#endregion
 
+  //#region API / refresh
   /**
    * Reload complete authentication/session state.
    *
@@ -436,7 +471,9 @@ export class TaonSessionStateService extends TaonBaseProvider {
   public refresh(): void {
     this.refreshSrc.next(void 0);
   }
+  //#endregion
 
+  //#region API / refresh context
   /**
    * Reload authorization context only.
    *
@@ -445,4 +482,164 @@ export class TaonSessionStateService extends TaonBaseProvider {
   public refreshContext(): void {
     this.contextRefreshSrc.next(void 0);
   }
+  //#endregion
+}
+
+//#region @backend
+@TaonProvider({
+  className: 'TaonSessionStateService',
+})
+//#endregion
+//#region @browser
+@Injectable()
+//#endregion
+export class TaonSessionStateService extends TaonBaseProvider {
+  //#region fields & getters
+
+  public readonly taonSessionApiService = inject(TaonSessionApiService);
+
+  public readonly taonSessionConfigService = inject(TaonSessionConfigService);
+
+  private dummyHook = {};
+
+  private static readonly instances = new Map<
+    string,
+    TaonSessionStateInstance
+  >();
+
+  readonly currentStateSrc = new BehaviorSubject<{
+    currentState: TaonSessionState;
+    previousState: TaonSessionState;
+  }>({
+    currentState: intitialState,
+    previousState: intitialState,
+  });
+
+  readonly currentState$ = this.currentStateSrc.asObservable();
+
+  readonly userId = signal<number | undefined>(undefined);
+
+  readonly context = signal<TaonAuthContextEntity | undefined>(undefined);
+
+  readonly isLoggedIn = computed(() => !!this.userId());
+
+  readonly userId$ = toObservable(this.userId);
+
+  readonly context$ = toObservable(this.context);
+
+  readonly isLoggedIn$ = toObservable(this.isLoggedIn);
+
+  public readonly active?: TaonSessionStateInstance;
+
+  private activeSubscriptions = new Subscription();
+  //#endregion
+
+  //#region method / get or create instanece
+  private getOrCreateInstance(hash?: string): TaonSessionStateInstance {
+    if (!!hash && TaonSessionStateService.instances.has(hash)) {
+      return TaonSessionStateService.instances.get(hash) as any;
+    }
+    const newInstance = new TaonSessionStateInstance(this);
+    log.warn('creating insntace!', { newInstance });
+    TaonSessionStateService.instances.set(newInstance.instanceId, newInstance);
+    return newInstance;
+  }
+  //#endregion
+
+  //#region API / activate
+  public activate(opt?: {
+    hash?: string;
+    from?: string;
+  }): typeof this.dummyHook {
+    opt = opt || {};
+    log.warn(`Activate hash="${opt.hash}" from ${opt.from}`);
+
+    const source = this.getOrCreateInstance(opt.hash);
+
+    // @ts-expect-error
+    this.active = source;
+
+    // if (source.inited) {
+    //   console.log('REUSING INSTANCE');
+    this.currentStateSrc.next({
+      currentState: source.state.currentValue,
+      previousState: this.currentStateSrc.getValue().currentState,
+    });
+    // } else {
+    this.activeSubscriptions.add(
+      source.userId$.subscribe(userId => {
+        this.userId.set(userId);
+      }),
+    );
+
+    this.activeSubscriptions.add(
+      source.context$.subscribe(context => {
+        this.context.set(context);
+      }),
+    );
+
+    this.activeSubscriptions.add(
+      source.state.currentState$.subscribe(currentState => {
+        this.currentStateSrc.next(currentState);
+      }),
+    );
+    //   source.inited = true;
+    // }
+
+    return this.dummyHook;
+  }
+  //#endregion
+
+  //#region API / deactivate
+  public deactivate(): void {
+    this.activeSubscriptions.unsubscribe();
+    this.activeSubscriptions = new Subscription();
+  }
+  //#endregion
+
+  //#region facade methods
+
+  //#region facade methods / refresh context
+
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  public refreshContext() {
+    this.active?.refreshContext();
+  }
+  //#endregion
+
+  //#region facade methods / refresh
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  public refresh() {
+    this.active?.refresh();
+  }
+  //#endregion
+
+  //#region facade methods / logout
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  public logout(successCallback?: (() => void) | undefined) {
+    this.active?.logout(successCallback);
+  }
+  //#endregion
+
+  //#region facade methods / execture action for state
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  public executeActionForState(form: TaonSessionComponent['form']) {
+    this.active?.executeActionForState(form);
+  }
+  //#endregion
+
+  //#region facade methods / set state
+  public setState(state: TaonSessionState): boolean {
+    return this.active?.state.set(state);
+  }
+  //#endregion
+
+  //#region  facade methods / current value
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  public get currentValue() {
+    return this.active?.state?.currentValue;
+  }
+  //#endregion
+
+  //#endregion
 }

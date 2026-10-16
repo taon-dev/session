@@ -1,6 +1,10 @@
 //#region imports
 
-import { TaonBaseCustomRepository, TaonRepository } from 'taon/src';
+import {
+  ExpressRequest,
+  TaonBaseCustomRepository,
+  TaonRepository,
+} from 'taon/src';
 import { CoreModels } from 'tnp-core/src';
 
 import { TaonGroupRoleRepository } from '../taon-group/taon-group-role.repository';
@@ -99,6 +103,7 @@ export class TaonAuthContextRepository<
 
   public async getContext(
     userId?: number | string,
+    sessionId?: number | string,
   ): Promise<TaonAuthContextEntity<AUTH>> {
     //#region @websqlFunc
 
@@ -110,7 +115,7 @@ export class TaonAuthContextRepository<
 
     context.session = !userId
       ? null
-      : await this.taonSessionRepository.getSessionBy(userId);
+      : await this.taonSessionRepository.getSessionBy(sessionId);
 
     context.groups = !userId
       ? []

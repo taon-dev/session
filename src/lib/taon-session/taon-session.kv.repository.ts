@@ -1,7 +1,7 @@
 //#region imports
 
 import type express from 'express';
-import { TaonBaseKvRepository, TaonRepository } from 'taon/src';
+import { apiPrefix, TaonBaseKvRepository, TaonRepository } from 'taon/src';
 import { UtilsJwt } from 'tnp-core/src';
 
 import { TaonSessionProvider } from './taon-session.provider';
@@ -76,6 +76,10 @@ export class TaonSessionKvRepository extends TaonBaseKvRepository<
     refreshToken: string,
   ): void {
     //#region @websqlFunc
+    const pathForCookies = `/${apiPrefix}/${this.ctx.contextName}/`;
+
+    // console.log({ pathForCookies });
+
     res.cookie(
       this.taonSessionProvider.cookies.accessTokenCookieName,
       accessToken,
@@ -83,7 +87,7 @@ export class TaonSessionKvRepository extends TaonBaseKvRepository<
         httpOnly: this.taonSessionProvider.cookies.httpOnly,
         secure: this.taonSessionProvider.cookies.secure, // set true in production (HTTPS)
         sameSite: 'lax',
-        path: '/',
+        path: pathForCookies,
         maxAge:
           1000 *
           this.taonSessionProvider.cookies.ACCESS_TOKEN_EXPIRES_IN_SECONDS,
@@ -97,7 +101,7 @@ export class TaonSessionKvRepository extends TaonBaseKvRepository<
         httpOnly: this.taonSessionProvider.cookies.httpOnly,
         secure: this.taonSessionProvider.cookies.secure,
         sameSite: 'strict',
-        path: '/refresh',
+        path: pathForCookies,
         maxAge:
           1000 * this.taonSessionProvider.cookies.REFRESH_TOKEN_EXPIRES_SECONDS,
       },
