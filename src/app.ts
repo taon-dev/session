@@ -442,6 +442,8 @@ export const SessionStartFunction = async (
   //#endregion
   const ref = await SessionContext.initialize(startParams);
 
+  //#region @esmRemove
+
   //#region add default email
   //#region @backend
   const taonSessionUserRepository = ref.getInstanceBy(
@@ -563,6 +565,8 @@ export const SessionStartFunction = async (
   })();
 
   //#endregion
+  //#endregion
+
   //#endregion
 
   //#region @backend

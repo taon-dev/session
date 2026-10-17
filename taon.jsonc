@@ -25,7 +25,7 @@
     },
     {
       "artifactName": "angular-node-app",
-      "askUserBeforeFinalAction": true,
+      "askUserBeforeFinalAction": false,
       "envName": "cloudflare",
       "releaseType": "manual-cloudflare",
       "taskName": "cloudflare",
