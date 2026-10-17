@@ -167,6 +167,7 @@ const DEFAULT_EMAIL3 = 'dariusz@taon.dev';
 
             <taon-session-button
               [config]="config"
+              [displayDashboardButton]="true"
               (context)="context = $event" />
 
             <ng-template #headerCenterTemplate>{{

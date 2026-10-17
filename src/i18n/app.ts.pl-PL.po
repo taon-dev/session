@@ -20,6 +20,6 @@ msgstr "Wersja kątowa: [[vercja ]]"
 msgid "Taon backend: [[ mode ]]"
 msgstr "Taon backend: [[tryb ]]"
 
-#: src/app.ts:173
+#: src/app.ts:174
 msgid "hello header!"
 msgstr "Cześć, Header!"

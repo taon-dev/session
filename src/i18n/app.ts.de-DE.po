@@ -20,6 +20,6 @@ msgstr "Winkelversion: [[Version ]]"
 msgid "Taon backend: [[ mode ]]"
 msgstr "Taon-Backend: [[Modus ]]"
 
-#: src/app.ts:173
+#: src/app.ts:174
 msgid "hello header!"
 msgstr "Hallo Header!"

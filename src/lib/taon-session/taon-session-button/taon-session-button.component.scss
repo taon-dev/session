@@ -1,3 +1,37 @@
 :host {
   display: inline-flex;
 }
+
+.mobile-auth-icon {
+  display: none;
+}
+
+.mobile-auth-icon-none {
+  display: inline-block !important;
+  margin: 0;
+}
+
+.auth-button {
+  .auth-button-text {
+    color: var(--font-color);
+  }
+  mat-icon {
+    color: var(--font-color);
+  }
+}
+
+@media (max-width: 600px) {
+  .auth-button-text {
+    display: none;
+  }
+
+  .mobile-auth-icon {
+    display: inline-block;
+    margin: 0;
+  }
+
+  .auth-button {
+    min-width: 48px;
+    padding: 0;
+  }
+}

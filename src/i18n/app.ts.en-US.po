@@ -20,6 +20,6 @@ msgstr "Angular version: [[ version ]]"
 msgid "Taon backend: [[ mode ]]"
 msgstr "Taon backend: [[ mode ]]"
 
-#: src/app.ts:173
+#: src/app.ts:174
 msgid "hello header!"
 msgstr "hello header!"

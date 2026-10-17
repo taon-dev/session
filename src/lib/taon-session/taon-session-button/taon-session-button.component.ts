@@ -10,6 +10,7 @@ import {
   output,
   OnDestroy,
   computed,
+  input,
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
@@ -57,6 +58,8 @@ const t = Translation.for(Taon.__FILE_RELATIVE_PATH, Taon.LANG_IMPORT_MAP);
 })
 export class TaonSessionButtonComponent implements OnInit, OnDestroy {
   readonly t = t.for(this);
+
+  showLabels = input(true);
 
   username = computed(() => {
     const context = this.taonSessionStateService.context();

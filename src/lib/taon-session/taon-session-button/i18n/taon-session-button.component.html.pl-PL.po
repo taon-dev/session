@@ -4,15 +4,14 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/lib/taon-session/taon-session-button/taon-session-button.component.html:10
+#: src/lib/taon-session/taon-session-button/taon-session-button.component.html:19
 msgid "Login"
 msgstr "Zaloguj się"
 
-#: src/lib/taon-session/taon-session-button/taon-session-button.component.html:22
+#: src/lib/taon-session/taon-session-button/taon-session-button.component.html:36
 msgid "Dashboard"
 msgstr "Płyta kontrolna"
 
-#: src/lib/taon-session/taon-session-button/taon-session-button.component.html:29
-#: src/lib/taon-session/taon-session-button/taon-session-button.component.html:30
+#: src/lib/taon-session/taon-session-button/taon-session-button.component.html:53
 msgid "Hello [[ userId ]]"
 msgstr "Witaj [[ userId ]]"

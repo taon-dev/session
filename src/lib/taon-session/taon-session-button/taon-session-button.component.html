@@ -6,8 +6,19 @@
     ">
     <button
       mat-button
+      class="auth-button"
       (click)="open()">
-      {{ t.gettext('Login') }}
+      <mat-icon
+        class="mobile-auth-icon"
+        [class.mobile-auth-icon-none]="!showLabels()"
+        >login</mat-icon
+      >
+
+      @if (showLabels()) {
+        <span class="auth-button-text">
+          {{ t.gettext('Login') }}
+        </span>
+      }
     </button>
   </ng-container>
 
@@ -18,19 +29,35 @@
       color="primary"
       class="auth-btn"
       (click)="goDashboard()">
-      <mat-icon>dashboard</mat-icon>
-      {{ t.gettext('Dashboard') }}
+      <mat-icon
+        class="mobile-auth-icon"
+        [class.mobile-auth-icon-none]="!showLabels()"
+        >dashboard</mat-icon
+      >
+      @if (showLabels()) {
+        {{ t.gettext('Dashboard') }}
+      }
     </button>
 
     <button
       mat-button
-      class="ml-2"
+      class="auth-button ml-2"
       (click)="open(TaonSessionState.PROFILE_INFO)">
-      {{
-        t.gettext('Hello [[ userId ]]',  {
-          userId: username(),
-        })
-      }}
+      <mat-icon
+        class="mobile-auth-icon"
+        [class.mobile-auth-icon-none]="!showLabels()"
+        >account_circle</mat-icon
+      >
+
+      @if (showLabels()) {
+        <span class="auth-button-text">
+          {{
+            t.gettext('Hello [[ userId ]]', {
+              userId: username(),
+            })
+          }}
+        </span>
+      }
     </button>
   </ng-template>
 </div>
