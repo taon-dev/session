@@ -397,8 +397,10 @@ export class TaonSessionController extends TaonBaseController {
       if (isSocialLogin) {
         //#region google login
 
-        let { identity, error, googleData } =
-          await this.getGoogleIdentity(data, t);
+        let { identity, error, googleData } = await this.getGoogleIdentity(
+          data,
+          t,
+        );
 
         if (error) {
           return false;
@@ -636,6 +638,16 @@ export class TaonSessionController extends TaonBaseController {
   }
   //#endregion
 
+  //#region @websql
+  prepareForFrontend(context: TaonAuthContextEntity): TaonAuthContextEntity {
+    context.snapshoot = context.hasAccess.clone();
+    delete context.permissions;
+    delete context.roles;
+    delete context.groups;
+    return context;
+  }
+  //#endregion
+
   //#region context
   @GET({
     middlewares: ({ parentMiddlewares }) => ({
@@ -650,7 +662,7 @@ export class TaonSessionController extends TaonBaseController {
         req.userId,
         req.sessionId,
       );
-      return context;
+      return this.prepareForFrontend(context);
     };
     //#endregion
   }
@@ -662,7 +674,8 @@ export class TaonSessionController extends TaonBaseController {
     //#region @websqlFunc
     return async (req, res) => {
       const context = await this.taonAuthContextRepository.getContext();
-      return context;
+
+      return this.prepareForFrontend(context);
     };
     //#endregion
   }

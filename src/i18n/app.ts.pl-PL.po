@@ -14,11 +14,11 @@ msgstr "Nazwa"
 
 #: src/app.ts:156
 msgid "Angular version: [[ version ]]"
-msgstr "Wersja kątowa: [[vercja ]]"
+msgstr "Wersja kątowa: [[ version ]]"
 
 #: src/app.ts:160
 msgid "Taon backend: [[ mode ]]"
-msgstr "Taon backend: [[tryb ]]"
+msgstr "Taon backend: [[ mode ]]"
 
 #: src/app.ts:174
 msgid "hello header!"

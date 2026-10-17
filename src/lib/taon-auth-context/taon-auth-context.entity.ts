@@ -32,6 +32,8 @@ export class TaonAuthContextEntity<
     );
   }
 
+  declare snapshoot: Partial<TaonAuthContextHasAccess>;
+
   user!: TaonSessionUserEntity;
 
   session!: TaonSessionEntity;
@@ -40,6 +42,7 @@ export class TaonAuthContextEntity<
 
   isLocalhostBackend = false;
 
+  //#region @websql
   groups: CoreModels.ValueOf<AUTH['groups']>[] = [];
 
   roles: CoreModels.ValueOf<AUTH['roles']>[] = [];
@@ -57,4 +60,5 @@ export class TaonAuthContextEntity<
   isInGroup(group: CoreModels.ValueOf<AUTH['groups']>): boolean {
     return this.isSuperUser || this.groups.includes(group);
   }
+  //#endregion
 }

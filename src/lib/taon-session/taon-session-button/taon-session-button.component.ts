@@ -66,7 +66,7 @@ export class TaonSessionButtonComponent implements OnInit, OnDestroy {
     if (!context) {
       return ' - ';
     }
-    return context.user?.username || _.first(context.user.identities).email;
+    return context.user?.username || _.first(context?.user?.identities).email;
   });
 
   //#region fields & getters
