@@ -1,9 +1,13 @@
 //#region imports
 import { Routes } from '@angular/router';
 import { adminLazyRoute } from '@taon-dev/ui/src';
+import { Translation } from '@taon-dev/i18n/src';
+import { Taon } from 'taon/src';
 import { taonBackofficeDetailsResolver } from './taon-backoffice-details.resolver';
 import { TaonSessionBackofficeApiService } from './taon-session-backoffice.api.service';
 //#endregion
+
+const t = Translation.for(Taon.__FILE_RELATIVE_PATH, Taon.LANG_IMPORT_MAP);
 
 export const TaonSessionBackofficeRoutes: Routes = [
   {
@@ -16,7 +20,7 @@ export const TaonSessionBackofficeRoutes: Routes = [
   },
   adminLazyRoute({
         path: 'user',
-        menuItem: 'Users',
+        menuItem: t.gettext('Users'),
         icon: 'account_circle',
         expandable: true,
         loader: () =>

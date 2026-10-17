@@ -7,7 +7,7 @@
     <button
       mat-button
       (click)="open()">
-      Login
+      {{ t.gettext('Login') }}
     </button>
   </ng-container>
 
@@ -19,14 +19,18 @@
       class="auth-btn"
       (click)="goDashboard()">
       <mat-icon>dashboard</mat-icon>
-      Dashboard
+      {{ t.gettext('Dashboard') }}
     </button>
 
     <button
       mat-button
       class="ml-2"
       (click)="open(TaonSessionState.PROFILE_INFO)">
-      Welcome user: {{ taonSessionStateService.userId() }}
+      {{
+        t.gettext('Hello [[ userId ]]',  {
+          userId: username(),
+        })
+      }}
     </button>
   </ng-template>
 </div>

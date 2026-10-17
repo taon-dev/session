@@ -88,8 +88,10 @@ import {
 } from 'taon/src';
 import { TaonAdminService, TaonAdmin } from 'taon/src'; // @browser
 import { TaonStor } from 'taon-storage/src';
+import { Translation } from '@taon-dev/i18n/src';
 import {
   TaonNotFoundComponent,
+  TaonSettingsComponent,
   TaonThemeComponent,
   TaonThemeService,
 } from 'taon-ui/src'; // @browser
@@ -108,6 +110,8 @@ import {
 //#endregion
 
 //#region constants
+const t = Translation.for(Taon.__FILE_RELATIVE_PATH, Taon.LANG_IMPORT_MAP);
+
 console.log('🚀 [ TAON IS STARTING ]');
 const DEFAULT_PASSWORD = DEFAULT_SESSION_PASSWORD;
 
@@ -146,16 +150,28 @@ const DEFAULT_EMAIL3 = 'dariusz@taon.dev';
     @if (itemsLoaded()) {
       <mat-card class="m-2">
         <mat-card-content>
-          <h3>Basic app info</h3>
-          Name: taon-jwt-cookie-header-session<br />
-          Angular version: {{ angularVersion }}<br />
-          Taon backend: {{ taonMode }}<br />
+          <h3>{{ t.gettext('Basic app info') }}</h3>
+          {{ t.gettext('Name') }}: taon-jwt-cookie-header-session<br />
+          {{
+            t.gettext('Angular version: [[ version ]]', {
+              version: angularVersion,
+            })
+          }}<br />
+          {{ t.gettext('Taon backend: [[ mode ]]', { mode: taonMode }) }}<br />
           <div class="flex  flex-row items-center justify-center">
+            <button
+              mat-icon-button
+              (click)="openDialog(200, 200)">
+              <mat-icon>settings</mat-icon>
+            </button>
+
             <taon-session-button
               [config]="config"
               (context)="context = $event" />
 
-            <ng-template #headerCenterTemplate>hello header!</ng-template>
+            <ng-template #headerCenterTemplate>{{
+              t.gettext('hello header!')
+            }}</ng-template>
 
             <taon-draggable-button-panel
               title="Taon Admin"
@@ -186,6 +202,8 @@ const DEFAULT_EMAIL3 = 'dariusz@taon.dev';
 })
 export class SessionApp implements OnInit {
   /**Required for proper theme*/
+
+  readonly t = t.for(this);
 
   config: TaonSessionConfig = {
     // linkToDashboard: '/',
@@ -229,7 +247,7 @@ export class SessionApp implements OnInit {
     enterAnimationDuration: string | number,
     exitAnimationDuration: string | number,
   ): void {
-    this.dialog.open(TaonThemeComponent, {
+    this.dialog.open(TaonSettingsComponent, {
       width: '400px',
       enterAnimationDuration,
       exitAnimationDuration,

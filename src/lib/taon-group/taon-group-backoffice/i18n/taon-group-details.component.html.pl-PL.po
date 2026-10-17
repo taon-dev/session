@@ -1,0 +1,18 @@
+msgid ""
+msgstr ""
+"Language: pl-PL\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/lib/taon-group/taon-group-backoffice/taon-group-details.component.html:1
+#: src/lib/taon-group/taon-group-backoffice/taon-group-details.component.html:2
+msgid "Group details #[[ id ]]"
+msgstr "Szczegóły grupy #[[ id ]]"
+
+#: src/lib/taon-group/taon-group-backoffice/taon-group-details.component.html:7
+msgid "Group roles"
+msgstr "Role grupy"
+
+#: src/lib/taon-group/taon-group-backoffice/taon-group-details.component.html:18
+msgid "Assign role"
+msgstr "Wydział"

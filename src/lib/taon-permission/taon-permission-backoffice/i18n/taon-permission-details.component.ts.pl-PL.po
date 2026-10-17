@@ -1,0 +1,13 @@
+msgid ""
+msgstr ""
+"Language: pl-PL\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/lib/taon-permission/taon-permission-backoffice/taon-permission-details.component.ts:17
+msgid "Permission details #[[ id ]]"
+msgstr "Szczegóły zezwolenia #[[ id ]]"
+
+#: src/lib/taon-permission/taon-permission-backoffice/taon-permission-details.component.ts:22
+msgid "Description"
+msgstr "Opis"

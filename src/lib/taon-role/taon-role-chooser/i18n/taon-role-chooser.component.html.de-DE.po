@@ -1,0 +1,21 @@
+msgid ""
+msgstr ""
+"Language: de-DE\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/lib/taon-role/taon-role-chooser/taon-role-chooser.component.html:6
+msgid "Role"
+msgstr "Rolle"
+
+#: src/lib/taon-role/taon-role-chooser/taon-role-chooser.component.html:31
+msgid "Assign"
+msgstr "Zuweisung"
+
+#: src/lib/taon-role/taon-role-chooser/taon-role-chooser.component.html:39
+msgid "Cancel"
+msgstr "Abrufen"
+
+#: src/lib/taon-role/taon-role-chooser/taon-role-chooser.component.html:17
+msgid "No roles available"
+msgstr "Keine Rollen verfügbar"

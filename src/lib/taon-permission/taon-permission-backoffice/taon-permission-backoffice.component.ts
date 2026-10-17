@@ -2,6 +2,8 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MtxGridColumn } from '@ng-matero/extensions/grid';
 import { TaonDatatableComponent } from '@taon-dev/ui/src';
+import { Translation } from '@taon-dev/i18n/src';
+import { Taon } from 'taon/src';
 
 import { TaonBackofficeNavigationService } from '../../taon-session/taon-session-backoffice/taon-backoffice-navigation.service';
 import { TaonPermissionApiService } from '../taon-permission-api.service';
@@ -9,6 +11,8 @@ import type { TaonPermissionEntity } from '../taon-permission.entity';
 
 import { TaonPermissionDetailsComponent } from './taon-permission-details.component';
 //#endregion
+
+const t = Translation.for(Taon.__FILE_RELATIVE_PATH, Taon.LANG_IMPORT_MAP);
 
 @Component({
   selector: 'app-taon-permission-backoffice',
@@ -22,6 +26,8 @@ import { TaonPermissionDetailsComponent } from './taon-permission-details.compon
   providers: [TaonPermissionApiService, TaonBackofficeNavigationService],
 })
 export class TaonPermissionBackofficeComponent {
+  readonly t = t.for(this);
+
   readonly navigation = inject(TaonBackofficeNavigationService);
 
   taonPermissionApiService = inject(TaonPermissionApiService);
@@ -33,30 +39,30 @@ export class TaonPermissionBackofficeComponent {
 
   columns: MtxGridColumn[] = [
     {
-      header: 'ID',
+      header: this.t.gettext('ID'),
       field: 'id',
       sortable: true,
       showExpand: true,
     },
     {
-      header: 'Name',
+      header: this.t.gettext('Name'),
       field: 'name',
       sortable: true,
     },
     {
-      header: 'Code',
+      header: this.t.gettext('Code'),
       field: 'code',
       sortable: true,
     },
     {
-      header: 'Actions',
+      header: this.t.gettext('Actions'),
       field: 'actions',
       type: 'button',
       buttons: [
         {
           type: 'icon',
           icon: 'open_in_new',
-          tooltip: 'Permission details',
+          tooltip: this.t.gettext('Permission details'),
           click: (permission: TaonPermissionEntity) =>
             this.navigation.openDetails('permission', permission.id),
         },

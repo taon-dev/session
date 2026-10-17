@@ -14,6 +14,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
 import { MtxGridColumn } from '@ng-matero/extensions/grid';
 import { TaonDatatableComponent } from '@taon-dev/ui/src';
+import { Translation } from '@taon-dev/i18n/src';
+import { Taon } from 'taon/src';
 
 import { TaonGroupApiService } from '../../taon-group/taon-group-api.service';
 import { TaonGroupChooserComponent } from '../../taon-group/taon-group-chooser/taon-group-chooser.component';
@@ -26,6 +28,8 @@ import type { TaonSessionUserEntity } from '../taon-session-user.entity';
 import { TaonSessionBackofficeUsersModels } from './taon-session-backoffice-users.models';
 import { of } from 'rxjs';
 //#endregion
+
+const t = Translation.for(Taon.__FILE_RELATIVE_PATH, Taon.LANG_IMPORT_MAP);
 
 @Component({
   selector: 'taon-session-user-details',
@@ -48,6 +52,8 @@ import { of } from 'rxjs';
   ],
 })
 export class TaonSessionUserDetailsComponent implements OnChanges {
+  readonly t = t.for(this);
+
   @Input({ required: true }) user!: TaonSessionUserEntity;
 
   readonly navigation = inject(TaonBackofficeNavigationService);
@@ -92,42 +98,42 @@ export class TaonSessionUserDetailsComponent implements OnChanges {
 
   identityColumns: MtxGridColumn[] = [
     {
-      header: 'Provider',
+      header: this.t.gettext('Provider'),
       field: 'provider',
     },
     {
-      header: 'Email',
+      header: this.t.gettext('Email'),
       field: 'email',
     },
   ];
 
   groupColumns: MtxGridColumn[] = [
     {
-      header: 'ID',
+      header: this.t.gettext('ID'),
       field: 'groupId',
       showExpand: true,
     },
     {
-      header: 'Name',
+      header: this.t.gettext('Name'),
       field: 'name',
     },
     {
-      header: 'Code',
+      header: this.t.gettext('Code'),
       field: 'code',
     },
     {
-      header: 'Description',
+      header: this.t.gettext('Description'),
       field: 'description',
     },
     {
-      header: 'Actions',
+      header: this.t.gettext('Actions'),
       field: 'actions',
       type: 'button',
       buttons: [
         {
           type: 'icon',
           icon: 'open_in_new',
-          tooltip: 'Group details',
+          tooltip: this.t.gettext('Group details'),
           click: (row: TaonSessionBackofficeUsersModels.AssignedGroupRow) =>
             this.navigation.openDetails('group', row.groupId),
         },
@@ -135,7 +141,7 @@ export class TaonSessionUserDetailsComponent implements OnChanges {
           type: 'icon',
           icon: 'delete',
           color: 'warn',
-          tooltip: 'Remove group from user',
+          tooltip: this.t.gettext('Remove group from user'),
           click: (row: TaonSessionBackofficeUsersModels.AssignedGroupRow) =>
             void this.unassignGroup(row),
         },

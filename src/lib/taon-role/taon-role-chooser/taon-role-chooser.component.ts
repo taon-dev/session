@@ -13,11 +13,15 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
+import { Translation } from '@taon-dev/i18n/src';
+import { Taon } from 'taon/src';
 
 import { TaonGroupApiService } from '../../taon-group/taon-group-api.service';
 import { TaonRoleApiService } from '../taon-role-api.service';
 import type { TaonRoleEntity } from '../taon-role.entity';
 //#endregion
+
+const t = Translation.for(Taon.__FILE_RELATIVE_PATH, Taon.LANG_IMPORT_MAP);
 
 @Component({
   selector: 'taon-role-chooser',
@@ -34,6 +38,8 @@ import type { TaonRoleEntity } from '../taon-role.entity';
   providers: [TaonRoleApiService, TaonGroupApiService],
 })
 export class TaonRoleChooserComponent {
+  readonly t = t.for(this);
+
   //#region inject
 
   private readonly taonRoleApiService = inject(TaonRoleApiService);

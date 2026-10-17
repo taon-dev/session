@@ -9,6 +9,7 @@ import {
   OnInit,
   output,
   OnDestroy,
+  computed,
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
@@ -17,6 +18,8 @@ import { Router, RouterOutlet } from '@angular/router';
 import { walk } from 'lodash-walk-object/src';
 import { Subscription, take } from 'rxjs';
 import { _ } from 'tnp-core/src';
+import { Translation } from '@taon-dev/i18n/src';
+import { Taon } from 'taon/src';
 
 import { TaonAuthContextEntity } from '../../taon-auth-context/taon-auth-context.entity';
 import { TaonSessionComponent } from '../taon-session/taon-session.component';
@@ -31,6 +34,8 @@ import { TaonSessionStateService } from '../taon-session.state.service';
 // import { toSignal } from '@angular/core/rxjs-interop';
 
 //#endregion
+
+const t = Translation.for(Taon.__FILE_RELATIVE_PATH, Taon.LANG_IMPORT_MAP);
 
 @Component({
   selector: 'taon-session-button',
@@ -51,6 +56,16 @@ import { TaonSessionStateService } from '../taon-session.state.service';
   ],
 })
 export class TaonSessionButtonComponent implements OnInit, OnDestroy {
+  readonly t = t.for(this);
+
+  username = computed(() => {
+    const context = this.taonSessionStateService.context();
+    if (!context) {
+      return ' - ';
+    }
+    return context.user?.username || _.first(context.user.identities).email;
+  });
+
   //#region fields & getters
 
   TaonSessionState = TaonSessionState;

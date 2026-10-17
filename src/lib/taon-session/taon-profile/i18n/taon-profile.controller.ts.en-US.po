@@ -1,0 +1,21 @@
+msgid ""
+msgstr ""
+"Language: en-US\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/lib/taon-session/taon-profile/taon-profile.controller.ts:78
+msgid "Invalid profile picture request"
+msgstr "Invalid profile picture request"
+
+#: src/lib/taon-session/taon-profile/taon-profile.controller.ts:91
+msgid "Only super users can change another user profile picture"
+msgstr "Only super users can change another user profile picture"
+
+#: src/lib/taon-session/taon-profile/taon-profile.controller.ts:100
+msgid "User not found"
+msgstr "User not found"
+
+#: src/lib/taon-session/taon-profile/taon-profile.controller.ts:128
+msgid "You are not authroized to upload many files"
+msgstr "You are not authroized to upload many files"

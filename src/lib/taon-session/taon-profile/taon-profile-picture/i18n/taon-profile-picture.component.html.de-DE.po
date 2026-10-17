@@ -1,0 +1,17 @@
+msgid ""
+msgstr ""
+"Language: de-DE\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/lib/taon-session/taon-profile/taon-profile-picture/taon-profile-picture.component.html:38
+msgid "Change picture"
+msgstr "Ändern Sie das Bild"
+
+#: src/lib/taon-session/taon-profile/taon-profile-picture/taon-profile-picture.component.html:39
+msgid "Upload picture"
+msgstr "Bild hochladen"
+
+#: src/lib/taon-session/taon-profile/taon-profile-picture/taon-profile-picture.component.html:56
+msgid "Remove"
+msgstr "Entfernen"

@@ -14,7 +14,9 @@
     <dd>
       @if (detail.user; as user) {
         <a [routerLink]="taonBackofficeNavigationService.detailsLink('user', user.id)">
-          {{ user.username || 'User #' + user.id }}
+          {{
+            user.username || t.gettext('User #[[ id ]]', { id: user.id })
+          }}
         </a>
       } @else {
         {{ t.gettext('Unavailable') }}

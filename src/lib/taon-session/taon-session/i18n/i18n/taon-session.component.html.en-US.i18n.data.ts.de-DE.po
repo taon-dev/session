@@ -1,0 +1,17 @@
+msgid ""
+msgstr ""
+"Language: de-DE\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/lib/taon-session/taon-session/i18n/taon-session.component.html.en-US.i18n.data.ts:29
+#: src/lib/taon-session/taon-session/i18n/taon-session.component.html.en-US.i18n.data.ts:150
+#: src/lib/taon-session/taon-session/i18n/taon-session.component.html.en-US.i18n.data.ts:152
+msgid "Login Successfully"
+msgstr "Login Successfully"
+
+#: src/lib/taon-session/taon-session/i18n/taon-session.component.html.en-US.i18n.data.ts:30
+#: src/lib/taon-session/taon-session/i18n/taon-session.component.html.en-US.i18n.data.ts:160
+#: src/lib/taon-session/taon-session/i18n/taon-session.component.html.en-US.i18n.data.ts:162
+msgid "Welcome"
+msgstr "Welcome"

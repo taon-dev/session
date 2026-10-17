@@ -1,0 +1,66 @@
+msgid ""
+msgstr ""
+"Language: en-US\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:143
+msgid "Current username"
+msgstr "Current username"
+
+#: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:150
+msgid "New username"
+msgstr "New username"
+
+#: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:157
+#: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:158
+msgid "Username must contain between 1 and 255 characters."
+msgstr "Username must contain between 1 and 255 characters."
+
+#: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:169
+msgid "Save username"
+msgstr "Save username"
+
+#: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:189
+msgid "Logout"
+msgstr "Logout"
+
+#: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:9
+msgid "Connect sign-in method"
+msgstr "Connect sign-in method"
+
+#: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:13
+msgid "Connect additional ways of signing in to your account."
+msgstr "Connect additional ways of signing in to your account."
+
+#: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:25
+msgid "Email"
+msgstr "Email"
+
+#: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:31
+msgid "Disconnect Email"
+msgstr "Disconnect Email"
+
+#: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:82
+msgid "Verified email"
+msgstr "Verified email"
+
+#: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:89
+msgid "Password"
+msgstr "Password"
+
+#: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:96
+msgid "Password must contain between 8 and 128 characters."
+msgstr "Password must contain between 8 and 128 characters."
+
+#: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:100
+msgid "Repeat password"
+msgstr "Repeat password"
+
+#: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:111
+msgid "Save password"
+msgstr "Save password"
+
+#: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:176
+msgid "Username updated."
+msgstr "Username updated."

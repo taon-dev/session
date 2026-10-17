@@ -151,7 +151,7 @@ export class TaonSessionBackofficeController extends TaonBaseCrudController<
     @Query('id') id: number | string,
   ): Taon.Response<TaonSessionBackofficeModels.SessionDetails> {
     //#region @websqlFunc
-    return async () => {
+    return async (req, res, { t }) => {
       const sessionId = Number(id);
       if (!Number.isSafeInteger(sessionId) || sessionId <= 0) {
         Taon.error({

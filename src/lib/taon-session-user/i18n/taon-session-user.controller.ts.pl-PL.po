@@ -1,0 +1,9 @@
+msgid ""
+msgstr ""
+"Language: pl-PL\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/lib/taon-session-user/taon-session-user.controller.ts:79
+msgid "You are not authorized to view users"
+msgstr "Nie masz uprawnień do przeglądania użytkowników"

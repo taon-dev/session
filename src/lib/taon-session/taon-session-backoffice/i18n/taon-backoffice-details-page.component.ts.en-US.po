@@ -1,0 +1,25 @@
+msgid ""
+msgstr ""
+"Language: en-US\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/lib/taon-session/taon-session-backoffice/taon-backoffice-details-page.component.ts:38
+msgid "Session #[[ id ]]"
+msgstr "Session #[[ id ]]"
+
+#: src/lib/taon-session/taon-session-backoffice/taon-backoffice-details-page.component.ts:46
+msgid "User: [[ username ]] (#[[ id ]])"
+msgstr "User: [[ username ]] (#[[ id ]])"
+
+#: src/lib/taon-session/taon-session-backoffice/taon-backoffice-details-page.component.ts:58
+msgid "Group: [[ name ]] (#[[ id ]])"
+msgstr "Group: [[ name ]] (#[[ id ]])"
+
+#: src/lib/taon-session/taon-session-backoffice/taon-backoffice-details-page.component.ts:69
+msgid "Role: [[ name ]] (#[[ id ]])"
+msgstr "Role: [[ name ]] (#[[ id ]])"
+
+#: src/lib/taon-session/taon-session-backoffice/taon-backoffice-details-page.component.ts:80
+msgid "Permission: [[ name ]] (#[[ id ]])"
+msgstr "Permission: [[ name ]] (#[[ id ]])"

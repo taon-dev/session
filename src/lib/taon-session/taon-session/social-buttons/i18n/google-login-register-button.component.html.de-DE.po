@@ -1,0 +1,10 @@
+msgid ""
+msgstr ""
+"Language: de-DE\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/lib/taon-session/taon-session/social-buttons/google-login-register-button.component.html:23
+#: src/lib/taon-session/taon-session/social-buttons/google-login-register-button.component.html:24
+msgid "Sign in with Google"
+msgstr "Melden Sie sich bei Google an"

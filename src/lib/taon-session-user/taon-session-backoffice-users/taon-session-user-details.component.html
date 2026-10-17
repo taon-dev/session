@@ -1,4 +1,6 @@
-<a [routerLink]="navigation.detailsLink('user', user.id)">User details #{{ user.id }}</a>
+<a [routerLink]="navigation.detailsLink('user', user.id)">{{
+  t.gettext('User details #[[ id ]]', { id: user.id })
+}}</a>
   <!-- profile -->
   <div class="user-details__profile">
     <div class="user-details__profile-picture">
@@ -10,13 +12,17 @@
 
     <div class="user-details__profile-fields">
       <div class="user-details__profile-field">
-        <span class="user-details__profile-label"> First Name </span>
+        <span class="user-details__profile-label">
+          {{ t.gettext('First Name') }}
+        </span>
 
         <span class="user-details__profile-value"> - </span>
       </div>
 
       <div class="user-details__profile-field">
-        <span class="user-details__profile-label"> Surname </span>
+        <span class="user-details__profile-label">
+          {{ t.gettext('Surname') }}
+        </span>
 
         <span class="user-details__profile-value"> - </span>
       </div>
@@ -26,7 +32,9 @@
   <!-- groups -->
   <div class="user-details__section">
     <div class="user-details__section-header">
-      <h4 class="user-details__section-title">User groups</h4>
+      <h4 class="user-details__section-title">
+        {{ t.gettext('User groups') }}
+      </h4>
 
       @if (groupChooserUserId() !== user.id) {
         <button
@@ -36,7 +44,7 @@
           (click)="openGroupChooser(user.id)">
           <mat-icon> group_add </mat-icon>
 
-          Assign group
+          {{ t.gettext('Assign group') }}
         </button>
       }
     </div>
@@ -64,7 +72,9 @@
 
   <!-- providers -->
   <div class="user-details__section">
-    <h4 class="user-details__section-title">Providers</h4>
+    <h4 class="user-details__section-title">
+      {{ t.gettext('Providers') }}
+    </h4>
 
     <taon-datatable
       [data]="user.identities"
@@ -82,7 +92,9 @@
   #groupExpansionTemplate
   let-group>
   <div class="user-details__group-roles">
-    <span class="user-details__section-title"> Roles from groups </span>
+    <span class="user-details__section-title">
+      {{ t.gettext('Roles from groups') }}
+    </span>
 
     <ul class="user-details__role-list">
       @for (role of group.roles; track role.roleId) {
@@ -91,7 +103,7 @@
         </li>
       } @empty {
         <li class="user-details__role-item">
-          No roles available through this group
+          {{ t.gettext('No roles available through this group') }}
         </li>
       }
     </ul>

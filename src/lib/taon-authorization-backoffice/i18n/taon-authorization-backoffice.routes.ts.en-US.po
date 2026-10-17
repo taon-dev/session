@@ -1,0 +1,17 @@
+msgid ""
+msgstr ""
+"Language: en-US\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/lib/taon-authorization-backoffice/taon-authorization-backoffice.routes.ts:21
+msgid "Groups"
+msgstr "Groups"
+
+#: src/lib/taon-authorization-backoffice/taon-authorization-backoffice.routes.ts:31
+msgid "Roles"
+msgstr "Roles"
+
+#: src/lib/taon-authorization-backoffice/taon-authorization-backoffice.routes.ts:41
+msgid "Permissions"
+msgstr "Permissions"

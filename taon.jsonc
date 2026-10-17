@@ -25,7 +25,7 @@
     },
     {
       "artifactName": "angular-node-app",
-      "askUserBeforeFinalAction": false,
+      "askUserBeforeFinalAction": true,
       "envName": "cloudflare",
       "releaseType": "manual-cloudflare",
       "taskName": "cloudflare",
@@ -46,4 +46,6 @@
     "scripts": {},
   },
   "cloudFlareAccountSubdomain": "darekf77",
+  "generateTranslationsFor": ["en-US", "pl-PL", "de-DE"],
+  "shouldGenerateTranslationFiles": true,
 }

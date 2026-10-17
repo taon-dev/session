@@ -1,0 +1,53 @@
+msgid ""
+msgstr ""
+"Language: en-US\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.ts:81
+msgid "Change Username"
+msgstr "Change Username"
+
+#: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.ts:232
+msgid "Are you sure? "
+msgstr "Are you sure? "
+
+#: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.ts:233
+msgid "Disconnecting provider [[ provider ]]."
+msgstr "Disconnecting provider [[ provider ]]."
+
+#: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.ts:236
+msgid "OK"
+msgstr "OK"
+
+#: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.ts:237
+msgid "Cancel"
+msgstr "Cancel"
+
+#: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.ts:262
+msgid "Connect a sign-in method with a verified email first."
+msgstr "Connect a sign-in method with a verified email first."
+
+#: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.ts:286
+msgid "Passwords do not match each other"
+msgstr "Passwords do not match each other"
+
+#: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.ts:297
+msgid "Unable to connect email/password."
+msgstr "Unable to connect email/password."
+
+#: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.ts:307
+msgid "Unable to connect email/password. The email may already belong to another account."
+msgstr "Unable to connect email/password. The email may already belong to another account."
+
+#: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.ts:333
+msgid "This username is already taken."
+msgstr "This username is already taken."
+
+#: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.ts:341
+msgid "Unable to update username."
+msgstr "Unable to update username."
+
+#: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.ts:350
+msgid "Unable to update username. It may already be taken."
+msgstr "Unable to update username. It may already be taken."

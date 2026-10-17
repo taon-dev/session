@@ -4,7 +4,7 @@
       appearance="outline"
       subscriptSizing="dynamic"
       class="taon-permission-view-edit__field">
-      <mat-label> Description </mat-label>
+      <mat-label>{{ t.gettext('Description') }}</mat-label>
 
       <textarea
         matInput
@@ -24,7 +24,7 @@
         (click)="save()">
         <mat-icon> save </mat-icon>
 
-        Save
+        {{ t.gettext('Save') }}
       </button>
 
       <button
@@ -32,12 +32,12 @@
         type="button"
         [disabled]="saving()"
         (click)="cancel()">
-        Cancel
+        {{ t.gettext('Cancel') }}
       </button>
     </div>
   } @else {
     <div class="taon-permission-view-edit__description">
-      {{ description() || 'No description' }}
+      {{ description() || t.gettext('No description') }}
     </div>
 
     <div class="taon-permission-view-edit__actions">
@@ -47,7 +47,7 @@
         (click)="edit()">
         <mat-icon> edit </mat-icon>
 
-        Edit
+        {{ t.gettext('Edit') }}
       </button>
     </div>
   }

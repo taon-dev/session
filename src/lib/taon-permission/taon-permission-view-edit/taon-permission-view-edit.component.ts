@@ -13,10 +13,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { Translation } from '@taon-dev/i18n/src';
+import { Taon } from 'taon/src';
 
 import { TaonPermissionApiService } from '../taon-permission-api.service';
 import type { TaonPermissionEntity } from '../taon-permission.entity';
 //#endregion
+
+const t = Translation.for(Taon.__FILE_RELATIVE_PATH, Taon.LANG_IMPORT_MAP);
 
 @Component({
   selector: 'taon-permission-view-edit',
@@ -33,6 +37,8 @@ import type { TaonPermissionEntity } from '../taon-permission.entity';
   providers: [TaonPermissionApiService],
 })
 export class TaonPermissionViewEditComponent {
+  readonly t = t.for(this);
+
   //#region inject
 
   private readonly taonPermissionApiService = inject(TaonPermissionApiService);

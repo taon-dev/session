@@ -1,0 +1,88 @@
+msgid ""
+msgstr ""
+"Language: pl-PL\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/lib/taon-session/taon-session-backoffice/taon-session-details.component.html:2
+msgid "Loading session details..."
+msgstr "Szczegóły sesji..."
+
+#: src/lib/taon-session/taon-session-backoffice/taon-session-details.component.html:9
+msgid "Session ID"
+msgstr "Identyfikacja sesji"
+
+#: src/lib/taon-session/taon-session-backoffice/taon-session-details.component.html:11
+msgid "User ID"
+msgstr "Id użytkownika"
+
+#: src/lib/taon-session/taon-session-backoffice/taon-session-details.component.html:13
+msgid "Username"
+msgstr "Nazwa użytkownika"
+
+#: src/lib/taon-session/taon-session-backoffice/taon-session-details.component.html:18
+msgid "User #[[ id ]]"
+msgstr "Użytkownik #[[ id ]]"
+
+#: src/lib/taon-session/taon-session-backoffice/taon-session-details.component.html:22
+#: src/lib/taon-session/taon-session-backoffice/taon-session-details.component.html:26
+#: src/lib/taon-session/taon-session-backoffice/taon-session-details.component.html:28
+msgid "Unavailable"
+msgstr "Nie dostępne"
+
+#: src/lib/taon-session/taon-session-backoffice/taon-session-details.component.html:25
+msgid "Email"
+msgstr "E-mail"
+
+#: src/lib/taon-session/taon-session-backoffice/taon-session-details.component.html:27
+msgid "Provider"
+msgstr "Usługodawca"
+
+#: src/lib/taon-session/taon-session-backoffice/taon-session-details.component.html:30
+msgid "Identity ID"
+msgstr "Identyfikacja tożsamości"
+
+#: src/lib/taon-session/taon-session-backoffice/taon-session-details.component.html:33
+msgid "Device"
+msgstr "Urządzenie"
+
+#: src/lib/taon-session/taon-session-backoffice/taon-session-details.component.html:34
+#: src/lib/taon-session/taon-session-backoffice/taon-session-details.component.html:36
+#: src/lib/taon-session/taon-session-backoffice/taon-session-details.component.html:38
+#: src/lib/taon-session/taon-session-backoffice/taon-session-details.component.html:40
+#: src/lib/taon-session/taon-session-backoffice/taon-session-details.component.html:42
+#: src/lib/taon-session/taon-session-backoffice/taon-session-details.component.html:44
+msgid "Unknown"
+msgstr "Nieznane"
+
+#: src/lib/taon-session/taon-session-backoffice/taon-session-details.component.html:35
+msgid "IP"
+msgstr "Wykorzystanie"
+
+#: src/lib/taon-session/taon-session-backoffice/taon-session-details.component.html:37
+msgid "User agent"
+msgstr "Agent użytkownika"
+
+#: src/lib/taon-session/taon-session-backoffice/taon-session-details.component.html:39
+msgid "Logged in"
+msgstr "/Przyjazd /"
+
+#: src/lib/taon-session/taon-session-backoffice/taon-session-details.component.html:41
+msgid "Last activity"
+msgstr "Ostatnia działalność"
+
+#: src/lib/taon-session/taon-session-backoffice/taon-session-details.component.html:43
+msgid "Expires"
+msgstr "Wygaśnięcie"
+
+#: src/lib/taon-session/taon-session-backoffice/taon-session-details.component.html:45
+msgid "Revoked"
+msgstr "Odwołane"
+
+#: src/lib/taon-session/taon-session-backoffice/taon-session-details.component.html:46
+msgid "Not revoked"
+msgstr "Nie odwołane"
+
+#: src/lib/taon-session/taon-session-backoffice/taon-session-details.component.html:48
+msgid "Revocation reason"
+msgstr "Powodzenie odwołania"

@@ -12,6 +12,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
 import { MtxGridColumn } from '@ng-matero/extensions/grid';
 import { TaonDatatableComponent } from '@taon-dev/ui/src';
+import { Translation } from '@taon-dev/i18n/src';
+import { Taon } from 'taon/src';
 
 import { TaonRoleChooserComponent } from '../../taon-role/taon-role-chooser/taon-role-chooser.component';
 import { TaonBackofficeNavigationService } from '../../taon-session/taon-session-backoffice/taon-backoffice-navigation.service';
@@ -20,6 +22,8 @@ import type { TaonGroupEntity } from '../taon-group.entity';
 
 import { TaonGroupBackofficeModels } from './taon-group-backoffice.models';
 //#endregion
+
+const t = Translation.for(Taon.__FILE_RELATIVE_PATH, Taon.LANG_IMPORT_MAP);
 
 @Component({
   selector: 'taon-group-details',
@@ -36,6 +40,8 @@ import { TaonGroupBackofficeModels } from './taon-group-backoffice.models';
   providers: [TaonGroupApiService, TaonBackofficeNavigationService],
 })
 export class TaonGroupDetailsComponent implements OnChanges {
+  readonly t = t.for(this);
+
   @Input({ required: true }) group!: TaonGroupEntity;
 
   readonly navigation = inject(TaonBackofficeNavigationService);
@@ -76,30 +82,30 @@ export class TaonGroupDetailsComponent implements OnChanges {
 
   roleColumns: MtxGridColumn[] = [
     {
-      header: 'ID',
+      header: this.t.gettext('ID'),
       field: 'roleId',
     },
     {
-      header: 'Name',
+      header: this.t.gettext('Name'),
       field: 'name',
     },
     {
-      header: 'Code',
+      header: this.t.gettext('Code'),
       field: 'code',
     },
     {
-      header: 'Description',
+      header: this.t.gettext('Description'),
       field: 'description',
     },
     {
-      header: 'Actions',
+      header: this.t.gettext('Actions'),
       field: 'actions',
       type: 'button',
       buttons: [
         {
           type: 'icon',
           icon: 'open_in_new',
-          tooltip: 'Role details',
+          tooltip: this.t.gettext('Role details'),
           click: (row: TaonGroupBackofficeModels.AssignedRoleRow) =>
             this.navigation.openDetails('role', row.roleId),
         },
@@ -107,7 +113,7 @@ export class TaonGroupDetailsComponent implements OnChanges {
           type: 'icon',
           icon: 'delete',
           color: 'warn',
-          tooltip: 'Remove role from group',
+          tooltip: this.t.gettext('Remove role from group'),
           click: (row: TaonGroupBackofficeModels.AssignedRoleRow) =>
             void this.unassignRole(row),
         },

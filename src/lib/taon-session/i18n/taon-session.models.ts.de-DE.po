@@ -1,0 +1,17 @@
+msgid ""
+msgstr ""
+"Language: de-DE\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/lib/taon-session/taon-session.models.ts:47
+msgid "Invalid Password"
+msgstr "Ungültiges Passwort"
+
+#: src/lib/taon-session/taon-session.models.ts:50
+msgid "Not able to login with social account"
+msgstr "Nicht in der Lage mit dem sozialen Konto zu loggen"
+
+#: src/lib/taon-session/taon-session.models.ts:54
+msgid "Passwords do not match each other"
+msgstr "Passwörter passen nicht miteinander zusammen"

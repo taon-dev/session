@@ -22,13 +22,13 @@
               [disabled]="config?.login?.diableLoginByEmail"
               (click)="connectEmail(context?.user)">
               <mat-icon>email</mat-icon>
-              Email
+              {{ t.gettext('Email') }}
             </mat-button-toggle>
           } @else {
             <mat-button-toggle
               (click)="disconnect(TaonSessionIdentityProvider.PASSWORD)">
               <mat-icon>email</mat-icon>
-              Disconnect Email
+              {{ t.gettext('Disconnect Email') }}
             </mat-button-toggle>
           }
 
@@ -130,14 +130,14 @@
   <!-- CHANGE PASSWORD -->
   <!-- TODO @UNCOMMENT when sending emails ready -->
   @if (!linkSocialAccountEmail) {
-    <mat-tab label="Change Password">
+    <mat-tab [label]="t.gettext('Change Password')">
       <div class="tab-content">
         <!-- TODO change password -->
       </div>
     </mat-tab>
   }
 
-  <mat-tab [label]="t.gettext('Change Username')">
+  <mat-tab [label]="labelChangeUserName()">
     <div class="tab-content">
       <p>
         {{ t.gettext('Current username') }}:
@@ -146,7 +146,7 @@
       <form
         [formGroup]="usernameForm"
         (ngSubmit)="saveUsername()">
-        <mat-form-field>
+        <mat-form-field class="w-full">
           <mat-label>{{ t.gettext('New username') }}</mat-label>
           <input
             matInput

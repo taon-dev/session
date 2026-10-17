@@ -12,6 +12,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
 import { MtxGridColumn } from '@ng-matero/extensions/grid';
 import { TaonDatatableComponent } from '@taon-dev/ui/src';
+import { Translation } from '@taon-dev/i18n/src';
+import { Taon } from 'taon/src';
 
 import { TaonPermissionChooserComponent } from '../../taon-permission/taon-permission-chooser/taon-permission-chooser.component';
 import { TaonBackofficeNavigationService } from '../../taon-session/taon-session-backoffice/taon-backoffice-navigation.service';
@@ -20,6 +22,8 @@ import type { TaonRoleEntity } from '../taon-role.entity';
 
 import { TaonRoleBackofficeModels } from './taon-role-backoffice.models';
 //#endregion
+
+const t = Translation.for(Taon.__FILE_RELATIVE_PATH, Taon.LANG_IMPORT_MAP);
 
 @Component({
   selector: 'taon-role-details',
@@ -36,6 +40,8 @@ import { TaonRoleBackofficeModels } from './taon-role-backoffice.models';
   providers: [TaonRoleApiService, TaonBackofficeNavigationService],
 })
 export class TaonRoleDetailsComponent implements OnChanges {
+  readonly t = t.for(this);
+
   @Input({ required: true }) role!: TaonRoleEntity;
 
   readonly navigation = inject(TaonBackofficeNavigationService);
@@ -76,30 +82,30 @@ export class TaonRoleDetailsComponent implements OnChanges {
 
   permissionColumns: MtxGridColumn[] = [
     {
-      header: 'ID',
+      header: this.t.gettext('ID'),
       field: 'permissionId',
     },
     {
-      header: 'Name',
+      header: this.t.gettext('Name'),
       field: 'name',
     },
     {
-      header: 'Code',
+      header: this.t.gettext('Code'),
       field: 'code',
     },
     {
-      header: 'Description',
+      header: this.t.gettext('Description'),
       field: 'description',
     },
     {
-      header: 'Actions',
+      header: this.t.gettext('Actions'),
       field: 'actions',
       type: 'button',
       buttons: [
         {
           type: 'icon',
           icon: 'open_in_new',
-          tooltip: 'Permission details',
+          tooltip: this.t.gettext('Permission details'),
           click: (row: TaonRoleBackofficeModels.AssignedPermissionRow) =>
             this.navigation.openDetails('permission', row.permissionId),
         },
@@ -107,7 +113,7 @@ export class TaonRoleDetailsComponent implements OnChanges {
           type: 'icon',
           icon: 'delete',
           color: 'warn',
-          tooltip: 'Remove permission from role',
+          tooltip: this.t.gettext('Remove permission from role'),
           click: (row: TaonRoleBackofficeModels.AssignedPermissionRow) =>
             void this.unassignPermission(row),
         },

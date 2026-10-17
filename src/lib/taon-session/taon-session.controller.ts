@@ -1,5 +1,4 @@
 //#region imports
-import { Translation } from '@taon-dev/i18n/src';
 import {
   Taon,
   ClassHelpers,
@@ -38,8 +37,6 @@ import { TaonSessionRepository } from './taon-session.repository';
 import { TaonSessionUtils } from './taon-session.utils';
 
 //#endregion
-
-const t = Translation.for(Taon.__FILE_RELATIVE_PATH, Taon.LANG_IMPORT_MAP);
 
 @TaonController<TaonSessionController>({
   className: 'TaonSessionController',
@@ -93,10 +90,10 @@ export class TaonSessionController extends TaonBaseController {
     @Body('password') password: string,
   ): Taon.Response<TaonSessionUserEntity | null> {
     //#region @websqlFunc
-    return async (req, res) => {
+    return async (req, res, { t }) => {
       if (this.taonSessionProvider.login.diableLoginByEmail) {
         Taon.error({
-          message: t.gettext('Login by email is disalbed'),
+          message: t.gettext('Login by email is disabled.'),
           status: getStatusCode(HttpStatusEnum.UNAUTHORIZED),
         });
         return null;
@@ -114,10 +111,10 @@ export class TaonSessionController extends TaonBaseController {
   @POST()
   userExists(@Body('email') email: string): Taon.Response<boolean> {
     //#region @websqlFunc
-    return async (req, res) => {
+    return async (req, res, { t }) => {
       if (this.taonSessionProvider.login.diableLoginByEmail) {
         Taon.error({
-          message: t.gettext('Login by email is disalbed'),
+          message: t.gettext('Login by email is disabled.'),
           status: getStatusCode(HttpStatusEnum.UNAUTHORIZED),
         });
         return true;
@@ -140,7 +137,10 @@ export class TaonSessionController extends TaonBaseController {
   //#endregion
 
   //#region get google identity
-  private async getGoogleIdentity(data: TaonLoginData): Promise<{
+  private async getGoogleIdentity(
+    data: TaonLoginData,
+    t: { gettext: (message: string) => string },
+  ): Promise<{
     identity?: TaonSessionUserIdentityEntity | null | undefined;
     error: boolean;
     googleData?: Awaited<
@@ -175,7 +175,7 @@ export class TaonSessionController extends TaonBaseController {
     ) {
       Taon.error({
         status: getStatusCode(HttpStatusEnum.INVALID_CREDENTIALS),
-        message: 'Invalid Google authentication.',
+        message: t.gettext('Invalid Google authentication.'),
       });
       return { error: true };
     }
@@ -200,7 +200,7 @@ export class TaonSessionController extends TaonBaseController {
   })
   connectIdentity(@Body() data: TaonLoginData): Taon.Response<boolean> {
     //#region @websqlFunc
-    return async (req, res) => {
+    return async (req, res, { t }) => {
       const userId = Number((req as any)!.userId);
       const provider = data.googleCode
         ? TaonSessionIdentityProvider.GOOGLE
@@ -239,9 +239,10 @@ export class TaonSessionController extends TaonBaseController {
         }
 
         case TaonSessionIdentityProvider.GOOGLE: {
-          const { identity, error, googleData } = await this.getGoogleIdentity({
-            googleCode: data.googleCode,
-          });
+          const { identity, error, googleData } = await this.getGoogleIdentity(
+            { googleCode: data.googleCode },
+            t,
+          );
 
           if (error) {
             return false;
@@ -339,7 +340,7 @@ export class TaonSessionController extends TaonBaseController {
     @Body('provider') provider: TaonSessionIdentityProvider,
   ): Taon.Response<boolean> {
     //#region @websqlFunc
-    return async (req, res) => {
+    return async (req, res, { t }) => {
       const userId = Number((req as any)!.userId);
 
       const identity = await this.taonSessionUserIdentityRepository.findOne({
@@ -385,7 +386,7 @@ export class TaonSessionController extends TaonBaseController {
   @POST()
   login(@Body() data: TaonLoginData): Taon.Response<boolean> {
     //#region @websqlFunc
-    return async (req, res) => {
+    return async (req, res, { t }) => {
       let { email, password, googleCode } = data || {};
 
       const isSocialLogin = !!googleCode;
@@ -397,7 +398,7 @@ export class TaonSessionController extends TaonBaseController {
         //#region google login
 
         let { identity, error, googleData } =
-          await this.getGoogleIdentity(data);
+          await this.getGoogleIdentity(data, t);
 
         if (error) {
           return false;

@@ -78,6 +78,8 @@ export class TaonSessionProfileComponent {
 
   public readonly taonSessionStateService = inject(TaonSessionStateService);
 
+  labelChangeUserName = t.signal.gettext('Change Username');
+
   readonly context$ = this.taonSessionStateService.context$.pipe(
     shareReplay({ bufferSize: 1, refCount: true }),
   );

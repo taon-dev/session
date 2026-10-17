@@ -1,0 +1,21 @@
+msgid ""
+msgstr ""
+"Language: pl-PL\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/app.vscode.ts:13
+msgid "hello world Session"
+msgstr "Halo Świat Sesja"
+
+#: src/app.vscode.ts:18
+msgid "Hello World! Session"
+msgstr "- Świat!"
+
+#: src/app.vscode.ts:22
+msgid "hey Session! show platform"
+msgstr "Hej Session!"
+
+#: src/app.vscode.ts:28
+msgid "Session platform is \"[[ platform ]]\""
+msgstr "Platforma sesji to \"[[platforma ]]\""

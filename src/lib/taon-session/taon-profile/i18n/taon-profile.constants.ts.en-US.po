@@ -1,0 +1,9 @@
+msgid ""
+msgstr ""
+"Language: en-US\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/lib/taon-session/taon-profile/taon-profile.constants.ts:18
+msgid "Invalid Password"
+msgstr "Invalid Password"

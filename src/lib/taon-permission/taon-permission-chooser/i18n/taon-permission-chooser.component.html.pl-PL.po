@@ -1,0 +1,21 @@
+msgid ""
+msgstr ""
+"Language: pl-PL\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/lib/taon-permission/taon-permission-chooser/taon-permission-chooser.component.html:6
+msgid "Permission"
+msgstr "Pozwolenie"
+
+#: src/lib/taon-permission/taon-permission-chooser/taon-permission-chooser.component.html:31
+msgid "Assign"
+msgstr "Zalecenie"
+
+#: src/lib/taon-permission/taon-permission-chooser/taon-permission-chooser.component.html:39
+msgid "Cancel"
+msgstr "Odwołanie"
+
+#: src/lib/taon-permission/taon-permission-chooser/taon-permission-chooser.component.html:17
+msgid "No permissions available"
+msgstr "Nie ma dostępnych zezwoleń"

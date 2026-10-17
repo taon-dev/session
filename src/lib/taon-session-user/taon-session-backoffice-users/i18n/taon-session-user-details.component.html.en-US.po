@@ -1,0 +1,38 @@
+msgid ""
+msgstr ""
+"Language: en-US\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.html:1
+#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.html:2
+msgid "User details #[[ id ]]"
+msgstr "User details #[[ id ]]"
+
+#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.html:16
+msgid "First Name"
+msgstr "First Name"
+
+#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.html:24
+msgid "Surname"
+msgstr "Surname"
+
+#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.html:36
+msgid "User groups"
+msgstr "User groups"
+
+#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.html:76
+msgid "Providers"
+msgstr "Providers"
+
+#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.html:96
+msgid "Roles from groups"
+msgstr "Roles from groups"
+
+#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.html:47
+msgid "Assign group"
+msgstr "Assign group"
+
+#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.html:106
+msgid "No roles available through this group"
+msgstr "No roles available through this group"

@@ -1,0 +1,21 @@
+msgid ""
+msgstr ""
+"Language: pl-PL\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/lib/taon-session/taon-profile/taon-profile.controller.ts:78
+msgid "Invalid profile picture request"
+msgstr "Nieważne żądanie zdjęcia profilowego"
+
+#: src/lib/taon-session/taon-profile/taon-profile.controller.ts:91
+msgid "Only super users can change another user profile picture"
+msgstr "Tylko super użytkownicy mogą zmienić inny profil użytkownika"
+
+#: src/lib/taon-session/taon-profile/taon-profile.controller.ts:100
+msgid "User not found"
+msgstr "Użytkownik nie znaleziony"
+
+#: src/lib/taon-session/taon-profile/taon-profile.controller.ts:128
+msgid "You are not authroized to upload many files"
+msgstr "Nie masz uprawnień do przesyłania wielu plików"

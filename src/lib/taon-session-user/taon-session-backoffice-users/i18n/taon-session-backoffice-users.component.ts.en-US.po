@@ -1,0 +1,21 @@
+msgid ""
+msgstr ""
+"Language: en-US\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-backoffice-users.component.ts:43
+msgid "ID"
+msgstr "ID"
+
+#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-backoffice-users.component.ts:44
+msgid "Username"
+msgstr "Username"
+
+#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-backoffice-users.component.ts:46
+msgid "Actions"
+msgstr "Actions"
+
+#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-backoffice-users.component.ts:53
+msgid "User details"
+msgstr "User details"

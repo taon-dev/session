@@ -3,7 +3,7 @@
     appearance="outline"
     subscriptSizing="dynamic"
     class="taon-group-chooser__field">
-    <mat-label> Group </mat-label>
+    <mat-label>{{ t.gettext('Group') }}</mat-label>
 
     <mat-select
       [(ngModel)]="selectedGroupId"
@@ -13,7 +13,9 @@
           {{ group.name }} ({{ group.code }})
         </mat-option>
       } @empty {
-        <mat-option [disabled]="true"> No groups available </mat-option>
+        <mat-option [disabled]="true">{{
+          t.gettext('No groups available')
+        }}</mat-option>
       }
     </mat-select>
   </mat-form-field>
@@ -26,7 +28,7 @@
     (click)="assign()">
     <mat-icon> add </mat-icon>
 
-    Assign
+    {{ t.gettext('Assign') }}
   </button>
 
   <button
@@ -34,6 +36,6 @@
     type="button"
     [disabled]="saving()"
     (click)="cancel()">
-    Cancel
+    {{ t.gettext('Cancel') }}
   </button>
 </div>

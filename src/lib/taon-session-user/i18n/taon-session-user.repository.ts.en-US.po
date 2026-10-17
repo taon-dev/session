@@ -1,0 +1,18 @@
+msgid ""
+msgstr ""
+"Language: en-US\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/lib/taon-session-user/taon-session-user.repository.ts:34
+msgid "Username must contain between 1 and 255 characters."
+msgstr "Username must contain between 1 and 255 characters."
+
+#: src/lib/taon-session-user/taon-session-user.repository.ts:58
+#: src/lib/taon-session-user/taon-session-user.repository.ts:76
+msgid "This username is already taken."
+msgstr "This username is already taken."
+
+#: src/lib/taon-session-user/taon-session-user.repository.ts:67
+msgid "User not found."
+msgstr "User not found."

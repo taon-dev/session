@@ -1,7 +1,11 @@
-<a [routerLink]="navigation.detailsLink('group', group.id)">Group details #{{ group.id }}</a>
+<a [routerLink]="navigation.detailsLink('group', group.id)">{{
+  t.gettext('Group details #[[ id ]]', { id: group.id })
+}}</a>
   <div class="group-details__section">
     <div class="group-details__section-header">
-      <h4 class="group-details__section-title">Group roles</h4>
+      <h4 class="group-details__section-title">
+        {{ t.gettext('Group roles') }}
+      </h4>
 
       @if (roleChooserGroupId() !== group.id) {
         <button
@@ -11,7 +15,7 @@
           (click)="openRoleChooser(group.id)">
           <mat-icon> add_moderator </mat-icon>
 
-          Assign role
+          {{ t.gettext('Assign role') }}
         </button>
       }
     </div>

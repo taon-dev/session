@@ -1,0 +1,9 @@
+msgid ""
+msgstr ""
+"Language: de-DE\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/lib/taon-session/taon-session-backoffice/taon-session-details.component.ts:71
+msgid "Unable to load session details."
+msgstr "Die Sitzungsdetails können nicht geladen werden."

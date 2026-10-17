@@ -1,0 +1,25 @@
+msgid ""
+msgstr ""
+"Language: pl-PL\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/lib/taon-group/taon-group-backoffice/taon-group-backoffice.component.ts:35
+msgid "ID"
+msgstr "IDu"
+
+#: src/lib/taon-group/taon-group-backoffice/taon-group-backoffice.component.ts:36
+msgid "Name"
+msgstr "Nazwa"
+
+#: src/lib/taon-group/taon-group-backoffice/taon-group-backoffice.component.ts:37
+msgid "Code"
+msgstr "Kod"
+
+#: src/lib/taon-group/taon-group-backoffice/taon-group-backoffice.component.ts:39
+msgid "Actions"
+msgstr "Akcje"
+
+#: src/lib/taon-group/taon-group-backoffice/taon-group-backoffice.component.ts:46
+msgid "Group details"
+msgstr "Szczegóły grupy"

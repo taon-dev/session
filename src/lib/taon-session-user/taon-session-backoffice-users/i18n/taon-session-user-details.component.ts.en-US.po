@@ -1,0 +1,41 @@
+msgid ""
+msgstr ""
+"Language: en-US\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.ts:101
+msgid "Provider"
+msgstr "Provider"
+
+#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.ts:105
+msgid "Email"
+msgstr "Email"
+
+#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.ts:112
+msgid "ID"
+msgstr "ID"
+
+#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.ts:117
+msgid "Name"
+msgstr "Name"
+
+#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.ts:121
+msgid "Code"
+msgstr "Code"
+
+#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.ts:125
+msgid "Description"
+msgstr "Description"
+
+#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.ts:129
+msgid "Actions"
+msgstr "Actions"
+
+#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.ts:136
+msgid "Group details"
+msgstr "Group details"
+
+#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.ts:144
+msgid "Remove group from user"
+msgstr "Remove group from user"

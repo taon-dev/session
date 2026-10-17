@@ -1,0 +1,25 @@
+msgid ""
+msgstr ""
+"Language: en-US\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/lib/taon-permission/taon-permission-view-edit/taon-permission-view-edit.component.html:7
+msgid "Description"
+msgstr "Description"
+
+#: src/lib/taon-permission/taon-permission-view-edit/taon-permission-view-edit.component.html:27
+msgid "Save"
+msgstr "Save"
+
+#: src/lib/taon-permission/taon-permission-view-edit/taon-permission-view-edit.component.html:35
+msgid "Cancel"
+msgstr "Cancel"
+
+#: src/lib/taon-permission/taon-permission-view-edit/taon-permission-view-edit.component.html:40
+msgid "No description"
+msgstr "No description"
+
+#: src/lib/taon-permission/taon-permission-view-edit/taon-permission-view-edit.component.html:50
+msgid "Edit"
+msgstr "Edit"

@@ -1,0 +1,25 @@
+msgid ""
+msgstr ""
+"Language: de-DE\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/lib/taon-permission/taon-permission-backoffice/taon-permission-backoffice.component.ts:42
+msgid "ID"
+msgstr "Ausweis"
+
+#: src/lib/taon-permission/taon-permission-backoffice/taon-permission-backoffice.component.ts:48
+msgid "Name"
+msgstr "Name"
+
+#: src/lib/taon-permission/taon-permission-backoffice/taon-permission-backoffice.component.ts:53
+msgid "Code"
+msgstr "Code"
+
+#: src/lib/taon-permission/taon-permission-backoffice/taon-permission-backoffice.component.ts:58
+msgid "Actions"
+msgstr "Aktionen"
+
+#: src/lib/taon-permission/taon-permission-backoffice/taon-permission-backoffice.component.ts:65
+msgid "Permission details"
+msgstr "Genehmigungsdaten"

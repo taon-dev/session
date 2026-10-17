@@ -3,7 +3,7 @@
     appearance="outline"
     subscriptSizing="dynamic"
     class="taon-role-chooser__field">
-    <mat-label> Role </mat-label>
+    <mat-label>{{ t.gettext('Role') }}</mat-label>
 
     <mat-select
       [(ngModel)]="selectedRoleId"
@@ -13,7 +13,9 @@
           {{ role.name }} ({{ role.code }})
         </mat-option>
       } @empty {
-        <mat-option [disabled]="true"> No roles available </mat-option>
+        <mat-option [disabled]="true">{{
+          t.gettext('No roles available')
+        }}</mat-option>
       }
     </mat-select>
   </mat-form-field>
@@ -26,7 +28,7 @@
     (click)="assign()">
     <mat-icon> add </mat-icon>
 
-    Assign
+    {{ t.gettext('Assign') }}
   </button>
 
   <button
@@ -34,6 +36,6 @@
     type="button"
     [disabled]="saving()"
     (click)="cancel()">
-    Cancel
+    {{ t.gettext('Cancel') }}
   </button>
 </div>

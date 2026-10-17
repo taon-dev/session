@@ -1,0 +1,25 @@
+msgid ""
+msgstr ""
+"Language: de-DE\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/app.ts:153
+msgid "Basic app info"
+msgstr "Grundinformationen über die App"
+
+#: src/app.ts:154
+msgid "Name"
+msgstr "Name"
+
+#: src/app.ts:156
+msgid "Angular version: [[ version ]]"
+msgstr "Winkelversion: [[Version ]]"
+
+#: src/app.ts:160
+msgid "Taon backend: [[ mode ]]"
+msgstr "Taon-Backend: [[Modus ]]"
+
+#: src/app.ts:173
+msgid "hello header!"
+msgstr "Hallo Header!"

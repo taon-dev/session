@@ -13,10 +13,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
+import { Translation } from '@taon-dev/i18n/src';
+import { Taon } from 'taon/src';
 
 import { TaonGroupApiService } from '../taon-group-api.service';
 import type { TaonGroupEntity } from '../taon-group.entity';
 //#endregion
+
+const t = Translation.for(Taon.__FILE_RELATIVE_PATH, Taon.LANG_IMPORT_MAP);
 
 @Component({
   selector: 'taon-group-chooser',
@@ -33,6 +37,8 @@ import type { TaonGroupEntity } from '../taon-group.entity';
   providers: [TaonGroupApiService],
 })
 export class TaonGroupChooserComponent {
+  readonly t = t.for(this);
+
   //#region inject
 
   private readonly taonGroupApiService = inject(TaonGroupApiService);

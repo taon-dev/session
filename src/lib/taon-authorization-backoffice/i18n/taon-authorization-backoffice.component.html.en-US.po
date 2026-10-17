@@ -1,0 +1,9 @@
+msgid ""
+msgstr ""
+"Language: en-US\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/lib/taon-authorization-backoffice/taon-authorization-backoffice.component.html:4
+msgid "In authorization section you can manager Group, Roles and Persmission inside system."
+msgstr "In authorization section you can manager Group, Roles and Persmission inside system."

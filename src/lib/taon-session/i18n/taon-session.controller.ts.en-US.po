@@ -1,0 +1,40 @@
+msgid ""
+msgstr ""
+"Language: en-US\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/lib/taon-session/taon-session.controller.ts:96
+#: src/lib/taon-session/taon-session.controller.ts:117
+#: src/lib/taon-session/taon-session.controller.ts:217
+#: src/lib/taon-session/taon-session.controller.ts:427
+msgid "Login by email is disabled."
+msgstr "Login by email is disabled."
+
+#: src/lib/taon-session/taon-session.controller.ts:178
+msgid "Invalid Google authentication."
+msgstr "Invalid Google authentication."
+
+#: src/lib/taon-session/taon-session.controller.ts:228
+msgid "Password must contain between 8 and 128 characters."
+msgstr "Password must contain between 8 and 128 characters."
+
+#: src/lib/taon-session/taon-session.controller.ts:259
+msgid "This Google account is already connected to another user."
+msgstr "This Google account is already connected to another user."
+
+#: src/lib/taon-session/taon-session.controller.ts:281
+msgid "Unsupported identity provider."
+msgstr "Unsupported identity provider."
+
+#: src/lib/taon-session/taon-session.controller.ts:356
+msgid "Identity not found."
+msgstr "Identity not found."
+
+#: src/lib/taon-session/taon-session.controller.ts:371
+msgid "You cannot disconnect your only sign-in method."
+msgstr "You cannot disconnect your only sign-in method."
+
+#: src/lib/taon-session/taon-session.controller.ts:470
+msgid "User is not active"
+msgstr "User is not active"

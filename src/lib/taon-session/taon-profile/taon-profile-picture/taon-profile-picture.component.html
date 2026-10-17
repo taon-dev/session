@@ -6,7 +6,7 @@
       <img
         class="profile-picture__image"
         [src]="pictureUrl()"
-        alt="Profile picture" />
+        [alt]="t.gettext('Profile picture')" />
     } @else {
       <mat-icon class="profile-picture__placeholder">account_circle</mat-icon>
       <!-- <svg

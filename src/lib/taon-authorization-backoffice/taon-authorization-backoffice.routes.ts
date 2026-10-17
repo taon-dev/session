@@ -1,7 +1,11 @@
 //#region imports
 import { Routes } from '@angular/router';
 import { adminLazyRoute } from '@taon-dev/ui/src';
+import { Translation } from '@taon-dev/i18n/src';
+import { Taon } from 'taon/src';
 //#endregion
+
+const t = Translation.for(Taon.__FILE_RELATIVE_PATH, Taon.LANG_IMPORT_MAP);
 
 export const TaonAuthorizationBackofficeRoutes: Routes = [
   {
@@ -14,7 +18,7 @@ export const TaonAuthorizationBackofficeRoutes: Routes = [
     children: [
       adminLazyRoute({
         path: 'groups',
-        menuItem: 'Groups',
+        menuItem: t.gettext('Groups'),
         icon: 'groups',
         expandable: false,
         loader: () =>
@@ -24,7 +28,7 @@ export const TaonAuthorizationBackofficeRoutes: Routes = [
       }),
       adminLazyRoute({
         path: 'roles',
-        menuItem: 'Roles',
+        menuItem: t.gettext('Roles'),
         icon: 'recent_actors',
         expandable: false,
         loader: () =>
@@ -34,7 +38,7 @@ export const TaonAuthorizationBackofficeRoutes: Routes = [
       }),
       adminLazyRoute({
         path: 'permissions',
-        menuItem: 'Permissions',
+        menuItem: t.gettext('Permissions'),
         icon: 'approval',
         expandable: false,
         loader: () =>

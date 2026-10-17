@@ -1,0 +1,33 @@
+msgid ""
+msgstr ""
+"Language: de-DE\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/lib/taon-role/taon-role-backoffice/taon-role-details.component.ts:85
+msgid "ID"
+msgstr "Ausweis"
+
+#: src/lib/taon-role/taon-role-backoffice/taon-role-details.component.ts:89
+msgid "Name"
+msgstr "Name"
+
+#: src/lib/taon-role/taon-role-backoffice/taon-role-details.component.ts:93
+msgid "Code"
+msgstr "Code"
+
+#: src/lib/taon-role/taon-role-backoffice/taon-role-details.component.ts:97
+msgid "Description"
+msgstr "Beschreibung"
+
+#: src/lib/taon-role/taon-role-backoffice/taon-role-details.component.ts:101
+msgid "Actions"
+msgstr "Aktionen"
+
+#: src/lib/taon-role/taon-role-backoffice/taon-role-details.component.ts:108
+msgid "Permission details"
+msgstr "Genehmigungsdaten"
+
+#: src/lib/taon-role/taon-role-backoffice/taon-role-details.component.ts:116
+msgid "Remove permission from role"
+msgstr "Entfernen Sie die Berechtigung von der Rolle"

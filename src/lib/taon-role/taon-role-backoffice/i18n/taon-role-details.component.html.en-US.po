@@ -1,0 +1,18 @@
+msgid ""
+msgstr ""
+"Language: en-US\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/lib/taon-role/taon-role-backoffice/taon-role-details.component.html:1
+#: src/lib/taon-role/taon-role-backoffice/taon-role-details.component.html:2
+msgid "Role details #[[ id ]]"
+msgstr "Role details #[[ id ]]"
+
+#: src/lib/taon-role/taon-role-backoffice/taon-role-details.component.html:7
+msgid "Role permissions"
+msgstr "Role permissions"
+
+#: src/lib/taon-role/taon-role-backoffice/taon-role-details.component.html:18
+msgid "Assign permission"
+msgstr "Assign permission"
