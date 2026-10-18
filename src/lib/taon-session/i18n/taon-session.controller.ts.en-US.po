@@ -7,7 +7,7 @@ msgstr ""
 #: src/lib/taon-session/taon-session.controller.ts:96
 #: src/lib/taon-session/taon-session.controller.ts:117
 #: src/lib/taon-session/taon-session.controller.ts:217
-#: src/lib/taon-session/taon-session.controller.ts:427
+#: src/lib/taon-session/taon-session.controller.ts:429
 msgid "Login by email is disabled."
 msgstr "Login by email is disabled."
 
@@ -35,6 +35,6 @@ msgstr "Identity not found."
 msgid "You cannot disconnect your only sign-in method."
 msgstr "You cannot disconnect your only sign-in method."
 
-#: src/lib/taon-session/taon-session.controller.ts:470
+#: src/lib/taon-session/taon-session.controller.ts:472
 msgid "User is not active"
 msgstr "User is not active"
