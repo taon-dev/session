@@ -23,6 +23,7 @@ import { Taon, TaonBaseProvider, TaonProvider } from 'taon/src';
 import { TaonStateMachine } from 'tnp-core/src';
 
 import { TaonAuthContextEntity } from '../taon-auth-context/taon-auth-context.entity';
+import { TaonSessionUserUtils } from '../taon-session-user/taon-session-user.utils';
 
 import type { TaonSessionComponent } from './taon-session/taon-session.component';
 import { TaonSessionApiService } from './taon-session.api.service';
@@ -45,7 +46,8 @@ class TaonSessionStateInstance {
   inited = false;
 
   //#region fields & getters / instace id
-  readonly instanceId = crypto.randomUUID();
+  readonly instanceId = TaonSessionUserUtils.randomUUID();
+
   //#endregion
 
   //#region fields & getters / refresh src
@@ -340,7 +342,6 @@ class TaonSessionStateInstance {
 
     // console.log(`action for ${this.state.currentValue}`);
     switch (this.state.currentValue) {
-
       // this is done automatically when subscribed
       // case TaonSessionState.LOADING_INITIAL_AUTH_INFO:
       //   this.refresh();
