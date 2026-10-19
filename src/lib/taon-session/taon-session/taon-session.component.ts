@@ -195,13 +195,23 @@ export class TaonSessionComponent implements AfterViewInit, OnInit, OnDestroy {
     TaonSessionState[]
   >([
     [
+      TaonSessionState.LOADING_INITIAL_AUTH_INFO,
+      [TaonSessionState.LOGIN_OR_REGISTER],
+    ],
+    [
       TaonSessionState.LOGIN_OR_REGISTER,
       [
         TaonSessionState.ENTER_PASSWORD,
+        TaonSessionState.LOADING_CHECK_USER_EMAIL_EXISTS,
         TaonSessionState.ENTER_REGISTRATION_PASSWORDS,
         TaonSessionState.LOADING_AUTH,
       ],
     ],
+    [
+      TaonSessionState.LOADING_CHECK_USER_EMAIL_EXISTS,
+      [TaonSessionState.ENTER_PASSWORD],
+    ],
+
     [TaonSessionState.LOADING_AUTH, [TaonSessionState.LOGIN_SUCCESS]],
   ]);
 
