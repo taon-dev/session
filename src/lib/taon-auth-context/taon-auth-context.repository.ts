@@ -5,7 +5,7 @@ import {
   TaonBaseCustomRepository,
   TaonRepository,
 } from 'taon/src';
-import { CoreModels } from 'tnp-core/src';
+import { CoreModels, GlobalStorage, UtilsOs } from 'tnp-core/src';
 
 import { TaonGroupRoleRepository } from '../taon-group/taon-group-role.repository';
 import { TaonGroupRepository } from '../taon-group/taon-group.repository';
@@ -141,8 +141,7 @@ export class TaonAuthContextRepository<
       email => userEmails.includes(email),
     );
 
-    context.isLocalhostBackend =
-      this.ctx.frontendHostUri.host.includes('localhost:');
+    context.isLocalhostBackend = !this.taonSessionProvider.isProduction;
 
     return context;
 

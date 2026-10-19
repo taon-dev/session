@@ -6,11 +6,11 @@ msgstr ""
 
 #: src/lib/taon-session/taon-session-button/taon-session-button.component.ts:117
 msgid "Unsupported browser"
-msgstr "Niepodpanowany przeglądarka"
+msgstr "Nieobsługiwana przeglądarka"
 
 #: src/lib/taon-session/taon-session-button/taon-session-button.component.ts:118
 msgid "Login is not supported in the embedded browser. Copy the link and open it in Safari or Chrome."
-msgstr "Login nie jest obsługiwany w wbudowanej przeglądarce. Skopuj link i otwórz go w Safari lub Chrome."
+msgstr "Logowanie nie jest obsługiwane w wbudowanej przeglądarce. Skopuj link i otwórz go w Safari lub Chrome."
 
 #: src/lib/taon-session/taon-session-button/taon-session-button.component.ts:121
 msgid "Copy link"

@@ -7,9 +7,7 @@ const DEFAULT_ACCESS_TOKEN_SECRET = 'access-secret';
 const DEFAULT_REFRESH_TOKEN_SECRET = 'refresh-secret';
 
 //#region config classes / cookies
-const isProduction =
-  !GlobalStorage.get('TAON_LOCAL_DEV') &&
-  (UtilsOs.isRunningInDocker() || UtilsOs.isRunningInCloudflareWorker());
+const isProduction = !GlobalStorage.get('TAON_LOCAL_DEV');
 
 export class TaonSessionCookiesConfig extends TaonBaseClass {
   declare public ACCESS_TOKEN_SECRET: string;
