@@ -4,22 +4,26 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/app/baseline-backoffice/taon-baseline-backoffice.routes.ts:26
+#: src/app/baseline-backoffice/taon-baseline-backoffice.routes.ts:32
+msgid "Welcome"
+msgstr ""
+
+#: src/app/baseline-backoffice/taon-baseline-backoffice.routes.ts:43
 msgid "Sudo"
 msgstr "Sudo"
 
-#: src/app/baseline-backoffice/taon-baseline-backoffice.routes.ts:36
+#: src/app/baseline-backoffice/taon-baseline-backoffice.routes.ts:53
 msgid "Users"
 msgstr "Users"
 
-#: src/app/baseline-backoffice/taon-baseline-backoffice.routes.ts:47
+#: src/app/baseline-backoffice/taon-baseline-backoffice.routes.ts:64
 msgid "Sessions"
 msgstr "Sessions"
 
-#: src/app/baseline-backoffice/taon-baseline-backoffice.routes.ts:58
+#: src/app/baseline-backoffice/taon-baseline-backoffice.routes.ts:75
 msgid "Authorization"
 msgstr "Authorization"
 
-#: src/app/baseline-backoffice/taon-baseline-backoffice.routes.ts:69
+#: src/app/baseline-backoffice/taon-baseline-backoffice.routes.ts:86
 msgid "Emails"
 msgstr "Emails"

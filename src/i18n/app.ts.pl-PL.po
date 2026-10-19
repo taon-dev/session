@@ -20,6 +20,11 @@ msgstr "Wersja kątowa: [[ version ]]"
 msgid "Taon backend: [[ mode ]]"
 msgstr "Taon backend: [[ mode ]]"
 
-#: src/app.ts:174
-msgid "hello header!"
-msgstr "Cześć, Header!"
+#: src/app.ts:183
+msgctxt "header-taon-admin"
+msgid "Hello [[ username ]]"
+msgstr "Witam [[ username ]]"
+
+#: src/app.ts:190
+msgid "Please login to use Taon Admin"
+msgstr "Proszę zalogować się do admin Taon"

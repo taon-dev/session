@@ -13,7 +13,7 @@
 <!-- STATE: {{ state }} <br /> -->
 <!-- ERRORS: {{ form.errors | json }} <br /> -->
 <!-- IS LOGGED IN: {{ isLoggedIn$ | async }}<br /> -->
- <!-- diableLoginByEmail: {{ diableLoginByEmail }} -->
+<!-- diableLoginByEmail: {{ diableLoginByEmail }} -->
 <!-- {{ context$ | async | json }} -->
 <!-- <button (click)="test()" >test</button> -->
 <h1 class="flex items-center justify-center pt-10">
@@ -401,9 +401,7 @@
   <taon-slide-content-child [assignToState]="TaonSessionState.PROFILE_INFO">
     <!-- #region profile info -->
     <div class="p-5">
-      <h4
-        class="mb-3"
-        translate>
+      <h4 class="mb-3">
         {{ t.gettext('Welcome') }}
       </h4>
 

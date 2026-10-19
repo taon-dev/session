@@ -10,16 +10,16 @@ msgstr "Sesja #[[ id ]]"
 
 #: src/lib/taon-session/taon-session-backoffice/taon-backoffice-details-page.component.ts:46
 msgid "User: [[ username ]] (#[[ id ]])"
-msgstr "Użytkownik: [[nazwa użytkownika ]] (#[[ id ]])"
+msgstr "Użytkownik: [[ username ]] (#[[ id ]])"
 
 #: src/lib/taon-session/taon-session-backoffice/taon-backoffice-details-page.component.ts:58
 msgid "Group: [[ name ]] (#[[ id ]])"
-msgstr "Grupa: [[nazwa ]] (#[[ id ]])"
+msgstr "Grupa: [[name ]] (#[[ id ]])"
 
 #: src/lib/taon-session/taon-session-backoffice/taon-backoffice-details-page.component.ts:69
 msgid "Role: [[ name ]] (#[[ id ]])"
-msgstr "Rola: [[nazwa ]] (#[[ id ]])"
+msgstr "Rola: [[name ]] (#[[ id ]])"
 
 #: src/lib/taon-session/taon-session-backoffice/taon-backoffice-details-page.component.ts:80
 msgid "Permission: [[ name ]] (#[[ id ]])"
-msgstr "Pozwolenie: [[nazwa ]] (#[[ id ]])"
+msgstr "Pozwolenie: [[ name ]] (#[[ id ]])"

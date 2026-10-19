@@ -14,12 +14,17 @@ msgstr "Name"
 
 #: src/app.ts:156
 msgid "Angular version: [[ version ]]"
-msgstr "Winkelversion: [[Version ]]"
+msgstr "Winkelversion: [[ version ]]"
 
 #: src/app.ts:160
 msgid "Taon backend: [[ mode ]]"
-msgstr "Taon-Backend: [[Modus ]]"
+msgstr "Taon Backend: [[ mode ]]"
 
-#: src/app.ts:174
-msgid "hello header!"
-msgstr "Hallo Header!"
+#: src/app.ts:183
+msgctxt "header-taon-admin"
+msgid "Hello [[ username ]]"
+msgstr "Hallo [[ username ]]"
+
+#: src/app.ts:190
+msgid "Please login to use Taon Admin"
+msgstr "Bitte loggen Sie sich bei Taon Admin an"

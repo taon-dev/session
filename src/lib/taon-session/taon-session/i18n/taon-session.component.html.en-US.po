@@ -82,11 +82,7 @@ msgstr "{{ t.gettext('Login Successfully') }}"
 msgid "Login Successfully"
 msgstr "Login Successfully"
 
-#: src/lib/taon-session/taon-session/taon-session.component.html:404
-msgid "{{ t.gettext('Welcome') }}"
-msgstr "{{ t.gettext('Welcome') }}"
-
-#: src/lib/taon-session/taon-session/taon-session.component.html:407
+#: src/lib/taon-session/taon-session/taon-session.component.html:405
 msgid "Welcome"
 msgstr "Welcome"
 

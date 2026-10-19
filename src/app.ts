@@ -170,19 +170,37 @@ const DEFAULT_EMAIL3 = 'dariusz@taon.dev';
               [displayDashboardButton]="true"
               (context)="context = $event" />
 
-            <ng-template #headerCenterTemplate>{{
-              t.gettext('hello header!')
-            }}</ng-template>
+            @if (hasAccessToViewTaonAdminButton) {
+              <ng-template #headerCenterTemplate>
+                <span
+                  class="inline-block w-2 h-2 rounded-full mr-2"
+                  [class.bg-green-500]="context.user"
+                  [class.bg-red-500]="!context.user">
+                </span>
 
-            <taon-draggable-button-panel
-              title="Taon Admin"
-              [headerCenterTemplate]="headerCenterTemplate"
-              [autoHideIcon]="false"
-              [outlet]="outlet"
-              [context]="context"
-              [basePath]="basePath">
-              <router-outlet [name]="outlet" />
-            </taon-draggable-button-panel>
+                {{
+                  context.user
+                    ? t.gettext(
+                        'Hello [[ username ]]',
+                        {
+                          username: context.user.username,
+                        },
+                        'header-taon-admin'
+                      )
+                    : t.gettext('Please login to use Taon Admin')
+                }}
+              </ng-template>
+
+              <taon-draggable-button-panel
+                title="Taon Admin"
+                [headerCenterTemplate]="headerCenterTemplate"
+                [autoHideIcon]="false"
+                [outlet]="outlet"
+                [context]="context"
+                [basePath]="basePath">
+                <router-outlet [name]="outlet" />
+              </taon-draggable-button-panel>
+            }
           </div>
         </mat-card-content>
       </mat-card>
@@ -237,6 +255,10 @@ export class SessionApp implements OnInit {
   basePath!: string;
 
   private refresh = new BehaviorSubject<void>(undefined);
+
+  get hasAccessToViewTaonAdminButton(): boolean {
+    return this.context?.hasAccess?.toViewTaonAdminButton;
+  }
 
   get activePath(): string {
     return globalThis?.location.pathname?.split('?')[0];

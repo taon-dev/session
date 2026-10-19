@@ -19,6 +19,23 @@ export const TaonBaselineBackofficeRoutes: Routes = [
       ),
 
     children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'welcome',
+      },
+
+      adminLazyRoute({
+        isVisible: ({ context }) =>
+          context?.isSuperUser || context?.isLocalhostBackend,
+        path: 'welcome',
+        menuItem: t.gettext('Welcome'),
+        // color: 'red',
+        icon: 'waving_hand',
+        expandable: false,
+        loader: () =>
+          import('@taon-dev/ui/src').then(m => m.TaonAdminWelcomeRoutes),
+      }),
       adminLazyRoute({
         isVisible: ({ context }) =>
           context?.isSuperUser || context?.isLocalhostBackend,
@@ -74,6 +91,10 @@ export const TaonBaselineBackofficeRoutes: Routes = [
             m => m.TaonEmailsBackofficeRoutes,
           ),
       }),
+      {
+        path: '**',
+        redirectTo: 'welcome',
+      },
     ],
   },
 ];

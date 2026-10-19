@@ -82,11 +82,7 @@ msgstr "Sie haben sich in den letzten Tagen in den USA befestigt."
 msgid "Login Successfully"
 msgstr "Erfolgreich eingeben"
 
-#: src/lib/taon-session/taon-session/taon-session.component.html:404
-msgid "{{ t.gettext('Welcome') }}"
-msgstr "Ich will Sie hierher bringen."
-
-#: src/lib/taon-session/taon-session/taon-session.component.html:407
+#: src/lib/taon-session/taon-session/taon-session.component.html:405
 msgid "Welcome"
 msgstr "Willkommen."
 

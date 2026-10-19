@@ -158,6 +158,5 @@ export * from './taon-session/taon-session-backoffice/i18n/taon-session-backoffi
 export * from './taon-session/taon-session-button/i18n/taon-session-button.translation'; 
 export * from './taon-session-user/taon-session-backoffice-users/i18n/taon-session-backoffice-users.translation'; 
 export * from './taon-session/taon-profile/taon-profile-picture/i18n/taon-profile-picture.translation'; 
-export * from './taon-session/taon-session/i18n/i18n/i18n.translation'; 
 export * from './taon-session/taon-session/social-buttons/i18n/social-buttons.translation'; 
 export * from './taon-session/taon-session/taon-session-profile/i18n/taon-session-profile.translation'; 

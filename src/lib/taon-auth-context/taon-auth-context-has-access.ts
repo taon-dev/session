@@ -38,6 +38,22 @@ export class TaonAuthContextHasAccess {
   //#endregion
 
   //#region to view email
+  get toViewTaonAdminButton(): boolean {
+    //#region @browserFunc
+    return this.context.snapshoot.toViewTaonAdminButton;
+    //#endregion
+    //#region @websqlFunc
+    return (
+      this.context.isSuperUser ||
+      this.context.isLocalhostBackend ||
+      this.context.hasRole(TaonSessionCoreRoles.AuthorizationManager) ||
+      this.context.hasRole(TaonSessionCoreRoles.UserManager)
+    );
+    //#endregion
+  }
+  //#endregion
+
+  //#region to view email
   get toViewEmail(): boolean {
     //#region @browserFunc
     return this.context.snapshoot.toViewEmail;
