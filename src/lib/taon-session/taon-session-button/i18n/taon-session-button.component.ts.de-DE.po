@@ -3,3 +3,27 @@ msgstr ""
 "Language: de-DE\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: src/lib/taon-session/taon-session-button/taon-session-button.component.ts:117
+msgid "Unsupported browser"
+msgstr "Nicht unterstützter Browser"
+
+#: src/lib/taon-session/taon-session-button/taon-session-button.component.ts:118
+msgid "Login is not supported in the embedded browser. Copy the link and open it in Safari or Chrome."
+msgstr "Login wird im eingebetteten Browser nicht unterstützt. Kopieren Sie den Link und öffnen Sie ihn in Safari oder Chrome."
+
+#: src/lib/taon-session/taon-session-button/taon-session-button.component.ts:121
+msgid "Copy link"
+msgstr "Kopie-Link"
+
+#: src/lib/taon-session/taon-session-button/taon-session-button.component.ts:122
+msgid "Cancel"
+msgstr "Abrufen"
+
+#: src/lib/taon-session/taon-session-button/taon-session-button.component.ts:134
+msgid "Link copied. Open Safari or Chrome and paste it there."
+msgstr "Link kopiert, Safari oder Chrome öffnen und da einfügen."
+
+#: src/lib/taon-session/taon-session-button/taon-session-button.component.ts:137
+msgid "OK"
+msgstr "Ich bin nicht fertig."

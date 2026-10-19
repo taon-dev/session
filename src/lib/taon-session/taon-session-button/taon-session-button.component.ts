@@ -15,12 +15,14 @@ import {
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Router, RouterOutlet } from '@angular/router';
+import { Translation } from '@taon-dev/i18n/src';
+import { TaonConfirmDialogComponent } from '@taon-dev/ui/src';
 import { walk } from 'lodash-walk-object/src';
 import { Subscription, take } from 'rxjs';
-import { _ } from 'tnp-core/src';
-import { Translation } from '@taon-dev/i18n/src';
 import { Taon } from 'taon/src';
+import { _, UtilsBrowser } from 'tnp-core/src';
 
 import { TaonAuthContextEntity } from '../../taon-auth-context/taon-auth-context.entity';
 import { TaonSessionComponent } from '../taon-session/taon-session.component';
@@ -32,6 +34,7 @@ import {
 } from '../taon-session.models';
 import { TaonSessionConfig } from '../taon-session.provider';
 import { TaonSessionStateService } from '../taon-session.state.service';
+
 // import { toSignal } from '@angular/core/rxjs-interop';
 
 //#endregion
@@ -54,10 +57,13 @@ const t = Translation.for(Taon.__FILE_RELATIVE_PATH, Taon.LANG_IMPORT_MAP);
     MatButtonModule,
     MatIconModule,
     CommonModule,
+    MatSnackBarModule,
   ],
 })
 export class TaonSessionButtonComponent implements OnInit, OnDestroy {
   readonly t = t.for(this);
+
+  private readonly snackBar = inject(MatSnackBar);
 
   showLabels = input(true);
 
@@ -101,18 +107,54 @@ export class TaonSessionButtonComponent implements OnInit, OnDestroy {
   //#region methods / open login dialog
 
   open(state?: TaonSessionState): void {
-    const instance = this.dialog.open(TaonSessionComponent, {
-      width: '410px',
-      data: {
-        activeSessionInstanceId: this.taonSessionStateService.active.instanceId,
-      } as TaonSessionAndSessionButtonCommon,
-      autoFocus: true,
-    });
-    const classInstance = instance.componentInstance;
-    classInstance.config = this.config;
+    if (
+      UtilsBrowser.isRunningOnMobileDevice &&
+      UtilsBrowser.isEmbeddedBrowser
+    ) {
+      const ref = this.dialog.open(TaonConfirmDialogComponent, {
+        width: '376px',
+        data: {
+          title: this.t.gettext('Unsupported browser'),
+          message: this.t.gettext(
+            'Login is not supported in the embedded browser. Copy the link and open it in Safari or Chrome.',
+          ),
+          confirmText: this.t.gettext('Copy link'),
+          cancelText: this.t.gettext('Cancel'),
+        },
+      });
 
-    if (state === TaonSessionState.PROFILE_INFO) {
-      this.taonSessionStateService.executeActionForState(classInstance.form);
+      ref.afterClosed().subscribe(async confirmed => {
+        if (!confirmed) {
+          return;
+        }
+
+        await navigator.clipboard.writeText(window.location.href);
+
+        this.snackBar.open(
+          this.t.gettext(
+            'Link copied. Open Safari or Chrome and paste it there.',
+          ),
+          this.t.gettext('OK'),
+          {
+            duration: 5000,
+          },
+        );
+      });
+    } else {
+      const instance = this.dialog.open(TaonSessionComponent, {
+        width: '410px',
+        data: {
+          activeSessionInstanceId:
+            this.taonSessionStateService.active.instanceId,
+        } as TaonSessionAndSessionButtonCommon,
+        autoFocus: true,
+      });
+      const classInstance = instance.componentInstance;
+      classInstance.config = this.config;
+
+      if (state === TaonSessionState.PROFILE_INFO) {
+        this.taonSessionStateService.executeActionForState(classInstance.form);
+      }
     }
   }
   //#endregion
