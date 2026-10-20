@@ -16,8 +16,55 @@ export class TaonPermissionRepository extends TaonBaseRepository<TaonPermissionE
   async getPermissionsForUserId(
     userId: number | string,
   ): Promise<TaonPermissionEntity[]> {
-    // TODO
-    return [];
+    //#region @websqlFunc
+
+    return await this.createQueryBuilder('permission')
+      .distinct(true)
+
+      // permission <- role
+      .innerJoin(
+        'TaonRolePermissionEntity',
+        'rolePermission',
+        'rolePermission.permissionId = permission.id',
+      )
+
+      // role directly assigned to user
+      .leftJoin(
+        'TaonSessionUserRoleEntity',
+        'userRole',
+        `
+        userRole.roleId = rolePermission.roleId
+        AND userRole.userId = :userId
+      `,
+        { userId },
+      )
+
+      // role inherited through user's group
+      .leftJoin(
+        'TaonGroupRoleEntity',
+        'groupRole',
+        'groupRole.roleId = rolePermission.roleId',
+      )
+      .leftJoin(
+        'TaonSessionUserGroupEntity',
+        'userGroup',
+        `
+        userGroup.groupId = groupRole.groupId
+        AND userGroup.userId = :userId
+      `,
+        { userId },
+      )
+
+      .where(
+        `
+        userRole.id IS NOT NULL
+        OR userGroup.id IS NOT NULL
+      `,
+      )
+
+      .getMany();
+
+    //#endregion
   }
   //#endregion
 
