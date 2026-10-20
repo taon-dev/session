@@ -11,7 +11,7 @@ import { TaonAuthContextEntity } from './taon-auth-context.entity';
 export class TaonAuthContextHasAccess {
   //#region constructor
   constructor(
-    private context: TaonAuthContextEntity<TaonSessionCoreAuthorization>,
+    protected context: TaonAuthContextEntity<TaonSessionCoreAuthorization>,
   ) {}
   //#endregion
 
@@ -19,18 +19,27 @@ export class TaonAuthContextHasAccess {
   clone(): Omit<TaonAuthContextHasAccess, 'context' | 'clone'> {
     const result: Record<string, boolean> = {};
 
-    const prototype = Object.getPrototypeOf(this);
+    let prototype = Object.getPrototypeOf(this);
 
-    for (const key of Object.getOwnPropertyNames(prototype)) {
-      if (key === 'constructor' || key === 'clone') {
-        continue;
+    while (prototype && prototype !== Object.prototype) {
+      for (const key of Object.getOwnPropertyNames(prototype)) {
+        if (key === 'constructor' || key === 'clone') {
+          continue;
+        }
+
+        // Child getter wins over parent getter
+        if (key in result) {
+          continue;
+        }
+
+        const descriptor = Object.getOwnPropertyDescriptor(prototype, key);
+
+        if (descriptor?.get) {
+          result[key] = descriptor.get.call(this);
+        }
       }
 
-      const descriptor = Object.getOwnPropertyDescriptor(prototype, key);
-
-      if (descriptor?.get) {
-        result[key] = descriptor.get.call(this);
-      }
+      prototype = Object.getPrototypeOf(prototype);
     }
 
     return result as Omit<TaonAuthContextHasAccess, 'context' | 'clone'>;

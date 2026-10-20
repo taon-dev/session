@@ -96,7 +96,6 @@ export * from './taon-session-user/taon-session-user.provider';
 export * from './taon-session-user/taon-session-user.repository'; 
 export * from './taon-session-user/taon-session-user.subscriber'; 
 export * from './taon-session-user/taon-session-user.utils'; 
-export * from './taon-authorization-backoffice/i18n/taon-authorization-backoffice.translation'; 
 export * from './taon-group/taon-group-backoffice/taon-group-backoffice.component'; // @browser
 export * from './taon-group/taon-group-backoffice/taon-group-backoffice.models'; 
 export * from './taon-group/taon-group-backoffice/taon-group-backoffice.routes'; // @browser
@@ -113,7 +112,6 @@ export * from './taon-role/taon-role-backoffice/taon-role-backoffice.models';
 export * from './taon-role/taon-role-backoffice/taon-role-backoffice.routes'; // @browser
 export * from './taon-role/taon-role-backoffice/taon-role-details.component'; // @browser
 export * from './taon-role/taon-role-chooser/taon-role-chooser.component'; // @browser
-export * from './taon-session/i18n/taon-session.translation'; 
 export * from './taon-session/taon-profile/taon-profile.abstract.context'; 
 export * from './taon-session/taon-profile/taon-profile.api.service'; // @browser
 export * from './taon-session/taon-profile/taon-profile.config.service'; // @browser
@@ -134,29 +132,13 @@ export * from './taon-session/taon-session-backoffice/taon-session-backoffice.mo
 export * from './taon-session/taon-session-backoffice/taon-session-backoffice.routes'; // @browser
 export * from './taon-session/taon-session-backoffice/taon-session-details.component'; // @browser
 export * from './taon-session/taon-session-button/taon-session-button.component'; // @browser
-export * from './taon-session-user/i18n/taon-session-user.translation'; 
 export * from './taon-session-user/taon-session-backoffice-users/taon-session-backoffice-users.component'; // @browser
 export * from './taon-session-user/taon-session-backoffice-users/taon-session-backoffice-users.models'; 
 export * from './taon-session-user/taon-session-backoffice-users/taon-session-backoffice-users.routes'; // @browser
 export * from './taon-session-user/taon-session-backoffice-users/taon-session-user-details.component'; // @browser
-export * from './taon-group/taon-group-backoffice/i18n/taon-group-backoffice.translation'; 
-export * from './taon-group/taon-group-chooser/i18n/taon-group-chooser.translation'; 
-export * from './taon-permission/taon-permission-backoffice/i18n/taon-permission-backoffice.translation'; 
-export * from './taon-permission/taon-permission-chooser/i18n/taon-permission-chooser.translation'; 
-export * from './taon-permission/taon-permission-view-edit/i18n/taon-permission-view-edit.translation'; 
-export * from './taon-role/taon-role-backoffice/i18n/taon-role-backoffice.translation'; 
-export * from './taon-role/taon-role-chooser/i18n/taon-role-chooser.translation'; 
-export * from './taon-session/taon-profile/i18n/taon-profile.translation'; 
 export * from './taon-session/taon-profile/taon-profile-picture/taon-profile-picture.component'; // @browser
 export * from './taon-session/taon-profile/taon-profile-picture/taon-profile-picture.models'; 
 export * from './taon-session/taon-profile/taon-profile-picture/taon-profile-picture.routes'; // @browser
-export * from './taon-session/taon-session/i18n/taon-session.translation'; 
 export * from './taon-session/taon-session/social-buttons/google-login-register-button.component'; // @browser
 export * from './taon-session/taon-session/taon-session-profile/taon-session-profile.component'; // @browser
 export * from './taon-session/taon-session/taon-session-profile/taon-session-profile.models'; 
-export * from './taon-session/taon-session-backoffice/i18n/taon-session-backoffice.translation'; 
-export * from './taon-session/taon-session-button/i18n/taon-session-button.translation'; 
-export * from './taon-session-user/taon-session-backoffice-users/i18n/taon-session-backoffice-users.translation'; 
-export * from './taon-session/taon-profile/taon-profile-picture/i18n/taon-profile-picture.translation'; 
-export * from './taon-session/taon-session/social-buttons/i18n/social-buttons.translation'; 
-export * from './taon-session/taon-session/taon-session-profile/i18n/taon-session-profile.translation'; 

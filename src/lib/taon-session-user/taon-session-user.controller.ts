@@ -50,7 +50,7 @@ export class TaonSessionUserController extends TaonBaseCrudController<
   );
 
   private readonly taonAuthContextRepository = this.injectCustomRepo(
-    TaonAuthContextRepository<TaonSessionCoreAuthorization>,
+    TaonAuthContextRepository,
   );
 
   //#endregion

@@ -2,6 +2,7 @@
 
 import {
   ExpressRequest,
+  Taon,
   TaonBaseCustomRepository,
   TaonRepository,
 } from 'taon/src';
@@ -65,8 +66,11 @@ export interface PersistAuthorizationTreeOptions<
 })
 export class TaonAuthContextRepository<
   AUTH extends TaonAuthorizationSchema,
+  AUTH_ENTITY extends TaonAuthContextEntity<AUTH>,
 > extends TaonBaseCustomRepository {
   //#region fields & getters
+  entityClassResolveFn: () => typeof TaonAuthContextEntity<AUTH> = () =>
+    TaonAuthContextEntity;
 
   private readonly taonSessionUserRepository = this.injectCustomRepo(
     TaonSessionUserRepository,
@@ -104,10 +108,10 @@ export class TaonAuthContextRepository<
   public async getContext(
     userId?: number | string,
     sessionId?: number | string,
-  ): Promise<TaonAuthContextEntity<AUTH>> {
+  ): Promise<AUTH_ENTITY> {
     //#region @websqlFunc
 
-    const context = new TaonAuthContextEntity<AUTH>();
+    const context = new (this.entityClassResolveFn())();
 
     context.user = !userId
       ? null
@@ -143,7 +147,7 @@ export class TaonAuthContextRepository<
 
     context.isLocalhostBackend = !this.taonSessionProvider.isProduction;
 
-    return context;
+    return context as any;
 
     //#endregion
   }
@@ -245,9 +249,9 @@ export class TaonAuthContextRepository<
           const role = roleByCode.get(roleCode);
 
           if (!role) {
-            throw new Error(
-              `Role "${roleCode}" is not defined in authorization.roles.`,
-            );
+            Taon.error({
+              message: `Role "${roleCode}" is not defined in authorization.roles.`,
+            });
           }
 
           await this.assignRole(group, role);
