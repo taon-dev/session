@@ -16,6 +16,6 @@ msgstr "Tylko super użytkownicy mogą zmienić inny profil użytkownika"
 msgid "User not found"
 msgstr "Użytkownik nie znaleziony"
 
-#: src/lib/taon-session/taon-profile/taon-profile.controller.ts:128
+#: src/lib/taon-session/taon-profile/taon-profile.controller.ts:135
 msgid "You are not authroized to upload many files"
 msgstr "Nie masz uprawnień do przesyłania wielu plików"

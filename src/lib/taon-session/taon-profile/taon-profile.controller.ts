@@ -110,6 +110,13 @@ export class TaonProfileController extends TaonBaseStorageController<TaonProfile
     //#endregion
   }
 
+  async isPublicStorageKey(key: string): Promise<boolean> {
+    //#region @websqlFunc
+
+    return true;
+    //#endregion
+  }
+
   protected async handleUploadFiles(
     bodyFormDataFiles: TaonUploadedFile[],
     queryParams?: TaonProfileModels.PictureQuery,

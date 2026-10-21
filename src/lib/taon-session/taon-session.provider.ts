@@ -400,6 +400,10 @@ export class TaonSessionProvider extends TaonBaseProvider {
   // rateLimits = new TaonSessionRateLimitsConfig();
 
   public get isLocalhost(): boolean {
+    if (!this.ctx) {
+      console.trace(`[isLocalhost] accessing without context`);
+      return void 0 as any;
+    }
     const originUrl = this.ctx.frontendHostUri;
     return (
       originUrl.hostname === 'localhost' ||

@@ -16,6 +16,6 @@ msgstr "Only super users can change another user profile picture"
 msgid "User not found"
 msgstr "User not found"
 
-#: src/lib/taon-session/taon-profile/taon-profile.controller.ts:128
+#: src/lib/taon-session/taon-profile/taon-profile.controller.ts:135
 msgid "You are not authroized to upload many files"
 msgstr "You are not authroized to upload many files"
