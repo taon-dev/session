@@ -106,6 +106,7 @@ import {
   ENV_ANGULAR_NODE_APP_CONFIG_REFRESH_TOKEN_SECRET,
   ENV_ANGULAR_NODE_APP_CONFIG_SUPER_USERS,
 } from './lib/env/env.angular-node-app';
+import { TaonSudoAbstractContext } from '@taon-dev/sudo/src';
 // @placeholder-for-imports
 //#endregion
 
@@ -449,6 +450,7 @@ var SessionContext = Taon.createContext(() => ({
   ...HOST_CONFIG['SessionContext'],
   contexts: {
     TaonBaseContext,
+    TaonSudoAbstractContext,
     TaonSessionAbstractContext,
   },
   migrations: {
