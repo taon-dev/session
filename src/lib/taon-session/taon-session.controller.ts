@@ -59,26 +59,26 @@ import { TaonSessionUtils } from './taon-session.utils';
 })
 export class TaonSessionController extends TaonBaseController {
   //#region fields & getters
-  private readonly taonSessionKvRepository = this.injectKvRepository(
+  protected readonly taonSessionKvRepository = this.injectKvRepository(
     TaonSessionKvRepository,
   );
 
-  private readonly taonSessionUserIdentityRepository = this.injectCustomRepo(
+  protected readonly taonSessionUserIdentityRepository = this.injectCustomRepo(
     TaonSessionUserIdentityRepository,
   );
 
-  private readonly taonSessionProvider =
+  protected readonly taonSessionProvider =
     this.injectProvider(TaonSessionProvider);
 
-  private readonly taonSessionUserRepository = this.injectCustomRepo(
+  protected readonly taonSessionUserRepository = this.injectCustomRepo(
     TaonSessionUserRepository,
   );
 
-  private readonly taonAuthContextRepository = this.injectCustomRepo(
+  protected readonly taonAuthContextRepository = this.injectCustomRepo(
     TaonAuthContextRepository,
   );
 
-  private readonly taonSessionRepository = this.injectCustomRepo(
+  protected readonly taonSessionRepository = this.injectCustomRepo(
     TaonSessionRepository,
   );
   //#endregion
@@ -201,7 +201,7 @@ export class TaonSessionController extends TaonBaseController {
   connectIdentity(@Body() data: TaonLoginData): Taon.Response<boolean> {
     //#region @websqlFunc
     return async (req, res, { t }) => {
-      const userId = Number((req as any)!.userId);
+      const userId = Number(req.userId);
       const provider = data.googleCode
         ? TaonSessionIdentityProvider.GOOGLE
         : data.email && data.password
@@ -673,7 +673,11 @@ export class TaonSessionController extends TaonBaseController {
   emptyContext(): Taon.Response<TaonAuthContextEntity> {
     //#region @websqlFunc
     return async (req, res) => {
-      const context = await this.taonAuthContextRepository.getContext();
+      const context = await this.taonAuthContextRepository.getContext(
+        void 0,
+        void 0,
+        true,
+      );
 
       return this.prepareForFrontend(context);
     };

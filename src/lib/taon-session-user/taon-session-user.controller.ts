@@ -45,11 +45,11 @@ export class TaonSessionUserController extends TaonBaseCrudController<
   entityClassResolveFn: () => typeof TaonSessionUserEntity = () =>
     TaonSessionUserEntity;
 
-  private readonly taonSessionRepository = this.injectCustomRepo(
+  protected readonly taonSessionRepository = this.injectCustomRepo(
     TaonSessionRepository,
   );
 
-  private readonly taonAuthContextRepository = this.injectCustomRepo(
+  protected readonly taonAuthContextRepository = this.injectCustomRepo(
     TaonAuthContextRepository,
   );
 

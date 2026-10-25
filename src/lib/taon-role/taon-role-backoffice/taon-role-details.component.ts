@@ -67,12 +67,12 @@ export class TaonRoleDetailsComponent implements OnChanges {
    * Stable reference, so that nested datatables do not reload on every
    * change detection cycle while permissions are not loaded yet.
    */
-  private readonly emptyPermissionRows: TaonRoleBackofficeModels.AssignedPermissionRow[] =
+  protected readonly emptyPermissionRows: TaonRoleBackofficeModels.AssignedPermissionRow[] =
     [];
 
-  private readonly emptyIds: number[] = [];
+  protected readonly emptyIds: number[] = [];
 
-  private readonly assignedPermissionIdsByRoleId = signal<
+  protected readonly assignedPermissionIdsByRoleId = signal<
     Record<number, number[]>
   >({});
 

@@ -41,7 +41,7 @@ export class TaonPermissionViewEditComponent {
 
   //#region inject
 
-  private readonly taonPermissionApiService = inject(TaonPermissionApiService);
+  protected readonly taonPermissionApiService = inject(TaonPermissionApiService);
 
   //#endregion
 

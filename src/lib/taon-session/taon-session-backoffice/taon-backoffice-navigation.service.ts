@@ -6,9 +6,9 @@ export type TaonBackofficeEntity = 'user' | 'group' | 'role' | 'permission' | 's
 
 @Injectable()
 export class TaonBackofficeNavigationService {
-  private readonly router = inject(Router);
+  protected readonly router = inject(Router);
 
-  private readonly route = inject(ActivatedRoute);
+  protected readonly route = inject(ActivatedRoute);
 
   detailsLink(entity: TaonBackofficeEntity, id: number | string): UrlTree {
     const ancestry = this.route.snapshot.pathFromRoot;

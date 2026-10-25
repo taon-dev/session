@@ -67,12 +67,12 @@ export class TaonGroupDetailsComponent implements OnChanges {
    * Stable reference, so that nested datatables do not reload on every
    * change detection cycle while roles are not loaded yet.
    */
-  private readonly emptyRoleRows: TaonGroupBackofficeModels.AssignedRoleRow[] =
+  protected readonly emptyRoleRows: TaonGroupBackofficeModels.AssignedRoleRow[] =
     [];
 
-  private readonly emptyIds: number[] = [];
+  protected readonly emptyIds: number[] = [];
 
-  private readonly assignedRoleIdsByGroupId = signal<Record<number, number[]>>(
+  protected readonly assignedRoleIdsByGroupId = signal<Record<number, number[]>>(
     {},
   );
 

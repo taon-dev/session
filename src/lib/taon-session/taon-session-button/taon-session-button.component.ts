@@ -63,7 +63,7 @@ const t = Translation.for(Taon.__FILE_RELATIVE_PATH, Taon.LANG_IMPORT_MAP);
 export class TaonSessionButtonComponent implements OnInit, OnDestroy {
   readonly t = t.for(this);
 
-  private readonly snackBar = inject(MatSnackBar);
+  protected readonly snackBar = inject(MatSnackBar);
 
   showLabels = input(true);
 
@@ -88,9 +88,9 @@ export class TaonSessionButtonComponent implements OnInit, OnDestroy {
   @Input()
   config: TaonSessionConfig;
 
-  private readonly dialog = inject(MatDialog);
+  protected readonly dialog = inject(MatDialog);
 
-  private readonly router = inject(Router);
+  protected readonly router = inject(Router);
 
   protected sub = new Subscription();
 

@@ -67,7 +67,7 @@ export class TaonSessionUserDetailsComponent implements OnChanges {
   }
   //#region inject
 
-  private readonly taonGroupApiService = inject(TaonGroupApiService);
+  protected readonly taonGroupApiService = inject(TaonGroupApiService);
 
   //#endregion
 
@@ -83,12 +83,12 @@ export class TaonSessionUserDetailsComponent implements OnChanges {
    * Stable reference, so that nested datatables do not reload on every
    * change detection cycle while groups are not loaded yet.
    */
-  private readonly emptyGroupRows: TaonSessionBackofficeUsersModels.AssignedGroupRow[] =
+  protected readonly emptyGroupRows: TaonSessionBackofficeUsersModels.AssignedGroupRow[] =
     [];
 
-  private readonly emptyIds: number[] = [];
+  protected readonly emptyIds: number[] = [];
 
-  private readonly assignedGroupIdsByUserId = signal<Record<number, number[]>>(
+  protected readonly assignedGroupIdsByUserId = signal<Record<number, number[]>>(
     {},
   );
 

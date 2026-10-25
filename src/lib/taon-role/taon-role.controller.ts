@@ -40,11 +40,11 @@ export class TaonRoleController extends TaonBaseCrudController<TaonRoleEntity> {
 
   taonRoleRepository = this.injectCustomRepo(TaonRoleRepository);
 
-  private readonly taonRolePermissionRepository = this.injectCustomRepo(
+  protected readonly taonRolePermissionRepository = this.injectCustomRepo(
     TaonRolePermissionRepository,
   );
 
-  private readonly taonSessionRepository = this.injectCustomRepo(
+  protected readonly taonSessionRepository = this.injectCustomRepo(
     TaonSessionRepository,
   );
 

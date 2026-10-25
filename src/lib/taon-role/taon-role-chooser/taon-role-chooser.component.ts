@@ -42,9 +42,9 @@ export class TaonRoleChooserComponent {
 
   //#region inject
 
-  private readonly taonRoleApiService = inject(TaonRoleApiService);
+  protected readonly taonRoleApiService = inject(TaonRoleApiService);
 
-  private readonly taonGroupApiService = inject(TaonGroupApiService);
+  protected readonly taonGroupApiService = inject(TaonGroupApiService);
 
   //#endregion
 

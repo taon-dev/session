@@ -28,11 +28,11 @@ export class TaonSessionRepository extends TaonBaseRepository<TaonSessionEntity>
   entityClassResolveFn: () => typeof TaonSessionEntity = () =>
     TaonSessionEntity;
 
-  private readonly taonSessionKvRepository = this.injectKvRepository(
+  protected readonly taonSessionKvRepository = this.injectKvRepository(
     TaonSessionKvRepository,
   );
 
-  private readonly taonSessionProvider =
+  protected readonly taonSessionProvider =
     this.injectProvider(TaonSessionProvider);
   //#endregion
 
@@ -140,6 +140,11 @@ export class TaonSessionRepository extends TaonBaseRepository<TaonSessionEntity>
   //#endregion
 
   //#region throw if not authroized
+  /**
+   * This function is going to assign sessionId and userId to request.
+   * req.userId, req.sessionId
+   * Without this function .getContext() will not work.
+   */
   async throwIfNotAuthenticated({
     req,
     res,

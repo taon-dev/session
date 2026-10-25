@@ -40,7 +40,7 @@ export class TaonProfilePictureComponent implements OnDestroy, OnInit, OnChanges
 
   public readonly t = t.for(this);
 
-  private readonly taonProfileApiService = inject(TaonProfileApiService);
+  protected readonly taonProfileApiService = inject(TaonProfileApiService);
 
   //#endregion
 

@@ -113,7 +113,7 @@ export class TaonSessionComponent implements AfterViewInit, OnInit, OnDestroy {
   //#region fields & getters
   public state: TaonSessionState;
 
-  private readonly dialogData = inject<TaonSessionAndSessionButtonCommon>(
+  protected readonly dialogData = inject<TaonSessionAndSessionButtonCommon>(
     MAT_DIALOG_DATA,
     {
       optional: true,
@@ -151,7 +151,7 @@ export class TaonSessionComponent implements AfterViewInit, OnInit, OnDestroy {
     TaonSessionStateService,
   );
 
-  private readonly activateHook = this.dialogData?.activeSessionInstanceId
+  protected readonly activateHook = this.dialogData?.activeSessionInstanceId
     ? this.taonSessionStateService.activate({
         from: 'taon-session when in dialog',
         hash: this.dialogData.activeSessionInstanceId,

@@ -48,15 +48,15 @@ export class TaonGroupController extends TaonBaseCrudController<
 
   taonGroupRepository = this.injectCustomRepo(TaonGroupRepository);
 
-  private readonly taonGroupRoleRepository = this.injectCustomRepo(
+  protected readonly taonGroupRoleRepository = this.injectCustomRepo(
     TaonGroupRoleRepository,
   );
 
-  private readonly taonSessionUserGroupRepository = this.injectCustomRepo(
+  protected readonly taonSessionUserGroupRepository = this.injectCustomRepo(
     TaonSessionUserGroupRepository,
   );
 
-  private readonly taonSessionRepository = this.injectCustomRepo(
+  protected readonly taonSessionRepository = this.injectCustomRepo(
     TaonSessionRepository,
   );
 

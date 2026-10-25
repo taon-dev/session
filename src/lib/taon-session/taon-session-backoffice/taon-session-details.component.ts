@@ -37,7 +37,7 @@ export class TaonSessionDetailsComponent implements OnChanges {
 
   readonly taonBackofficeNavigationService = inject(TaonBackofficeNavigationService);
 
-  private readonly taonSessionBackofficeApiService = inject(TaonSessionBackofficeApiService);
+  protected readonly taonSessionBackofficeApiService = inject(TaonSessionBackofficeApiService);
 
   readonly session = signal<TaonSessionBackofficeModels.SessionDetails | null>(null);
 

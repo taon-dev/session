@@ -72,44 +72,62 @@ export class TaonAuthContextRepository<
   entityClassResolveFn: () => typeof TaonAuthContextEntity<AUTH> = () =>
     TaonAuthContextEntity;
 
-  private readonly taonSessionUserRepository = this.injectCustomRepo(
+  protected readonly taonSessionUserRepository = this.injectCustomRepo(
     TaonSessionUserRepository,
   );
 
-  private readonly taonSessionRepository = this.injectCustomRepo(
+  protected readonly taonSessionRepository = this.injectCustomRepo(
     TaonSessionRepository,
   );
 
-  private readonly taonGroupRoleRepository = this.injectCustomRepo(
+  protected readonly taonGroupRoleRepository = this.injectCustomRepo(
     TaonGroupRoleRepository,
   );
 
-  private readonly taonRolePermissionRepository = this.injectCustomRepo(
+  protected readonly taonRolePermissionRepository = this.injectCustomRepo(
     TaonRolePermissionRepository,
   );
 
-  private readonly taonGroupRepository =
+  protected readonly taonGroupRepository =
     this.injectCustomRepo(TaonGroupRepository);
 
-  private readonly taonPermissionRepository = this.injectCustomRepo(
+  protected readonly taonPermissionRepository = this.injectCustomRepo(
     TaonPermissionRepository,
   );
 
-  private readonly taonSessionProvider =
+  protected readonly taonSessionProvider =
     this.injectProvider(TaonSessionProvider);
 
-  private readonly taonRoleRepository =
+  protected readonly taonRoleRepository =
     this.injectCustomRepo(TaonRoleRepository);
 
   //#endregion
 
   //#region API / get context
-
+  /**
+   * Please use: await this.taonSessionRepository.throwIfNotAuthenticated(..)
+   * before this method to get proper
+   * @param userId  @param sessionId
+   * assigned to express request (req.userId, req.sessionId)
+   *
+   * @param returnEmptyContext getting empty context for not authenticated user
+   */
   public async getContext(
-    userId?: number | string,
-    sessionId?: number | string,
+    userId: number | string,
+    sessionId: number | string,
+    returnEmptyContext = false,
   ): Promise<AUTH_ENTITY> {
     //#region @websqlFunc
+
+    if ((!userId || !sessionId) && !returnEmptyContext) {
+      throw new Error(`User userId and sessionId is empty. Maybe you forgot assign sesison:
+
+      await this.taonSessionRepository.throwIfNotAuthenticated(..);
+
+      Before this request?
+
+      `);
+    }
 
     const context = new (this.entityClassResolveFn())();
 

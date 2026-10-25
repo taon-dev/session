@@ -41,7 +41,7 @@ export class TaonGroupChooserComponent {
 
   //#region inject
 
-  private readonly taonGroupApiService = inject(TaonGroupApiService);
+  protected readonly taonGroupApiService = inject(TaonGroupApiService);
 
   //#endregion
 

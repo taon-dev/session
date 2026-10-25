@@ -25,11 +25,11 @@ export class TaonSessionUserIdentityRepository extends TaonBaseRepository<TaonSe
   entityClassResolveFn: () => typeof TaonSessionUserIdentityEntity = () =>
     TaonSessionUserIdentityEntity;
 
-  private readonly userRepository = this.injectCustomRepo(
+  protected readonly userRepository = this.injectCustomRepo(
     TaonSessionUserRepository,
   );
 
-  private readonly sessionProvider = this.injectProvider(TaonSessionProvider);
+  protected readonly sessionProvider = this.injectProvider(TaonSessionProvider);
 
   normalizeEmail(email: string): string {
     //#region @websqlFunc

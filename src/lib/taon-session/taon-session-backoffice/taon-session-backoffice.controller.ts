@@ -33,19 +33,19 @@ export class TaonSessionBackofficeController extends TaonBaseCrudController<
 > {
   entityClassResolveFn = () => TaonSessionEntity;
 
-  private readonly taonSessionRepository = this.injectCustomRepo(
+  protected readonly taonSessionRepository = this.injectCustomRepo(
     TaonSessionRepository,
   );
 
-  private readonly taonAuthContextRepository = this.injectCustomRepo(
+  protected readonly taonAuthContextRepository = this.injectCustomRepo(
     TaonAuthContextRepository,
   );
 
-  private readonly taonSessionUserRepository = this.injectCustomRepo(
+  protected readonly taonSessionUserRepository = this.injectCustomRepo(
     TaonSessionUserRepository,
   );
 
-  private readonly taonSessionUserIdentityRepository = this.injectCustomRepo(
+  protected readonly taonSessionUserIdentityRepository = this.injectCustomRepo(
     TaonSessionUserIdentityRepository,
   );
 
