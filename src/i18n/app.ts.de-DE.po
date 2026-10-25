@@ -4,27 +4,27 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/app.ts:153
+#: src/app.ts:154
 msgid "Basic app info"
 msgstr "Grundinformationen über die App"
 
-#: src/app.ts:154
+#: src/app.ts:155
 msgid "Name"
 msgstr "Name"
 
-#: src/app.ts:156
+#: src/app.ts:157
 msgid "Angular version: [[ version ]]"
 msgstr "Winkelversion: [[ version ]]"
 
-#: src/app.ts:160
+#: src/app.ts:161
 msgid "Taon backend: [[ mode ]]"
 msgstr "Taon Backend: [[ mode ]]"
 
-#: src/app.ts:183
+#: src/app.ts:184
 msgctxt "header-taon-admin"
 msgid "Hello [[ username ]]"
 msgstr "Hallo [[ username ]]"
 
-#: src/app.ts:190
+#: src/app.ts:191
 msgid "Please login to use Taon Admin"
 msgstr "Bitte loggen Sie sich bei Taon Admin an"
