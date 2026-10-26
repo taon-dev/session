@@ -79,7 +79,7 @@ export class TaonSessionButtonComponent implements OnInit, OnDestroy {
 
   TaonSessionState = TaonSessionState;
 
-  protected readonly taonSessionStateService = inject(TaonSessionStateService);
+  public readonly taonSessionStateService = inject(TaonSessionStateService);
 
   protected readonly taonSessionConfigService = inject(
     TaonSessionConfigService,
