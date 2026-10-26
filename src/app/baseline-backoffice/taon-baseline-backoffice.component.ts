@@ -4,7 +4,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Translation } from '@taon-dev/i18n/src';
 import { Taon } from 'taon/src';
-import { ENV_ANGULAR_NODE_APP_WEBSITE_TITLE } from '@taon-dev/session/src';
 import {
   TaonAdminLayoutComponent,
   TaonBackofficeNotificationsComponent,
@@ -32,8 +31,7 @@ const t = Translation.for(Taon.__FILE_RELATIVE_PATH, Taon.LANG_IMPORT_MAP);
 export class TaonBaselineBackofficeComponent {
   readonly t = t.for(this);
 
-  title =
-    ENV_ANGULAR_NODE_APP_WEBSITE_TITLE || this.t.gettext('Application Title');
+  title = this.t.gettext('Application Title');
 
   get adminRoutes() {
     return TaonBaselineBackofficeRoutes[0].children;
