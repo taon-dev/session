@@ -147,9 +147,9 @@ export class TaonSessionRepository extends TaonBaseRepository<TaonSessionEntity>
    */
   async throwIfNotAuthenticated({
     req,
-    res,
     next,
-  }: Pick<TaonServerMiddlewareInterceptOptions, 'req' | 'res'> &
+  }: Pick<TaonServerMiddlewareInterceptOptions, 'req'> &
+    Partial<Pick<TaonServerMiddlewareInterceptOptions, 'res'>> &
     Partial<Pick<TaonServerMiddlewareInterceptOptions, 'next'>>): Promise<{
     userId?: string | number;
     sessionId?: string | number;
