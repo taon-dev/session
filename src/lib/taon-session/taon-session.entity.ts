@@ -15,11 +15,12 @@ import { _ } from 'tnp-core/src';
 
 import { TaonSessionUserEntity } from '../taon-session-user/taon-session-user.entity';
 import { TaonSessionIdentityProvider } from '../taon-session-user/taon-session-user.models';
+import { TaonSessionEntityClassName } from './taon-session.models';
 
 //#endregion
 
 @TaonEntity({
-  className: 'TaonSessionEntity',
+  className: TaonSessionEntityClassName,
   createTable: true,
 })
 export class TaonSessionEntity extends TaonBaseAbstractEntity<TaonSessionEntity> {

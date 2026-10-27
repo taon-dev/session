@@ -3,6 +3,8 @@ import { Taon } from 'taon/src';
 
 const t = Translation.for(Taon.__FILE_RELATIVE_PATH, Taon.LANG_IMPORT_MAP);
 
+export const TaonSessionEntityClassName = 'TaonSessionEntity';
+
 export interface TaonSessionAndSessionButtonCommon {
   activeSessionInstanceId: string;
 }
