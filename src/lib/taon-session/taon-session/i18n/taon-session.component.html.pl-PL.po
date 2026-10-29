@@ -4,6 +4,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+#: src/lib/taon-session/taon-session/taon-session.component.html:7
+msgid "Close dialog"
+msgstr "Zamknij dialog"
+
 #: src/lib/taon-session/taon-session/taon-session.component.html:33
 msgid "Loading authenticaiton info.."
 msgstr "Ładowanie informacji o autentyczności."
@@ -24,6 +28,11 @@ msgstr "Logowanie lub rejestracja"
 #: src/lib/taon-session/taon-session/taon-session.component.html:103
 msgid "Email"
 msgstr "E-mail"
+
+#: src/lib/taon-session/taon-session/taon-session.component.html:112
+#: src/lib/taon-session/taon-session/taon-session.component.html:113
+msgid "Login by email (disabled)"
+msgstr "Logowanie e-mail (wyłączone)"
 
 #: src/lib/taon-session/taon-session/taon-session.component.html:123
 msgid "Please enter a valid email address"
@@ -85,10 +94,6 @@ msgstr "Z powodzeniem wpisz się"
 #: src/lib/taon-session/taon-session/taon-session.component.html:405
 msgid "Welcome"
 msgstr "Witamy."
-
-#: src/lib/taon-session/taon-session/taon-session.component.html:113
-msgid "Login by email (disabled)"
-msgstr "Logowanie e-mail (wyłączone)"
 
 #: src/lib/taon-session/taon-session/taon-session.component.html:200
 msgid "Login"
