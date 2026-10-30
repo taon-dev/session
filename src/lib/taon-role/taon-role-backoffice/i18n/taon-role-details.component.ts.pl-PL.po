@@ -6,7 +6,7 @@ msgstr ""
 
 #: src/lib/taon-role/taon-role-backoffice/taon-role-details.component.ts:85
 msgid "ID"
-msgstr "IDu"
+msgstr "ID"
 
 #: src/lib/taon-role/taon-role-backoffice/taon-role-details.component.ts:89
 msgid "Name"
@@ -26,8 +26,8 @@ msgstr "Akcje"
 
 #: src/lib/taon-role/taon-role-backoffice/taon-role-details.component.ts:108
 msgid "Permission details"
-msgstr "Szczegóły zezwolenia"
+msgstr "Szczegóły uprawnienia"
 
 #: src/lib/taon-role/taon-role-backoffice/taon-role-details.component.ts:116
 msgid "Remove permission from role"
-msgstr "/Zdejmij pozwolenie /z roli"
+msgstr "Usuń uprawnienie z roli"

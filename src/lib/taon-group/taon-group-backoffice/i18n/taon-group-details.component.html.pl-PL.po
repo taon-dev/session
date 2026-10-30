@@ -15,4 +15,4 @@ msgstr "Role grupy"
 
 #: src/lib/taon-group/taon-group-backoffice/taon-group-details.component.html:18
 msgid "Assign role"
-msgstr "Wydział"
+msgstr "Przypisz rolę"

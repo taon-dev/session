@@ -7,7 +7,7 @@ msgstr ""
 #: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.html:1
 #: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.html:2
 msgid "User details #[[ id ]]"
-msgstr "Benutzerdaten #[[ id ]]"
+msgstr "Benutzerdetails #[[ id ]]"
 
 #: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.html:16
 msgid "First Name"
@@ -27,12 +27,12 @@ msgstr "Anbieter"
 
 #: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.html:96
 msgid "Roles from groups"
-msgstr "Rollen von Gruppen"
+msgstr "Rollen aus Gruppen"
 
 #: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.html:47
 msgid "Assign group"
-msgstr "Zuweisungsgruppe"
+msgstr "Gruppe zuweisen"
 
 #: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.html:106
 msgid "No roles available through this group"
-msgstr "Keine Rollen durch diese Gruppe"
+msgstr "Über diese Gruppe sind keine Rollen verfügbar."

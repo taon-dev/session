@@ -33,7 +33,7 @@
       <h4
         class="mb-3"
         translate>
-        Loading authenticaiton info..
+        Loading authentication info...
       </h4>
 
       <div class="w-full pt-3">
@@ -357,7 +357,7 @@
                 form.get('passwordRepeat')?.hasError('required') &&
                 form.get('passwordRepeat')?.touched
               ">
-              {{ t.gettext('Repeated Password is ') }}
+              {{ t.gettext('Repeated password is ') }}
               <strong translate>required</strong>
             </mat-error>
           </mat-form-field>
@@ -381,7 +381,7 @@
       <h4
         class="mb-3"
         translate>
-        {{ t.gettext('Login Successfully') }}
+        {{ t.gettext('Logged in successfully') }}
       </h4>
 
       @if (!isInsideDialog) {

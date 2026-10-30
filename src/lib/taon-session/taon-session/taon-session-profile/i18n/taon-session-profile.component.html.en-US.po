@@ -21,7 +21,15 @@ msgstr "Username must contain between 1 and 255 characters."
 msgid "Save username"
 msgstr "Save username"
 
-#: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:189
+#: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:181
+msgid "Email Addresses"
+msgstr ""
+
+#: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:183
+msgid "Your email addresses:"
+msgstr ""
+
+#: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:200
 msgid "Logout"
 msgstr "Logout"
 

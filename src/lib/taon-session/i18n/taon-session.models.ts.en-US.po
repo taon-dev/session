@@ -9,8 +9,8 @@ msgid "Invalid Password"
 msgstr "Invalid Password"
 
 #: src/lib/taon-session/taon-session.models.ts:52
-msgid "Not able to login with social account"
-msgstr "Not able to login with social account"
+msgid "Unable to log in with a social account."
+msgstr ""
 
 #: src/lib/taon-session/taon-session.models.ts:56
 msgid "Passwords do not match each other"

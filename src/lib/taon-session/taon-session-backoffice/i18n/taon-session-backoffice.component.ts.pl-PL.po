@@ -6,7 +6,7 @@ msgstr ""
 
 #: src/lib/taon-session/taon-session-backoffice/taon-session-backoffice.component.ts:40
 msgid "User ID"
-msgstr "Id użytkownika"
+msgstr "ID użytkownika"
 
 #: src/lib/taon-session/taon-session-backoffice/taon-session-backoffice.component.ts:41
 msgid "Device"
@@ -14,7 +14,7 @@ msgstr "Urządzenie"
 
 #: src/lib/taon-session/taon-session-backoffice/taon-session-backoffice.component.ts:42
 msgid "IP"
-msgstr "Wykorzystanie"
+msgstr "IP"
 
 #: src/lib/taon-session/taon-session-backoffice/taon-session-backoffice.component.ts:44
 msgid "Actions"

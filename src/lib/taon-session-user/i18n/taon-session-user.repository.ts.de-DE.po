@@ -6,12 +6,12 @@ msgstr ""
 
 #: src/lib/taon-session-user/taon-session-user.repository.ts:34
 msgid "Username must contain between 1 and 255 characters."
-msgstr "Der Benutzername muss zwischen 1 und 255 Zeichen enthalten."
+msgstr "Der Benutzername muss zwischen 1 und 255 Zeichen lang sein."
 
 #: src/lib/taon-session-user/taon-session-user.repository.ts:58
 #: src/lib/taon-session-user/taon-session-user.repository.ts:76
 msgid "This username is already taken."
-msgstr "Dieser Benutzername ist bereits eingegangen."
+msgstr "Dieser Benutzername ist bereits vergeben."
 
 #: src/lib/taon-session-user/taon-session-user.repository.ts:67
 msgid "User not found."

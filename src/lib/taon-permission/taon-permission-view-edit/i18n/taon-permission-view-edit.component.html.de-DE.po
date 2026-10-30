@@ -10,11 +10,11 @@ msgstr "Beschreibung"
 
 #: src/lib/taon-permission/taon-permission-view-edit/taon-permission-view-edit.component.html:27
 msgid "Save"
-msgstr "- Ich habe es nicht getan."
+msgstr "Speichern"
 
 #: src/lib/taon-permission/taon-permission-view-edit/taon-permission-view-edit.component.html:35
 msgid "Cancel"
-msgstr "Abrufen"
+msgstr "Abbrechen"
 
 #: src/lib/taon-permission/taon-permission-view-edit/taon-permission-view-edit.component.html:40
 msgid "No description"

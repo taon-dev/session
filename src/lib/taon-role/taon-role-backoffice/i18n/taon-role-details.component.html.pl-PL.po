@@ -11,8 +11,8 @@ msgstr "Szczegóły roli #[[ id ]]"
 
 #: src/lib/taon-role/taon-role-backoffice/taon-role-details.component.html:7
 msgid "Role permissions"
-msgstr "Pozwolenia na role"
+msgstr "Uprawnienia roli"
 
 #: src/lib/taon-role/taon-role-backoffice/taon-role-details.component.html:18
 msgid "Assign permission"
-msgstr "Przypisz zezwolenie"
+msgstr "Przypisz uprawnienie"

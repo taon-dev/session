@@ -1,4 +1,5 @@
 //#region imports
+import { TaonAuthContextEntity } from '../../../taon-auth-context/taon-auth-context.entity';
 import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -29,10 +30,10 @@ import {
   TaonConfirmDialogComponent,
   TaonHorizontalWheelScrollDirective,
 } from '@taon-dev/ui/src';
-import { firstValueFrom, map, shareReplay } from 'rxjs';
+import { firstValueFrom, map, shareReplay, tap } from 'rxjs';
 import { Taon } from 'taon/src';
 
-import { GoogleCodeResponse, TaonSessionConfig } from '../../../index';
+import type { GoogleCodeResponse, TaonAuthorizationSchema, TaonSessionConfig } from '../../../index';
 // import { TaonProfilePictureComponent } from '../../../taon-session/taon-profile/taon-profile-picture/taon-profile-picture.component';
 import { TaonSessionApiService } from '../../../taon-session/taon-session.api.service';
 import { TaonSessionStateService } from '../../../taon-session/taon-session.state.service';
@@ -80,8 +81,11 @@ export class TaonSessionProfileComponent {
 
   labelChangeUserName = t.signal.gettext('Change Username');
 
+  context: TaonAuthContextEntity<TaonAuthorizationSchema>;
+
   readonly context$ = this.taonSessionStateService.context$.pipe(
     shareReplay({ bufferSize: 1, refCount: true }),
+    tap(context => (this.context = context)),
   );
 
   readonly usernameForm = new FormGroup({
@@ -212,6 +216,10 @@ export class TaonSessionProfileComponent {
       );
     }),
   );
+
+  get emailAddresses(): string[] {
+    return this.context?.user?.identities?.map(c => c.email) || [];
+  }
 
   @Output()
   readonly logout = new EventEmitter<void>();

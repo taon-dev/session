@@ -6,7 +6,7 @@ msgstr ""
 
 #: src/lib/taon-session/taon-profile/taon-profile-picture/taon-profile-picture.component.html:38
 msgid "Change picture"
-msgstr "Ändern Sie das Bild"
+msgstr "Bild ändern"
 
 #: src/lib/taon-session/taon-profile/taon-profile-picture/taon-profile-picture.component.html:39
 msgid "Upload picture"

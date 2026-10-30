@@ -14,4 +14,4 @@ msgstr "Role"
 
 #: src/lib/taon-authorization-backoffice/taon-authorization-backoffice.routes.ts:41
 msgid "Permissions"
-msgstr "Pozwolenia"
+msgstr "Uprawnienia"

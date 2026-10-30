@@ -9,16 +9,13 @@ msgid "Close dialog"
 msgstr ""
 
 #: src/lib/taon-session/taon-session/taon-session.component.html:33
-msgid "Loading authenticaiton info.."
-msgstr "Loading authenticaiton info.."
+#: src/lib/taon-session/taon-session/taon-session.component.html:66
+msgid "Loading authentication info..."
+msgstr "Loading authentication info..."
 
 #: src/lib/taon-session/taon-session/taon-session.component.html:50
 msgid "Loading..."
 msgstr "Loading..."
-
-#: src/lib/taon-session/taon-session/taon-session.component.html:66
-msgid "Loading authentication info..."
-msgstr "Loading authentication info..."
 
 #: src/lib/taon-session/taon-session/taon-session.component.html:83
 msgid "Login or Register"
@@ -80,16 +77,16 @@ msgid "Repeat Password"
 msgstr "Repeat Password"
 
 #: src/lib/taon-session/taon-session/taon-session.component.html:360
-msgid "Repeated Password is"
-msgstr "Repeated Password is"
+msgid "Repeated password is"
+msgstr ""
 
 #: src/lib/taon-session/taon-session/taon-session.component.html:381
-msgid "{{ t.gettext('Login Successfully') }}"
-msgstr "{{ t.gettext('Login Successfully') }}"
+msgid "{{ t.gettext('Logged in successfully') }}"
+msgstr ""
 
 #: src/lib/taon-session/taon-session/taon-session.component.html:384
-msgid "Login Successfully"
-msgstr "Login Successfully"
+msgid "Logged in successfully"
+msgstr ""
 
 #: src/lib/taon-session/taon-session/taon-session.component.html:405
 msgid "Welcome"
@@ -104,8 +101,8 @@ msgid "Cancel"
 msgstr "Cancel"
 
 #: src/lib/taon-session/taon-session/taon-session.component.html:360
-msgid "Repeated Password is "
-msgstr "Repeated Password is "
+msgid "Repeated password is "
+msgstr ""
 
 #: src/lib/taon-session/taon-session/taon-session.component.html:393
 msgid "Logout"

@@ -6,7 +6,7 @@ msgstr ""
 
 #: src/app/baseline-backoffice/taon-baseline-backoffice.routes.ts:32
 msgid "Welcome"
-msgstr "Witaj"
+msgstr "Witamy"
 
 #: src/app/baseline-backoffice/taon-baseline-backoffice.routes.ts:43
 msgid "Sudo"
@@ -26,4 +26,4 @@ msgstr "Autoryzacja"
 
 #: src/app/baseline-backoffice/taon-baseline-backoffice.routes.ts:86
 msgid "Emails"
-msgstr "Wiadomości e-mail"
+msgstr "E-maile"

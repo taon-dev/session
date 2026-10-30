@@ -10,11 +10,11 @@ msgstr "Gruppe"
 
 #: src/lib/taon-group/taon-group-chooser/taon-group-chooser.component.html:31
 msgid "Assign"
-msgstr "Zuweisung"
+msgstr "Zuweisen"
 
 #: src/lib/taon-group/taon-group-chooser/taon-group-chooser.component.html:39
 msgid "Cancel"
-msgstr "Abrufen"
+msgstr "Abbrechen"
 
 #: src/lib/taon-group/taon-group-chooser/taon-group-chooser.component.html:17
 msgid "No groups available"

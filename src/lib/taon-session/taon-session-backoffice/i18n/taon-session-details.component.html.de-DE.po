@@ -6,7 +6,7 @@ msgstr ""
 
 #: src/lib/taon-session/taon-session-backoffice/taon-session-details.component.html:2
 msgid "Loading session details..."
-msgstr "Lade die Sitzung Details..."
+msgstr "Sitzungsdetails werden geladen..."
 
 #: src/lib/taon-session/taon-session-backoffice/taon-session-details.component.html:9
 msgid "Session ID"
@@ -40,7 +40,7 @@ msgstr "Anbieter"
 
 #: src/lib/taon-session/taon-session-backoffice/taon-session-details.component.html:30
 msgid "Identity ID"
-msgstr "Identitäts-Identifikationsnummer"
+msgstr "Identitäts-ID"
 
 #: src/lib/taon-session/taon-session-backoffice/taon-session-details.component.html:33
 msgid "Device"
@@ -57,27 +57,27 @@ msgstr "Unbekannt"
 
 #: src/lib/taon-session/taon-session-backoffice/taon-session-details.component.html:35
 msgid "IP"
-msgstr "IP"
+msgstr "IP-Adresse"
 
 #: src/lib/taon-session/taon-session-backoffice/taon-session-details.component.html:37
 msgid "User agent"
-msgstr "Benutzeragent"
+msgstr "User-Agent"
 
 #: src/lib/taon-session/taon-session-backoffice/taon-session-details.component.html:39
 msgid "Logged in"
-msgstr "Eingeloggt"
+msgstr "Angemeldet"
 
 #: src/lib/taon-session/taon-session-backoffice/taon-session-details.component.html:41
 msgid "Last activity"
-msgstr "Letzte Tätigkeit"
+msgstr "Letzte Aktivität"
 
 #: src/lib/taon-session/taon-session-backoffice/taon-session-details.component.html:43
 msgid "Expires"
-msgstr "Verfall"
+msgstr "Läuft ab"
 
 #: src/lib/taon-session/taon-session-backoffice/taon-session-details.component.html:45
 msgid "Revoked"
-msgstr "Aufhebung"
+msgstr "Widerrufen"
 
 #: src/lib/taon-session/taon-session-backoffice/taon-session-details.component.html:46
 msgid "Not revoked"
@@ -85,4 +85,4 @@ msgstr "Nicht widerrufen"
 
 #: src/lib/taon-session/taon-session-backoffice/taon-session-details.component.html:48
 msgid "Revocation reason"
-msgstr "Grund für den Widerruf"
+msgstr "Grund des Widerrufs"

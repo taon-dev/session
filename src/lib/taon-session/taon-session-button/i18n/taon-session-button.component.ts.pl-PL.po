@@ -10,20 +10,20 @@ msgstr "Nieobsługiwana przeglądarka"
 
 #: src/lib/taon-session/taon-session-button/taon-session-button.component.ts:118
 msgid "Login is not supported in the embedded browser. Copy the link and open it in Safari or Chrome."
-msgstr "Logowanie nie jest obsługiwane w wbudowanej przeglądarce. Skopuj link i otwórz go w Safari lub Chrome."
+msgstr "Logowanie nie jest obsługiwane w osadzonej przeglądarce. Skopiuj link i otwórz go w Safari lub Chrome."
 
 #: src/lib/taon-session/taon-session-button/taon-session-button.component.ts:121
 msgid "Copy link"
-msgstr "Kopiowanie linku"
+msgstr "Kopiuj link"
 
 #: src/lib/taon-session/taon-session-button/taon-session-button.component.ts:122
 msgid "Cancel"
-msgstr "Anulowanie"
+msgstr "Anuluj"
 
 #: src/lib/taon-session/taon-session-button/taon-session-button.component.ts:134
 msgid "Link copied. Open Safari or Chrome and paste it there."
-msgstr "Link skopiowany. Otwórz Safari lub Chrome i wklej tam."
+msgstr "Link został skopiowany. Otwórz Safari lub Chrome i wklej go."
 
 #: src/lib/taon-session/taon-session-button/taon-session-button.component.ts:137
 msgid "OK"
-msgstr "Dobrze"
+msgstr "OK"

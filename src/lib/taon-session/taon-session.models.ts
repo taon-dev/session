@@ -49,7 +49,7 @@ export const TaonErorsMap = new Map([
   [TaonLoginErrors.INVALID_PASSWORD, t.gettext('Invalid Password')],
   [
     TaonLoginErrors.INVALID_SOCIAL_LOGIN,
-    t.gettext('Not able to login with social account'),
+    t.gettext('Unable to log in with a social account.'),
   ],
   [
     TaonLoginErrors.PASSWORDS_DO_NOT_MATCH,

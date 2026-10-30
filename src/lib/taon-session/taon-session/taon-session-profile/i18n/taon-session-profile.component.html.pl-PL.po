@@ -6,7 +6,7 @@ msgstr ""
 
 #: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:143
 msgid "Current username"
-msgstr "Twoja nazwa użytkownika"
+msgstr "Obecna nazwa użytkownika"
 
 #: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:150
 msgid "New username"
@@ -21,17 +21,25 @@ msgstr "Nazwa użytkownika musi zawierać od 1 do 255 znaków."
 msgid "Save username"
 msgstr "Zapisz nazwę użytkownika"
 
-#: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:189
+#: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:181
+msgid "Email Addresses"
+msgstr "Adresy e-mail"
+
+#: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:183
+msgid "Your email addresses:"
+msgstr "Twoje adresy e-mail:"
+
+#: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:200
 msgid "Logout"
-msgstr "Wyloguj"
+msgstr "Wyloguj się"
 
 #: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:9
 msgid "Connect sign-in method"
-msgstr "Metodę logowania"
+msgstr "Połącz metodę logowania"
 
 #: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:13
 msgid "Connect additional ways of signing in to your account."
-msgstr "Włącz dodatkowe sposoby logowania się do konta."
+msgstr "Połącz dodatkowe metody logowania ze swoim kontem."
 
 #: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:25
 msgid "Email"
@@ -39,11 +47,11 @@ msgstr "E-mail"
 
 #: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:31
 msgid "Disconnect Email"
-msgstr "Odłącz e-mail"
+msgstr "Odłącz adres e-mail"
 
 #: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:82
 msgid "Verified email"
-msgstr "Sprawdzona wiadomość e-mail"
+msgstr "Zweryfikowany adres e-mail"
 
 #: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:89
 msgid "Password"
@@ -55,7 +63,7 @@ msgstr "Hasło musi zawierać od 8 do 128 znaków."
 
 #: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:100
 msgid "Repeat password"
-msgstr "Powtarzaj hasło"
+msgstr "Powtórz hasło"
 
 #: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:111
 msgid "Save password"
@@ -63,4 +71,4 @@ msgstr "Zapisz hasło"
 
 #: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:176
 msgid "Username updated."
-msgstr "Używcy uaktualnieni."
+msgstr "Nazwa użytkownika została zaktualizowana."

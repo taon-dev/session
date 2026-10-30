@@ -6,12 +6,12 @@ msgstr ""
 
 #: src/lib/taon-session/taon-session-backoffice/taon-session-backoffice.controller.ts:71
 msgid "You are not authorized to view sessions"
-msgstr "Nie masz uprawnień do oglądania sesji"
+msgstr "Nie masz uprawnień do przeglądania sesji."
 
 #: src/lib/taon-session/taon-session-backoffice/taon-session-backoffice.controller.ts:159
 msgid "Invalid session ID"
-msgstr "Nieważny identyfikator sesji"
+msgstr "Nieprawidłowy identyfikator sesji."
 
 #: src/lib/taon-session/taon-session-backoffice/taon-session-backoffice.controller.ts:182
 msgid "Session not found"
-msgstr "Sesja nie znaleziona"
+msgstr "Nie znaleziono sesji."

@@ -6,16 +6,16 @@ msgstr ""
 
 #: src/lib/taon-session/taon-profile/taon-profile.controller.ts:78
 msgid "Invalid profile picture request"
-msgstr "Ungültige Profilbilderanfrage"
+msgstr "Ungültige Anfrage zum Ändern des Profilbilds."
 
 #: src/lib/taon-session/taon-profile/taon-profile.controller.ts:91
 msgid "Only super users can change another user profile picture"
-msgstr "Nur Super-Benutzer können ein anderes Benutzerprofilbild ändern"
+msgstr "Nur Superuser können das Profilbild eines anderen Benutzers ändern."
 
 #: src/lib/taon-session/taon-profile/taon-profile.controller.ts:100
 msgid "User not found"
-msgstr "Benutzer nicht gefunden"
+msgstr "Benutzer nicht gefunden."
 
 #: src/lib/taon-session/taon-profile/taon-profile.controller.ts:135
-msgid "You are not authroized to upload many files"
-msgstr "Sie haben nicht die Autorität, viele Dateien hochzuladen."
+msgid "You are not authorized to upload many files"
+msgstr "Sie sind nicht berechtigt, mehrere Dateien hochzuladen."

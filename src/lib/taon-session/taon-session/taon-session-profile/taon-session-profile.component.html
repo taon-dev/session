@@ -177,6 +177,17 @@
       }
     </div>
   </mat-tab>
+
+  <mat-tab [label]="t.gettext('Email Addresses')">
+    <div class="tab-content">
+      <h3 class="mb-2">{{ t.gettext('Your email addresses:') }}</h3>
+      <ul>
+        @for (email of emailAddresses; track $index) {
+          <li>- {{ email }}</li>
+        }
+      </ul>
+    </div>
+  </mat-tab>
 </mat-tab-group>
 
 <mat-divider></mat-divider>

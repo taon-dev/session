@@ -6,4 +6,4 @@ msgstr ""
 
 #: src/lib/taon-session/taon-session-backoffice/taon-session-details.component.ts:71
 msgid "Unable to load session details."
-msgstr "Die Sitzungsdetails können nicht geladen werden."
+msgstr "Sitzungsdetails konnten nicht geladen werden."

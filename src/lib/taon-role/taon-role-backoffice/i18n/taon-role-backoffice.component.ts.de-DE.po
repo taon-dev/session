@@ -6,7 +6,7 @@ msgstr ""
 
 #: src/lib/taon-role/taon-role-backoffice/taon-role-backoffice.component.ts:35
 msgid "ID"
-msgstr "Ausweis"
+msgstr "ID"
 
 #: src/lib/taon-role/taon-role-backoffice/taon-role-backoffice.component.ts:36
 msgid "Name"
@@ -22,4 +22,4 @@ msgstr "Aktionen"
 
 #: src/lib/taon-role/taon-role-backoffice/taon-role-backoffice.component.ts:46
 msgid "Role details"
-msgstr "Rollenbeschreibungen"
+msgstr "Rollendetails"

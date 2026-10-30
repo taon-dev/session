@@ -14,7 +14,7 @@ msgstr "E-Mail"
 
 #: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.ts:112
 msgid "ID"
-msgstr "Ausweis"
+msgstr "ID"
 
 #: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.ts:117
 msgid "Name"
@@ -38,4 +38,4 @@ msgstr "Gruppendetails"
 
 #: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.ts:144
 msgid "Remove group from user"
-msgstr "Entfernen Sie die Gruppe von Benutzer"
+msgstr "Gruppe vom Benutzer entfernen"

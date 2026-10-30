@@ -15,19 +15,27 @@ msgstr "Neuer Benutzername"
 #: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:157
 #: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:158
 msgid "Username must contain between 1 and 255 characters."
-msgstr "Der Benutzername muss zwischen 1 und 255 Zeichen enthalten."
+msgstr "Der Benutzername muss zwischen 1 und 255 Zeichen lang sein."
 
 #: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:169
 msgid "Save username"
-msgstr "Speichern Sie Benutzername"
+msgstr "Benutzernamen speichern"
 
-#: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:189
+#: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:181
+msgid "Email Addresses"
+msgstr "E-Mail-Adressen"
+
+#: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:183
+msgid "Your email addresses:"
+msgstr "Ihre E-Mail-Adressen:"
+
+#: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:200
 msgid "Logout"
-msgstr "Ausstellung"
+msgstr "Abmelden"
 
 #: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:9
 msgid "Connect sign-in method"
-msgstr "Verbindungsschaltungsverfahren"
+msgstr "Anmeldemethode verbinden"
 
 #: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:13
 msgid "Connect additional ways of signing in to your account."
@@ -39,11 +47,11 @@ msgstr "E-Mail"
 
 #: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:31
 msgid "Disconnect Email"
-msgstr "E-Mail-Anschluss"
+msgstr "E-Mail-Verbindung trennen"
 
 #: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:82
 msgid "Verified email"
-msgstr "Überprüfte E-Mail"
+msgstr "Verifizierte E-Mail-Adresse"
 
 #: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:89
 msgid "Password"
@@ -59,8 +67,8 @@ msgstr "Wiederholung des Passworts"
 
 #: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:111
 msgid "Save password"
-msgstr "Speichern Sie das Passwort"
+msgstr "Passwort speichern"
 
 #: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:176
 msgid "Username updated."
-msgstr "Benutzername aktualisiert."
+msgstr "Der Benutzername wurde aktualisiert."

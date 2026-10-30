@@ -6,7 +6,7 @@ msgstr ""
 
 #: src/lib/taon-group/taon-group-backoffice/taon-group-details.component.ts:85
 msgid "ID"
-msgstr "IDu"
+msgstr "ID"
 
 #: src/lib/taon-group/taon-group-backoffice/taon-group-details.component.ts:89
 msgid "Name"
@@ -30,4 +30,4 @@ msgstr "Szczegóły roli"
 
 #: src/lib/taon-group/taon-group-backoffice/taon-group-details.component.ts:116
 msgid "Remove role from group"
-msgstr "Wyeliminowanie roli z grupy"
+msgstr "Usuń rolę z grupy"

@@ -10,7 +10,7 @@ msgstr "Zaloguj się"
 
 #: src/lib/taon-session/taon-session-button/taon-session-button.component.html:38
 msgid "Dashboard"
-msgstr "Płyta kontrolna"
+msgstr "Panel"
 
 #: src/lib/taon-session/taon-session-button/taon-session-button.component.html:55
 msgid "Hello [[ userId ]]"

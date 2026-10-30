@@ -6,7 +6,7 @@ msgstr ""
 
 #: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.ts:101
 msgid "Provider"
-msgstr "Usługodawca"
+msgstr "Dostawca"
 
 #: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.ts:105
 msgid "Email"
@@ -14,7 +14,7 @@ msgstr "E-mail"
 
 #: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.ts:112
 msgid "ID"
-msgstr "IDu"
+msgstr "ID"
 
 #: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.ts:117
 msgid "Name"
@@ -38,4 +38,4 @@ msgstr "Szczegóły grupy"
 
 #: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.ts:144
 msgid "Remove group from user"
-msgstr "Usunięcie grupy z użytkownika"
+msgstr "Usuń grupę użytkownikowi"

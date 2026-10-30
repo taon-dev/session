@@ -6,15 +6,15 @@ msgstr ""
 
 #: src/lib/taon-permission/taon-permission-chooser/taon-permission-chooser.component.html:6
 msgid "Permission"
-msgstr "Erlaubnis"
+msgstr "Berechtigung"
 
 #: src/lib/taon-permission/taon-permission-chooser/taon-permission-chooser.component.html:31
 msgid "Assign"
-msgstr "Zuweisung"
+msgstr "Zuweisen"
 
 #: src/lib/taon-permission/taon-permission-chooser/taon-permission-chooser.component.html:39
 msgid "Cancel"
-msgstr "Abrufen"
+msgstr "Abbrechen"
 
 #: src/lib/taon-permission/taon-permission-chooser/taon-permission-chooser.component.html:17
 msgid "No permissions available"

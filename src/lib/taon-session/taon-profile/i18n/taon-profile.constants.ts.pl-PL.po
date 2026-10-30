@@ -6,4 +6,4 @@ msgstr ""
 
 #: src/lib/taon-session/taon-profile/taon-profile.constants.ts:18
 msgid "Invalid Password"
-msgstr "Nieważne hasło"
+msgstr "Nieprawidłowe hasło"

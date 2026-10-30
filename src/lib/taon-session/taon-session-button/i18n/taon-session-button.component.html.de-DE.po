@@ -6,12 +6,12 @@ msgstr ""
 
 #: src/lib/taon-session/taon-session-button/taon-session-button.component.html:19
 msgid "Login"
-msgstr "Einloggen"
+msgstr "Anmelden"
 
 #: src/lib/taon-session/taon-session-button/taon-session-button.component.html:38
 msgid "Dashboard"
-msgstr "Das Dashboard"
+msgstr "Übersicht"
 
 #: src/lib/taon-session/taon-session-button/taon-session-button.component.html:55
 msgid "Hello [[ userId ]]"
-msgstr "Hello [[ userId ]]"
+msgstr "Hallo [[ userId ]]"

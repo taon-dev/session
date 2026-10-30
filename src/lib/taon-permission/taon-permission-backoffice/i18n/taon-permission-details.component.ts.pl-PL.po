@@ -6,7 +6,7 @@ msgstr ""
 
 #: src/lib/taon-permission/taon-permission-backoffice/taon-permission-details.component.ts:17
 msgid "Permission details #[[ id ]]"
-msgstr "Szczegóły zezwolenia #[[ id ]]"
+msgstr "Szczegóły uprawnienia #[[ id ]]"
 
 #: src/lib/taon-permission/taon-permission-backoffice/taon-permission-details.component.ts:22
 msgid "Description"

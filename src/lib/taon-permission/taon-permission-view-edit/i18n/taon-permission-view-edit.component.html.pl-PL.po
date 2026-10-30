@@ -14,12 +14,12 @@ msgstr "Zapisz"
 
 #: src/lib/taon-permission/taon-permission-view-edit/taon-permission-view-edit.component.html:35
 msgid "Cancel"
-msgstr "Odwołanie"
+msgstr "Anuluj"
 
 #: src/lib/taon-permission/taon-permission-view-edit/taon-permission-view-edit.component.html:40
 msgid "No description"
-msgstr "Nie ma opisu"
+msgstr "Brak opisu"
 
 #: src/lib/taon-permission/taon-permission-view-edit/taon-permission-view-edit.component.html:50
 msgid "Edit"
-msgstr "Wybierz"
+msgstr "Edytuj"

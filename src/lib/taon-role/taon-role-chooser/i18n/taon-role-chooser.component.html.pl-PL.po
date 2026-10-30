@@ -10,12 +10,12 @@ msgstr "Rola"
 
 #: src/lib/taon-role/taon-role-chooser/taon-role-chooser.component.html:31
 msgid "Assign"
-msgstr "Zalecenie"
+msgstr "Przypisz"
 
 #: src/lib/taon-role/taon-role-chooser/taon-role-chooser.component.html:39
 msgid "Cancel"
-msgstr "Odwołanie"
+msgstr "Anuluj"
 
 #: src/lib/taon-role/taon-role-chooser/taon-role-chooser.component.html:17
 msgid "No roles available"
-msgstr "Nie ma dostępnych ról"
+msgstr "Brak dostępnych ról"

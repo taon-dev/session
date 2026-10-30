@@ -6,7 +6,7 @@ msgstr ""
 
 #: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-backoffice-users.component.ts:43
 msgid "ID"
-msgstr "IDu"
+msgstr "ID"
 
 #: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-backoffice-users.component.ts:44
 msgid "Username"

@@ -7,4 +7,4 @@ msgstr ""
 #: src/lib/taon-session/taon-session/social-buttons/google-login-register-button.component.html:23
 #: src/lib/taon-session/taon-session/social-buttons/google-login-register-button.component.html:24
 msgid "Sign in with Google"
-msgstr "Melden Sie sich bei Google an"
+msgstr "Mit Google anmelden"

@@ -132,7 +132,7 @@ export class TaonProfileController extends TaonBaseStorageController<TaonProfile
     } else {
       Taon.error({
         status: getStatusCode(HttpStatusEnum.FORBIDDEN),
-        message: t.gettext('You are not authroized to upload many files'),
+        message: t.gettext('You are not authorized to upload many files'),
       });
     }
     return super.handleUploadFiles(bodyFormDataFiles, queryParams, req, res);

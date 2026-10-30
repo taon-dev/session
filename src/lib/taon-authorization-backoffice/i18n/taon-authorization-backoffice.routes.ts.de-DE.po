@@ -10,8 +10,8 @@ msgstr "Gruppen"
 
 #: src/lib/taon-authorization-backoffice/taon-authorization-backoffice.routes.ts:31
 msgid "Roles"
-msgstr "Rolle"
+msgstr "Rollen"
 
 #: src/lib/taon-authorization-backoffice/taon-authorization-backoffice.routes.ts:41
 msgid "Permissions"
-msgstr "Genehmigungen"
+msgstr "Berechtigungen"

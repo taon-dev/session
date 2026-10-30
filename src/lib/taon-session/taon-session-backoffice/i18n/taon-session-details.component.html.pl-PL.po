@@ -6,15 +6,15 @@ msgstr ""
 
 #: src/lib/taon-session/taon-session-backoffice/taon-session-details.component.html:2
 msgid "Loading session details..."
-msgstr "Szczegóły sesji..."
+msgstr "Ładowanie szczegółów sesji..."
 
 #: src/lib/taon-session/taon-session-backoffice/taon-session-details.component.html:9
 msgid "Session ID"
-msgstr "Identyfikacja sesji"
+msgstr "ID sesji"
 
 #: src/lib/taon-session/taon-session-backoffice/taon-session-details.component.html:11
 msgid "User ID"
-msgstr "Id użytkownika"
+msgstr "ID użytkownika"
 
 #: src/lib/taon-session/taon-session-backoffice/taon-session-details.component.html:13
 msgid "Username"
@@ -28,7 +28,7 @@ msgstr "Użytkownik #[[ id ]]"
 #: src/lib/taon-session/taon-session-backoffice/taon-session-details.component.html:26
 #: src/lib/taon-session/taon-session-backoffice/taon-session-details.component.html:28
 msgid "Unavailable"
-msgstr "Nie dostępne"
+msgstr "Niedostępne"
 
 #: src/lib/taon-session/taon-session-backoffice/taon-session-details.component.html:25
 msgid "Email"
@@ -36,11 +36,11 @@ msgstr "E-mail"
 
 #: src/lib/taon-session/taon-session-backoffice/taon-session-details.component.html:27
 msgid "Provider"
-msgstr "Usługodawca"
+msgstr "Dostawca"
 
 #: src/lib/taon-session/taon-session-backoffice/taon-session-details.component.html:30
 msgid "Identity ID"
-msgstr "Identyfikacja tożsamości"
+msgstr "ID tożsamości"
 
 #: src/lib/taon-session/taon-session-backoffice/taon-session-details.component.html:33
 msgid "Device"
@@ -57,32 +57,32 @@ msgstr "Nieznane"
 
 #: src/lib/taon-session/taon-session-backoffice/taon-session-details.component.html:35
 msgid "IP"
-msgstr "Wykorzystanie"
+msgstr "IP"
 
 #: src/lib/taon-session/taon-session-backoffice/taon-session-details.component.html:37
 msgid "User agent"
-msgstr "Agent użytkownika"
+msgstr "Przeglądarka użytkownika"
 
 #: src/lib/taon-session/taon-session-backoffice/taon-session-details.component.html:39
 msgid "Logged in"
-msgstr "/Przyjazd /"
+msgstr "Zalogowano"
 
 #: src/lib/taon-session/taon-session-backoffice/taon-session-details.component.html:41
 msgid "Last activity"
-msgstr "Ostatnia działalność"
+msgstr "Ostatnia aktywność"
 
 #: src/lib/taon-session/taon-session-backoffice/taon-session-details.component.html:43
 msgid "Expires"
-msgstr "Wygaśnięcie"
+msgstr "Wygasa"
 
 #: src/lib/taon-session/taon-session-backoffice/taon-session-details.component.html:45
 msgid "Revoked"
-msgstr "Odwołane"
+msgstr "Unieważniono"
 
 #: src/lib/taon-session/taon-session-backoffice/taon-session-details.component.html:46
 msgid "Not revoked"
-msgstr "Nie odwołane"
+msgstr "Nie unieważniono"
 
 #: src/lib/taon-session/taon-session-backoffice/taon-session-details.component.html:48
 msgid "Revocation reason"
-msgstr "Powodzenie odwołania"
+msgstr "Powód unieważnienia"

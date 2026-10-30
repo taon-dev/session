@@ -9,7 +9,7 @@ msgstr ""
 #: src/lib/taon-session/taon-session.controller.ts:217
 #: src/lib/taon-session/taon-session.controller.ts:429
 msgid "Login by email is disabled."
-msgstr "E-Mail-Login ist deaktiviert."
+msgstr "Die Anmeldung per E-Mail ist deaktiviert."
 
 #: src/lib/taon-session/taon-session.controller.ts:178
 msgid "Invalid Google authentication."
@@ -25,7 +25,7 @@ msgstr "Dieses Google-Konto ist bereits mit einem anderen Benutzer verbunden."
 
 #: src/lib/taon-session/taon-session.controller.ts:281
 msgid "Unsupported identity provider."
-msgstr "Nicht unterstützte Identitätsanbieter."
+msgstr "Nicht unterstützter Identitätsanbieter."
 
 #: src/lib/taon-session/taon-session.controller.ts:356
 msgid "Identity not found."
@@ -33,8 +33,8 @@ msgstr "Identität nicht gefunden."
 
 #: src/lib/taon-session/taon-session.controller.ts:371
 msgid "You cannot disconnect your only sign-in method."
-msgstr "Sie können Ihre einzige Anmeldemethode nicht abschalten."
+msgstr "Sie können Ihre einzige Anmeldemethode nicht trennen."
 
 #: src/lib/taon-session/taon-session.controller.ts:472
 msgid "User is not active"
-msgstr "Benutzer ist nicht aktiv"
+msgstr "Der Benutzer ist nicht aktiv."
