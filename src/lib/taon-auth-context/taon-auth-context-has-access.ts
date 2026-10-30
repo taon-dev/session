@@ -1,6 +1,7 @@
 //#region imports
 import {
   TaonSessionCoreAuthorization,
+  TaonSessionCoreGroups,
   TaonSessionCorePermissions,
   TaonSessionCoreRoles,
 } from '../index';
@@ -55,8 +56,22 @@ export class TaonAuthContextHasAccess {
     return (
       this.context.isSuperUser ||
       this.context.isLocalhostBackend ||
-      this.context.hasRole(TaonSessionCoreRoles.AuthorizationManager) ||
-      this.context.hasRole(TaonSessionCoreRoles.UserManager)
+      this.context.isInGroup(TaonSessionCoreGroups.Administrator)
+    );
+    //#endregion
+  }
+  //#endregion
+
+  //#region to view email
+  get toManagePosts(): boolean {
+    //#region @browserFunc
+    return this.context.snapshoot.toManagePosts;
+    //#endregion
+    //#region @websqlFunc
+    return (
+      this.context.isSuperUser ||
+      this.context.isLocalhostBackend ||
+      this.context.isInGroup(TaonSessionCoreGroups.Administrator)
     );
     //#endregion
   }
@@ -81,8 +96,8 @@ export class TaonAuthContextHasAccess {
     //#region @websqlFunc
     return (
       this.context.isSuperUser ||
-      this.context.hasRole(TaonSessionCoreRoles.AuthorizationManager) ||
-      this.context.hasPermission(TaonSessionCorePermissions.ViewUsers)
+      this.context.isLocalhostBackend ||
+      this.context.isInGroup(TaonSessionCoreGroups.Administrator)
     );
     //#endregion
   }
@@ -96,7 +111,8 @@ export class TaonAuthContextHasAccess {
     //#region @websqlFunc
     return (
       this.context.isSuperUser ||
-      this.context.hasRole(TaonSessionCoreRoles.AuthorizationManager)
+      this.context.isLocalhostBackend ||
+      this.context.isInGroup(TaonSessionCoreGroups.Administrator)
     );
     //#endregion
   }
@@ -110,8 +126,8 @@ export class TaonAuthContextHasAccess {
     //#region @websqlFunc
     return (
       this.context.isSuperUser ||
-      this.context.hasRole(TaonSessionCoreRoles.UserManager) ||
-      this.context.hasPermission(TaonSessionCorePermissions.ViewSessions)
+      this.context.isLocalhostBackend ||
+      this.context.isInGroup(TaonSessionCoreGroups.Administrator)
     );
     //#endregion
   }
