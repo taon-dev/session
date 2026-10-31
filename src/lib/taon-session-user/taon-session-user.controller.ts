@@ -73,7 +73,7 @@ export class TaonSessionUserController extends TaonBaseCrudController<
         req.sessionId,
       );
 
-      if (!context || !context.hasAccess.toViewUsers) {
+      if (!context || !context.hasAccess.toManageUsers) {
         Taon.error({
           status: getStatusCode(HttpStatusEnum.FORBIDDEN),
           message: t.gettext('You are not authorized to view users'),

@@ -641,6 +641,13 @@ export class TaonSessionController extends TaonBaseController {
   //#region @websql
   prepareForFrontend(context: TaonAuthContextEntity): TaonAuthContextEntity {
     context.snapshoot = context.hasAccess.clone();
+    const keys = Object.keys(context.snapshoot) || [];
+    for (const key of keys) {
+      const value = context.snapshoot[key];
+      if (!value) {
+        delete context.snapshoot[key];
+      }
+    }
     delete context.permissions;
     delete context.roles;
     delete context.groups;

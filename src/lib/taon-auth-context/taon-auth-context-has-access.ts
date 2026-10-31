@@ -47,40 +47,94 @@ export class TaonAuthContextHasAccess {
   }
   //#endregion
 
-  //#region to view email
+  //#region to view taon admin button
   get toViewTaonAdminButton(): boolean {
     //#region @browserFunc
-    return this.context.snapshoot.toViewTaonAdminButton;
+    return !!this.context.snapshoot.toViewTaonAdminButton;
     //#endregion
     //#region @websqlFunc
     return (
       this.context.isSuperUser ||
-      this.context.isLocalhostBackend ||
       this.context.isInGroup(TaonSessionCoreGroups.Administrator)
     );
     //#endregion
   }
   //#endregion
 
-  //#region to view email
-  get toManagePosts(): boolean {
+  //#region to manage e-commerce
+  get toManagerEcommerce(): boolean {
     //#region @browserFunc
-    return this.context.snapshoot.toManagePosts;
+    return !!this.context.snapshoot.toManagerEcommerce;
     //#endregion
     //#region @websqlFunc
     return (
       this.context.isSuperUser ||
-      this.context.isLocalhostBackend ||
       this.context.isInGroup(TaonSessionCoreGroups.Administrator)
     );
     //#endregion
   }
   //#endregion
 
-  //#region to view email
-  get toViewEmail(): boolean {
+  //#region to manage seo
+  get toManageSeo(): boolean {
     //#region @browserFunc
-    return this.context.snapshoot.toViewEmail;
+    return !!this.context.snapshoot.toManageSeo;
+    //#endregion
+    //#region @websqlFunc
+    return (
+      this.context.isSuperUser ||
+      this.context.isInGroup(TaonSessionCoreGroups.Administrator)
+    );
+    //#endregion
+  }
+  //#endregion
+
+  //#region to manage analytics
+  get toManageAnalytics(): boolean {
+    //#region @browserFunc
+    return !!this.context.snapshoot.toManageAnalytics;
+    //#endregion
+    //#region @websqlFunc
+    return (
+      this.context.isSuperUser ||
+      this.context.isInGroup(TaonSessionCoreGroups.Administrator)
+    );
+    //#endregion
+  }
+  //#endregion
+
+  //#region to manage marketing
+  get toManageMarketing(): boolean {
+    //#region @browserFunc
+    return !!this.context.snapshoot.toManageMarketing;
+    //#endregion
+    //#region @websqlFunc
+    return (
+      this.context.isSuperUser ||
+      this.context.isInGroup(TaonSessionCoreGroups.Administrator)
+    );
+    //#endregion
+  }
+  //#endregion
+
+  //#region to manage cms
+  get toManageCms(): boolean {
+    //#region @browserFunc
+    return !!this.context.snapshoot.toManageCms;
+    //#endregion
+    //#region @websqlFunc
+    return (
+      this.context.isSuperUser ||
+      this.context.isInGroup(TaonSessionCoreGroups.Administrator)
+    );
+    //#endregion
+  }
+  //#endregion
+
+  //#region to manage emails
+  get toManageEmails(): boolean {
+    //#region @browserFunc
+    return !!this.context.snapshoot.toManageEmails;
     //#endregion
     //#region @websqlFunc
     return this.context.isSuperUser; // TODO implement emails
@@ -88,45 +142,42 @@ export class TaonAuthContextHasAccess {
   }
   //#endregion
 
-  //#region to view users
-  get toViewUsers(): boolean {
+  //#region to manage users
+  get toManageUsers(): boolean {
     //#region @browserFunc
-    return this.context.snapshoot.toViewUsers;
+    return !!this.context.snapshoot.toManageUsers;
     //#endregion
     //#region @websqlFunc
     return (
       this.context.isSuperUser ||
-      this.context.isLocalhostBackend ||
       this.context.isInGroup(TaonSessionCoreGroups.Administrator)
     );
     //#endregion
   }
   //#endregion
 
-  //#region to view authorization
-  get toViewAuthorization(): boolean {
+  //#region to manage authorization
+  get toManageAuthorization(): boolean {
     //#region @browserFunc
-    return this.context.snapshoot.toViewAuthorization;
+    return !!this.context.snapshoot.toManageAuthorization;
     //#endregion
     //#region @websqlFunc
     return (
       this.context.isSuperUser ||
-      this.context.isLocalhostBackend ||
       this.context.isInGroup(TaonSessionCoreGroups.Administrator)
     );
     //#endregion
   }
   //#endregion
 
-  //#region to view sessions
-  get toViewSessions(): boolean {
+  //#region to manage sessions
+  get toManageSessions(): boolean {
     //#region @browserFunc
-    return this.context.snapshoot.toViewAuthorization;
+    return !!this.context.snapshoot.toManageSessions;
     //#endregion
     //#region @websqlFunc
     return (
       this.context.isSuperUser ||
-      this.context.isLocalhostBackend ||
       this.context.isInGroup(TaonSessionCoreGroups.Administrator)
     );
     //#endregion

@@ -65,7 +65,7 @@ export class TaonSessionBackofficeController extends TaonBaseCrudController<
       req.sessionId,
     );
 
-    if (!context || !context.hasAccess.toViewSessions) {
+    if (!context || !context.hasAccess.toManageSessions) {
       Taon.error({
         status: getStatusCode(HttpStatusEnum.FORBIDDEN),
         message: t.gettext('You are not authorized to view sessions'),
