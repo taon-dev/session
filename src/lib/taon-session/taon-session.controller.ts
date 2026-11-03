@@ -502,7 +502,9 @@ export class TaonSessionController extends TaonBaseController {
               'Your account is blocked for [[ days ]] days. Please contact [[ administratorEmail ]] to unblock your account.',
               {
                 days: Math.ceil(remainingMilliseconds / (24 * 60 * 60 * 1000)),
-                administratorEmail: this.taonSessionProvider.administratorEmail,
+                administratorEmail: _.first(
+                  this.taonSessionProvider.administratorsEmails,
+                ),
               },
             ),
           });
@@ -514,7 +516,9 @@ export class TaonSessionController extends TaonBaseController {
             message: t.gettext(
               'You are inactive. Please contact [[ administratorEmail ]] to unblock your account.',
               {
-                administratorEmail: this.taonSessionProvider.administratorEmail,
+                administratorEmail: _.first(
+                  this.taonSessionProvider.administratorsEmails,
+                ),
               },
             ),
           });

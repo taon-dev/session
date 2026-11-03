@@ -24,7 +24,7 @@ export class TaonSessionProviderOverride extends TaonSessionProvider {
     this.login.defaultEmail = DEFAULT_EMAIL;
     // TODO @REMOVE_THIS this is waiting for emails implementation
     this.linkSocialAccountEmail = true;
-    this.administratorEmail = 'darekf77@gmail.com';
+    this.administratorsEmails = ['darekf77@gmail.com'];
   }
 
   async _() {

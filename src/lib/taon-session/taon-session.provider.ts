@@ -368,9 +368,15 @@ export class TaonSessionProvider extends TaonBaseProvider {
    */
   isProduction = isProduction;
 
+  /**
+   * Super use has access to everything + super user stuff
+   */
   superUsersEmails: string[] = [];
 
-  administratorEmail = '';
+  /**
+   * Administrator is always in Administrators group
+   */
+  administratorsEmails: string[] = [];
 
   /**
    * Resolve social accounts by verified email as well as provider identity.
@@ -431,7 +437,8 @@ export class TaonSessionProvider extends TaonBaseProvider {
     return {
       isProduction: this.isProduction,
       linkSocialAccountEmail: this.linkSocialAccountEmail,
-      administratorEmail: this.administratorEmail,
+      administratorsEmails: this.administratorsEmails,
+      superUsersEmails: this.superUsersEmails,
       cookies: this.cookies.clone(),
       login: this.login.clone(),
       socialLogin: this.socialLogin.clone(),
