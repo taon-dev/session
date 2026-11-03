@@ -15,6 +15,7 @@ import { TaonSessionUserIdentityEntity } from './taon-session-user-identity.enti
 import { TaonSessionUserEntity } from './taon-session-user.entity';
 import { TaonSessionIdentityProvider } from './taon-session-user.models';
 import { TaonSessionUserRepository } from './taon-session-user.repository';
+import { TaonSessionUserUtils } from './taon-session-user.utils';
 
 const t = Translation.for(Taon.__FILE_RELATIVE_PATH, Taon.LANG_IMPORT_MAP);
 
@@ -93,6 +94,16 @@ export class TaonSessionUserIdentityRepository extends TaonBaseRepository<TaonSe
         where: { provider, providerUserId },
       });
       if (existing) {
+        const users = manager.getRepository<TaonSessionUserEntity>(
+          TaonSessionUserEntity,
+        );
+        const existingUser = await users.findOne({
+          where: { id: existing.userId },
+        });
+        if (existingUser && !existingUser.username?.trim()) {
+          existingUser.username = await this.generateUniqueUsername(manager);
+          await users.save(existingUser);
+        }
         return existing;
       }
       const userId =
@@ -105,8 +116,16 @@ export class TaonSessionUserIdentityRepository extends TaonBaseRepository<TaonSe
       );
       const user =
         userId === undefined
-          ? await users.save(new TaonSessionUserEntity())
+          ? await users.save(
+              new TaonSessionUserEntity().clone({
+                username: await this.generateUniqueUsername(manager),
+              }),
+            )
           : await users.findOne({ where: { id: userId } });
+      if (user && !user.username?.trim()) {
+        user.username = await this.generateUniqueUsername(manager);
+        await users.save(user);
+      }
       if (!user?.isActive) {
         Taon.error({
           context: 'resolveSocialIdentity',
@@ -340,6 +359,27 @@ export class TaonSessionUserIdentityRepository extends TaonBaseRepository<TaonSe
       )
       .save(identity);
 
+    //#endregion
+  }
+
+  public async generateUniqueUsername(
+    manager: EntityManager,
+  ): Promise<string> {
+    //#region @websqlFunc
+    const users = manager.getRepository<TaonSessionUserEntity>(
+      TaonSessionUserEntity,
+    );
+    for (let attempt = 0; attempt < 100; attempt += 1) {
+      const username = TaonSessionUserUtils.generateRandomUsername();
+      const existing = await users.findOne({
+        select: { id: true },
+        where: { username },
+      });
+      if (!existing) {
+        return username;
+      }
+    }
+    throw new Error('Unable to generate a unique social-login username.');
     //#endregion
   }
 }

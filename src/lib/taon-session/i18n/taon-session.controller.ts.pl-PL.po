@@ -35,6 +35,6 @@ msgstr "Nie znaleziono tożsamości."
 msgid "You cannot disconnect your only sign-in method."
 msgstr "Nie możesz odłączyć swojej jedynej metody logowania."
 
-#: src/lib/taon-session/taon-session.controller.ts:472
+#: src/lib/taon-session/taon-session.controller.ts:481
 msgid "User is not active"
 msgstr "Użytkownik jest nieaktywny."

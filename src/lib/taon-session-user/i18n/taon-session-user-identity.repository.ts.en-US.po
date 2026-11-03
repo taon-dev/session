@@ -4,30 +4,30 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/lib/taon-session-user/taon-session-user-identity.repository.ts:43
+#: src/lib/taon-session-user/taon-session-user-identity.repository.ts:44
 msgid "A valid email address is required."
 msgstr "A valid email address is required."
 
-#: src/lib/taon-session-user/taon-session-user-identity.repository.ts:72
+#: src/lib/taon-session-user/taon-session-user-identity.repository.ts:73
 msgid "This email belongs to multiple accounts. Contact an administrator."
 msgstr "This email belongs to multiple accounts. Contact an administrator."
 
-#: src/lib/taon-session-user/taon-session-user-identity.repository.ts:114
+#: src/lib/taon-session-user/taon-session-user-identity.repository.ts:133
 msgid "User is not active"
 msgstr "User is not active"
 
-#: src/lib/taon-session-user/taon-session-user-identity.repository.ts:139
+#: src/lib/taon-session-user/taon-session-user-identity.repository.ts:158
 msgid "Password is required."
 msgstr "Password is required."
 
-#: src/lib/taon-session-user/taon-session-user-identity.repository.ts:164
+#: src/lib/taon-session-user/taon-session-user-identity.repository.ts:183
 msgid "Sign in with your existing provider, then connect email/password in your profile."
 msgstr "Sign in with your existing provider, then connect email/password in your profile."
 
-#: src/lib/taon-session-user/taon-session-user-identity.repository.ts:201
+#: src/lib/taon-session-user/taon-session-user-identity.repository.ts:220
 msgid "Use a verified email from a connected sign-in method."
 msgstr "Use a verified email from a connected sign-in method."
 
-#: src/lib/taon-session-user/taon-session-user-identity.repository.ts:215
+#: src/lib/taon-session-user/taon-session-user-identity.repository.ts:234
 msgid "Email/password is already connected or this email belongs to another account."
 msgstr "Email/password is already connected or this email belongs to another account."

@@ -4,30 +4,30 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/lib/taon-session-user/taon-session-user-identity.repository.ts:43
+#: src/lib/taon-session-user/taon-session-user-identity.repository.ts:44
 msgid "A valid email address is required."
 msgstr "Wymagany jest prawidłowy adres e-mail."
 
-#: src/lib/taon-session-user/taon-session-user-identity.repository.ts:72
+#: src/lib/taon-session-user/taon-session-user-identity.repository.ts:73
 msgid "This email belongs to multiple accounts. Contact an administrator."
 msgstr "Ten adres e-mail jest przypisany do kilku kont. Skontaktuj się z administratorem."
 
-#: src/lib/taon-session-user/taon-session-user-identity.repository.ts:114
+#: src/lib/taon-session-user/taon-session-user-identity.repository.ts:133
 msgid "User is not active"
 msgstr "Użytkownik jest nieaktywny."
 
-#: src/lib/taon-session-user/taon-session-user-identity.repository.ts:139
+#: src/lib/taon-session-user/taon-session-user-identity.repository.ts:158
 msgid "Password is required."
 msgstr "Hasło jest wymagane."
 
-#: src/lib/taon-session-user/taon-session-user-identity.repository.ts:164
+#: src/lib/taon-session-user/taon-session-user-identity.repository.ts:183
 msgid "Sign in with your existing provider, then connect email/password in your profile."
 msgstr "Zaloguj się za pomocą dotychczasowej metody, a następnie połącz logowanie przez e-mail i hasło w swoim profilu."
 
-#: src/lib/taon-session-user/taon-session-user-identity.repository.ts:201
+#: src/lib/taon-session-user/taon-session-user-identity.repository.ts:220
 msgid "Use a verified email from a connected sign-in method."
 msgstr "Użyj zweryfikowanego adresu e-mail powiązanego z metodą logowania."
 
-#: src/lib/taon-session-user/taon-session-user-identity.repository.ts:215
+#: src/lib/taon-session-user/taon-session-user-identity.repository.ts:234
 msgid "Email/password is already connected or this email belongs to another account."
 msgstr "Logowanie przez e-mail i hasło jest już połączone albo ten adres e-mail należy do innego konta."

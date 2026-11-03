@@ -459,6 +459,15 @@ export class TaonSessionController extends TaonBaseController {
             id: identity.userId,
           },
         });
+
+        if (user && !user.username?.trim()) {
+          user.username =
+            await this.taonSessionUserIdentityRepository.generateUniqueUsername(
+              this.ctx.connection.manager,
+            );
+          await this.taonSessionUserRepository.save(user);
+        }
+
         loginIdentity = identity;
 
         //#endregion

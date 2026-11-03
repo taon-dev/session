@@ -35,6 +35,6 @@ msgstr "Identity not found."
 msgid "You cannot disconnect your only sign-in method."
 msgstr "You cannot disconnect your only sign-in method."
 
-#: src/lib/taon-session/taon-session.controller.ts:472
+#: src/lib/taon-session/taon-session.controller.ts:481
 msgid "User is not active"
 msgstr "User is not active"
