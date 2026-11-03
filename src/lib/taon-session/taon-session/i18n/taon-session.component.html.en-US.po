@@ -31,79 +31,70 @@ msgstr "Email"
 msgid "Login by email (disabled)"
 msgstr "Login by email (disabled)"
 
-#: src/lib/taon-session/taon-session/taon-session.component.html:123
-msgid "Please enter a valid email address"
-msgstr "Please enter a valid email address"
-
-#: src/lib/taon-session/taon-session/taon-session.component.html:137
-msgid "Email is"
-msgstr "Email is"
-
-#: src/lib/taon-session/taon-session/taon-session.component.html:137
-#: src/lib/taon-session/taon-session/taon-session.component.html:266
-#: src/lib/taon-session/taon-session/taon-session.component.html:324
-#: src/lib/taon-session/taon-session/taon-session.component.html:361
-msgid "required"
-msgstr "required"
-
-#: src/lib/taon-session/taon-session/taon-session.component.html:191
+#: src/lib/taon-session/taon-session/taon-session.component.html:178
 msgid "Continue with Microsoft"
 msgstr "Continue with Microsoft"
 
-#: src/lib/taon-session/taon-session/taon-session.component.html:226
+#: src/lib/taon-session/taon-session/taon-session.component.html:213
 msgid "Enter Password"
 msgstr "Enter Password"
 
-#: src/lib/taon-session/taon-session/taon-session.component.html:236
+#: src/lib/taon-session/taon-session/taon-session.component.html:223
 msgid "Password"
 msgstr "Password"
 
-#: src/lib/taon-session/taon-session/taon-session.component.html:266
-#: src/lib/taon-session/taon-session/taon-session.component.html:324
+#: src/lib/taon-session/taon-session/taon-session.component.html:253
+#: src/lib/taon-session/taon-session/taon-session.component.html:311
 msgid "Password is"
 msgstr "Password is"
 
-#: src/lib/taon-session/taon-session/taon-session.component.html:288
+#: src/lib/taon-session/taon-session/taon-session.component.html:253
+#: src/lib/taon-session/taon-session/taon-session.component.html:311
+#: src/lib/taon-session/taon-session/taon-session.component.html:348
+msgid "required"
+msgstr "required"
+
+#: src/lib/taon-session/taon-session/taon-session.component.html:275
 msgid "Enter Registration Password"
 msgstr "Enter Registration Password"
 
-#: src/lib/taon-session/taon-session/taon-session.component.html:298
-#: src/lib/taon-session/taon-session/taon-session.component.html:299
+#: src/lib/taon-session/taon-session/taon-session.component.html:285
+#: src/lib/taon-session/taon-session/taon-session.component.html:286
 msgid "Enter Password For New Account"
 msgstr "Enter Password For New Account"
 
-#: src/lib/taon-session/taon-session/taon-session.component.html:331
+#: src/lib/taon-session/taon-session/taon-session.component.html:318
 msgid "Repeat Password"
 msgstr "Repeat Password"
 
-#: src/lib/taon-session/taon-session/taon-session.component.html:360
+#: src/lib/taon-session/taon-session/taon-session.component.html:347
 msgid "Repeated password is"
 msgstr ""
 
-#: src/lib/taon-session/taon-session/taon-session.component.html:381
+#: src/lib/taon-session/taon-session/taon-session.component.html:368
 msgid "{{ t.gettext('Logged in successfully') }}"
 msgstr ""
 
-#: src/lib/taon-session/taon-session/taon-session.component.html:384
+#: src/lib/taon-session/taon-session/taon-session.component.html:371
 msgid "Logged in successfully"
 msgstr ""
 
-#: src/lib/taon-session/taon-session/taon-session.component.html:405
+#: src/lib/taon-session/taon-session/taon-session.component.html:392
 msgid "Welcome"
 msgstr "Welcome"
 
-#: src/lib/taon-session/taon-session/taon-session.component.html:200
+#: src/lib/taon-session/taon-session/taon-session.component.html:187
 msgid "Login"
 msgstr "Login"
 
-#: src/lib/taon-session/taon-session/taon-session.component.html:207
+#: src/lib/taon-session/taon-session/taon-session.component.html:194
 msgid "Cancel"
 msgstr "Cancel"
 
-#: src/lib/taon-session/taon-session/taon-session.component.html:360
+#: src/lib/taon-session/taon-session/taon-session.component.html:347
 msgid "Repeated password is "
 msgstr ""
 
-#: src/lib/taon-session/taon-session/taon-session.component.html:393
+#: src/lib/taon-session/taon-session/taon-session.component.html:380
 msgid "Logout"
 msgstr "Logout"

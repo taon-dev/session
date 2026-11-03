@@ -10,6 +10,7 @@ import { TaonSessionIdentityProvider } from '../taon-session-user/taon-session-u
 
 import { TaonSessionController } from './taon-session.controller';
 import { TaonLoginData } from './taon-session.models';
+import { HttpResponseError, RestErrorResponseWrapper } from 'ng2-rest/src';
 //#endregion
 
 @Injectable()
@@ -38,9 +39,9 @@ export class TaonSessionApiService extends TaonBaseAngularService {
       map(resp => {
         return !!resp.body.booleanValue;
       }),
-      catchError(() => {
-        return of(false);
-      }),
+      // catchError((err: HttpResponseError<RestErrorResponseWrapper>) => {
+      //   return err;
+      // }),
     );
   }
   //#endregion

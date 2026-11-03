@@ -4,38 +4,46 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.ts:101
+#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.ts:128
 msgid "Provider"
 msgstr "Dostawca"
 
-#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.ts:105
+#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.ts:132
 msgid "Email"
 msgstr "E-mail"
 
-#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.ts:112
+#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.ts:139
 msgid "ID"
 msgstr "ID"
 
-#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.ts:117
+#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.ts:144
 msgid "Name"
 msgstr "Nazwa"
 
-#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.ts:121
+#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.ts:148
 msgid "Code"
 msgstr "Kod"
 
-#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.ts:125
+#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.ts:152
 msgid "Description"
 msgstr "Opis"
 
-#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.ts:129
+#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.ts:156
 msgid "Actions"
 msgstr "Akcje"
 
-#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.ts:136
+#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.ts:163
 msgid "Group details"
 msgstr "Szczegóły grupy"
 
-#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.ts:144
+#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.ts:171
 msgid "Remove group from user"
 msgstr "Usuń grupę użytkownikowi"
+
+#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.ts:224
+msgid "Enter a number of days greater than zero."
+msgstr "Wprowadź liczbę dni większą od zera."
+
+#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.ts:240
+msgid "Unable to update the user account status."
+msgstr "Nie można zaktualizować statusu konta użytkownika."

@@ -1,5 +1,4 @@
 //#region imports
-import { TaonAuthContextEntity } from '../../taon-auth-context/taon-auth-context.entity';
 import { A11yModule } from '@angular/cdk/a11y';
 import { AsyncPipe, CommonModule, JsonPipe } from '@angular/common';
 import {
@@ -47,6 +46,7 @@ import {
 } from 'taon-ui/src';
 import { _ } from 'tnp-core/src';
 
+import { TaonAuthContextEntity } from '../../taon-auth-context/taon-auth-context.entity';
 import { TaonProfilePictureComponent } from '../taon-profile/taon-profile-picture';
 import { TaonSessionApiService } from '../taon-session.api.service';
 import { TaonSessionConfigService } from '../taon-session.config.service';
@@ -246,7 +246,12 @@ export class TaonSessionComponent implements AfterViewInit, OnInit, OnDestroy {
   //#endregion
 
   //#region execute action for state
+
   public executeActionForState(): void {
+    if (this.state === TaonSessionState.LOGIN_OR_REGISTER) {
+      this.clearEmailBackenErrors();
+    }
+
     this.taonSessionStateService.executeActionForState(this.form);
   }
   //#endregion
@@ -348,6 +353,42 @@ export class TaonSessionComponent implements AfterViewInit, OnInit, OnDestroy {
   }
   //#endregion
 
+  getControlErrorMessage(controlName: string): string | null {
+    const control = this.form.get(controlName);
+
+    if (!control?.touched || !control.errors) {
+      return null;
+    }
+
+    const errors = control.errors;
+
+    if (errors['pattern']) {
+      return this.t.gettext('Please enter a valid email address');
+    }
+
+    if (errors['required']) {
+      return this.t.gettext('Email is required');
+    }
+
+    // Any error whose value itself contains the message
+    for (const value of Object.values(errors)) {
+      if (typeof value === 'string') {
+        return value;
+      }
+
+      if (
+        value &&
+        typeof value === 'object' &&
+        'message' in value &&
+        typeof value.message === 'string'
+      ) {
+        return value.message;
+      }
+    }
+
+    return null;
+  }
+
   //#region hooks
 
   //#region hooks / on init
@@ -445,6 +486,25 @@ export class TaonSessionComponent implements AfterViewInit, OnInit, OnDestroy {
     );
   }
   //#endregion
+
+  private clearEmailBackenErrors() {
+    const emailControl = this.form.controls.email;
+    const errors = emailControl.errors;
+
+    if (errors) {
+      const remainingErrors = { ...errors };
+
+      for (const key of Object.keys(remainingErrors)) {
+        if (_.isString(remainingErrors[key])) {
+          delete remainingErrors[key];
+        }
+      }
+
+      emailControl.setErrors(
+        Object.keys(remainingErrors).length ? remainingErrors : null,
+      );
+    }
+  }
 
   //#region update validators for
   private updateValidatorsFor(state: TaonSessionState): void {

@@ -31,79 +31,70 @@ msgstr "E-mail"
 msgid "Login by email (disabled)"
 msgstr "Logowanie przez e-mail (wyłączone)"
 
-#: src/lib/taon-session/taon-session/taon-session.component.html:123
-msgid "Please enter a valid email address"
-msgstr "Wprowadź prawidłowy adres e-mail"
-
-#: src/lib/taon-session/taon-session/taon-session.component.html:137
-msgid "Email is"
-msgstr "Pole e-mail jest"
-
-#: src/lib/taon-session/taon-session/taon-session.component.html:137
-#: src/lib/taon-session/taon-session/taon-session.component.html:266
-#: src/lib/taon-session/taon-session/taon-session.component.html:324
-#: src/lib/taon-session/taon-session/taon-session.component.html:361
-msgid "required"
-msgstr "wymagane"
-
-#: src/lib/taon-session/taon-session/taon-session.component.html:191
+#: src/lib/taon-session/taon-session/taon-session.component.html:178
 msgid "Continue with Microsoft"
 msgstr "Kontynuuj z Microsoftem"
 
-#: src/lib/taon-session/taon-session/taon-session.component.html:226
+#: src/lib/taon-session/taon-session/taon-session.component.html:213
 msgid "Enter Password"
 msgstr "Wprowadź hasło"
 
-#: src/lib/taon-session/taon-session/taon-session.component.html:236
+#: src/lib/taon-session/taon-session/taon-session.component.html:223
 msgid "Password"
 msgstr "Hasło"
 
-#: src/lib/taon-session/taon-session/taon-session.component.html:266
-#: src/lib/taon-session/taon-session/taon-session.component.html:324
+#: src/lib/taon-session/taon-session/taon-session.component.html:253
+#: src/lib/taon-session/taon-session/taon-session.component.html:311
 msgid "Password is"
 msgstr "Pole hasła jest"
 
-#: src/lib/taon-session/taon-session/taon-session.component.html:288
+#: src/lib/taon-session/taon-session/taon-session.component.html:253
+#: src/lib/taon-session/taon-session/taon-session.component.html:311
+#: src/lib/taon-session/taon-session/taon-session.component.html:348
+msgid "required"
+msgstr "wymagane"
+
+#: src/lib/taon-session/taon-session/taon-session.component.html:275
 msgid "Enter Registration Password"
 msgstr "Wprowadź hasło rejestracyjne"
 
-#: src/lib/taon-session/taon-session/taon-session.component.html:298
-#: src/lib/taon-session/taon-session/taon-session.component.html:299
+#: src/lib/taon-session/taon-session/taon-session.component.html:285
+#: src/lib/taon-session/taon-session/taon-session.component.html:286
 msgid "Enter Password For New Account"
 msgstr "Wprowadź hasło do nowego konta"
 
-#: src/lib/taon-session/taon-session/taon-session.component.html:331
+#: src/lib/taon-session/taon-session/taon-session.component.html:318
 msgid "Repeat Password"
 msgstr "Powtórz hasło"
 
-#: src/lib/taon-session/taon-session/taon-session.component.html:360
+#: src/lib/taon-session/taon-session/taon-session.component.html:347
 msgid "Repeated password is"
 msgstr ""
 
-#: src/lib/taon-session/taon-session/taon-session.component.html:381
+#: src/lib/taon-session/taon-session/taon-session.component.html:368
 msgid "{{ t.gettext('Logged in successfully') }}"
 msgstr "{{ t.gettext('Logged in successfully') }}"
 
-#: src/lib/taon-session/taon-session/taon-session.component.html:384
+#: src/lib/taon-session/taon-session/taon-session.component.html:371
 msgid "Logged in successfully"
 msgstr "Zalogowano pomyślnie"
 
-#: src/lib/taon-session/taon-session/taon-session.component.html:405
+#: src/lib/taon-session/taon-session/taon-session.component.html:392
 msgid "Welcome"
 msgstr "Witamy"
 
-#: src/lib/taon-session/taon-session/taon-session.component.html:200
+#: src/lib/taon-session/taon-session/taon-session.component.html:187
 msgid "Login"
 msgstr "Zaloguj się"
 
-#: src/lib/taon-session/taon-session/taon-session.component.html:207
+#: src/lib/taon-session/taon-session/taon-session.component.html:194
 msgid "Cancel"
 msgstr "Anuluj"
 
-#: src/lib/taon-session/taon-session/taon-session.component.html:360
+#: src/lib/taon-session/taon-session/taon-session.component.html:347
 msgid "Repeated password is "
 msgstr "Powtórzone hasło jest "
 
-#: src/lib/taon-session/taon-session/taon-session.component.html:393
+#: src/lib/taon-session/taon-session/taon-session.component.html:380
 msgid "Logout"
 msgstr "Wyloguj się"

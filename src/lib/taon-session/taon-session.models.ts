@@ -43,16 +43,18 @@ export enum TaonLoginErrors {
   INVALID_PASSWORD = 'INVALID_PASSWORD',
   INVALID_SOCIAL_LOGIN = 'INVALID_SOCIAL_LOGIN',
   PASSWORDS_DO_NOT_MATCH = 'PASSWORDS_DO_NOT_MATCH',
+  INACTIVE_ACCOUNT = 'INACTIVE_ACCOUNT',
+  INACTIVE_ACCOUNT_FOR_PERIOD = 'INACTIVE_ACCOUNT_FOR_PERIOD',
 }
 
 export const TaonErorsMap = new Map([
-  [TaonLoginErrors.INVALID_PASSWORD, t.gettext('Invalid Password')],
+  [TaonLoginErrors.INVALID_PASSWORD, t.signal.gettext('Invalid Password')],
   [
     TaonLoginErrors.INVALID_SOCIAL_LOGIN,
-    t.gettext('Unable to log in with a social account.'),
+    t.signal.gettext('Unable to log in with a social account.'),
   ],
   [
     TaonLoginErrors.PASSWORDS_DO_NOT_MATCH,
-    t.gettext('Passwords do not match each other'),
+    t.signal.gettext('Passwords do not match each other'),
   ],
 ]);

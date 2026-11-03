@@ -33,6 +33,7 @@ import {
   TaonLoginErrors,
   TaonSessionState,
 } from './taon-session.models';
+import { HttpResponseError, RestErrorResponseWrapper } from 'ng2-rest/src';
 
 //#endregion
 
@@ -293,6 +294,25 @@ class TaonSessionStateInstance {
 
       this.state.set(TaonSessionState.LOADING_AUTH);
 
+      const loginNotOKAction = () => {
+        if (isSocialLogin) {
+          this.state.set(TaonSessionState.LOGIN_OR_REGISTER);
+
+          googleCodeField.setErrors({
+            [TaonLoginErrors.INVALID_SOCIAL_LOGIN]: true,
+          });
+        } else {
+          this.state.set(TaonSessionState.ENTER_PASSWORD);
+
+          passwordField.setErrors({
+            ...(passwordField.errors ?? {}),
+            [TaonLoginErrors.INVALID_PASSWORD]: true,
+          });
+
+          passwordField.markAsTouched();
+        }
+      };
+
       this.taonSessionApiService
         .login({
           email: form.controls.email.value!,
@@ -312,23 +332,21 @@ class TaonSessionStateInstance {
                 passwordField.markAsUntouched();
               }
             } else {
-              if (isSocialLogin) {
-                this.state.set(TaonSessionState.LOGIN_OR_REGISTER);
-
-                googleCodeField.setErrors({
-                  [TaonLoginErrors.INVALID_SOCIAL_LOGIN]: true,
-                });
-              } else {
-                this.state.set(TaonSessionState.ENTER_PASSWORD);
-
-                passwordField.setErrors({
-                  ...(passwordField.errors ?? {}),
-                  [TaonLoginErrors.INVALID_PASSWORD]: true,
-                });
-
-                passwordField.markAsTouched();
-              }
+              loginNotOKAction();
             }
+          }),
+
+          catchError((err: HttpResponseError<RestErrorResponseWrapper>) => {
+            if (err?.body?.json?.code) {
+              this.state.set(TaonSessionState.LOGIN_OR_REGISTER);
+              form.controls.email.setErrors({
+                [err.body.json.code]: err.body.json.message,
+              });
+            } else {
+              loginNotOKAction();
+            }
+
+            return NEVER;
           }),
 
           finalize(() => {

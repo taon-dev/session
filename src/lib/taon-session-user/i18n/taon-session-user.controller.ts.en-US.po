@@ -4,6 +4,22 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/lib/taon-session-user/taon-session-user.controller.ts:79
-msgid "You are not authorized to view users"
-msgstr "You are not authorized to view users"
+#: src/lib/taon-session-user/taon-session-user.controller.ts:90
+msgid "You are not authorized to manage users"
+msgstr ""
+
+#: src/lib/taon-session-user/taon-session-user.controller.ts:119
+msgid "A valid user ID is required."
+msgstr ""
+
+#: src/lib/taon-session-user/taon-session-user.controller.ts:127
+msgid "User not found."
+msgstr ""
+
+#: src/lib/taon-session-user/taon-session-user.controller.ts:149
+msgid "Choose a valid account status and duration."
+msgstr ""
+
+#: src/lib/taon-session-user/taon-session-user.controller.ts:159
+msgid "The temporary inactivity duration is invalid."
+msgstr ""

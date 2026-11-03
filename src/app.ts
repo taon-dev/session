@@ -44,6 +44,7 @@ import { provideServerRendering, withRoutes } from '@angular/ssr';
 import { RenderMode, ServerRoute } from '@angular/ssr';
 import { provideHotToastConfig } from '@ngneat/hot-toast'; // @browser
 import Aura from '@primeng/themes/aura'; // @browser
+import { Translation, TranslationManager } from '@taon-dev/i18n/src';
 import {
   DEFAULT_SESSION_EMAIL,
   DEFAULT_SESSION_PASSWORD,
@@ -62,6 +63,7 @@ import {
   TaonSessionComponent,
   TaonSessionButtonComponent,
 } from '@taon-dev/session/src'; // @browser
+import { TaonSudoAbstractContext } from '@taon-dev/sudo/src';
 import {
   TaonDraggableButtonPanelComponent,
   TaonBaselineBackofficeOutletName,
@@ -88,7 +90,6 @@ import {
 } from 'taon/src';
 import { TaonAdminService, TaonAdmin } from 'taon/src'; // @browser
 import { TaonStor } from 'taon-storage/src';
-import { Translation } from '@taon-dev/i18n/src';
 import {
   TaonNotFoundComponent,
   TaonSettingsComponent,
@@ -97,6 +98,14 @@ import {
 } from 'taon-ui/src'; // @browser
 import { Utils, UtilsOs } from 'tnp-core/src';
 
+import {
+  DEFAULT_EMAIL,
+  DEFAULT_EMAIL2,
+  DEFAULT_EMAIL3,
+  DEFAULT_PASSWORD,
+  DEFAULT_PASSWORD2,
+} from './app.constants';
+import { TaonSessionProviderOverride } from './app.decorators';
 import { HOST_CONFIG } from './app.hosts';
 import {
   ENV_ANGULAR_NODE_APP_BUILD_PWA_DISABLE_SERVICE_WORKER,
@@ -106,7 +115,6 @@ import {
   ENV_ANGULAR_NODE_APP_CONFIG_REFRESH_TOKEN_SECRET,
   ENV_ANGULAR_NODE_APP_CONFIG_SUPER_USERS,
 } from './lib/env/env.angular-node-app';
-import { TaonSudoAbstractContext } from '@taon-dev/sudo/src';
 // @placeholder-for-imports
 //#endregion
 
@@ -114,17 +122,7 @@ import { TaonSudoAbstractContext } from '@taon-dev/sudo/src';
 const t = Translation.for(Taon.__FILE_RELATIVE_PATH, Taon.LANG_IMPORT_MAP);
 
 console.log('🚀 [ TAON IS STARTING ]');
-const DEFAULT_PASSWORD = DEFAULT_SESSION_PASSWORD;
 
-const DEFAULT_EMAIL = DEFAULT_SESSION_EMAIL;
-
-const DEFAULT_PASSWORD2 = DEFAULT_SESSION_PASSWORD;
-
-const DEFAULT_EMAIL2 = 2 + DEFAULT_SESSION_EMAIL;
-
-const DEFAULT_PASSWORD3 = DEFAULT_SESSION_PASSWORD;
-
-const DEFAULT_EMAIL3 = 'dariusz@taon.dev';
 //#endregion
 
 //#region taon-jwt-cookie-header-session component
@@ -395,56 +393,6 @@ export const SessionConfig = mergeApplicationConfig(
 //#endregion
 //#endregion
 
-//#region taon sesssion providers decorator
-@TaonProvider({
-  className: 'TaonSessionProvider',
-})
-class TaonSessionProviderOverride extends TaonSessionProvider {
-  constructor() {
-    super();
-    this.socialLogin.google.enabled = true;
-    this.socialLogin.google.googleClientId =
-      ENV_ANGULAR_NODE_APP_CONFIG_GOOGLE_CLIENT_ID;
-
-    this.login.defaultEmail = DEFAULT_EMAIL;
-    // TODO @REMOVE_THIS this is waiting for emails implementation
-    this.linkSocialAccountEmail = true;
-  }
-
-  async _() {
-    console.log('helo world!!!!!!!!!!!');
-
-    //#region @backend
-    const googleSecret = await ENV_ANGULAR_NODE_APP_CONFIG_GOOGLE_SECRET();
-    this.socialLogin.google.googleSecret = googleSecret;
-
-    this.superUsersEmails = [
-      DEFAULT_EMAIL,
-      ...(await ENV_ANGULAR_NODE_APP_CONFIG_SUPER_USERS()).split(','),
-    ];
-
-    console.log('active super users', this.superUsersEmails);
-
-    this.cookies.ACCESS_TOKEN_SECRET =
-      await ENV_ANGULAR_NODE_APP_CONFIG_ACCESS_TOKEN_SECRET();
-
-    this.cookies.REFRESH_TOKEN_SECRET =
-      await ENV_ANGULAR_NODE_APP_CONFIG_REFRESH_TOKEN_SECRET();
-    //#endregion
-
-    console.log('is localhost ', this.isLocalhost);
-
-    if (this.isLocalhost) {
-      this.login.diableLoginByEmail = false;
-    } else {
-      this.login.diableLoginByEmail = true;
-    }
-
-    await super._();
-  }
-}
-//#endregion
-
 //#region  taon-jwt-cookie-header-session context
 var SessionContext = Taon.createContext(() => ({
   ...HOST_CONFIG['SessionContext'],
@@ -480,6 +428,8 @@ export const SessionStartFunction = async (
   startParams?: Taon.StartParams,
 ): Promise<void> => {
   //#region @browser
+  // await TranslationManager.Instance.setOneLanguagePernament('pl-PL');
+
   TaonAdmin.init();
   await TaonStor.awaitAll();
   //#endregion

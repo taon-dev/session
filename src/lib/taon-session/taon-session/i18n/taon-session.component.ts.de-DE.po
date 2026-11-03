@@ -3,3 +3,11 @@ msgstr ""
 "Language: de-DE\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: src/lib/taon-session/taon-session/taon-session.component.ts:361
+msgid "Please enter a valid email address"
+msgstr "Bitte geben Sie eine gültige E-Mail-Adresse ein"
+
+#: src/lib/taon-session/taon-session/taon-session.component.ts:365
+msgid "Email is required"
+msgstr "E-Mail ist erforderlich"

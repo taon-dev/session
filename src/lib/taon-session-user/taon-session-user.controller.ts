@@ -8,6 +8,8 @@ import {
   TaonBaseCrudController,
   Query,
   GET,
+  POST,
+  Body,
   Models,
   TaonPaginationQuery,
   getStatusCode,
@@ -32,9 +34,14 @@ import {
 
 const t = Translation.for(Taon.__FILE_RELATIVE_PATH, Taon.LANG_IMPORT_MAP);
 
+export interface TaonSessionUserAccountStatusUpdate {
+  status: 'active' | 'inactive' | 'temporary';
+  days?: number;
+}
+
 @TaonController<TaonSessionUserController>({
   className: 'TaonSessionUserController',
-  allowedMethods: ['paginationQuery', 'getBy'],
+  allowedMethods: ['paginationQuery', 'getBy', 'setAccountStatus'],
 })
 export class TaonSessionUserController extends TaonBaseCrudController<
   TaonSessionUserEntity,
@@ -62,7 +69,11 @@ export class TaonSessionUserController extends TaonBaseCrudController<
     methodConfig,
     classConfig,
   }: Models.TaonCtrlBeforeEachRequestParams<TaonSessionUserController>): Promise<void> {
-    if (['paginationQuery', 'getBy'].includes(methodConfig.methodName)) {
+    if (
+      ['paginationQuery', 'getBy', 'setAccountStatus'].includes(
+        methodConfig.methodName,
+      )
+    ) {
       await this.taonSessionRepository.throwIfNotAuthenticated({
         req,
         res,
@@ -76,7 +87,7 @@ export class TaonSessionUserController extends TaonBaseCrudController<
       if (!context || !context.hasAccess.toManageUsers) {
         Taon.error({
           status: getStatusCode(HttpStatusEnum.FORBIDDEN),
-          message: t.gettext('You are not authorized to view users'),
+          message: t.gettext('You are not authorized to manage users'),
         });
       }
     }
@@ -94,6 +105,65 @@ export class TaonSessionUserController extends TaonBaseCrudController<
     //#endregion
   }
   //#endregion
+
+  @POST()
+  setAccountStatus(
+    @Query('id') id: number,
+    @Body() update: TaonSessionUserAccountStatusUpdate,
+  ): Models.Http.Response<TaonSessionUserEntity> {
+    //#region @websqlFunc
+    return async (_req, _res, { t }) => {
+      if (!Number.isSafeInteger(Number(id)) || Number(id) <= 0) {
+        Taon.error({
+          status: getStatusCode(HttpStatusEnum.BAD_REQUEST),
+          message: t.gettext('A valid user ID is required.'),
+        });
+      }
+
+      const user = await this.db.findOne({ where: { id } });
+      if (!user) {
+        Taon.error({
+          status: getStatusCode(HttpStatusEnum.NOT_FOUND),
+          message: t.gettext('User not found.'),
+        });
+      }
+
+      if (update?.status === 'active') {
+        user.isActive = true;
+        user.inactiveUntil = null;
+      } else if (update?.status === 'inactive') {
+        user.isActive = false;
+        user.inactiveUntil = null;
+      } else if (
+        update?.status === 'temporary' &&
+        Number.isSafeInteger(update.days) &&
+        update.days! > 0
+      ) {
+        user.isActive = false;
+        user.inactiveUntil = new Date(
+          Date.now() + update.days! * 24 * 60 * 60 * 1000,
+        );
+      } else {
+        Taon.error({
+          status: getStatusCode(HttpStatusEnum.BAD_REQUEST),
+          message: t.gettext('Choose a valid account status and duration.'),
+        });
+      }
+
+      if (
+        update?.status === 'temporary' &&
+        !Number.isFinite(user.inactiveUntil?.getTime())
+      ) {
+        Taon.error({
+          status: getStatusCode(HttpStatusEnum.BAD_REQUEST),
+          message: t.gettext('The temporary inactivity duration is invalid.'),
+        });
+      }
+
+      return this.db.save(user);
+    };
+    //#endregion
+  }
 
   //#region methods / pagination query methods
   protected paginationQueryMethods(): (keyof TaonSessionUserController)[] {

@@ -46,6 +46,11 @@ export class TaonSessionUserEntity extends TaonBaseAbstractEntity<TaonSessionUse
   isActive!: boolean;
 
   //#region @websql
+  @Column({ type: 'datetime', nullable: true })
+  //#endregion
+  inactiveUntil?: Date | null;
+
+  //#region @websql
   @CreateDateColumn()
   //#endregion
   createdAt!: Date;

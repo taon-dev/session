@@ -23,6 +23,7 @@ import type { TaonGroupEntity } from '../../taon-group/taon-group.entity';
 import { TaonProfilePictureComponent } from '../../taon-session/taon-profile/taon-profile-picture/taon-profile-picture.component';
 import { TaonBackofficeNavigationService } from '../../taon-session/taon-session-backoffice/taon-backoffice-navigation.service';
 import { TaonSessionApiService } from '../../taon-session/taon-session.api.service';
+import { TaonSessionUserApiService } from '../taon-session-user-api.service';
 import type { TaonSessionUserEntity } from '../taon-session-user.entity';
 
 import { TaonSessionBackofficeUsersModels } from './taon-session-backoffice-users.models';
@@ -49,6 +50,7 @@ const t = Translation.for(Taon.__FILE_RELATIVE_PATH, Taon.LANG_IMPORT_MAP);
     TaonGroupApiService,
     TaonBackofficeNavigationService,
     forwardRef(() => TaonSessionApiService),
+    TaonSessionUserApiService,
   ],
 })
 export class TaonSessionUserDetailsComponent implements OnChanges {
@@ -60,9 +62,34 @@ export class TaonSessionUserDetailsComponent implements OnChanges {
 
   readonly taonSessionApiService = inject(TaonSessionApiService);
 
+  readonly userApiService = inject(TaonSessionUserApiService);
+
   context$ = this.taonSessionApiService.context();
 
+  readonly accountStatus = signal<'active' | 'inactive' | 'temporary'>('active');
+
+  readonly temporaryDays = signal(7);
+
+  readonly statusError = signal('');
+
+  readonly savingStatus = signal(false);
+
   ngOnChanges(): void {
+    const inactiveUntil = this.user.inactiveUntil
+      ? new Date(this.user.inactiveUntil).getTime()
+      : 0;
+    this.accountStatus.set(
+      this.user.isActive || (inactiveUntil > 0 && inactiveUntil <= Date.now())
+        ? 'active'
+        : inactiveUntil > Date.now()
+          ? 'temporary'
+          : 'inactive',
+    );
+    if (inactiveUntil > Date.now()) {
+      this.temporaryDays.set(
+        Math.max(1, Math.ceil((inactiveUntil - Date.now()) / 86_400_000)),
+      );
+    }
     void this.loadGroupsForUser(Number(this.user.id));
   }
   //#region inject
@@ -175,6 +202,46 @@ export class TaonSessionUserDetailsComponent implements OnChanges {
     this.closeGroupChooser();
 
     void this.loadGroupsForUser(userId);
+  }
+
+  setAccountStatus(status: 'active' | 'inactive' | 'temporary'): void {
+    this.accountStatus.set(status);
+    this.statusError.set('');
+    if (status !== 'temporary') {
+      void this.saveAccountStatus();
+    }
+  }
+
+  setTemporaryDays(event: Event): void {
+    const days = Number((event.target as HTMLInputElement).value);
+    this.temporaryDays.set(Number.isSafeInteger(days) ? days : 0);
+  }
+
+  async saveAccountStatus(): Promise<void> {
+    const status = this.accountStatus();
+    const days = this.temporaryDays();
+    if (status === 'temporary' && (!Number.isSafeInteger(days) || days < 1)) {
+      this.statusError.set(this.t.gettext('Enter a number of days greater than zero.'));
+      return;
+    }
+    this.savingStatus.set(true);
+    this.statusError.set('');
+    try {
+      const updated = await this.userApiService.setAccountStatus(
+        Number(this.user.id),
+        status === 'temporary' ? { status, days } : { status },
+      );
+      this.user = updated;
+    } catch (error) {
+      console.error('[session-users] Unable to update account status', error);
+      this.statusError.set(
+        error instanceof Error
+          ? error.message
+          : this.t.gettext('Unable to update the user account status.'),
+      );
+    } finally {
+      this.savingStatus.set(false);
+    }
   }
 
   async loadGroupsForUser(userId: number): Promise<void> {

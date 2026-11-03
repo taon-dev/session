@@ -1,6 +1,52 @@
 <a [routerLink]="navigation.detailsLink('user', user.id)">{{
   t.gettext('User details #[[ id ]]', { id: user.id })
 }}</a>
+<div class="user-details__section">
+  <h4 class="user-details__section-title">{{ t.gettext('Account status') }}</h4>
+  <label>
+    <input
+      type="radio"
+      name="account-status-{{ user.id }}"
+      [checked]="accountStatus() === 'active'"
+      [disabled]="savingStatus()"
+      (change)="setAccountStatus('active')" />
+    {{ t.gettext('Active') }}
+  </label>
+  <label>
+    <input
+      type="radio"
+      name="account-status-{{ user.id }}"
+      [checked]="accountStatus() === 'inactive'"
+      [disabled]="savingStatus()"
+      (change)="setAccountStatus('inactive')" />
+    {{ t.gettext('Inactive') }}
+  </label>
+  <label>
+    <input
+      type="radio"
+      name="account-status-{{ user.id }}"
+      [checked]="accountStatus() === 'temporary'"
+      [disabled]="savingStatus()"
+      (change)="setAccountStatus('temporary')" />
+    {{ t.gettext('Inactive for') }}
+  </label>
+  <input
+    type="number"
+    min="1"
+    [value]="temporaryDays()"
+    [disabled]="savingStatus()"
+    [attr.aria-label]="t.gettext('Number of inactive days')"
+    (input)="setTemporaryDays($event)" />
+  <button
+    type="button"
+    [disabled]="savingStatus() || accountStatus() !== 'temporary'"
+    (click)="saveAccountStatus()">
+    {{ t.gettext('Apply') }}
+  </button>
+  @if (statusError()) {
+    <p role="alert">{{ statusError() }}</p>
+  }
+</div>
   <!-- profile -->
   <div class="user-details__profile">
     <div class="user-details__profile-picture">

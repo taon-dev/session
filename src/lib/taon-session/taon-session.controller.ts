@@ -1,4 +1,5 @@
 //#region imports
+import { Translation } from '@taon-dev/i18n/src';
 import {
   Taon,
   ClassHelpers,
@@ -31,12 +32,14 @@ import { TaonSessionUserRepository } from '../taon-session-user/taon-session-use
 import { TaonSessionEntity } from './taon-session.entity';
 import { TaonSessionKvRepository } from './taon-session.kv.repository';
 import { TaonSessionMiddleware } from './taon-session.middleware';
-import { TaonLoginData } from './taon-session.models';
+import { TaonLoginData, TaonLoginErrors } from './taon-session.models';
 import { TaonSessionProvider } from './taon-session.provider';
 import { TaonSessionRepository } from './taon-session.repository';
 import { TaonSessionUtils } from './taon-session.utils';
 
 //#endregion
+
+const t = Translation.for(Taon.__FILE_RELATIVE_PATH, Taon.LANG_IMPORT_MAP);
 
 @TaonController<TaonSessionController>({
   className: 'TaonSessionController',
@@ -59,6 +62,8 @@ import { TaonSessionUtils } from './taon-session.utils';
 })
 export class TaonSessionController extends TaonBaseController {
   //#region fields & getters
+  t = t;
+
   protected readonly taonSessionKvRepository = this.injectKvRepository(
     TaonSessionKvRepository,
   );
@@ -475,13 +480,45 @@ export class TaonSessionController extends TaonBaseController {
 
       //#region validate user
 
-      if (!user || !user.isActive) {
+      if (!user) {
         Taon.error({
           status: getStatusCode(HttpStatusEnum.INVALID_CREDENTIALS),
           message: t.gettext(`User is not active`),
         });
 
         return false;
+      }
+
+      if (!user.isActive) {
+        const inactiveUntil = user.inactiveUntil
+          ? new Date(user.inactiveUntil).getTime()
+          : 0;
+        const remainingMilliseconds = inactiveUntil - Date.now();
+        if (remainingMilliseconds > 0) {
+          Taon.error({
+            status: getStatusCode(HttpStatusEnum.INVALID_CREDENTIALS),
+            code: TaonLoginErrors.INACTIVE_ACCOUNT_FOR_PERIOD,
+            message: t.gettext(
+              'Your account is blocked for [[ days ]] days. Please contact [[ administratorEmail ]] to unblock your account.',
+              {
+                days: Math.ceil(remainingMilliseconds / (24 * 60 * 60 * 1000)),
+                administratorEmail: this.taonSessionProvider.administratorEmail,
+              },
+            ),
+          });
+        }
+        if (!user.inactiveUntil) {
+          Taon.error({
+            status: getStatusCode(HttpStatusEnum.INVALID_CREDENTIALS),
+            code: TaonLoginErrors.INACTIVE_ACCOUNT,
+            message: t.gettext(
+              'You are inactive. Please contact [[ administratorEmail ]] to unblock your account.',
+              {
+                administratorEmail: this.taonSessionProvider.administratorEmail,
+              },
+            ),
+          });
+        }
       }
 
       //#endregion

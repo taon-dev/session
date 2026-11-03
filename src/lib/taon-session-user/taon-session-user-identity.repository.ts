@@ -126,13 +126,6 @@ export class TaonSessionUserIdentityRepository extends TaonBaseRepository<TaonSe
         user.username = await this.generateUniqueUsername(manager);
         await users.save(user);
       }
-      if (!user?.isActive) {
-        Taon.error({
-          context: 'resolveSocialIdentity',
-          status: getStatusCode(HttpStatusEnum.INVALID_CREDENTIALS),
-          message: t.gettext('User is not active'),
-        });
-      }
       return this.createSocialIdentity(
         user.id,
         provider,

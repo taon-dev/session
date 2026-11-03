@@ -9,30 +9,54 @@ msgstr ""
 msgid "User details #[[ id ]]"
 msgstr "Benutzerdetails #[[ id ]]"
 
-#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.html:16
+#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.html:5
+msgid "Account status"
+msgstr "Kontostatus"
+
+#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.html:13
+msgid "Active"
+msgstr "Aktiv"
+
+#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.html:22
+msgid "Inactive"
+msgstr "Inaktiv"
+
+#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.html:31
+msgid "Inactive for"
+msgstr "Inaktiv für"
+
+#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.html:38
+msgid "Number of inactive days"
+msgstr "Anzahl der inaktiven Tage"
+
+#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.html:44
+msgid "Apply"
+msgstr "Übernehmen"
+
+#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.html:62
 msgid "First Name"
 msgstr "Vorname"
 
-#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.html:24
+#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.html:70
 msgid "Surname"
 msgstr "Nachname"
 
-#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.html:36
+#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.html:82
 msgid "User groups"
 msgstr "Benutzergruppen"
 
-#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.html:76
+#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.html:122
 msgid "Providers"
 msgstr "Anbieter"
 
-#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.html:96
+#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.html:142
 msgid "Roles from groups"
 msgstr "Rollen aus Gruppen"
 
-#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.html:47
+#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.html:93
 msgid "Assign group"
 msgstr "Gruppe zuweisen"
 
-#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.html:106
+#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.html:152
 msgid "No roles available through this group"
 msgstr "Über diese Gruppe sind keine Rollen verfügbar."
