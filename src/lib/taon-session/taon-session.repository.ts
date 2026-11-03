@@ -85,10 +85,20 @@ export class TaonSessionRepository extends TaonBaseRepository<TaonSessionEntity>
   async touchSession(
     sessionId: number,
     userId: number,
-    refresh = false,
+    opt?: {
+      refresh?: boolean;
+      skipRequireActiveSession?: boolean;
+    },
   ): Promise<void> {
     //#region @websqlFunc
-    await this.requireActiveSession(sessionId, userId);
+    opt = opt || ({} as any);
+    opt.refresh = !!opt.refresh;
+    opt.skipRequireActiveSession = !!opt.skipRequireActiveSession;
+    const { skipRequireActiveSession, refresh } = opt;
+    if (!skipRequireActiveSession) {
+      await this.requireActiveSession(sessionId, userId);
+    }
+
     await this.repo.update(
       { id: sessionId, userId },
       {
@@ -145,16 +155,25 @@ export class TaonSessionRepository extends TaonBaseRepository<TaonSessionEntity>
    * req.userId, req.sessionId
    * Without this function .getContext() will not work.
    */
-  async throwIfNotAuthenticated({
-    req,
-    next,
-  }: Pick<TaonServerMiddlewareInterceptOptions, 'req'> &
-    Partial<Pick<TaonServerMiddlewareInterceptOptions, 'res'>> &
-    Partial<Pick<TaonServerMiddlewareInterceptOptions, 'next'>>): Promise<{
+  async throwIfNotAuthenticated(
+    {
+      req,
+      next,
+    }: Pick<TaonServerMiddlewareInterceptOptions, 'req'> &
+      Partial<Pick<TaonServerMiddlewareInterceptOptions, 'res'>> &
+      Partial<Pick<TaonServerMiddlewareInterceptOptions, 'next'>>,
+    opt?: {
+      skipRequireActiveSession?: boolean;
+    },
+  ): Promise<{
     userId?: string | number;
     sessionId?: string | number;
   }> {
     //#region @websqlFunc
+    opt = opt || ({} as any);
+    opt.skipRequireActiveSession = !!opt.skipRequireActiveSession;
+    const { skipRequireActiveSession } = opt;
+
     if (!next) {
       next = () => void 0;
     }
@@ -212,7 +231,9 @@ export class TaonSessionRepository extends TaonBaseRepository<TaonSessionEntity>
         });
         return {};
       }
-      await this.touchSession(payload.sessionId, payload.userId);
+      await this.touchSession(payload.sessionId, payload.userId, {
+        skipRequireActiveSession,
+      });
     }
     Object.assign(req, {
       userId: payload.userId,
@@ -314,7 +335,9 @@ export class TaonSessionRepository extends TaonBaseRepository<TaonSessionEntity>
     }
 
     if (session.sessionId !== undefined) {
-      await this.touchSession(session.sessionId, session.userId, true);
+      await this.touchSession(session.sessionId, session.userId, {
+        refresh: true,
+      });
     }
 
     // ROTATION (important)
