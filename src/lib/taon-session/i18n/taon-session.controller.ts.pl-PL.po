@@ -43,6 +43,6 @@ msgstr "Użytkownik jest nieaktywny."
 msgid "Your account is blocked for [[ days ]] days. Please contact [[ administratorEmail ]] to unblock your account."
 msgstr "Twoje konto jest zablokowane. Pozostały czas blokady: [[ days ]] dni. Skontaktuj się z [[ administratorEmail ]], aby ją odblokować."
 
-#: src/lib/taon-session/taon-session.controller.ts:514
+#: src/lib/taon-session/taon-session.controller.ts:516
 msgid "You are inactive. Please contact [[ administratorEmail ]] to unblock your account."
 msgstr "Twoje konto jest nieaktywne. Skontaktuj się z [[ administratorEmail ]], aby je odblokować."
