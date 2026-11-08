@@ -20,6 +20,7 @@ msgstr "User ID"
 msgid "Username"
 msgstr "Username"
 
+#: src/lib/taon-session/taon-session-backoffice/taon-session-details.component.html:17
 #: src/lib/taon-session/taon-session-backoffice/taon-session-details.component.html:18
 msgid "User #[[ id ]]"
 msgstr "User #[[ id ]]"

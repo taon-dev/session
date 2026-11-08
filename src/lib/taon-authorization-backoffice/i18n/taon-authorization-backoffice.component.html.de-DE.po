@@ -4,6 +4,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+#: src/lib/taon-authorization-backoffice/taon-authorization-backoffice.component.html:3
 #: src/lib/taon-authorization-backoffice/taon-authorization-backoffice.component.html:4
 msgid "In the authorization section, you can manage groups, roles, and permissions within the system."
 msgstr "Im Bereich „Autorisierung“ können Sie Gruppen, Rollen und Berechtigungen im System verwalten."

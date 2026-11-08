@@ -45,6 +45,10 @@ msgstr "Surname"
 msgid "User groups"
 msgstr "User groups"
 
+#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.html:93
+msgid "Assign group"
+msgstr "Assign group"
+
 #: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.html:122
 msgid "Providers"
 msgstr "Providers"
@@ -52,10 +56,6 @@ msgstr "Providers"
 #: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.html:142
 msgid "Roles from groups"
 msgstr "Roles from groups"
-
-#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.html:93
-msgid "Assign group"
-msgstr "Assign group"
 
 #: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.html:152
 msgid "No roles available through this group"

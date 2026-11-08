@@ -8,6 +8,11 @@ msgstr ""
 msgid "Group"
 msgstr "Group"
 
+#: src/lib/taon-group/taon-group-chooser/taon-group-chooser.component.html:16
+#: src/lib/taon-group/taon-group-chooser/taon-group-chooser.component.html:17
+msgid "No groups available"
+msgstr "No groups available"
+
 #: src/lib/taon-group/taon-group-chooser/taon-group-chooser.component.html:31
 msgid "Assign"
 msgstr "Assign"
@@ -15,7 +20,3 @@ msgstr "Assign"
 #: src/lib/taon-group/taon-group-chooser/taon-group-chooser.component.html:39
 msgid "Cancel"
 msgstr "Cancel"
-
-#: src/lib/taon-group/taon-group-chooser/taon-group-chooser.component.html:17
-msgid "No groups available"
-msgstr "No groups available"

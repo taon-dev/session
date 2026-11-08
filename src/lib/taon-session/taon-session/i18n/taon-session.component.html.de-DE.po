@@ -31,6 +31,10 @@ msgstr "E-Mail"
 msgid "Login by email (disabled)"
 msgstr "E-Mail-Anmeldung (deaktiviert)"
 
+#: src/lib/taon-session/taon-session/taon-session.component.html:132
+msgid "or"
+msgstr ""
+
 #: src/lib/taon-session/taon-session/taon-session.component.html:178
 msgid "Continue with Microsoft"
 msgstr "Weiter mit Microsoft"
@@ -79,6 +83,10 @@ msgstr "{{ t.gettext('Logged in successfully') }}"
 msgid "Logged in successfully"
 msgstr "Erfolgreich angemeldet"
 
+#: src/lib/taon-session/taon-session/taon-session.component.html:380
+msgid "Logout"
+msgstr "Abmelden"
+
 #: src/lib/taon-session/taon-session/taon-session.component.html:392
 msgid "Welcome"
 msgstr "Willkommen"
@@ -94,7 +102,3 @@ msgstr "Abbrechen"
 #: src/lib/taon-session/taon-session/taon-session.component.html:347
 msgid "Repeated password is "
 msgstr "Wiederholtes Passwort ist "
-
-#: src/lib/taon-session/taon-session/taon-session.component.html:380
-msgid "Logout"
-msgstr "Abmelden"
