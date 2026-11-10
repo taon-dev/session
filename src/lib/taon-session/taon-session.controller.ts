@@ -25,6 +25,7 @@ import {
   TaonSessionIdentityProvider,
   TaonSessionUserEntity,
 } from '../taon-session-user';
+import { TaonSessionUserGroupRepository } from '../taon-session-user/taon-session-user-group.repository';
 import { TaonSessionUserIdentityEntity } from '../taon-session-user/taon-session-user-identity.entity';
 import { TaonSessionUserIdentityRepository } from '../taon-session-user/taon-session-user-identity.repository';
 import { TaonSessionUserRepository } from '../taon-session-user/taon-session-user.repository';
@@ -85,6 +86,10 @@ export class TaonSessionController extends TaonBaseController {
 
   protected readonly taonSessionRepository = this.injectCustomRepo(
     TaonSessionRepository,
+  );
+
+  protected readonly taonSessionUserGroupRepository = this.injectCustomRepo(
+    TaonSessionUserGroupRepository,
   );
   //#endregion
 
@@ -546,6 +551,10 @@ export class TaonSessionController extends TaonBaseController {
       //     expiresAt: saved.expiresAt,
       //   });
       // })();
+
+      await this.taonSessionUserGroupRepository.ensureConfiguredAdministratorMembership(
+        user.id,
+      );
 
       //#region create session
 

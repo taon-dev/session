@@ -15,6 +15,7 @@ import { TaonRolePermissionRepository } from '../taon-role/taon-role-permission.
 import { TaonRoleRepository } from '../taon-role/taon-role.repository';
 import { TaonSessionProvider } from '../taon-session/taon-session.provider';
 import { TaonSessionRepository } from '../taon-session/taon-session.repository';
+import { TaonSessionUserGroupRepository } from '../taon-session-user/taon-session-user-group.repository';
 import { TaonSessionUserRepository } from '../taon-session-user/taon-session-user.repository';
 
 import {
@@ -80,6 +81,10 @@ export class TaonAuthContextRepository<
     TaonSessionRepository,
   );
 
+  protected readonly taonSessionUserGroupRepository = this.injectCustomRepo(
+    TaonSessionUserGroupRepository,
+  );
+
   protected readonly taonGroupRoleRepository = this.injectCustomRepo(
     TaonGroupRoleRepository,
   );
@@ -138,6 +143,14 @@ export class TaonAuthContextRepository<
     context.session = !userId
       ? null
       : await this.taonSessionRepository.getSessionBy(sessionId);
+
+    if (context.user) {
+      // restore enforced membership before groups/roles are resolved
+      await this.taonSessionUserGroupRepository.ensureConfiguredAdministratorMembership(
+        context.user.id,
+        context.user.identities || [],
+      );
+    }
 
     context.groups = !userId
       ? []

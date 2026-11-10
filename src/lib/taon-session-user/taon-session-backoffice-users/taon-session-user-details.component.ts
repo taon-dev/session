@@ -72,6 +72,8 @@ export class TaonSessionUserDetailsComponent implements OnChanges {
 
   readonly statusError = signal('');
 
+  readonly groupError = signal('');
+
   readonly savingStatus = signal(false);
 
   ngOnChanges(): void {
@@ -274,10 +276,19 @@ export class TaonSessionUserDetailsComponent implements OnChanges {
   async unassignGroup(
     row: TaonSessionBackofficeUsersModels.AssignedGroupRow,
   ): Promise<void> {
-    await this.taonGroupApiService.unassignGroupFromUser(
-      row.userId,
-      row.groupId,
-    );
+    this.groupError.set('');
+    try {
+      await this.taonGroupApiService.unassignGroupFromUser(
+        row.userId,
+        row.groupId,
+      );
+    } catch (error) {
+      console.error('[session-users] Unable to unassign group', error);
+      this.groupError.set(
+        (error as any)?.body?.json?.message ||
+          this.t.gettext('Unable to remove the group from this user.'),
+      );
+    }
 
     await this.loadGroupsForUser(row.userId);
   }

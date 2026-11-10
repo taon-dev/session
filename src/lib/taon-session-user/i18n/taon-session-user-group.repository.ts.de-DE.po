@@ -1,0 +1,9 @@
+msgid ""
+msgstr ""
+"Language: de-DE\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/lib/taon-session-user/taon-session-user-group.repository.ts:64
+msgid "This Administrator membership is enforced by provider configuration (administratorsEmails) and cannot be removed."
+msgstr ""

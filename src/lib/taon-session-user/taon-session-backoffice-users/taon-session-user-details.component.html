@@ -114,6 +114,10 @@
       searchMode="simple"
       [expansionTemplate]="groupExpansionTemplate">
     </taon-datatable>
+
+    @if (groupError()) {
+      <p role="alert">{{ groupError() }}</p>
+    }
   </div>
 
   <!-- providers -->

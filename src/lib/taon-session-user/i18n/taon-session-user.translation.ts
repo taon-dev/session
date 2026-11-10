@@ -2,6 +2,9 @@
 import { CoreModels } from 'tnp-core/src';
 
 // join interface type here
+import { EnUsTraslationOverrideSrcLibTaonSessionUserTaonSessionUserGroupRepositoryTs } from './taon-session-user-group.repository.ts.en-US.i18n.data';
+import { PlPlTraslationOverrideSrcLibTaonSessionUserTaonSessionUserGroupRepositoryTs } from './taon-session-user-group.repository.ts.pl-PL.i18n.data';
+import { DeDeTraslationOverrideSrcLibTaonSessionUserTaonSessionUserGroupRepositoryTs } from './taon-session-user-group.repository.ts.de-DE.i18n.data';
 import { EnUsTraslationOverrideSrcLibTaonSessionUserTaonSessionUserIdentityRepositoryTs } from './taon-session-user-identity.repository.ts.en-US.i18n.data';
 import { PlPlTraslationOverrideSrcLibTaonSessionUserTaonSessionUserIdentityRepositoryTs } from './taon-session-user-identity.repository.ts.pl-PL.i18n.data';
 import { DeDeTraslationOverrideSrcLibTaonSessionUserTaonSessionUserIdentityRepositoryTs } from './taon-session-user-identity.repository.ts.de-DE.i18n.data';
@@ -11,7 +14,10 @@ import { DeDeTraslationOverrideSrcLibTaonSessionUserTaonSessionUserControllerTs 
 import { EnUsTraslationOverrideSrcLibTaonSessionUserTaonSessionUserRepositoryTs } from './taon-session-user.repository.ts.en-US.i18n.data';
 import { PlPlTraslationOverrideSrcLibTaonSessionUserTaonSessionUserRepositoryTs } from './taon-session-user.repository.ts.pl-PL.i18n.data';
 import { DeDeTraslationOverrideSrcLibTaonSessionUserTaonSessionUserRepositoryTs } from './taon-session-user.repository.ts.de-DE.i18n.data';;
-export type TaonSessionUserOverride = CoreModels.DeepPartial<EnUsTraslationOverrideSrcLibTaonSessionUserTaonSessionUserIdentityRepositoryTs 
+export type TaonSessionUserOverride = CoreModels.DeepPartial<EnUsTraslationOverrideSrcLibTaonSessionUserTaonSessionUserGroupRepositoryTs 
+| PlPlTraslationOverrideSrcLibTaonSessionUserTaonSessionUserGroupRepositoryTs 
+| DeDeTraslationOverrideSrcLibTaonSessionUserTaonSessionUserGroupRepositoryTs 
+| EnUsTraslationOverrideSrcLibTaonSessionUserTaonSessionUserIdentityRepositoryTs 
 | PlPlTraslationOverrideSrcLibTaonSessionUserTaonSessionUserIdentityRepositoryTs 
 | DeDeTraslationOverrideSrcLibTaonSessionUserTaonSessionUserIdentityRepositoryTs 
 | EnUsTraslationOverrideSrcLibTaonSessionUserTaonSessionUserControllerTs 

@@ -49,14 +49,14 @@ msgstr "Benutzergruppen"
 msgid "Assign group"
 msgstr "Gruppe zuweisen"
 
-#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.html:122
+#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.html:126
 msgid "Providers"
 msgstr "Anbieter"
 
-#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.html:142
+#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.html:146
 msgid "Roles from groups"
 msgstr "Rollen aus Gruppen"
 
-#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.html:152
+#: src/lib/taon-session-user/taon-session-backoffice-users/taon-session-user-details.component.html:156
 msgid "No roles available through this group"
 msgstr "Über diese Gruppe sind keine Rollen verfügbar."
