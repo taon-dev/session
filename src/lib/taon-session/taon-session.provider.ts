@@ -409,15 +409,10 @@ export class TaonSessionProvider extends TaonBaseProvider {
 
   public get isLocalhost(): boolean {
     if (!this.ctx) {
-      console.trace(`[isLocalhost] accessing without context`);
-      return void 0 as any;
+      console.log(`[isLocalhost] accessing without context`);
+      return false;
     }
-    const originUrl = this.ctx.frontendHostUri;
-    return (
-      originUrl.hostname === 'localhost' ||
-      originUrl.hostname === '127.0.0.1' ||
-      originUrl.hostname === '[::1]'
-    );
+    return this.ctx.isLocalhostBackend;
   }
 
   async _() {
