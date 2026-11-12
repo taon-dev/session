@@ -7,7 +7,7 @@ import { AnythingTestController } from './anything-test.controller';
 
 @Injectable()
 export class AnythingTestApiService extends TaonBaseAngularService {
-  protected anythingTestController = this.injectController(AnythingTestController);
+  protected anythingTestController = this.inject(AnythingTestController);
 
   public hello(): Observable<string> {
     return this.anythingTestController.helloWord('anything-test')

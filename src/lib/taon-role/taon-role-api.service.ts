@@ -10,7 +10,7 @@ import { TaonRoleController } from './taon-role.controller';
 
 @Injectable()
 export class TaonRoleApiService extends TaonBaseAngularService {
-  public taonRoleController = this.injectController(TaonRoleController);
+  public taonRoleController = this.inject(TaonRoleController);
 
   public get allMyEntities$(): Observable<TaonRoleEntity[]> {
     return this.taonRoleController.getAll().request!().observable.pipe(

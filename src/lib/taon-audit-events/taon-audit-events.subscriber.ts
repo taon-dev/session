@@ -9,7 +9,7 @@ import { TaonAuditEventsProvider } from './taon-audit-events.provider';
   // allowedEvents: ['afterUpdate'],
 })
 export class TaonAuditEventsSubscriber extends TaonBaseSubscriberForEntity {
-  taonAuditEventsProvider = this.injectProvider(TaonAuditEventsProvider);
+  taonAuditEventsProvider = this.inject(TaonAuditEventsProvider);
   listenTo(): typeof TaonAuditEventsEntity {
     return TaonAuditEventsEntity;
   }

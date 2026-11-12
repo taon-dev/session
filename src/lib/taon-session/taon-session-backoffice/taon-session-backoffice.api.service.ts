@@ -6,7 +6,7 @@ import { TaonSessionBackofficeModels } from './taon-session-backoffice.models';
 
 @Injectable()
 export class TaonSessionBackofficeApiService extends TaonBaseAngularService {
-  readonly taonSessionBackofficeController = this.injectController(
+  readonly taonSessionBackofficeController = this.inject(
     TaonSessionBackofficeController,
   );
 

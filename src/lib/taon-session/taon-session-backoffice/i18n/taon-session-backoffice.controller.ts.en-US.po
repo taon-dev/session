@@ -4,14 +4,14 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/lib/taon-session/taon-session-backoffice/taon-session-backoffice.controller.ts:71
+#: src/lib/taon-session/taon-session-backoffice/taon-session-backoffice.controller.ts:70
 msgid "You are not authorized to view sessions"
 msgstr "You are not authorized to view sessions"
 
-#: src/lib/taon-session/taon-session-backoffice/taon-session-backoffice.controller.ts:159
+#: src/lib/taon-session/taon-session-backoffice/taon-session-backoffice.controller.ts:158
 msgid "Invalid session ID"
 msgstr "Invalid session ID"
 
-#: src/lib/taon-session/taon-session-backoffice/taon-session-backoffice.controller.ts:182
+#: src/lib/taon-session/taon-session-backoffice/taon-session-backoffice.controller.ts:181
 msgid "Session not found"
 msgstr "Session not found"

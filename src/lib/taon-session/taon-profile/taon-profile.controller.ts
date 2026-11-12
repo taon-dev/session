@@ -29,15 +29,15 @@ const t = Translation.for(Taon.__FILE_RELATIVE_PATH, Taon.LANG_IMPORT_MAP);
 export class TaonProfileController extends TaonBaseStorageController<TaonProfileModels.PictureQuery> {
   //#region storage hooks
 
-  protected readonly taonSessionRepository = this.injectCustomRepo(
+  protected readonly taonSessionRepository = this.inject(
     TaonSessionRepository,
   );
 
-  protected readonly taonAuthContextRepository = this.injectCustomRepo(
+  protected readonly taonAuthContextRepository = this.inject(
     TaonAuthContextRepository,
   );
 
-  protected readonly userRepository = this.injectCustomRepo(
+  protected readonly userRepository = this.inject(
     TaonSessionUserRepository,
   );
 

@@ -19,7 +19,7 @@ import { AnythingTestRepository } from './anything-test.repository';
 export class AnythingTestController extends TaonBaseCrudController<AnythingTestEntity> {
   entityClassResolveFn: () => typeof AnythingTestEntity = () => AnythingTestEntity;
 
-  anythingTestRepository = this.injectCustomRepository(AnythingTestRepository);
+  anythingTestRepository = this.inject(AnythingTestRepository);
 
   //#region methods & getters / hello world
   @GET()

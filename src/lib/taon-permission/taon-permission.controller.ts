@@ -34,9 +34,9 @@ export class TaonPermissionController extends TaonBaseCrudController<TaonPermiss
   entityClassResolveFn: () => typeof TaonPermissionEntity = () =>
     TaonPermissionEntity;
 
-  taonPermissionRepository = this.injectCustomRepo(TaonPermissionRepository);
+  taonPermissionRepository = this.inject(TaonPermissionRepository);
 
-  protected readonly taonSessionRepository = this.injectCustomRepo(
+  protected readonly taonSessionRepository = this.inject(
     TaonSessionRepository,
   );
 

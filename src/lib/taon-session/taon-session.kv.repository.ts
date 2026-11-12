@@ -21,7 +21,7 @@ export class TaonSessionKvRepository extends TaonBaseKvRepository<
     }
   >
 > {
-  taonSessionProvider = this.injectProvider(TaonSessionProvider);
+  taonSessionProvider = this.inject(TaonSessionProvider);
 
   //#region create access token
   public async createAccessToken(

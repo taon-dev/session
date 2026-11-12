@@ -8,7 +8,7 @@ import type { TaonAuditEventsEntity } from './taon-audit-events.entity';
 
 @Injectable()
 export class TaonAuditEventsApiService extends TaonBaseAngularService {
-  private taonAuditEventsController = this.injectController(TaonAuditEventsController);
+  private taonAuditEventsController = this.inject(TaonAuditEventsController);
 
   public get allMyEntities$(): Observable<TaonAuditEventsEntity[]> {
     return this.taonAuditEventsController.getAll().request!().observable.pipe(

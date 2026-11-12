@@ -27,25 +27,24 @@ const t = Translation.for(Taon.__FILE_RELATIVE_PATH, Taon.LANG_IMPORT_MAP);
   allowedMethods: ['paginationQuery', 'getBy'],
 })
 export class TaonSessionBackofficeController extends TaonBaseCrudController<
+  // @ts-expect-error
   TaonSessionBackofficeModels.SessionRow,
   {},
   TaonSessionBackofficeController
 > {
   entityClassResolveFn = () => TaonSessionEntity;
 
-  protected readonly taonSessionRepository = this.injectCustomRepo(
-    TaonSessionRepository,
-  );
+  protected readonly taonSessionRepository = this.inject(TaonSessionRepository);
 
-  protected readonly taonAuthContextRepository = this.injectCustomRepo(
+  protected readonly taonAuthContextRepository = this.inject(
     TaonAuthContextRepository,
   );
 
-  protected readonly taonSessionUserRepository = this.injectCustomRepo(
+  protected readonly taonSessionUserRepository = this.inject(
     TaonSessionUserRepository,
   );
 
-  protected readonly taonSessionUserIdentityRepository = this.injectCustomRepo(
+  protected readonly taonSessionUserIdentityRepository = this.inject(
     TaonSessionUserIdentityRepository,
   );
 

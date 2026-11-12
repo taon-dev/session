@@ -9,7 +9,7 @@ import { TaonProfileProvider } from './taon-profile.provider';
 
 @Injectable()
 export class TaonProfileConfigService extends TaonBaseAngularService {
-  private taonProfileProvider = this.injectProvider(TaonProfileProvider);
+  private taonProfileProvider = this.inject(TaonProfileProvider);
 
   clone(): Partial<TaonProfileProvider> {
     const cloned = this.taonProfileProvider.clone();

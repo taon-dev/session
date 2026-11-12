@@ -25,7 +25,7 @@ export class TaonSessionUserGroupRepository extends TaonBaseRepository<TaonSessi
   entityClassResolveFn: () => typeof TaonSessionUserGroupEntity = () =>
     TaonSessionUserGroupEntity;
 
-  protected readonly sessionProvider = this.injectProvider(TaonSessionProvider);
+  protected readonly sessionProvider = this.inject(TaonSessionProvider);
 
   async assignGroupToUser(
     userId: number,

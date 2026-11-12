@@ -8,7 +8,7 @@ import { TaonPermissionController } from './taon-permission.controller';
 
 @Injectable()
 export class TaonPermissionApiService extends TaonBaseAngularService {
-  public taonPermissionController = this.injectController(
+  public taonPermissionController = this.inject(
     TaonPermissionController,
   );
 

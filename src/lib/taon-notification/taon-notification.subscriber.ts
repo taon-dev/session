@@ -9,7 +9,7 @@ import { TaonNotificationProvider } from './taon-notification.provider';
   // allowedEvents: ['afterUpdate'],
 })
 export class TaonNotificationSubscriber extends TaonBaseSubscriberForEntity {
-  taonNotificationProvider = this.injectProvider(TaonNotificationProvider);
+  taonNotificationProvider = this.inject(TaonNotificationProvider);
   listenTo(): typeof TaonNotificationEntity {
     return TaonNotificationEntity;
   }

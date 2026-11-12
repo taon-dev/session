@@ -21,7 +21,7 @@ export class TaonAuditEventsController extends TaonBaseCrudController<TaonAuditE
   entityClassResolveFn: () => typeof TaonAuditEventsEntity = () =>
     TaonAuditEventsEntity;
 
-  taonAuditEventsRepository = this.injectCustomRepo(TaonAuditEventsRepository);
+  taonAuditEventsRepository = this.inject(TaonAuditEventsRepository);
 
   //#region methods & getters / hello world
   /**

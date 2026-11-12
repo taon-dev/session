@@ -52,11 +52,11 @@ export class TaonSessionUserController extends TaonBaseCrudController<
   entityClassResolveFn: () => typeof TaonSessionUserEntity = () =>
     TaonSessionUserEntity;
 
-  protected readonly taonSessionRepository = this.injectCustomRepo(
+  protected readonly taonSessionRepository = this.inject(
     TaonSessionRepository,
   );
 
-  protected readonly taonAuthContextRepository = this.injectCustomRepo(
+  protected readonly taonAuthContextRepository = this.inject(
     TaonAuthContextRepository,
   );
 
@@ -101,7 +101,7 @@ export class TaonSessionUserController extends TaonBaseCrudController<
   ): Models.Http.Response<TaonSessionUserEntity> {
     //#region @websqlFunc
     return async () =>
-      this.injectCustomRepo(TaonSessionUserRepository).getUserById(id);
+      this.inject(TaonSessionUserRepository).getUserById(id);
     //#endregion
   }
   //#endregion

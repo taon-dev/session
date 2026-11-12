@@ -9,7 +9,7 @@ import { TaonPermissionProvider } from './taon-permission.provider';
   // allowedEvents: ['afterUpdate'],
 })
 export class TaonPermissionSubscriber extends TaonBaseSubscriberForEntity {
-  taonPermissionProvider = this.injectProvider(TaonPermissionProvider);
+  taonPermissionProvider = this.inject(TaonPermissionProvider);
   listenTo(): typeof TaonPermissionEntity {
     return TaonPermissionEntity;
   }

@@ -15,7 +15,7 @@ import {
 
 @Injectable()
 export class TaonSessionConfigService extends TaonBaseAngularService {
-  private taonSessionProvider = this.injectProvider(TaonSessionProvider);
+  private taonSessionProvider = this.inject(TaonSessionProvider);
 
   clone(): TaonSessionConfig {
     const cloned = this.taonSessionProvider.clone();

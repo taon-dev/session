@@ -80,7 +80,7 @@ import { TaonSessionRepository } from '@taon-dev/session/src';
 export class TaonControllerClass extends TaonBaseCrudController {
 
   // inject seesion repository
-  private readonly taonSessionRepository = this.injectCustomRepo(TaonSessionRepository);
+  private readonly taonSessionRepository = this.inject(TaonSessionRepository);
 
   // override hook method that is called before each controller request method 
   async beforeEachRequest({

@@ -65,30 +65,30 @@ export class TaonSessionController extends TaonBaseController {
   //#region fields & getters
   t = t;
 
-  protected readonly taonSessionKvRepository = this.injectKvRepository(
+  protected readonly taonSessionKvRepository = this.inject(
     TaonSessionKvRepository,
   );
 
-  protected readonly taonSessionUserIdentityRepository = this.injectCustomRepo(
+  protected readonly taonSessionUserIdentityRepository = this.inject(
     TaonSessionUserIdentityRepository,
   );
 
   protected readonly taonSessionProvider =
-    this.injectProvider(TaonSessionProvider);
+    this.inject(TaonSessionProvider);
 
-  protected readonly taonSessionUserRepository = this.injectCustomRepo(
+  protected readonly taonSessionUserRepository = this.inject(
     TaonSessionUserRepository,
   );
 
-  protected readonly taonAuthContextRepository = this.injectCustomRepo(
+  protected readonly taonAuthContextRepository = this.inject(
     TaonAuthContextRepository,
   );
 
-  protected readonly taonSessionRepository = this.injectCustomRepo(
+  protected readonly taonSessionRepository = this.inject(
     TaonSessionRepository,
   );
 
-  protected readonly taonSessionUserGroupRepository = this.injectCustomRepo(
+  protected readonly taonSessionUserGroupRepository = this.inject(
     TaonSessionUserGroupRepository,
   );
   //#endregion

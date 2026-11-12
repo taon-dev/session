@@ -22,9 +22,9 @@ import { TaonSessionRepository } from './taon-session.repository';
   className: 'TaonSessionMiddleware',
 })
 export class TaonSessionMiddleware extends TaonBaseMiddleware {
-  taonSessionRepository = this.injectCustomRepo(TaonSessionRepository);
+  taonSessionRepository = this.inject(TaonSessionRepository);
 
-  taonSessionController = this.injectCustomRepo(TaonSessionController);
+  taonSessionController = this.inject(TaonSessionController);
 
   //#region intercept server method
   async interceptServerMethod(

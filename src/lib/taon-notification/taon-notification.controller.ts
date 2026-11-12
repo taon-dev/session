@@ -21,7 +21,7 @@ export class TaonNotificationController extends TaonBaseCrudController<TaonNotif
   entityClassResolveFn: () => typeof TaonNotificationEntity = () =>
     TaonNotificationEntity;
 
-  taonNotificationRepository = this.injectCustomRepo(
+  taonNotificationRepository = this.inject(
     TaonNotificationRepository,
   );
 

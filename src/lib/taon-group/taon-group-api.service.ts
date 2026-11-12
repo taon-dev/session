@@ -10,7 +10,7 @@ import type { TaonGroupEntity } from './taon-group.entity';
 
 @Injectable()
 export class TaonGroupApiService extends TaonBaseAngularService {
-  public taonGroupController = this.injectController(TaonGroupController);
+  public taonGroupController = this.inject(TaonGroupController);
 
   public get allMyEntities$(): Observable<TaonGroupEntity[]> {
     return this.taonGroupController.getAll().request!().observable.pipe(

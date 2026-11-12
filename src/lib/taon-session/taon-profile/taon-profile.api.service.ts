@@ -10,7 +10,7 @@ import { TaonProfileModels } from './taon-profile.models';
 export class TaonProfileApiService extends TaonBaseAngularService {
   //#region controllers
 
-  public readonly taonProfileController = this.injectController(
+  public readonly taonProfileController = this.inject(
     TaonProfileController,
   );
 

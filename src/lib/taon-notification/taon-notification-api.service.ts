@@ -8,7 +8,7 @@ import { TaonNotificationController } from './taon-notification.controller';
 
 @Injectable()
 export class TaonNotificationApiService extends TaonBaseAngularService {
-  private taonNotificationController = this.injectController(TaonNotificationController);
+  private taonNotificationController = this.inject(TaonNotificationController);
 
   public get allMyEntities$(): Observable<TaonNotificationEntity[]> {
     return this.taonNotificationController.getAll().request!().observable.pipe(

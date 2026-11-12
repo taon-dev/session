@@ -10,7 +10,7 @@ import { TaonSessionUserProvider } from './taon-session-user.provider';
   allowedEvents: ['afterUpdate'],
 })
 export class TaonSessionUserSubscriber extends TaonBaseSubscriberForEntity {
-  taonSessionUserProvider = this.injectProvider(TaonSessionUserProvider);
+  taonSessionUserProvider = this.inject(TaonSessionUserProvider);
 
   listenTo(): typeof TaonSessionUserEntity {
     return TaonSessionUserEntity;

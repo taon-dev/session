@@ -28,12 +28,12 @@ export class TaonSessionRepository extends TaonBaseRepository<TaonSessionEntity>
   entityClassResolveFn: () => typeof TaonSessionEntity = () =>
     TaonSessionEntity;
 
-  protected readonly taonSessionKvRepository = this.injectKvRepository(
+  protected readonly taonSessionKvRepository = this.inject(
     TaonSessionKvRepository,
   );
 
   protected readonly taonSessionProvider =
-    this.injectProvider(TaonSessionProvider);
+    this.inject(TaonSessionProvider);
   //#endregion
 
   //#region create session entity

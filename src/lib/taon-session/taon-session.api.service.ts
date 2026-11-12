@@ -15,7 +15,7 @@ import { HttpResponseError, RestErrorResponseWrapper } from 'ng2-rest/src';
 
 @Injectable()
 export class TaonSessionApiService extends TaonBaseAngularService {
-  private taonSessionController = this.injectController(TaonSessionController);
+  private taonSessionController = this.inject(TaonSessionController);
 
   usernameAvailable(username: string): Observable<boolean> {
     return this.taonSessionController.usernameAvailable(username)

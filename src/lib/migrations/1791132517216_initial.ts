@@ -14,7 +14,7 @@ import { QueryRunner } from 'taon-typeorm/src';
   className: 'SessionContext_1791132517216_initial',
 })
 export class SessionContext_1791132517216_initial extends TaonBaseMigration {
-  protected taonAuthContextRepository = this.injectCustomRepo(
+  protected taonAuthContextRepository = this.inject(
     TaonAuthContextRepository,
   );
 

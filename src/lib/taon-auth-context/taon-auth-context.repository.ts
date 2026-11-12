@@ -73,38 +73,38 @@ export class TaonAuthContextRepository<
   entityClassResolveFn: () => typeof TaonAuthContextEntity<AUTH> = () =>
     TaonAuthContextEntity;
 
-  protected readonly taonSessionUserRepository = this.injectCustomRepo(
+  protected readonly taonSessionUserRepository = this.inject(
     TaonSessionUserRepository,
   );
 
-  protected readonly taonSessionRepository = this.injectCustomRepo(
+  protected readonly taonSessionRepository = this.inject(
     TaonSessionRepository,
   );
 
-  protected readonly taonSessionUserGroupRepository = this.injectCustomRepo(
+  protected readonly taonSessionUserGroupRepository = this.inject(
     TaonSessionUserGroupRepository,
   );
 
-  protected readonly taonGroupRoleRepository = this.injectCustomRepo(
+  protected readonly taonGroupRoleRepository = this.inject(
     TaonGroupRoleRepository,
   );
 
-  protected readonly taonRolePermissionRepository = this.injectCustomRepo(
+  protected readonly taonRolePermissionRepository = this.inject(
     TaonRolePermissionRepository,
   );
 
   protected readonly taonGroupRepository =
-    this.injectCustomRepo(TaonGroupRepository);
+    this.inject(TaonGroupRepository);
 
-  protected readonly taonPermissionRepository = this.injectCustomRepo(
+  protected readonly taonPermissionRepository = this.inject(
     TaonPermissionRepository,
   );
 
   protected readonly taonSessionProvider =
-    this.injectProvider(TaonSessionProvider);
+    this.inject(TaonSessionProvider);
 
   protected readonly taonRoleRepository =
-    this.injectCustomRepo(TaonRoleRepository);
+    this.inject(TaonRoleRepository);
 
   //#endregion
 

@@ -46,17 +46,17 @@ export class TaonGroupController extends TaonBaseCrudController<
 > {
   entityClassResolveFn: () => typeof TaonGroupEntity = () => TaonGroupEntity;
 
-  taonGroupRepository = this.injectCustomRepo(TaonGroupRepository);
+  taonGroupRepository = this.inject(TaonGroupRepository);
 
-  protected readonly taonGroupRoleRepository = this.injectCustomRepo(
+  protected readonly taonGroupRoleRepository = this.inject(
     TaonGroupRoleRepository,
   );
 
-  protected readonly taonSessionUserGroupRepository = this.injectCustomRepo(
+  protected readonly taonSessionUserGroupRepository = this.inject(
     TaonSessionUserGroupRepository,
   );
 
-  protected readonly taonSessionRepository = this.injectCustomRepo(
+  protected readonly taonSessionRepository = this.inject(
     TaonSessionRepository,
   );
 

@@ -38,13 +38,13 @@ import { TaonRoleRepository } from './taon-role.repository';
 export class TaonRoleController extends TaonBaseCrudController<TaonRoleEntity> {
   entityClassResolveFn: () => typeof TaonRoleEntity = () => TaonRoleEntity;
 
-  taonRoleRepository = this.injectCustomRepo(TaonRoleRepository);
+  taonRoleRepository = this.inject(TaonRoleRepository);
 
-  protected readonly taonRolePermissionRepository = this.injectCustomRepo(
+  protected readonly taonRolePermissionRepository = this.inject(
     TaonRolePermissionRepository,
   );
 
-  protected readonly taonSessionRepository = this.injectCustomRepo(
+  protected readonly taonSessionRepository = this.inject(
     TaonSessionRepository,
   );
 
