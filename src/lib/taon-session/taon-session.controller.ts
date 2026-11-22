@@ -73,8 +73,7 @@ export class TaonSessionController extends TaonBaseController {
     TaonSessionUserIdentityRepository,
   );
 
-  protected readonly taonSessionProvider =
-    this.inject(TaonSessionProvider);
+  protected readonly taonSessionProvider = this.inject(TaonSessionProvider);
 
   protected readonly taonSessionUserRepository = this.inject(
     TaonSessionUserRepository,
@@ -84,9 +83,7 @@ export class TaonSessionController extends TaonBaseController {
     TaonAuthContextRepository,
   );
 
-  protected readonly taonSessionRepository = this.inject(
-    TaonSessionRepository,
-  );
+  protected readonly taonSessionRepository = this.inject(TaonSessionRepository);
 
   protected readonly taonSessionUserGroupRepository = this.inject(
     TaonSessionUserGroupRepository,
@@ -165,16 +162,32 @@ export class TaonSessionController extends TaonBaseController {
     >;
 
     try {
+      const { googleClientId, googleSecret } =
+        this.taonSessionProvider.socialLogin.google;
+
       googleData = await TaonSessionUtils.verifyGoogleAuthorizationCode(
-        this.taonSessionProvider.socialLogin.google.googleClientId!,
-        this.taonSessionProvider.socialLogin.google.googleSecret!,
-        googleCode!,
+        googleClientId,
+        googleSecret,
+        googleCode,
       );
     } catch (error) {
+      const failure =
+        error instanceof TaonSessionUtils.GoogleAuthError ? error : undefined;
+
+      console.warn('[TaonSession] Google sign-in failed', {
+        context: 'getGoogleIdentity',
+        stage: failure?.stage ?? 'unknown',
+        reason: failure?.reason ?? 'unexpected_error',
+        httpStatus: failure?.httpStatus,
+      });
+
       Taon.error({
         status: getStatusCode(HttpStatusEnum.INVALID_CREDENTIALS),
+        context: 'getGoogleIdentity',
+        details: 'Google authorization code verification failed.',
         message: getStatusText(HttpStatusEnum.INVALID_CREDENTIALS),
       });
+
       return { error: true };
     }
 
@@ -185,6 +198,9 @@ export class TaonSessionController extends TaonBaseController {
     ) {
       Taon.error({
         status: getStatusCode(HttpStatusEnum.INVALID_CREDENTIALS),
+        context: 'getGoogleIdentity',
+        details:
+          'Google sign-in requires a subject ID and a verified email address.',
         message: t.gettext('Invalid Google authentication.'),
       });
       return { error: true };
@@ -443,6 +459,8 @@ export class TaonSessionController extends TaonBaseController {
         if (!email || !password) {
           Taon.error({
             status: getStatusCode(HttpStatusEnum.INVALID_CREDENTIALS),
+            context: 'login',
+            details: 'Both email and password are required.',
             message: getStatusText(HttpStatusEnum.INVALID_CREDENTIALS),
           });
 
@@ -458,6 +476,8 @@ export class TaonSessionController extends TaonBaseController {
         if (!identity) {
           Taon.error({
             status: getStatusCode(HttpStatusEnum.INVALID_CREDENTIALS),
+            context: 'login',
+            details: 'Email or password is incorrect.',
             message: getStatusText(HttpStatusEnum.INVALID_CREDENTIALS),
           });
 
@@ -488,6 +508,8 @@ export class TaonSessionController extends TaonBaseController {
       if (!user) {
         Taon.error({
           status: getStatusCode(HttpStatusEnum.INVALID_CREDENTIALS),
+          context: 'login',
+          details: 'No user record could be loaded for the sign-in identity.',
           message: t.gettext(`User is not active`),
         });
 
@@ -502,6 +524,8 @@ export class TaonSessionController extends TaonBaseController {
         if (remainingMilliseconds > 0) {
           Taon.error({
             status: getStatusCode(HttpStatusEnum.INVALID_CREDENTIALS),
+            context: 'login',
+            details: 'The account is temporarily inactive.',
             code: TaonLoginErrors.INACTIVE_ACCOUNT_FOR_PERIOD,
             message: t.gettext(
               'Your account is blocked for [[ days ]] days. Please contact [[ administratorEmail ]] to unblock your account.',
@@ -517,6 +541,8 @@ export class TaonSessionController extends TaonBaseController {
         if (!user.inactiveUntil) {
           Taon.error({
             status: getStatusCode(HttpStatusEnum.INVALID_CREDENTIALS),
+            context: 'login',
+            details: 'The account is inactive with no scheduled reactivation.',
             code: TaonLoginErrors.INACTIVE_ACCOUNT,
             message: t.gettext(
               'You are inactive. Please contact [[ administratorEmail ]] to unblock your account.',

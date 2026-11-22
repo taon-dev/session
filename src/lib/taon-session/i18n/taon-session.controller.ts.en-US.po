@@ -4,45 +4,45 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/lib/taon-session/taon-session.controller.ts:106
-#: src/lib/taon-session/taon-session.controller.ts:127
-#: src/lib/taon-session/taon-session.controller.ts:227
-#: src/lib/taon-session/taon-session.controller.ts:439
+#: src/lib/taon-session/taon-session.controller.ts:103
+#: src/lib/taon-session/taon-session.controller.ts:124
+#: src/lib/taon-session/taon-session.controller.ts:229
+#: src/lib/taon-session/taon-session.controller.ts:441
 msgid "Login by email is disabled."
 msgstr "Login by email is disabled."
 
-#: src/lib/taon-session/taon-session.controller.ts:188
+#: src/lib/taon-session/taon-session.controller.ts:190
 msgid "Invalid Google authentication."
 msgstr "Invalid Google authentication."
 
-#: src/lib/taon-session/taon-session.controller.ts:238
+#: src/lib/taon-session/taon-session.controller.ts:240
 msgid "Password must contain between 8 and 128 characters."
 msgstr "Password must contain between 8 and 128 characters."
 
-#: src/lib/taon-session/taon-session.controller.ts:269
+#: src/lib/taon-session/taon-session.controller.ts:271
 msgid "This Google account is already connected to another user."
 msgstr "This Google account is already connected to another user."
 
-#: src/lib/taon-session/taon-session.controller.ts:291
+#: src/lib/taon-session/taon-session.controller.ts:293
 msgid "Unsupported identity provider."
 msgstr "Unsupported identity provider."
 
-#: src/lib/taon-session/taon-session.controller.ts:366
+#: src/lib/taon-session/taon-session.controller.ts:368
 msgid "Identity not found."
 msgstr "Identity not found."
 
-#: src/lib/taon-session/taon-session.controller.ts:381
+#: src/lib/taon-session/taon-session.controller.ts:383
 msgid "You cannot disconnect your only sign-in method."
 msgstr "You cannot disconnect your only sign-in method."
 
-#: src/lib/taon-session/taon-session.controller.ts:491
+#: src/lib/taon-session/taon-session.controller.ts:499
 msgid "User is not active"
 msgstr "User is not active"
 
-#: src/lib/taon-session/taon-session.controller.ts:506
+#: src/lib/taon-session/taon-session.controller.ts:516
 msgid "Your account is blocked for [[ days ]] days. Please contact [[ administratorEmail ]] to unblock your account."
 msgstr ""
 
-#: src/lib/taon-session/taon-session.controller.ts:521
+#: src/lib/taon-session/taon-session.controller.ts:533
 msgid "You are inactive. Please contact [[ administratorEmail ]] to unblock your account."
 msgstr ""
