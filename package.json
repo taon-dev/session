@@ -1,6 +1,6 @@
 {
   "name": "@taon-dev/session",
-  "version": "21.0.273",
+  "version": "21.0.274",
   "scripts": {
     "taon init": "taon init",
     "taon start": "taon start",
