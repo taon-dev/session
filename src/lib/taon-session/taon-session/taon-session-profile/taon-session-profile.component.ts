@@ -6,6 +6,7 @@ import {
   Component,
   EventEmitter,
   inject,
+  OnInit,
   Input,
   Output,
   signal,
@@ -39,6 +40,7 @@ import { TaonSessionApiService } from '../../../taon-session/taon-session.api.se
 import { TaonSessionStateService } from '../../../taon-session/taon-session.state.service';
 import { TaonSessionUserEntity } from '../../../taon-session-user/taon-session-user.entity';
 import { TaonSessionIdentityProvider } from '../../../taon-session-user/taon-session-user.models';
+import { TaonSessionUserApiService } from '../../../taon-session-user/taon-session-user-api.service';
 
 //#endregion
 
@@ -51,6 +53,7 @@ const t = Translation.for(Taon.__FILE_RELATIVE_PATH, Taon.LANG_IMPORT_MAP);
   templateUrl: './taon-session-profile.component.html',
   styleUrls: ['./taon-session-profile.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [TaonSessionUserApiService],
   imports: [
     AsyncPipe,
     RouterOutlet,
@@ -66,7 +69,7 @@ const t = Translation.for(Taon.__FILE_RELATIVE_PATH, Taon.LANG_IMPORT_MAP);
     // TaonProfilePictureComponent,
   ],
 })
-export class TaonSessionProfileComponent {
+export class TaonSessionProfileComponent implements OnInit {
   //#region fields & getters
   t = t.for(this);
 
@@ -76,6 +79,7 @@ export class TaonSessionProfileComponent {
   public config: TaonSessionConfig;
 
   protected readonly taonSessionApiService = inject(TaonSessionApiService);
+  protected readonly taonSessionUserApiService = inject(TaonSessionUserApiService);
 
   public readonly taonSessionStateService = inject(TaonSessionStateService);
 
@@ -94,6 +98,18 @@ export class TaonSessionProfileComponent {
       validators: [Validators.maxLength(255), Validators.pattern(/\S/)],
     }),
   });
+
+  readonly profileForm = new FormGroup({
+    firstName: new FormControl('', { nonNullable: true }),
+    lastName: new FormControl('', { nonNullable: true }),
+    email: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.email] }),
+    telephone: new FormControl('', { nonNullable: true }),
+    currentPassword: new FormControl('', { nonNullable: true }),
+  });
+
+  readonly savingProfile = signal(false);
+  readonly profileError = signal('');
+  readonly profileSaved = signal(false);
 
   readonly passwordForm = new FormGroup({
     email: new FormControl('', {
@@ -321,6 +337,36 @@ export class TaonSessionProfileComponent {
     }
   }
   //#endregion
+
+  ngOnInit() {
+    this.taonSessionUserApiService.ownProfile$().subscribe(profile => {
+      this.profileForm.patchValue({
+        firstName: profile.firstName || '',
+        lastName: profile.lastName || '',
+        email: profile.email || '',
+        telephone: profile.telephone || '',
+      });
+    });
+  }
+
+  async saveProfile(): Promise<void> {
+    this.profileForm.markAllAsTouched();
+    this.profileError.set('');
+    this.profileSaved.set(false);
+    if (this.profileForm.invalid || this.savingProfile()) return;
+    this.savingProfile.set(true);
+    try {
+      const value = this.profileForm.getRawValue();
+      await this.taonSessionUserApiService.updateOwnProfile(value);
+      this.profileSaved.set(true);
+      this.profileForm.controls.currentPassword.reset();
+      this.taonSessionStateService.refreshContext();
+    } catch (error: any) {
+      this.profileError.set(error?.message || this.t.gettext('Unable to update profile.'));
+    } finally {
+      this.savingProfile.set(false);
+    }
+  }
 
   //#region save username
   async saveUsername(): Promise<void> {

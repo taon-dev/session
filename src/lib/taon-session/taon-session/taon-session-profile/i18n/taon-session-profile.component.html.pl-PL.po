@@ -18,6 +18,7 @@ msgid "Connect additional ways of signing in to your account."
 msgstr "Połącz dodatkowe metody logowania ze swoim kontem."
 
 #: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:25
+#: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:145
 msgid "Email"
 msgstr "E-mail"
 
@@ -50,35 +51,63 @@ msgstr "Zapisz hasło"
 msgid "Change Password"
 msgstr ""
 
+#: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:140
+msgid "Profile"
+msgstr ""
+
 #: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:143
+msgid "First name"
+msgstr ""
+
+#: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:144
+msgid "Last name"
+msgstr ""
+
+#: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:146
+msgid "Telephone"
+msgstr ""
+
+#: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:147
+msgid "Current password"
+msgstr ""
+
+#: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:148
+msgid "Save profile"
+msgstr ""
+
+#: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:151
+msgid "Profile updated."
+msgstr ""
+
+#: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:158
 msgid "Current username"
 msgstr "Obecna nazwa użytkownika"
 
-#: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:150
+#: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:165
 msgid "New username"
 msgstr "Nowa nazwa użytkownika"
 
-#: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:157
-#: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:158
+#: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:172
+#: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:173
 msgid "Username must contain between 1 and 255 characters."
 msgstr "Nazwa użytkownika musi zawierać od 1 do 255 znaków."
 
-#: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:169
+#: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:184
 msgid "Save username"
 msgstr "Zapisz nazwę użytkownika"
 
-#: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:176
+#: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:191
 msgid "Username updated."
 msgstr "Nazwa użytkownika została zaktualizowana."
 
-#: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:181
+#: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:196
 msgid "Email Addresses"
 msgstr "Adresy e-mail"
 
-#: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:183
+#: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:198
 msgid "Your email addresses:"
 msgstr "Twoje adresy e-mail:"
 
-#: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:200
+#: src/lib/taon-session/taon-session/taon-session-profile/taon-session-profile.component.html:215
 msgid "Logout"
 msgstr "Wyloguj się"

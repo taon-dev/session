@@ -4,22 +4,22 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/lib/taon-session-user/taon-session-user.controller.ts:90
+#: src/lib/taon-session-user/taon-session-user.controller.ts:113
 msgid "You are not authorized to manage users"
 msgstr "Sie sind nicht berechtigt, Benutzer zu verwalten."
 
-#: src/lib/taon-session-user/taon-session-user.controller.ts:119
+#: src/lib/taon-session-user/taon-session-user.controller.ts:258
 msgid "A valid user ID is required."
 msgstr "Eine gültige Benutzer-ID ist erforderlich."
 
-#: src/lib/taon-session-user/taon-session-user.controller.ts:127
+#: src/lib/taon-session-user/taon-session-user.controller.ts:266
 msgid "User not found."
 msgstr "Benutzer nicht gefunden."
 
-#: src/lib/taon-session-user/taon-session-user.controller.ts:149
+#: src/lib/taon-session-user/taon-session-user.controller.ts:288
 msgid "Choose a valid account status and duration."
 msgstr "Wählen Sie einen gültigen Kontostatus und Zeitraum."
 
-#: src/lib/taon-session-user/taon-session-user.controller.ts:159
+#: src/lib/taon-session-user/taon-session-user.controller.ts:298
 msgid "The temporary inactivity duration is invalid."
 msgstr "Der Zeitraum für die vorübergehende Inaktivität ist ungültig."

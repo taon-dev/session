@@ -137,6 +137,21 @@
     </mat-tab>
   }
 
+  <mat-tab [label]="t.gettext('Profile')">
+    <div class="tab-content">
+      <form [formGroup]="profileForm" (ngSubmit)="saveProfile()">
+        <mat-form-field class="w-full"><mat-label>{{ t.gettext('First name') }}</mat-label><input matInput formControlName="firstName" /></mat-form-field>
+        <mat-form-field class="w-full"><mat-label>{{ t.gettext('Last name') }}</mat-label><input matInput formControlName="lastName" /></mat-form-field>
+        <mat-form-field class="w-full"><mat-label>{{ t.gettext('Email') }}</mat-label><input matInput type="email" formControlName="email" /></mat-form-field>
+        <mat-form-field class="w-full"><mat-label>{{ t.gettext('Telephone') }}</mat-label><input matInput formControlName="telephone" /></mat-form-field>
+        <mat-form-field class="w-full"><mat-label>{{ t.gettext('Current password') }}</mat-label><input matInput type="password" formControlName="currentPassword" autocomplete="current-password" /></mat-form-field>
+        <button mat-button type="submit" [disabled]="savingProfile() || profileForm.invalid">{{ t.gettext('Save profile') }}</button>
+      </form>
+      @if (profileError()) { <p role="alert">{{ profileError() }}</p> }
+      @if (profileSaved()) { <p role="status">{{ t.gettext('Profile updated.') }}</p> }
+    </div>
+  </mat-tab>
+
   <mat-tab [label]="labelChangeUserName()">
     <div class="tab-content">
       <p>

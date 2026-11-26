@@ -41,6 +41,21 @@ export class TaonSessionUserEntity extends TaonBaseAbstractEntity<TaonSessionUse
   username?: string;
 
   //#region @websql
+  @Column({ nullable: true, type: 'varchar', length: 100 })
+  //#endregion
+  firstName?: string | null;
+
+  //#region @websql
+  @Column({ nullable: true, type: 'varchar', length: 100 })
+  //#endregion
+  lastName?: string | null;
+
+  //#region @websql
+  @Column({ nullable: true, type: 'varchar', length: 50 })
+  //#endregion
+  telephone?: string | null;
+
+  //#region @websql
   @BooleanColumn(true)
   //#endregion
   isActive!: boolean;
